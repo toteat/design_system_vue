@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
@@ -29,8 +29,8 @@ export default defineConfig({
     // Preserve modern features, no transpilation
     target: 'esnext',
     minify: 'esbuild',
-    // Ensure CSS is extracted to separate files
-    cssCodeSplit: true,
+    // Don't split CSS - let client projects handle CSS extraction
+    cssCodeSplit: false,
   },
   resolve: {
     alias: {
@@ -40,5 +40,24 @@ export default defineConfig({
   esbuild: {
     // Keep pure modern syntax without transpilation
     target: 'esnext',
+  },
+  test: {
+    // Vitest configuration
+    globals: true,
+    environment: 'jsdom',
+    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', 'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    exclude: ['node_modules', 'dist'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: ['node_modules/', 'tests/'],
+    },
+    deps: {
+      optimizer: {
+        web: {
+          include: ['vue']
+        }
+      }
+    },
   },
 })

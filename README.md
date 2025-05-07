@@ -16,8 +16,6 @@ npm install @toteat/design-system-vue
 import { createApp } from 'vue'
 import App from './App.vue'
 import ToteatDesignSystem from '@toteat/design-system-vue'
-// Import the styles
-import '@toteat/design-system-vue/style.css'
 
 const app = createApp(App)
 app.use(ToteatDesignSystem)
@@ -29,8 +27,6 @@ app.mount('#app')
 ```vue
 <script setup lang="ts">
 import { Button } from '@toteat/design-system-vue'
-// Import the styles
-import '@toteat/design-system-vue/style.css'
 </script>
 
 <template>
@@ -56,6 +52,10 @@ This library is distributed with modern JavaScript syntax (ESNext) and includes 
 1. Consuming projects can determine their own target environments
 2. Tree-shaking and other optimizations work more effectively
 3. The library bundle remains smaller and more efficient
+
+### CSS Handling
+
+Component styles are bundled directly with the components. Your client project is responsible for handling CSS extraction and optimization according to your needs.
 
 ### Configuration in consuming projects
 
