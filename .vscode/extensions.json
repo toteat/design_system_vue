@@ -1,3 +1,19 @@
 {
-  "recommendations": ["Vue.volar"]
+  "recommendations": [
+    "aaron-bond.better-comments",
+    "mikestead.dotenv",
+    "bracketpaircolordlw.bracket-pair-color-dlw",
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "donjayamanne.githistory",
+    "codezombiech.gitignore",
+    "eamodio.gitlens",
+    "wix.vscode-import-cost",
+    "visualstudioexptteam.vscodeintellicode",
+    "visualstudioexptteam.vscodeintellicode-completions",
+    "esbenp.prettier-vscode",
+    "yoavbls.pretty-ts-errors",
+    "sonarsource.sonarlint-vscode",
+    "bradlc.vscode-tailwindcss"
+  ]
 }
