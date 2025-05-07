@@ -1,17 +1,47 @@
 {
-  "name": "design_system_vue",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@toteat/design-system-vue",
+  "version": "0.1.0",
+  "description": "Vue 3 Design System with TypeScript support - Ships with modern ESNext syntax",
   "type": "module",
+  "main": "dist/design-system-vue.umd.js",
+  "module": "dist/design-system-vue.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/design-system-vue.js",
+      "require": "./dist/design-system-vue.umd.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
+    "prepare": "npm run build"
   },
-  "dependencies": {
-    "vue": "^3.5.13"
+  "peerDependencies": {
+    "vue": "^3.3.0"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "engineRequirements": [
+    "Uses ESNext features that require transpilation in the consuming project"
+  ],
+  "dependencies": {},
   "devDependencies": {
+    "@types/node": "^20.11.24",
     "@typescript-eslint/eslint-plugin": "^8.32.0",
     "@typescript-eslint/parser": "^8.32.0",
     "@vitejs/plugin-vue": "^5.2.3",
@@ -22,6 +52,7 @@
     "prettier": "^3.5.3",
     "typescript": "~5.8.3",
     "vite": "^6.3.5",
+    "vue": "^3.5.13",
     "vue-tsc": "^2.2.8"
   }
 }
