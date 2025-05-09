@@ -16,5 +16,8 @@ export default {
 }
 
 // Export type definitions
-export * from './types'
-export type { ButtonProps } from './components/Button/Button.vue' 
+import type * as ComponentTypes from './types/index.d.ts'
+export type { ComponentTypes }
+
+// We can't export ButtonProps directly, as it's not exported from the component file
+// Consumers should import the types they need from our exported ComponentTypes

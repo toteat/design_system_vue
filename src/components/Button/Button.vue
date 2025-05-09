@@ -1,237 +1,133 @@
 <script lang="ts" setup>
-import { type ButtonHTMLAttributes } from 'vue';
-import type { ButtonSize, ButtonType } from '@/models/button';
-import type { IconNames } from '@/models/icon';
-import useTranslationsQuery from '@/features/translations/queries/translationsQuery';
+import type { ButtonProps } from '@/types';
 
-interface Props {
-  type?: ButtonType;
-  disabled?: boolean;
-  isFull?: boolean;
-  size?: ButtonSize;
-  iconName?: IconNames;
-  typeButton?: ButtonHTMLAttributes['type'];
-  loading?: boolean;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  type: 'primary' as ButtonType,
+const props = withDefaults(defineProps<ButtonProps>(), {
+  type: 'primary',
   disabled: false,
   isFull: false,
-  size: 'medium' as ButtonSize,
-  iconName: undefined,
-  typeButton: 'button' as ButtonHTMLAttributes['type'],
+  size: 'medium',
+  typeButton: 'button',
   loading: false,
+  loadingText: 'Loading...',
 });
-
-const { data: t } = useTranslationsQuery();
 </script>
 
 <template>
   <button
     :type="typeButton || 'button'"
-    :class="{
-      [`btn-${props.type}__${props.size}`]: true,
-      'w-full': isFull,
-      loading: props.loading,
-    }"
+    class="tot-ds-root"
+    :class="[
+      'btn',
+      `btn-${props.type}`,
+      `btn-size-${props.size}`,
+      {
+        'btn-full': isFull,
+        'btn-loading': props.loading,
+      },
+    ]"
     :disabled="props.disabled || props.loading"
   >
     <i class="spinner" v-if="props.loading" />
-    <Icon
-      :name="iconName"
-      :size="props.type !== 'navigate' ? '16' : '22'"
-      v-if="iconName && !props.loading"
-    />
+
     <span v-if="props.loading">
-      {{ t?.m5000_3915 || 'Cargando' }}
+      {{ props.loadingText }}
     </span>
     <span v-else>
-      <slot />
+      {{ props.text }}
     </span>
   </button>
 </template>
 
 <style scoped>
-:root {
-  --btn-radius-default: 1.43rem;
-  --btn-radius-large: 1.87rem;
-  --btn-padding-x: 1.5rem;
-  --btn-padding-y: 0.5rem;
-  --btn-padding-y-large: 0.75rem;
-}
+@import '@/style.css';
 
+/* Spinner animation for loading state */
 .spinner {
-  @apply w-4 h-4 animate-spin rounded-full border-2 border-solid border-primary-light border-t-primary;
+  @apply w-4 h-4 animate-spin rounded-full border-2 border-solid;
+  border-color: var(--color-primary-light);
+  border-top-color: var(--color-primary);
 }
 
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Base button styles */
 .btn {
-  @apply my-auto flex items-center justify-center gap-2 text-base font-bold text-neutral;
-  border-radius: var(--btn-radius-default);
+  @apply flex items-center justify-center gap-2 font-bold text-neutral my-auto transition-all duration-200 ease-in-out rounded-[1.43rem] py-2 px-4;
   padding: var(--btn-padding-y) var(--btn-padding-x);
-}
 
-.btn span {
-  @apply whitespace-nowrap;
-}
-
-/* Size variations */
-.btn__small {
-  @apply my-auto flex items-center justify-center gap-2 text-xs font-bold text-neutral;
-  border-radius: var(--btn-radius-default);
-  padding: var(--btn-padding-y) var(--btn-padding-x);
-}
-
-.btn__medium {
-  @apply my-auto flex items-center justify-center gap-2 text-base font-bold text-neutral;
-  border-radius: var(--btn-radius-default);
-  padding: var(--btn-padding-y) var(--btn-padding-x);
-}
-
-.btn__large {
-  @apply my-auto flex items-center justify-center gap-2 text-base font-bold text-neutral;
-  border-radius: var(--btn-radius-large);
-  padding: var(--btn-padding-y-large) var(--btn-padding-x);
-}
-
-/* Button types with nested selectors */
-.btn-primary {
-  @apply bg-primary;
-
-  &:hover {
-    @apply opacity-30;
+  /* Text content always wrapped */
+  & span {
+    @apply whitespace-nowrap;
   }
 
-  &:disabled {
-    @apply bg-neutral-300 opacity-100;
+  /* Full width button */
+  &.btn-full {
+    @apply w-full;
   }
 
-  &.loading {
-    @apply opacity-30;
+  /* Button sizes */
+  &.btn-size-small {
+    @apply text-xs rounded-[1.43rem];
   }
 
-  &__small {
-    @apply my-auto flex items-center justify-center gap-2 text-xs font-bold text-neutral bg-primary;
-    border-radius: var(--btn-radius-default);
-    padding: var(--btn-padding-y) var(--btn-padding-x);
+  &.btn-size-medium {
+    @apply text-base rounded-[1.43rem];
+  }
 
-    &:hover {
+  &.btn-size-large {
+    @apply text-base rounded-[1.87rem];
+  }
+
+  /* Primary Button */
+  &.btn-primary {
+    @apply bg-primary;
+
+    &:hover:not(:disabled) {
       @apply opacity-30;
     }
 
-    &:disabled {
+    &:disabled, &.btn-loading {
       @apply bg-neutral-300 opacity-100;
     }
-  }
 
-  &__medium {
-    @apply my-auto flex items-center justify-center gap-2 text-base font-bold text-neutral bg-primary;
-    border-radius: var(--btn-radius-default);
-    padding: var(--btn-padding-y) var(--btn-padding-x);
-
-    &:hover {
+    &.btn-loading {
       @apply opacity-30;
     }
-
-    &:disabled {
-      @apply bg-neutral-300 opacity-100;
-    }
   }
 
-  &__large {
-    @apply my-auto flex items-center justify-center gap-2 text-base font-bold text-neutral bg-primary;
-    border-radius: var(--btn-radius-large);
-    padding: var(--btn-padding-y-large) var(--btn-padding-x);
+  /* Secondary Button */
+  &.btn-secondary {
+    @apply bg-secondary text-neutral;
 
-    &:hover {
-      @apply opacity-30;
-    }
-
-    &:disabled {
-      @apply bg-neutral-300 opacity-100;
-    }
-  }
-}
-
-.btn-secondary {
-  @apply bg-secondary text-neutral;
-
-  &:hover {
-    @apply bg-secondary-light;
-  }
-
-  &:disabled {
-    @apply bg-neutral-300;
-  }
-
-  &.loading {
-    @apply bg-secondary-light;
-
-    & .spinner {
-      @apply border-neutral-400 border-t-neutral-300;
-    }
-  }
-
-  &__small {
-    @apply my-auto flex items-center justify-center gap-2 text-xs font-bold text-neutral bg-secondary;
-    border-radius: var(--btn-radius-default);
-    padding: var(--btn-padding-y) var(--btn-padding-x);
-
-    &:hover {
+    &:hover:not(:disabled) {
       @apply bg-secondary-light;
     }
 
     &:disabled {
       @apply bg-neutral-300;
     }
-  }
 
-  &__medium {
-    @apply my-auto flex items-center justify-center gap-2 text-base font-bold text-neutral bg-secondary;
-    border-radius: var(--btn-radius-default);
-    padding: var(--btn-padding-y) var(--btn-padding-x);
-
-    &:hover {
+    &.btn-loading {
       @apply bg-secondary-light;
-    }
 
-    &:disabled {
-      @apply bg-neutral-300;
-    }
-  }
-
-  &__large {
-    @apply my-auto flex items-center justify-center gap-2 text-base font-bold text-neutral bg-secondary;
-    border-radius: var(--btn-radius-large);
-    padding: var(--btn-padding-y-large) var(--btn-padding-x);
-
-    &:hover {
-      @apply bg-secondary-light;
-    }
-
-    &:disabled {
-      @apply bg-neutral-300;
+      & .spinner {
+        @apply border-neutral-400 border-t-neutral-300;
+      }
     }
   }
-}
 
-.btn-secondary-white {
-  @apply bg-neutral text-secondary;
+  /* Secondary White Button */
+  &.btn-secondary-white {
+    @apply bg-neutral text-secondary;
 
-  &:hover {
-    @apply bg-neutral-200 text-neutral;
-  }
-
-  &:disabled {
-    @apply bg-neutral-300 text-neutral;
-  }
-
-  &__small {
-    @apply my-auto flex items-center justify-center gap-2 text-xs font-bold bg-neutral text-secondary;
-    border-radius: var(--btn-radius-default);
-    padding: var(--btn-padding-y) var(--btn-padding-x);
-
-    &:hover {
+    &:hover:not(:disabled) {
       @apply bg-neutral-200 text-neutral;
     }
 
@@ -240,52 +136,11 @@ const { data: t } = useTranslationsQuery();
     }
   }
 
-  &__medium {
-    @apply my-auto flex items-center justify-center gap-2 text-base font-bold bg-neutral text-secondary;
-    border-radius: var(--btn-radius-default);
-    padding: var(--btn-padding-y) var(--btn-padding-x);
+  /* Tertiary Button */
+  &.btn-tertiary {
+    @apply bg-tertiary text-secondary;
 
-    &:hover {
-      @apply bg-neutral-200 text-neutral;
-    }
-
-    &:disabled {
-      @apply bg-neutral-300 text-neutral;
-    }
-  }
-
-  &__large {
-    @apply my-auto flex items-center justify-center gap-2 text-base font-bold bg-neutral text-secondary;
-    border-radius: var(--btn-radius-large);
-    padding: var(--btn-padding-y-large) var(--btn-padding-x);
-
-    &:hover {
-      @apply bg-neutral-200 text-neutral;
-    }
-
-    &:disabled {
-      @apply bg-neutral-300 text-neutral;
-    }
-  }
-}
-
-.btn-tertiary {
-  @apply bg-tertiary text-secondary;
-
-  &:hover {
-    @apply bg-neutral-100;
-  }
-
-  &:disabled {
-    @apply bg-neutral-300;
-  }
-
-  &__small {
-    @apply my-auto flex items-center justify-center gap-2 text-xs font-bold bg-tertiary text-secondary;
-    border-radius: var(--btn-radius-default);
-    padding: var(--btn-padding-y) var(--btn-padding-x);
-
-    &:hover {
+    &:hover:not(:disabled) {
       @apply bg-neutral-100;
     }
 
@@ -294,168 +149,47 @@ const { data: t } = useTranslationsQuery();
     }
   }
 
-  &__medium {
-    @apply my-auto flex items-center justify-center gap-2 text-base font-bold bg-tertiary text-secondary;
-    border-radius: var(--btn-radius-default);
-    padding: var(--btn-padding-y) var(--btn-padding-x);
-
-    &:hover {
-      @apply bg-neutral-100;
-    }
-
-    &:disabled {
-      @apply bg-neutral-300;
-    }
-  }
-
-  &__large {
-    @apply my-auto flex items-center justify-center gap-2 text-base font-bold bg-tertiary text-secondary;
-    border-radius: var(--btn-radius-large);
-    padding: var(--btn-padding-y-large) var(--btn-padding-x);
-
-    &:hover {
-      @apply bg-neutral-100;
-    }
-
-    &:disabled {
-      @apply bg-neutral-300;
-    }
-  }
-}
-
-.btn-outline {
-  @apply my-auto flex items-center justify-center gap-2 border border-secondary text-base font-bold text-secondary;
-  border-radius: 1.5rem;
-  padding: 0.438rem 1.438rem;
-
-  &:hover {
-    @apply border-primary text-primary;
-  }
-
-  &:disabled {
-    @apply border-secondary-light text-neutral-300;
-  }
-
-  &__small {
-    @apply my-auto flex items-center justify-center gap-2 text-xs font-bold border border-secondary text-secondary;
-    border-radius: 1.5rem;
+  /* Outline Button */
+  &.btn-outline {
+    @apply border border-secondary text-secondary rounded-[1.5rem];
     padding: 0.438rem 1.438rem;
 
-    &:hover {
+    &:hover:not(:disabled) {
       @apply border-primary text-primary;
     }
 
     &:disabled {
       @apply border-secondary-light text-neutral-300;
     }
-  }
 
-  &__medium {
-    @apply my-auto flex items-center justify-center gap-2 text-base font-bold border border-secondary text-secondary;
-    border-radius: 1.5rem;
-    padding: 0.438rem 1.438rem;
-
-    &:hover {
-      @apply border-primary text-primary;
-    }
-
-    &:disabled {
-      @apply border-secondary-light text-neutral-300;
+    &.btn-size-large {
+      padding: 0.5rem 1.438rem;
     }
   }
 
-  &__large {
-    @apply my-auto flex items-center justify-center gap-2 text-base font-bold border border-secondary text-secondary;
-    border-radius: var(--btn-radius-large);
-    padding: var(--btn-padding-y-large) 1.438rem;
+  /* Text Button */
+  &.btn-text {
+    @apply w-auto rounded-none border-b border-secondary text-secondary shadow-none;
+    padding: 0.375rem 1.438rem;
 
-    &:hover {
-      @apply border-primary text-primary;
-    }
-
-    &:disabled {
-      @apply border-secondary-light text-neutral-300;
-    }
-  }
-}
-
-.btn-text {
-  @apply my-auto flex items-center justify-center gap-2 w-auto border-b border-secondary text-base font-bold text-secondary shadow-none;
-  border-radius: 0;
-  padding: 0.375rem var(--btn-padding-x);
-
-  &:hover {
-    @apply border-b border-primary text-primary;
-  }
-
-  &:disabled {
-    @apply border-b border-opacity-0 text-neutral-300;
-  }
-
-  &__small {
-    @apply my-auto flex items-center justify-center gap-2 w-auto border-b border-secondary text-xs font-bold text-secondary shadow-none;
-    border-radius: 0;
-    padding: 0.375rem var(--btn-padding-x);
-
-    &:hover {
+    &:hover:not(:disabled) {
       @apply border-b border-primary text-primary;
     }
 
     &:disabled {
-      @apply border-b border-opacity-0 text-neutral-300;
+      @apply border-b border-transparent text-neutral-300;
+    }
+
+    &.btn-size-large {
+      padding: 0.5rem 1.438rem;
     }
   }
 
-  &__medium {
-    @apply my-auto flex items-center justify-center gap-2 w-auto border-b border-secondary text-base font-bold text-secondary shadow-none;
-    border-radius: 0;
-    padding: 0.375rem var(--btn-padding-x);
+  /* Navigate Button */
+  &.btn-navigate {
+    @apply bg-neutral-200 text-secondary rounded-[1.5rem] gap-1 py-2 px-4;
 
-    &:hover {
-      @apply border-b border-primary text-primary;
-    }
-
-    &:disabled {
-      @apply border-b border-opacity-0 text-neutral-300;
-    }
-  }
-
-  &__large {
-    @apply my-auto flex items-center justify-center gap-2 w-auto border-b border-secondary text-base font-bold text-secondary shadow-none;
-    border-radius: 0;
-    padding: var(--btn-padding-y-large) var(--btn-padding-x);
-
-    &:hover {
-      @apply border-b border-primary text-primary;
-    }
-
-    &:disabled {
-      @apply border-b border-opacity-0 text-neutral-300;
-    }
-  }
-}
-
-.btn-navigate {
-  @apply my-auto flex items-center justify-center bg-neutral-200 text-secondary;
-  border-radius: 1.5rem;
-  padding: 0.5rem 1rem;
-  gap: 0.25rem;
-
-  &:hover {
-    @apply text-neutral;
-  }
-
-  &:disabled {
-    @apply bg-neutral-100 text-neutral-200;
-  }
-
-  &__medium {
-    @apply my-auto flex items-center justify-center bg-neutral-200 text-secondary;
-    border-radius: 1.5rem;
-    padding: 0.5rem 1rem;
-    gap: 0.25rem;
-
-    &:hover {
+    &:hover:not(:disabled) {
       @apply text-neutral;
     }
 
@@ -463,19 +197,12 @@ const { data: t } = useTranslationsQuery();
       @apply bg-neutral-100 text-neutral-200;
     }
   }
-}
 
-.btn-icon {
-  @apply flex items-center justify-center h-8 w-8 rounded-full;
+  /* Icon Button */
+  &.btn-icon {
+    @apply flex items-center justify-center w-8 h-8 rounded-full;
 
-  &:hover {
-    @apply bg-tertiary-light;
-  }
-
-  &__medium {
-    @apply flex items-center justify-center h-8 w-8 rounded-full;
-
-    &:hover {
+    &:hover:not(:disabled) {
       @apply bg-tertiary-light;
     }
   }
