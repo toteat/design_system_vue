@@ -43,28 +43,28 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 
 /* Spinner animation for loading state */
 .spinner {
-  @apply w-4 h-4 animate-spin rounded-full border-2 border-solid;
+  @apply w-4 h-4 rounded-full border-2 border-solid animate-spin;
   border-color: var(--color-primary-light);
   border-top-color: var(--color-primary);
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* Base button styles */
 .btn {
-  @apply flex items-center justify-center gap-2 font-bold text-neutral my-auto transition-all duration-200 ease-in-out rounded-[1.43rem] py-2 px-4;
-  padding: var(--btn-padding-y) var(--btn-padding-x);
+  @apply flex items-center justify-center gap-2 font-bold text-neutral my-auto transition-all duration-200 ease-in-out;
 
   /* Text content always wrapped */
   & span {
     @apply whitespace-nowrap;
+  }
+
+  /* Common states */
+  &:disabled {
+    @apply pointer-events-none;
+  }
+
+  /* Default button size styles */
+  &:not(.btn-text, .btn-icon) {
+    @apply py-2 px-4 rounded-[1.43rem];
   }
 
   /* Full width button */
@@ -74,11 +74,11 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 
   /* Button sizes */
   &.btn-size-small {
-    @apply text-xs rounded-[1.43rem];
+    @apply text-xs;
   }
 
   &.btn-size-medium {
-    @apply text-base rounded-[1.43rem];
+    @apply text-base;
   }
 
   &.btn-size-large {
@@ -151,8 +151,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 
   /* Outline Button */
   &.btn-outline {
-    @apply border border-secondary text-secondary rounded-[1.5rem];
-    padding: 0.438rem 1.438rem;
+    @apply border border-secondary text-secondary;
 
     &:hover:not(:disabled) {
       @apply border-primary text-primary;
@@ -161,16 +160,11 @@ const props = withDefaults(defineProps<ButtonProps>(), {
     &:disabled {
       @apply border-secondary-light text-neutral-300;
     }
-
-    &.btn-size-large {
-      padding: 0.5rem 1.438rem;
-    }
   }
 
   /* Text Button */
   &.btn-text {
-    @apply w-auto rounded-none border-b border-secondary text-secondary shadow-none;
-    padding: 0.375rem 1.438rem;
+    @apply w-auto rounded-none border-b border-secondary text-secondary shadow-none px-6 pt-1.5 pb-1.5;
 
     &:hover:not(:disabled) {
       @apply border-b border-primary text-primary;
@@ -179,15 +173,11 @@ const props = withDefaults(defineProps<ButtonProps>(), {
     &:disabled {
       @apply border-b border-transparent text-neutral-300;
     }
-
-    &.btn-size-large {
-      padding: 0.5rem 1.438rem;
-    }
   }
 
   /* Navigate Button */
   &.btn-navigate {
-    @apply bg-neutral-200 text-secondary rounded-[1.5rem] gap-1 py-2 px-4;
+    @apply bg-neutral-200 text-secondary gap-1 rounded-[1.5rem];
 
     &:hover:not(:disabled) {
       @apply text-neutral;
@@ -200,10 +190,17 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 
   /* Icon Button */
   &.btn-icon {
-    @apply flex items-center justify-center w-8 h-8 rounded-full;
+    @apply w-8 h-8 rounded-full;
 
     &:hover:not(:disabled) {
       @apply bg-tertiary-light;
+    }
+  }
+
+  /* Large size specific styles */
+  &.btn-size-large {
+    &.btn-text, &.btn-outline {
+      @apply pt-2 pb-2;
     }
   }
 }
