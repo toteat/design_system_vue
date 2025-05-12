@@ -1,14 +1,16 @@
+/* IMPORTANT: Importing Manrope font only for development purposes */
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400,600,700&display=swap");
 @import "tailwindcss";
 
 @layer base {
   body {
     /* Base font settings */
-    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-family: "Manrope", Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
     color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    color: black;
+    background-color: white;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -55,4 +57,43 @@
   --green-text: #2c7f4f;
   --yellow-text: #b29017;
   --red-text: #6b0414;
+
+  /* Text size */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+  --text-3xl: 40px;
+  --text-4xl: 48px;
+  --text-5xl: 56px;
+  --text-6xl: 64px;
+  --text-xs--line-height: 16px;
+  --text-sm--line-height: 20px;
+  --text-base--line-height: 24px;
+  --text-lg--line-height: 28px;
+  --text-xl--line-height: 32px;
+  --text-2xl--line-height: 40px;
+  --text-3xl--line-height: 48px;
+  --text-4xl--line-height: 56px;
+  --text-5xl--line-height: 64px;
+  --text-6xl--line-height: 72px;
+}
+
+.tot-ds-root {
+  /* Spinner animation for loading state */
+  .spinner {
+    @apply w-4 h-4 rounded-full border-2 border-solid border-t-transparent animate-spin;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }
