@@ -44,6 +44,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 .tot-ds-root {
   &.btn {
     @apply flex leading-none border border-transparent items-center justify-center gap-2 rounded-full font-semibold;
+    border-width: 1.5px;
     transition-property: border-color, background-color, opacity;
     transition-duration: 0.25s;
     transition-timing-function: ease-in-out;
@@ -97,21 +98,19 @@ const props = withDefaults(defineProps<ButtonProps>(), {
       @apply bg-secondary text-neutral;
     }
 
-    /* Secondary White Button */
-    &.btn-secondary-white {
-      @apply bg-neutral text-secondary;
-    }
-
-    /* Tertiary Button */
-    &.btn-tertiary {
-      @apply bg-tertiary text-secondary;
-    }
-
     /* Outline Button */
     &.btn-outline {
-      @apply    border-secondary text-secondary;
+      @apply border-secondary text-secondary;
       &:not(:disabled) {
         &.selected,
+        &:hover {
+          @apply border-primary;
+        }
+
+        &.selected {
+          @apply text-primary;
+        }
+
         &:active {
           border-color: rgba(0, 0, 0, 0.5);
         }
@@ -122,11 +121,6 @@ const props = withDefaults(defineProps<ButtonProps>(), {
     &.btn-text {
       @apply text-secondary;
       border: 0 0 0 1px;
-    }
-
-    /* Navigate Button */
-    &.btn-navigate {
-      @apply bg-neutral-200 text-secondary;
     }
 
 

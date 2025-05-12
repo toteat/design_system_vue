@@ -110,59 +110,6 @@ import Button from './components/Button/Button.vue'
       <Button type="secondary" size="auto" text="Auto Selected" selected />
     </div>
 
-    <!-- Tertiary buttons -->
-    <h3 class="font-bold mt-8 text-xl">Tertiary Buttons</h3>
-
-    <!-- Smaller size -->
-    <h4 class="mt-4">Smaller</h4>
-    <div class="flex flex-wrap gap-2 w-full px-4">
-      <Button type="tertiary" size="smaller" text="Smaller" />
-      <Button type="tertiary" size="smaller" text="Smaller Loading" loading />
-      <Button type="tertiary" size="smaller" text="Smaller Disabled" disabled />
-      <Button type="tertiary" size="smaller" text="Smaller Full" isFull />
-      <Button type="tertiary" size="smaller" text="Smaller Selected" selected />
-    </div>
-
-    <!-- Small size -->
-    <h4 class="mt-4">Small</h4>
-    <div class="flex flex-wrap gap-2 w-full px-4">
-      <Button type="tertiary" size="small" text="Small" />
-      <Button type="tertiary" size="small" text="Small Loading" loading />
-      <Button type="tertiary" size="small" text="Small Disabled" disabled />
-      <Button type="tertiary" size="small" text="Small Full" isFull />
-      <Button type="tertiary" size="small" text="Small Selected" selected />
-    </div>
-
-    <!-- Medium size -->
-    <h4 class="mt-4">Medium</h4>
-    <div class="flex flex-wrap gap-2 w-full px-4">
-      <Button type="tertiary" size="medium" text="Medium" />
-      <Button type="tertiary" size="medium" text="Medium Loading" loading />
-      <Button type="tertiary" size="medium" text="Medium Disabled" disabled />
-      <Button type="tertiary" size="medium" text="Medium Full" isFull />
-      <Button type="tertiary" size="medium" text="Medium Selected" selected />
-    </div>
-
-    <!-- Large size -->
-    <h4 class="mt-4">Large</h4>
-    <div class="flex flex-wrap gap-2 w-full px-4">
-      <Button type="tertiary" size="large" text="Large" />
-      <Button type="tertiary" size="large" text="Large Loading" loading />
-      <Button type="tertiary" size="large" text="Large Disabled" disabled />
-      <Button type="tertiary" size="large" text="Large Full" isFull />
-      <Button type="tertiary" size="large" text="Large Selected" selected />
-    </div>
-
-    <!-- Auto  size -->
-    <h4 class="mt-4">Auto</h4>
-    <div class="flex flex-wrap gap-2 w-full px-4">
-      <Button type="tertiary" size="auto" text="Auto" />
-      <Button type="tertiary" size="auto" text="Auto Loading" loading />
-      <Button type="tertiary" size="auto" text="Auto Disabled" disabled />
-      <Button type="tertiary" size="auto" text="Auto Full" isFull />
-      <Button type="tertiary" size="auto" text="Auto Selected" selected />
-    </div>
-
     <!-- Outline buttons -->
     <h3 class="font-bold mt-8 text-xl">Outline Buttons</h3>
 
@@ -267,59 +214,6 @@ import Button from './components/Button/Button.vue'
       <Button type="text" size="auto" text="Auto Disabled" disabled />
       <Button type="text" size="auto" text="Auto Full" isFull />
       <Button type="text" size="auto" text="Auto Selected" selected />
-    </div>
-
-    <!-- Navigate buttons -->
-    <h3 class="font-bold mt-8 text-xl">Navigate Buttons</h3>
-
-    <!-- Smaller size -->
-    <h4 class="mt-4">Smaller</h4>
-    <div class="flex flex-wrap gap-2 w-full px-4">
-      <Button type="navigate" size="smaller" text="Smaller" />
-      <Button type="navigate" size="smaller" text="Smaller Loading" loading />
-      <Button type="navigate" size="smaller" text="Smaller Disabled" disabled />
-      <Button type="navigate" size="smaller" text="Smaller Full" isFull />
-      <Button type="navigate" size="smaller" text="Smaller Selected" selected />
-    </div>
-
-    <!-- Small size -->
-    <h4 class="mt-4">Small</h4>
-    <div class="flex flex-wrap gap-2 w-full px-4">
-      <Button type="navigate" size="small" text="Small" />
-      <Button type="navigate" size="small" text="Small Loading" loading />
-      <Button type="navigate" size="small" text="Small Disabled" disabled />
-      <Button type="navigate" size="small" text="Small Full" isFull />
-      <Button type="navigate" size="small" text="Small Selected" selected />
-    </div>
-
-    <!-- Medium size -->
-    <h4 class="mt-4">Medium</h4>
-    <div class="flex flex-wrap gap-2 w-full px-4">
-      <Button type="navigate" size="medium" text="Medium" />
-      <Button type="navigate" size="medium" text="Medium Loading" loading />
-      <Button type="navigate" size="medium" text="Medium Disabled" disabled />
-      <Button type="navigate" size="medium" text="Medium Full" isFull />
-      <Button type="navigate" size="medium" text="Medium Selected" selected />
-    </div>
-
-    <!-- Large size -->
-    <h4 class="mt-4">Large</h4>
-    <div class="flex flex-wrap gap-2 w-full px-4">
-      <Button type="navigate" size="large" text="Large" />
-      <Button type="navigate" size="large" text="Large Loading" loading />
-      <Button type="navigate" size="large" text="Large Disabled" disabled />
-      <Button type="navigate" size="large" text="Large Full" isFull />
-      <Button type="navigate" size="large" text="Large Selected" selected />
-    </div>
-
-    <!-- Auto size -->
-    <h4 class="mt-4">Auto</h4>
-    <div class="flex flex-wrap gap-2 w-full px-4">
-      <Button type="navigate" size="auto" text="Auto" />
-      <Button type="navigate" size="auto" text="Auto Loading" loading />
-      <Button type="navigate" size="auto" text="Auto Disabled" disabled />
-      <Button type="navigate" size="auto" text="Auto Full" isFull />
-      <Button type="navigate" size="auto" text="Auto Selected" selected />
     </div>
 
     <!-- Icon buttons -->

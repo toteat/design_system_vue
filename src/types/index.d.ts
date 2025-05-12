@@ -1,7 +1,7 @@
 // Common types used across the design system
 
 // Button types
-export type ButtonType = 'icon' | 'navigate' | 'outline' | 'primary' | 'secondary' | 'tertiary' | 'text'
+export type ButtonType = 'icon' | 'outline' | 'primary' | 'secondary' | 'text'
 
 // Button size
 export type ButtonSize = 'auto' | 'medium' | 'large' | 'smaller' | 'small'
