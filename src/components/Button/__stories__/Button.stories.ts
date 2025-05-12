@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import Button from '../Button.vue';
-import type { ButtonProps, ButtonType, ButtonSize } from '@/types';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -11,13 +10,11 @@ const meta: Meta<typeof Button> = {
       control: { type: 'select' },
       options: ['primary', 'secondary', 'outline', 'text', 'icon'],
       description: 'The visual style of the button',
-      defaultValue: 'primary',
     },
     size: {
       control: { type: 'select' },
-      options: ['auto', 'smaller', 'small', 'medium', 'large'],
+      options: ['medium', 'large','smaller', 'small'],
       description: 'The size of the button',
-      defaultValue: 'medium',
     },
     text: {
       control: 'text',
@@ -26,36 +23,42 @@ const meta: Meta<typeof Button> = {
     disabled: {
       control: 'boolean',
       description: 'Whether the button is disabled',
-      defaultValue: false,
     },
     loading: {
       control: 'boolean',
       description: 'Whether to show loading state',
-      defaultValue: false,
     },
     isFull: {
       control: 'boolean',
       description: 'Whether the button takes full width',
-      defaultValue: false,
     },
     selected: {
       control: 'boolean',
       description: 'Whether the button is in selected state',
-      defaultValue: false,
     },
     typeButton: {
       control: { type: 'select' },
       options: ['button', 'submit', 'reset'],
       description: 'The HTML button type attribute',
-      defaultValue: 'button',
     },
+  },
+  args: {
+    // Default values matching the component props
+    type: 'primary',
+    size: 'medium',
+    disabled: false,
+    isFull: false,
+    loading: false,
+    text: 'Loading...',
+    selected: false,
+    typeButton: 'button',
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-// Basic button example
+// Types
 export const Primary: Story = {
   args: {
     type: 'primary',
@@ -77,82 +80,82 @@ export const Outline: Story = {
   },
 };
 
-export const Text: Story = {
+export const TextButton: Story = {
   args: {
     type: 'text',
     text: 'Text Button',
   },
 };
 
-// Different sizes
-export const Sizes: Story = {
-  render: (args) => ({
-    components: { Button },
-    setup() {
-      const sizes: ButtonSize[] = ['smaller', 'small', 'medium', 'large'];
-      return { args, sizes };
-    },
-    template: `
-      <div class="flex flex-col gap-4">
-        <div v-for="size in sizes" :key="size" class="flex items-center gap-2">
-          <span class="w-16">{{ size }}:</span>
-          <Button v-bind="args" :size="size" :text="'Button ' + size" />
-        </div>
-      </div>
-    `,
-  }),
+export const IconButton: Story = {
+  args: {
+    type: 'icon',
+    text: 'Icon',
+  },
+};
+
+// Sizes
+export const SizeSmaller: Story = {
   args: {
     type: 'primary',
+    size: 'smaller',
+    text: 'Smaller Button',
+  },
+};
+
+export const SizeSmall: Story = {
+  args: {
+    type: 'primary',
+    size: 'small',
+    text: 'Small Button',
+  },
+};
+
+export const SizeMedium: Story = {
+  args: {
+    type: 'primary',
+    size: 'medium',
+    text: 'Medium Button',
+  },
+};
+
+export const SizeLarge: Story = {
+  args: {
+    type: 'primary',
+    size: 'large',
+    text: 'Large Button',
   },
 };
 
 // States
-export const States: Story = {
-  render: (args) => ({
-    components: { Button },
-    setup() {
-      return { args };
-    },
-    template: `
-      <div class="flex flex-col gap-4">
-        <div class="flex items-center gap-4">
-          <Button v-bind="args" text="Normal" />
-          <Button v-bind="args" text="Disabled" disabled />
-          <Button v-bind="args" text="Loading" loading />
-          <Button v-bind="args" text="Selected" selected />
-        </div>
-      </div>
-    `,
-  }),
+export const Disabled: Story = {
   args: {
     type: 'primary',
+    text: 'Disabled Button',
+    disabled: true,
   },
 };
 
-// Full width
+export const Loading: Story = {
+  args: {
+    type: 'primary',
+    text: 'Loading...',
+    loading: true,
+  },
+};
+
+export const Selected: Story = {
+  args: {
+    type: 'primary',
+    text: 'Selected Button',
+    selected: true,
+  },
+};
+
 export const FullWidth: Story = {
   args: {
     type: 'primary',
     text: 'Full Width Button',
     isFull: true,
   },
-};
-
-// All types
-export const AllTypes: Story = {
-  render: (args) => ({
-    components: { Button },
-    setup() {
-      const types: ButtonType[] = ['primary', 'secondary', 'outline', 'text', 'icon'];
-      return { args, types };
-    },
-    template: `
-      <div class="flex flex-col gap-4">
-        <div v-for="type in types" :key="type" class="flex items-center gap-2">
-          <span class="w-20">{{ type }}:</span>
-          <Button v-bind="args" :type="type" :text="type" />
-        </div>
-      </div>
-    `,
-  }),
 };

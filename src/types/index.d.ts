@@ -4,7 +4,7 @@
 export type ButtonType = 'icon' | 'outline' | 'primary' | 'secondary' | 'text'
 
 // Button size
-export type ButtonSize = 'auto' | 'medium' | 'large' | 'smaller' | 'small'
+export type ButtonSize = 'medium' | 'large' | 'smaller' | 'small'
 
 // Icon names
 export type IconNames = string

@@ -24,7 +24,6 @@ const props = withDefaults(defineProps<ButtonProps>(), {
       {
         'btn-full': isFull,
         'btn-loading': props.loading && !props.disabled,
-        'p-[.375rem]': props.size === 'auto',
         'selected': props.selected,
       },
     ]"
@@ -69,18 +68,34 @@ const props = withDefaults(defineProps<ButtonProps>(), {
     /* Button sizes */
     &.btn-size-smaller {
       @apply text-xs min-w-16 min-h-8 px-3;
+
+      .spinner {
+        @apply w-3 h-3;
+      }
     }
 
     &.btn-size-small {
       @apply text-xs min-w-16 min-h-11 px-3;
+
+      .spinner {
+        @apply w-3 h-3;
+      }
     }
 
     &.btn-size-medium {
       @apply text-base min-w-19 min-h-15 px-4;
+
+      .spinner {
+        @apply w-4 h-4;
+      }
     }
 
     &.btn-size-large {
       @apply text-2xl min-w-23 min-h-20 px-5;
+
+      .spinner {
+        @apply w-8 h-8;
+      }
     }
 
     &:hover:not(:disabled),

@@ -84,7 +84,7 @@
 .tot-ds-root {
   /* Spinner animation for loading state */
   .spinner {
-    @apply w-4 h-4 rounded-full border-2 border-solid border-t-transparent animate-spin;
+    @apply rounded-full border-2 border-solid border-t-transparent animate-spin;
     animation: spin 1s linear infinite;
   }
 
