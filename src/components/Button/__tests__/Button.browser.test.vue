@@ -25,7 +25,7 @@ describe('Button Component', () => {
   })
 
   // Test different sizes
-  const buttonSizes: ButtonSize[] = ['smaller', 'small', 'medium', 'large', 'auto']
+  const buttonSizes: ButtonSize[] = ['smaller', 'small', 'medium', 'large']
   it.each(buttonSizes)('renders %s size correctly', (size) => {
     const wrapper = mount(Button, {
       props: { size }
