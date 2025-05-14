@@ -1,3 +1,5 @@
+import { IconNames } from '../components/Icon/icons'
+
 // Common types used across the design system
 
 // Button types
