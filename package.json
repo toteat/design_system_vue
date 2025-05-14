@@ -32,6 +32,7 @@
     "test:ui": "vitest --ui",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "prepare": "npm run build",
+    "generate-icons": "go run src/components/Icon/merge_assets.go",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
