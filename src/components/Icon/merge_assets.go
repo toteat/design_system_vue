@@ -10,7 +10,7 @@ import (
 	"sync"
 )
 
-// Configuration for the script
+// Holds the resolved paths used by the script
 type Config struct {
 	AssetDir   string
 	OutputFile string
