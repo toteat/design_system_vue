@@ -53,4 +53,5 @@ export type ThemeColor =
   | 'yellow'
   | 'yellow-light'
   | 'red'
-  | 'red-light';
+  | 'red-light'
+  | 'unset';

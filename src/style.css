@@ -2,7 +2,50 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400,600,700&display=swap");
 @import "tailwindcss";
 
+/* Browser theme configuration */
 :root {
+  /* Colors */
+  --color-primary: #ff4235;
+  --color-primary-light: #ffa099;
+  --color-secondary: #1b1b1b;
+  --color-secondary-light: #b3b3b3;
+  --color-tertiary: #e6d9ca;
+  --color-tertiary-light: #f7f3ee;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-neutral: #ffffff;
+  --color-neutral-100: #f2f2f2;
+  --color-neutral-200: #dddddd;
+  --color-neutral-300: #cfcfcf;
+  --color-neutral-400: #a1a1a1;
+  --color-neutral-500: #464646;
+
+  /* Gray colors */
+  --color-gray-100: #f2f2f2;
+  --color-gray-200: #dddddd;
+  --color-gray-300: #cfcfcf;
+  --color-gray-400: #a1a1a1;
+  --color-gray-500: #464646;
+
+  /* Feedback colors */
+  --color-blue: #275ffd;
+  --color-blue-light: #cef3f7;
+  --color-green: #46d281;
+  --color-green-light: #cdf3db;
+  --color-yellow: #fbcc29;
+  --color-yellow-light: #ffecce;
+  --color-red: #e12845;
+  --color-red-light: #fbd7dd;
+
+  /* Text-specific colors */
+  --blue-text: #123599;
+  --green-text: #2c7f4f;
+  --yellow-text: #b29017;
+  --red-text: #6b0414;
+}
+
+/* Variable theme for Tailwind v4 */
+@theme {
   /* Colors */
   --color-primary: #ff4235;
   --color-primary-light: #ffa099;

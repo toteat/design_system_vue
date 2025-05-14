@@ -59,13 +59,14 @@ const meta: Meta<typeof Icon> = {
         'yellow',
         'yellow-light',
         'red',
-        'red-light'
+        'red-light',
+        'unset',
       ],
       description: 'Color of the icon',
     },
   },
   args: {
-    name: availableIconNames[0] || 'home-outline', // Default to first available icon or a fallback
+    name: availableIconNames[0] || 'home-outline',
     size: 24,
     color: 'black',
   },
@@ -75,9 +76,7 @@ export default meta;
 type Story = StoryObj<typeof Icon>;
 
 export const Primary: Story = {
-  args: {
-    // Props can be set here for the primary story, or rely on meta.args
-  },
+  args: {},
 };
 
 export const AllIcons: Story = {
@@ -85,7 +84,6 @@ export const AllIcons: Story = {
     components: { Icon },
     props: Object.keys(argTypes),
     setup() {
-      // Filter out deprecated or non-string keys from Icons if necessary
       const iconsToDisplay = availableIconNames;
       return { iconsToDisplay, args };
     },
@@ -103,11 +101,10 @@ export const AllIcons: Story = {
     `,
   }),
   args: {
-    size: 32, // Default size for the gallery view
-    color: 'black', // Changed to 'black' to satisfy linter for IconProps color type
+    size: 32,
+    color: 'black',
   },
   parameters: {
-    // Disable controls for 'name' in the AllIcons story as it iterates through all names
     controls: { include: ['size', 'color'] },
   },
 };

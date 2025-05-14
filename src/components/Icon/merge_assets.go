@@ -117,8 +117,6 @@ func processSVGFile(file os.DirEntry, assetDir string) (SVGResult, error) {
 	rawSvgContent := string(svgBytes)
 	tempContent := strings.TrimSpace(rawSvgContent)
 
-	var innerContent string
-
 	// Find the first opening <svg> tag and its closing >
 	openTagStart := strings.Index(tempContent, "<svg")
 	if openTagStart == -1 {
@@ -131,38 +129,57 @@ func processSVGFile(file os.DirEntry, assetDir string) (SVGResult, error) {
 	}
 	openTagEnd += openTagStart // Adjust openTagEnd to be relative to the start of tempContent
 
+	// Extract the <svg ...> tag
+	svgTag := tempContent[openTagStart : openTagEnd+1]
+
+	// Extract viewBox attribute, or fallback to width/height, or fallback to default
+	viewBox := ""
+	viewBoxRegex := regexp.MustCompile(`viewBox\s*=\s*['\"]([^'\"]+)['\"]`)
+	if matches := viewBoxRegex.FindStringSubmatch(svgTag); len(matches) == 2 {
+		viewBox = matches[1]
+	} else {
+		// Try to extract width and height
+		widthRegex := regexp.MustCompile(`width\s*=\s*['\"]([0-9.]+)['\"]`)
+		heightRegex := regexp.MustCompile(`height\s*=\s*['\"]([0-9.]+)['\"]`)
+		width := ""
+		height := ""
+		if w := widthRegex.FindStringSubmatch(svgTag); len(w) == 2 {
+			width = w[1]
+		}
+		if h := heightRegex.FindStringSubmatch(svgTag); len(h) == 2 {
+			height = h[1]
+		}
+		if width != "" && height != "" {
+			viewBox = "0 0 " + width + " " + height
+		} else {
+			viewBox = "0 0 16 16"
+		}
+	}
+
 	// Check if it's a self-closing tag like <svg ... />
 	if tempContent[openTagEnd-1] == '/' {
-		// This is a self-closing tag, implying no inner content to extract in this manner.
-		// Depending on requirements, this could be an error or handled as empty inner content.
-		// For this use case, we expect separate opening and closing tags.
 		return SVGResult{}, fmt.Errorf("SVG file '%s' appears to be a self-closing tag or has no inner content structure for stripping: %s", file.Name(), tempContent[openTagStart:openTagEnd+1])
 	}
 
 	// Find the last closing </svg> tag
 	closeTagStart := strings.LastIndex(tempContent, "</svg>")
 	if closeTagStart == -1 || closeTagStart < openTagEnd {
-		// No closing tag found, or it appears before the opening tag ends (malformed)
 		return SVGResult{}, fmt.Errorf("SVG file '%s' does not have a valid closing </svg> tag or it is malformed. Content: %s", file.Name(), tempContent)
 	}
 
 	// Extract inner content: from after the opening tag to before the closing tag
-	innerContent = tempContent[openTagEnd+1 : closeTagStart]
+	innerContent := tempContent[openTagEnd+1 : closeTagStart]
 
 	// If the file is an outline or filled icon, remove all fill attributes from its inner content.
 	fileName := file.Name()
 	if strings.HasSuffix(fileName, "-outline.svg") || strings.HasSuffix(fileName, "-filled.svg") {
-		// Regex to find fill attributes: fill="anyValue" or fill='anyValue'
-		// This will match fill attributes with either single or double quotes.
 		fillAttrRegex, compErr := regexp.Compile(`\s*fill\s*=\s*(?:\"[^\"]*\"|'[^\']*')`)
 		if compErr != nil {
-			// This should ideally not happen with a static, valid regex pattern
 			return SVGResult{}, fmt.Errorf("error compiling fill attribute regex for %s: %v", fileName, compErr)
 		}
 		innerContent = fillAttrRegex.ReplaceAllString(innerContent, "")
 	}
 
-	// Clean the extracted innerContent for use in a TypeScript string literal.
 	finalInnerContent := strings.ReplaceAll(innerContent, "\n", "")
 	finalInnerContent = strings.ReplaceAll(finalInnerContent, "\"", "'") // Ensure internal quotes are single
 
@@ -172,10 +189,11 @@ func processSVGFile(file os.DirEntry, assetDir string) (SVGResult, error) {
 	iconNameForType := baseName
 	constNameForTS := "ICON_" + strings.ToUpper(strings.ReplaceAll(baseName, "-", "_"))
 
+	// Output as array: [innerContent, viewBox]
 	return SVGResult{
 		ConstName: constNameForTS,
 		IconName:  iconNameForType,
-		Content:   finalInnerContent,
+		Content:   fmt.Sprintf("[\"%s\", \"%s\"]", finalInnerContent, viewBox),
 	}, nil
 }
 
@@ -217,7 +235,7 @@ func generateIconFileContent(svgFiles []os.DirEntry, assetDir string) (string, i
 	resultCount := 0
 
 	for result := range resultChan {
-		content += fmt.Sprintf("export const %s = \"%s\";\n", result.ConstName, result.Content)
+		content += fmt.Sprintf("export const %s = %s;\n", result.ConstName, result.Content)
 		iconNames = append(iconNames, result.IconName)
 		resultCount++
 	}

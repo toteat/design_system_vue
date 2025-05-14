@@ -10,16 +10,24 @@ const props = withDefaults(defineProps<IconProps>(), {
 });
 
 const iconContent = computed(() => {
+  /**
+   * Return the svg icon content based on the provided name.
+   * Icons ending in color will not be filled with the color prop.
+   * Warns in the console if the requested icon is not found.
+   *
+   * @returns {string} The SVG content for the icon or an empty string if not found
+   */
+
   const iconKey = `ICON_${props.name.replace(/-/g, '_').toUpperCase()}` as keyof typeof Icons;
   if (iconKey in Icons) {
     const potentialContent = Icons[iconKey];
     // Add type check for safety, though merge_assets.go should only produce strings
-    if (typeof potentialContent === 'string') {
-      return potentialContent;
+    if (Array.isArray(potentialContent) && potentialContent.length === 2) {
+      return { path: potentialContent[0], viewBox: potentialContent[1] };
     }
   }
   console.warn(`[Icon.vue] Icon content not found for name: ${props.name} (resolved to key: ${iconKey})`);
-  return '';
+  return { path: '', viewBox: '0 0 16 16' };
 });
 
 const applyFillColor = computed(() => {
@@ -34,8 +42,8 @@ const applyFillColor = computed(() => {
     :height="props.size"
     :fill="applyFillColor ? `var(--color-${props.color})` : undefined"
     xmlns="http://www.w3.org/2000/svg"
-    :viewBox="`0 0 ${props.size} ${props.size}`"
-    v-html="iconContent"
+    :viewBox="iconContent.viewBox"
+    v-html="iconContent.path"
   >
   </svg>
 </template>
