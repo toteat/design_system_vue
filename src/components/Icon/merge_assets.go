@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"sort"
 	"strings"
@@ -110,23 +111,71 @@ func processSVGFile(file os.DirEntry, assetDir string) (SVGResult, error) {
 
 	if len(svgBytes) == 0 {
 		fmt.Printf("Warning: Empty SVG file %s\n", filePath)
-		return SVGResult{}, nil // Return empty result, not an error for empty file
+		return SVGResult{}, nil // Icon with empty ConstName will be skipped
 	}
 
-	svgContent := string(svgBytes)
-	svgContent = strings.ReplaceAll(svgContent, "\n", "")
-	svgContent = strings.ReplaceAll(svgContent, "\"", "'")
+	rawSvgContent := string(svgBytes)
+	tempContent := strings.TrimSpace(rawSvgContent)
+
+	var innerContent string
+
+	// Find the first opening <svg> tag and its closing >
+	openTagStart := strings.Index(tempContent, "<svg")
+	if openTagStart == -1 {
+		return SVGResult{}, fmt.Errorf("SVG file '%s' does not contain an opening <svg tag. Content: %s", file.Name(), tempContent)
+	}
+
+	openTagEnd := strings.Index(tempContent[openTagStart:], ">")
+	if openTagEnd == -1 {
+		return SVGResult{}, fmt.Errorf("SVG file '%s' has an unclosed <svg tag. Content: %s", file.Name(), tempContent)
+	}
+	openTagEnd += openTagStart // Adjust openTagEnd to be relative to the start of tempContent
+
+	// Check if it's a self-closing tag like <svg ... />
+	if tempContent[openTagEnd-1] == '/' {
+		// This is a self-closing tag, implying no inner content to extract in this manner.
+		// Depending on requirements, this could be an error or handled as empty inner content.
+		// For this use case, we expect separate opening and closing tags.
+		return SVGResult{}, fmt.Errorf("SVG file '%s' appears to be a self-closing tag or has no inner content structure for stripping: %s", file.Name(), tempContent[openTagStart:openTagEnd+1])
+	}
+
+	// Find the last closing </svg> tag
+	closeTagStart := strings.LastIndex(tempContent, "</svg>")
+	if closeTagStart == -1 || closeTagStart < openTagEnd {
+		// No closing tag found, or it appears before the opening tag ends (malformed)
+		return SVGResult{}, fmt.Errorf("SVG file '%s' does not have a valid closing </svg> tag or it is malformed. Content: %s", file.Name(), tempContent)
+	}
+
+	// Extract inner content: from after the opening tag to before the closing tag
+	innerContent = tempContent[openTagEnd+1 : closeTagStart]
+
+	// If the file is an outline or filled icon, remove all fill attributes from its inner content.
+	fileName := file.Name()
+	if strings.HasSuffix(fileName, "-outline.svg") || strings.HasSuffix(fileName, "-filled.svg") {
+		// Regex to find fill attributes: fill="anyValue" or fill='anyValue'
+		// This will match fill attributes with either single or double quotes.
+		fillAttrRegex, compErr := regexp.Compile(`\s*fill\s*=\s*(?:\"[^\"]*\"|'[^\']*')`)
+		if compErr != nil {
+			// This should ideally not happen with a static, valid regex pattern
+			return SVGResult{}, fmt.Errorf("error compiling fill attribute regex for %s: %v", fileName, compErr)
+		}
+		innerContent = fillAttrRegex.ReplaceAllString(innerContent, "")
+	}
+
+	// Clean the extracted innerContent for use in a TypeScript string literal.
+	finalInnerContent := strings.ReplaceAll(innerContent, "\n", "")
+	finalInnerContent = strings.ReplaceAll(finalInnerContent, "\"", "'") // Ensure internal quotes are single
 
 	baseName := strings.TrimSuffix(file.Name(), ".svg")
 	baseName = strings.TrimPrefix(baseName, "icon-")
 
-	iconName := baseName
-	constName := "ICON_" + strings.ToUpper(strings.ReplaceAll(baseName, "-", "_"))
+	iconNameForType := baseName
+	constNameForTS := "ICON_" + strings.ToUpper(strings.ReplaceAll(baseName, "-", "_"))
 
 	return SVGResult{
-		ConstName: constName,
-		IconName:  iconName,
-		Content:   svgContent,
+		ConstName: constNameForTS,
+		IconName:  iconNameForType,
+		Content:   finalInnerContent,
 	}, nil
 }
 

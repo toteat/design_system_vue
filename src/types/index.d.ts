@@ -19,9 +19,38 @@ export type ButtonProps = {
   selected?: boolean;
 }
 
+
 export type IconProps = {
   name: IconNames;
   size?: number;
-  color?: string;
+  color?: ThemeColor;
 }
 
+export type ThemeColor =
+  | 'primary'
+  | 'primary-light'
+  | 'secondary'
+  | 'secondary-light'
+  | 'tertiary'
+  | 'tertiary-light'
+  | 'white'
+  | 'black'
+  | 'neutral'
+  | 'neutral-100'
+  | 'neutral-200'
+  | 'neutral-300'
+  | 'neutral-400'
+  | 'neutral-500'
+  | 'gray-100'
+  | 'gray-200'
+  | 'gray-300'
+  | 'gray-400'
+  | 'gray-500'
+  | 'blue'
+  | 'blue-light'
+  | 'green'
+  | 'green-light'
+  | 'yellow'
+  | 'yellow-light'
+  | 'red'
+  | 'red-light';
