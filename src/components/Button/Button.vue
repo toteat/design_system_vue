@@ -1,20 +1,31 @@
 <script lang="ts" setup>
 import type { ButtonProps } from '@/types';
 import Spinner from '../Spinner/Spinner.vue';
+import Icon from '../Icon/Icon.vue';
 
 // Map button sizes to spinner dimensions
 const BUTTON_SIZE_MAP = {
-  'smaller': 4,
-  'small': 6,
-  'medium': 8,
-  'large': 12
+  smaller: 4,
+  small: 4,
+  medium: 6,
+  large: 8,
+} as const;
+
+const ICON_COLOR_MAP = {
+  primary: 'white',
+  secondary: 'white',
+  outline: undefined, // Special case, handled in CSS
+  text: 'black',
 } as const;
 
 // Helper function to get spinner dimension based on button size
-const getSpinnerDimension = (buttonSize: ButtonProps['size']) => {
+const getSizeDimension = (buttonSize: ButtonProps['size']) => {
   return buttonSize ? BUTTON_SIZE_MAP[buttonSize] : BUTTON_SIZE_MAP.small;
 };
 
+const getIconColor = (buttonType: ButtonProps['type']) => {
+  return buttonType ? ICON_COLOR_MAP[buttonType] : ICON_COLOR_MAP.primary;
+};
 
 const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'primary',
@@ -25,6 +36,8 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   loading: false,
   text: 'Loading...',
   selected: false,
+  iconName: undefined,
+  onlyIcon: false,
 });
 </script>
 
@@ -39,15 +52,21 @@ const props = withDefaults(defineProps<ButtonProps>(), {
       {
         'btn-full': isFull,
         'btn-loading': props.loading && !props.disabled,
-        'selected': props.selected,
+        selected: props.selected,
       },
     ]"
     :disabled="props.disabled"
   >
-    <Spinner v-if="props.loading" :dimension="getSpinnerDimension(props.size)" />
-    <span v-if="props.type !== 'icon'">
+    <Spinner v-if="props.loading" :dimension="getSizeDimension(props.size)" />
+    <span v-if="props.text && !props.onlyIcon">
       {{ props.text }}
     </span>
+    <Icon
+      v-if="props.iconName"
+      :name="props.iconName"
+      :size="getSizeDimension(props.size)"
+      :color="getIconColor(props.type)"
+    />
   </button>
 </template>
 
@@ -59,7 +78,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   &.btn {
     @apply flex leading-none border border-transparent items-center justify-center gap-2 rounded-full font-semibold;
     border-width: 1.5px;
-    transition-property: border-color, background-color, opacity;
+    transition-property: border-color, background-color, opacity, color;
     transition-duration: 0.25s;
     transition-timing-function: ease-in-out;
     cursor: pointer;
@@ -138,11 +157,15 @@ const props = withDefaults(defineProps<ButtonProps>(), {
         }
 
         &.selected {
-          @apply text-primary;
+          @apply text-primary border-primary;
         }
 
         &:active {
-          border-color: rgba(0, 0, 0, 0.5);
+          @apply border-primary-light text-primary-light;
+
+          svg {
+            @apply fill-primary-light;
+          }
         }
       }
     }
@@ -153,11 +176,16 @@ const props = withDefaults(defineProps<ButtonProps>(), {
       border: 0 0 0 1px;
     }
 
-
     /* Common states */
     &:disabled {
       @apply cursor-not-allowed;
       filter: grayscale(1) opacity(0.25);
+    }
+
+    svg {
+      transition-property: fill;
+      transition-duration: 0.25s;
+      transition-timing-function: ease-in-out;
     }
   }
 }

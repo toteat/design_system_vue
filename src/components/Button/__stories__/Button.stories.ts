@@ -1,5 +1,60 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import Button from '../Button.vue';
+import type { IconNames } from '@/components/Icon/icons';
+
+// Use IconNames union type for available icon names
+const availableIconNames: IconNames[] = [
+  'apple-filled',
+  'arrow-down-outline',
+  'arrow-left-outline',
+  'arrow-list-outline',
+  'arrow-right-outline',
+  'arrow-up-outline',
+  'barcode-outline',
+  'checkbox-checked',
+  'checkbox-unchecked',
+  'chevron-left-bicolor',
+  'chevron-right-bicolor',
+  'close-outline',
+  'copy-generic-outline',
+  'copy-square-outline',
+  'delete-outline',
+  'discount-outline',
+  'document-generic-outline',
+  'document-history-outline',
+  'document-list-outline',
+  'error-filled-red',
+  'error-outline',
+  'exclamation-outline',
+  'eye-closed-outline',
+  'eye-open-filled',
+  'facebook-filled',
+  'google-filled',
+  'home-outline',
+  'info-filled-blue',
+  'info-outline',
+  'instagram-filled',
+  'linkedin-filled',
+  'pencil-outline',
+  'radio-button-checked-outline',
+  'radio-button-unchecked-outline',
+  'refresh-double-outline',
+  'refresh-single-outline',
+  'rocket-outline',
+  'search-outline',
+  'shopping-bag-outline',
+  'shopping-basket-outline',
+  'shopping-cart-outline',
+  'success-filled-green',
+  'success-outline',
+  'tag-outline',
+  'ticket-outline',
+  'twitter-filled',
+  'user-outline',
+  'warning-filled-yellow',
+  'warning-outline',
+  'whatsapp-outline',
+];
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -13,7 +68,7 @@ const meta: Meta<typeof Button> = {
     },
     size: {
       control: { type: 'select' },
-      options: ['medium', 'large','smaller', 'small'],
+      options: ['smaller', 'small', 'medium', 'large'],
       description: 'The size of the button',
     },
     text: {
@@ -23,6 +78,11 @@ const meta: Meta<typeof Button> = {
     disabled: {
       control: 'boolean',
       description: 'Whether the button is disabled',
+    },
+    iconName: {
+      control: { type: 'select' },
+      options: availableIconNames,
+      description: 'Name of the icon to display',
     },
     loading: {
       control: 'boolean',
@@ -35,6 +95,10 @@ const meta: Meta<typeof Button> = {
     selected: {
       control: 'boolean',
       description: 'Whether the button is in selected state',
+    },
+    onlyIcon: {
+      control: 'boolean',
+      description: 'Whether the button is only an icon',
     },
     typeButton: {
       control: { type: 'select' },
@@ -60,38 +124,66 @@ type Story = StoryObj<typeof Button>;
 
 // Types
 export const Primary: Story = {
-  args: {
-    type: 'primary',
-    text: 'Primary Button',
-  },
+  render: () => ({
+    components: { Button },
+    template: `
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <Button type="primary" text="Primary Button" />
+        <Button type="primary" text="Primary Button" iconName="home-outline" />
+      </div>
+    `,
+  }),
 };
 
 export const Secondary: Story = {
-  args: {
-    type: 'secondary',
-    text: 'Secondary Button',
-  },
+  render: () => ({
+    components: { Button },
+    template: `
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <Button type="secondary" text="Secondary Button" />
+        <Button type="secondary" text="Secondary Button" iconName="home-outline" />
+      </div>
+    `,
+  }),
 };
 
 export const Outline: Story = {
-  args: {
-    type: 'outline',
-    text: 'Outline Button',
-  },
+  render: () => ({
+    components: { Button },
+    template: `
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <Button type="outline" text="Outline Button" />
+        <Button type="outline" text="Outline Button" iconName="home-outline" />
+      </div>
+    `,
+  }),
 };
 
 export const TextButton: Story = {
-  args: {
-    type: 'text',
-    text: 'Text Button',
-  },
+  render: () => ({
+    components: { Button },
+    template: `
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <Button type="text" text="Text Button" />
+        <Button type="text" text="Text Button" iconName="home-outline" />
+      </div>
+    `,
+  }),
 };
 
 export const IconButton: Story = {
   args: {
-    type: 'icon',
-    text: 'Icon',
+    type: 'primary',
+    iconName: 'home-outline',
+    onlyIcon: true,
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Button in icon-only mode using the onlyIcon prop.'
+      }
+    }
+  }
 };
 
 // Sizes
@@ -158,4 +250,87 @@ export const FullWidth: Story = {
     text: 'Full Width Button',
     isFull: true,
   },
+};
+
+// All sizes with loading spinner and label
+export const AllSizesWithSpinner: Story = {
+  render: () => ({
+    components: { Button },
+    template: `
+      <div style="display: flex; gap: 1.5rem; align-items: flex-end; flex-wrap: wrap;">
+        <div v-for="size in ['smaller', 'small', 'medium', 'large']" :key="size" style="display: flex; flex-direction: column; align-items: center;">
+          <Button :size="size" loading :text="size.charAt(0).toUpperCase() + size.slice(1)" />
+          <span style="margin-top: 0.5rem; font-size: 0.875rem; color: #888;">{{ size }}</span>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+// All icon-only buttons for all icons and all variants
+export const AllIconButtons: Story = {
+  render: () => ({
+    components: { Button },
+    data() {
+      return {
+        icons: availableIconNames,
+        variants: ['primary', 'secondary', 'outline', 'text'],
+      };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div v-for="icon in icons" :key="icon">
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <Button
+              v-for="variant in variants"
+              :key="variant + '-' + icon"
+              :type="variant"
+              :iconName="icon"
+              :onlyIcon="true"
+              :aria-label="icon + ' ' + variant"
+            />
+            <span style="font-size: 0.875rem; color: #888; min-width: 120px;">{{ icon }}</span>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'All possible icon-only buttons for every icon and every button variant.'
+      }
+    }
+  }
+};
+
+// Buttons with text and icon for all variants
+export const AllVariantsWithTextAndIcon: Story = {
+  render: () => ({
+    components: { Button },
+    data() {
+      return {
+        variants: ['primary', 'secondary', 'outline', 'text'],
+        icon: 'home-outline',
+      };
+    },
+    template: `
+      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+        <Button
+          v-for="variant in variants"
+          :key="variant"
+          :type="variant"
+          :iconName="icon"
+          :text="variant.charAt(0).toUpperCase() + variant.slice(1) + ' Button'"
+        />
+      </div>
+    `,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'All button variants with both text and an icon.'
+      }
+    }
+  }
 };
