@@ -6,6 +6,12 @@
   "main": "dist/design-system-vue.umd.js",
   "module": "dist/design-system-vue.js",
   "types": "dist/index.d.ts",
+  "maintainers": [
+    {
+      "name": "Mauricio Antunez",
+      "email": "mauricio.antunez@toteat.com"
+    }
+  ],
   "files": [
     "dist"
   ],
