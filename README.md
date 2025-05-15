@@ -16,7 +16,7 @@ npm install @toteat/design-system-vue
 ```js
 import { createApp } from 'vue'
 import App from './App.vue'
-import ToteatDesignSystem from '@toteat/design-system-vue'
+import { ToteatDesignSystem } from '@toteat/design-system-vue'
 
 const app = createApp(App)
 app.use(ToteatDesignSystem)
@@ -27,11 +27,13 @@ app.mount('#app')
 
 ```vue
 <script setup lang="ts">
-import { Button } from '@toteat/design-system-vue'
+import { Button, Icon, Spinner } from '@toteat/design-system-vue'
 </script>
 
 <template>
-  <Button color="primary" size="md">Click Me</Button>
+  <Button type="primary" size="medium">Click Me</Button>
+  <Icon name="home-outline" size="24" color="primary" />
+  <Spinner dimension="24" />
 </template>
 ```
 
@@ -105,3 +107,30 @@ module.exports = {
 ## Available Components
 
 - `Button` - A versatile button component with various styles and states
+- `Icon` - A flexible icon component that supports all icons in the design system
+- `Spinner` - A loading spinner component with customizable dimensions
+
+### Component Examples
+
+#### Button
+```vue
+<template>
+  <Button type="primary" size="medium">Click Me</Button>
+</template>
+```
+
+#### Icon
+```vue
+<template>
+  <Icon name="home-outline" size="24" color="primary" />
+</template>
+```
+
+#### Spinner
+```vue
+<template>
+  <Spinner dimension="24" />
+</template>
+```
+
+For detailed component documentation and examples, check out our Storybook documentation.

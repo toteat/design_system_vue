@@ -3,16 +3,23 @@ import './style.css'
 
 // Import components
 import Button from './components/Button/Button.vue'
+import Icon from './components/Icon/Icon.vue'
+import Spinner from './components/Spinner/Spinner.vue'
 
 // Export all components
-export { Button }
+export { Button, Icon, Spinner }
 
 // Export Vue plugin
-export default {
-  install: (app: any) => {
-    // Register components globally
-    app.component('TotButton', Button)
-  },
+export const install = (app: any) => {
+  // Register components globally
+  app.component('Button', Button)
+  app.component('Icon', Icon)
+  app.component('Spinner', Spinner)
+}
+
+// Export plugin object
+export const ToteatDesignSystem = {
+  install
 }
 
 // Export type definitions
