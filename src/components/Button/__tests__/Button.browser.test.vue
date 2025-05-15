@@ -16,7 +16,7 @@ describe('Button Component', () => {
   })
 
   // Test different button types
-  const buttonTypes: ButtonType[] = ['primary', 'secondary', 'outline', 'text', 'icon']
+  const buttonTypes: ButtonType[] = ['primary', 'secondary', 'outline', 'text']
   it.each(buttonTypes)('renders %s button type correctly', (type) => {
     const wrapper = mount(Button, {
       props: { type }
@@ -86,11 +86,29 @@ describe('Button Component', () => {
   })
 
   // Test icon button
-  it('renders icon button without text', () => {
+  it('renders button with icon correctly', () => {
     const wrapper = mount(Button, {
-      props: { type: 'icon' }
+      props: {
+        iconName: 'home-outline',
+        onlyIcon: true
+      }
     })
     expect(wrapper.find('span').exists()).toBe(false)
+    expect(wrapper.find('svg').exists()).toBe(true)
+  })
+
+  // Test button with icon and text
+  it('renders button with icon and text correctly', () => {
+    const wrapper = mount(Button, {
+      props: {
+        iconName: 'home-outline',
+        text: 'Home',
+        onlyIcon: false
+      }
+    })
+    expect(wrapper.find('span').exists()).toBe(true)
+    expect(wrapper.find('svg').exists()).toBe(true)
+    expect(wrapper.text()).toContain('Home')
   })
 
   // Test for existence of button and basic states
