@@ -27,7 +27,7 @@ const meta: Meta<typeof Icon> = {
       description: 'Name of the icon to display',
     },
     size: {
-      control: { type: 'number', min: 8, max: 128, step: 1 },
+      control: { type: 'number', min: 4, max: 128, step: 2 },
       description: 'Size of the icon in pixels',
     },
     color: {
@@ -67,7 +67,7 @@ const meta: Meta<typeof Icon> = {
   },
   args: {
     name: availableIconNames[0] || 'home-outline',
-    size: 24,
+    size: 4,
     color: 'black',
   },
 };
@@ -94,14 +94,14 @@ export const AllIcons: Story = {
           :key="iconName"
           style="display: flex; flex-direction: column; align-items: center; width: 100px;"
         >
-          <Icon :name="iconName" :size="args.size || 32" :color="args.color || 'black'" />
+          <Icon :name="iconName" :size="args.size || 4" :color="args.color || 'black'" />
           <span style="font-size: 12px; margin-top: 8px; text-align: center;">{{ iconName }}</span>
         </div>
       </div>
     `,
   }),
   args: {
-    size: 32,
+    size: 4,
     color: 'black',
   },
   parameters: {

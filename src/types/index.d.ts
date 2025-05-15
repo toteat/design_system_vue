@@ -3,7 +3,7 @@ import { IconNames } from '../components/Icon/icons'
 // Common types used across the design system
 
 // Button types
-export type ButtonType = 'icon' | 'outline' | 'primary' | 'secondary' | 'text'
+export type ButtonType = 'outline' | 'primary' | 'secondary' | 'text'
 
 // Button size
 export type ButtonSize = 'medium' | 'large' | 'smaller' | 'small'
@@ -17,6 +17,8 @@ export type ButtonProps = {
   loading?: boolean;
   text?: string;
   selected?: boolean;
+  iconName?: IconNames;
+  onlyIcon?: boolean;
 }
 
 export type SpinnerProps = {
