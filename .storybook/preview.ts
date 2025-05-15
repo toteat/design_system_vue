@@ -11,11 +11,46 @@ const preview: Preview = {
     },
     backgrounds: {
       default: 'light',
-      values: [
-        { name: 'light', value: '#FFFFFF' },
-        { name: 'dark', value: '#1B1B1B' },
-        { name: 'neutral', value: '#F2F2F2' },
-      ],
+    },
+    viewport: {
+      viewports: {
+        mobile: {
+          name: 'Mobile',
+          styles: {
+            width: '412px',
+            height: '823px',
+          },
+        },
+        tablet: {
+          name: 'Tablet Vertical',
+          styles: {
+            width: '768px',
+            height: '1024px',
+          },
+        },
+        tabletHorizontal: {
+          name: 'Tablet Horizontal',
+          styles: {
+            width: '1024px',
+            height: '768px',
+          },
+        },
+        desktop: {
+          name: 'Desktop',
+          styles: {
+            width: '1366px',
+            height: '768px',
+          },
+        },
+        desktopLarge: {
+          name: 'Desktop Large',
+          styles: {
+            width: '1920px',
+            height: '1080px',
+          },
+        },
+      },
+      defaultViewport: 'desktop',
     },
   },
   decorators: [
@@ -24,6 +59,7 @@ const preview: Preview = {
       template: '<div class="p-6 font-manrope"><story /></div>',
     }),
   ],
+
 };
 
 export default preview;
