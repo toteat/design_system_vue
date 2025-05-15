@@ -12,6 +12,12 @@
     },
     "target": "ESNext",
     "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
 
     /* Linting */
     "strict": true,

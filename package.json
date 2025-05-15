@@ -4,7 +4,7 @@
   "description": "Vue 3 Design System with TypeScript support - Ships with modern ESNext syntax",
   "type": "module",
   "main": "dist/design-system-vue.umd.js",
-  "module": "dist/design-system-vue.js",
+  "module": "dist/design-system-vue.es.js",
   "types": "dist/index.d.ts",
   "maintainers": [
     {
@@ -17,10 +17,26 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/design-system-vue.js",
-      "require": "./dist/design-system-vue.umd.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/design-system-vue.es.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
+    "./Button": {
+      "types": "./dist/Button/index.d.ts",
+      "import": "./dist/Button/index.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
+    "./Icon": {
+      "types": "./dist/Icon/index.d.ts",
+      "import": "./dist/Icon/index.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
+    "./Spinner": {
+      "types": "./dist/Spinner/index.d.ts",
+      "import": "./dist/Spinner/index.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
+    "./style.css": "./dist/design-system-vue.css"
   },
   "sideEffects": [
     "*.css"
@@ -30,7 +46,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && vue-tsc --project tsconfig.app.json --declaration --emitDeclarationOnly && vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -59,6 +76,7 @@
     "@storybook/test": "^8.6.12",
     "@storybook/vue3": "^8.6.12",
     "@storybook/vue3-vite": "^8.6.12",
+    "@tailwindcss/vite": "^4.1.6",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^20.11.24",
     "@typescript-eslint/eslint-plugin": "^8.32.0",
@@ -73,14 +91,12 @@
     "jsdom": "^24.1.3",
     "prettier": "^3.5.3",
     "storybook": "^8.6.12",
+    "tailwindcss": "^4.1.6",
     "typescript": "~5.8.3",
     "vite": "^6.3.5",
+    "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.1.3",
     "vue": "^3.5.13",
     "vue-tsc": "^2.2.8"
-  },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.1.6",
-    "tailwindcss": "^4.1.6"
   }
 }
