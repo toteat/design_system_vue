@@ -1,5 +1,20 @@
 <script lang="ts" setup>
 import type { ButtonProps } from '@/types';
+import Spinner from '../Spinner/Spinner.vue';
+
+// Map button sizes to spinner dimensions
+const BUTTON_SIZE_MAP = {
+  'smaller': 4,
+  'small': 6,
+  'medium': 8,
+  'large': 12
+} as const;
+
+// Helper function to get spinner dimension based on button size
+const getSpinnerDimension = (buttonSize: ButtonProps['size']) => {
+  return buttonSize ? BUTTON_SIZE_MAP[buttonSize] : BUTTON_SIZE_MAP.small;
+};
+
 
 const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'primary',
@@ -29,7 +44,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
     ]"
     :disabled="props.disabled"
   >
-    <i class="spinner" v-if="props.loading" />
+    <Spinner v-if="props.loading" :dimension="getSpinnerDimension(props.size)" />
     <span v-if="props.type !== 'icon'">
       {{ props.text }}
     </span>

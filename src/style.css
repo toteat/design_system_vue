@@ -123,20 +123,3 @@
     -moz-osx-font-smoothing: grayscale;
   }
 }
-
-.tot-ds-root {
-  /* Spinner animation for loading state */
-  .spinner {
-    @apply rounded-full border-2 border-solid border-t-transparent animate-spin;
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-}

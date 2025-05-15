@@ -19,6 +19,14 @@ export type ButtonProps = {
   selected?: boolean;
 }
 
+export type SpinnerProps = {
+  dimension?: number;
+}
+
+export type IconContent = {
+  path: string;
+  viewBox: string;
+}
 
 export type IconProps = {
   name: IconNames;
