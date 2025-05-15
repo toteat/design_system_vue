@@ -1,6 +1,7 @@
 # Toteat Design System for Vue 3
 
 A TypeScript-based design system for Vue 3 applications. Ships with modern ECMAScript syntax (ESNext).
+This design system is primarily developed for Toteat's needs, and its development roadmap will be guided by Toteat's requirements.
 
 ## Installation
 
