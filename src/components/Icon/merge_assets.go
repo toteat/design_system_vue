@@ -230,11 +230,20 @@ func generateIconFileContent(svgFiles []os.DirEntry, assetDir string) (string, i
 		close(resultChan)
 	}()
 
+	// Sort the results alphabetically by ConstName before generating content
+	var results []SVGResult
+	for result := range resultChan {
+		results = append(results, result)
+	}
+	sort.Slice(results, func(i, j int) bool {
+		return results[i].ConstName < results[j].ConstName
+	})
+
 	content := "// This file is auto-generated. Do not edit directly.\n\n"
 	var iconNames []string
 	resultCount := 0
 
-	for result := range resultChan {
+	for _, result := range results {
 		content += fmt.Sprintf("export const %s = %s;\n", result.ConstName, result.Content)
 		iconNames = append(iconNames, result.IconName)
 		resultCount++
