@@ -5,10 +5,10 @@ import Icon from '../Icon/Icon.vue';
 
 // Map button sizes to spinner dimensions
 const BUTTON_SIZE_MAP = {
-  smaller: 4,
-  small: 4,
-  medium: 6,
-  large: 8,
+  smaller: 1,
+  small: 1,
+  medium: 1.5,
+  large: 2,
 } as const;
 
 const ICON_COLOR_MAP = {
@@ -57,7 +57,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
     ]"
     :disabled="props.disabled"
   >
-    <Spinner v-if="props.loading" :dimension="getSizeDimension(props.size)" />
+    <Spinner v-if="props.loading" :size="getSizeDimension(props.size)" />
     <span v-if="props.text && !props.onlyIcon">
       {{ props.text }}
     </span>
@@ -71,21 +71,27 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 </template>
 
 <style scoped>
-@import '@/style.css';
-
 /* Base button styles */
 .tot-ds-root {
   &.btn {
-    @apply flex leading-none border border-transparent items-center justify-center gap-2 rounded-full font-semibold;
-    border-width: 1.5px;
-    transition-property: border-color, background-color, opacity, color;
-    transition-duration: 0.25s;
-    transition-timing-function: ease-in-out;
+    display: flex;
+    line-height: 1;
+    border: 1.5px solid transparent;
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: border-color 0.25s ease-in-out,
+                background-color 0.25s ease-in-out,
+                opacity 0.25s ease-in-out,
+                color 0.25s ease-in-out;
     cursor: pointer;
 
     /* Text content always wrapped */
     & span {
-      @apply whitespace-nowrap;
+      white-space: nowrap;
     }
 
     &:not(:disabled) {
@@ -96,75 +102,85 @@ const props = withDefaults(defineProps<ButtonProps>(), {
     }
 
     &.btn-full {
-      @apply w-full;
+      width: 100%;
     }
 
     /* Button sizes */
     &.btn-size-smaller {
-      @apply text-xs min-w-16 min-h-8 px-3;
-
-      .spinner {
-        @apply w-3 h-3;
-      }
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+      min-width: 4rem;
+      min-height: 2rem;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
     }
 
     &.btn-size-small {
-      @apply text-xs min-w-16 min-h-11 px-3;
-
-      .spinner {
-        @apply w-3 h-3;
-      }
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+      min-width: 4rem;
+      min-height: 2.75rem;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
     }
 
     &.btn-size-medium {
-      @apply text-base min-w-19 min-h-15 px-4;
-
-      .spinner {
-        @apply w-4 h-4;
-      }
+      font-size: var(--text-base);
+      line-height: var(--text-base--line-height);
+      min-width: 4.75rem;
+      min-height: 3.75rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
 
     &.btn-size-large {
-      @apply text-2xl min-w-23 min-h-20 px-5;
-
-      .spinner {
-        @apply w-8 h-8;
-      }
+      font-size: var(--text-2xl);
+      line-height: var(--text-2xl--line-height);
+      min-width: 5.75rem;
+      min-height: 5rem;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
     }
 
     &:hover:not(:disabled),
     &.btn-loading {
-      @apply opacity-30;
+      opacity: 0.3;
     }
 
     /* Primary Button */
     &.btn-primary {
-      @apply bg-primary text-neutral;
+      background-color: var(--color-primary);
+      color: var(--color-neutral);
     }
 
     /* Secondary Button */
     &.btn-secondary {
-      @apply bg-secondary text-neutral;
+      background-color: var(--color-secondary);
+      color: var(--color-neutral);
     }
 
     /* Outline Button */
     &.btn-outline {
-      @apply border-secondary text-secondary;
+      border-color: var(--color-secondary);
+      color: var(--color-secondary);
+
       &:not(:disabled) {
         &.selected,
         &:hover {
-          @apply border-primary;
+          border-color: var(--color-primary);
         }
 
         &.selected {
-          @apply text-primary border-primary;
+          border-color: var(--color-primary);
+          color: var(--color-primary);
         }
 
         &:active {
-          @apply border-primary-light text-primary-light;
+          border-color: var(--color-primary-light);
+          color: var(--color-primary-light);
 
           svg {
-            @apply fill-primary-light;
+            fill: var(--color-primary-light);
           }
         }
       }
@@ -172,17 +188,20 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 
     /* Text Button */
     &.btn-text {
-      @apply text-secondary;
-      border: 0 0 0 1px;
+      color: var(--color-secondary);
+      border-width: 0;
+      border-style: solid;
+      border-color: currentColor;
     }
 
     /* Common states */
     &:disabled {
-      @apply cursor-not-allowed;
+      cursor: not-allowed;
       filter: grayscale(1) opacity(0.25);
     }
 
     svg {
+      flex-shrink: 0;
       transition-property: fill;
       transition-duration: 0.25s;
       transition-timing-function: ease-in-out;

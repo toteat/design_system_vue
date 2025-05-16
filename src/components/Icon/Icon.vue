@@ -5,7 +5,7 @@ import * as Icons from './icons';
 
 const props = withDefaults(defineProps<IconProps>(), {
   name: 'home-outline',
-  size: 4,
+  size: 1,
   color: 'black',
 });
 
@@ -37,11 +37,21 @@ const applyFillColor = computed(() => {
 
 <template>
   <svg
-    class="tot-ds-icon"
-    :class="`w-${props.size} h-${props.size}`"
+    class="tot-ds-root icon"
+    :style="{ '--size': `${props.size}rem` }"
     :fill="applyFillColor ? `var(--color-${props.color})` : undefined"
     xmlns="http://www.w3.org/2000/svg"
     :viewBox="iconContent.viewBox"
     v-html="iconContent.path"
   ></svg>
 </template>
+
+<style scoped>
+.tot-ds-root {
+  &.icon {
+    width: var(--size, 1rem);
+    height: var(--size, 1rem);
+    display: inline-block;
+  }
+}
+</style>

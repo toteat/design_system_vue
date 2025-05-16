@@ -56,7 +56,7 @@ const preview: Preview = {
   decorators: [
     (story) => ({
       components: { story },
-      template: '<div class="p-6 font-manrope"><story /></div>',
+      template: '<div style="padding: 1.5rem;"><story /></div>',
     }),
   ],
 

@@ -22,7 +22,7 @@ export type ButtonProps = {
 }
 
 export type SpinnerProps = {
-  dimension?: number;
+  size?: number;
 }
 
 export type IconContent = {
