@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url'
 import dts from 'vite-plugin-dts'
 import fs from 'fs/promises'
 import path from 'path'
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
@@ -21,6 +22,7 @@ async function ensureDir(dirPath: string) {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    cssInjectedByJsPlugin(),
     vue(),
     tailwindcss(),
     dts({
@@ -125,9 +127,8 @@ export default _default;
 
           // Create JS entry
           await fs.writeFile(`dist/${component}/index.js`,
-            `import '../design-system-vue.css';
-import { ${component} } from '../design-system-vue.es.js';
-export default ${component};`);
+            `import '../design-system-vue.es.js';
+export { ${component} } from '../design-system-vue.es.js';`);
 
           // Create TS declaration
           await fs.writeFile(`dist/${component}/index.d.ts`,
@@ -174,7 +175,7 @@ export default ${component};`);
     // Preserve modern features, no transpilation
     target: 'esnext',
     minify: 'esbuild',
-    // Don't split CSS - let client projects handle CSS extraction
+    // Inject CSS into JS to auto-apply component styles
     cssCodeSplit: false,
     // Ensure proper tree-shaking
     emptyOutDir: true,

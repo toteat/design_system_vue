@@ -104,6 +104,49 @@ module.exports = {
 }
 ```
 
+## Styles
+
+Component styles are bundled into a single CSS file and are not applied automatically. You need to import it in your project:
+
+```js
+// main.ts or main.js
+import 'toteat-design-system-vue/dist/design-system-vue.css';
+// or using subpath export
+import '@toteat/design-system-vue/style.css';
+```
+
+### Vite Configuration
+
+Vite processes CSS imports from `node_modules` by default. If you excluded `node_modules` in your config, include this package:
+
+```js
+// vite.config.js
+export default {
+  optimizeDeps: {
+    include: ['@toteat/design-system-vue']
+  }
+}
+```
+
+### Webpack Configuration
+
+If your Webpack setup skips `node_modules`, add a rule to include our CSS:
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        include: /node_modules\/@toteat\/design-system-vue/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  }
+}
+```
+
 ## Available Components
 
 - `Button` - A versatile button component with various styles and states

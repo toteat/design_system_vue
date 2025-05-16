@@ -1,3 +1,2 @@
-import '../design-system-vue.css';
-import { Spinner } from '../design-system-vue.es.js';
-export default Spinner;
+import '../design-system-vue.es.js';
+export { Spinner } from '../design-system-vue.es.js';

@@ -1,3 +1,2 @@
-import '../design-system-vue.css';
-import { Icon } from '../design-system-vue.es.js';
-export default Icon;
+import '../design-system-vue.es.js';
+export { Icon } from '../design-system-vue.es.js';
