@@ -125,7 +125,8 @@ export default _default;
 
           // Create JS entry
           await fs.writeFile(`dist/${component}/index.js`,
-            `import { ${component} } from '../design-system-vue.es.js';
+            `import '../design-system-vue.css';
+import { ${component} } from '../design-system-vue.es.js';
 export default ${component};`);
 
           // Create TS declaration
