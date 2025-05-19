@@ -3,10 +3,6 @@ import type { ButtonProps } from '@/types';
 import Spinner from '../Spinner/Spinner.vue';
 import Icon from '../Icon/Icon.vue';
 
-const emit = defineEmits<{
-  (e: string, event: MouseEvent): void
-}>();
-
 // Map button sizes to spinner dimensions
 const BUTTON_SIZE_MAP = {
   smaller: 1,
@@ -61,7 +57,6 @@ const props = withDefaults(defineProps<ButtonProps>(), {
       },
     ]"
     :disabled="props.disabled"
-    @click="emit(props.clickEventName, $event)"
   >
     <Spinner v-if="props.loading" :size="getSizeDimension(props.size)" />
     <span v-if="props.text && !props.onlyIcon">

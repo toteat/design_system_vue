@@ -59,37 +59,6 @@ describe('Button Component', () => {
     expect(wrapper.classes()).toContain('btn-loading')
   })
 
-  // Test custom event name
-  it('emits custom event name when clicked', async () => {
-    const customEventName = 'custom-click'
-    const wrapper = mount(Button, {
-      props: { clickEventName: customEventName }
-    })
-
-    await wrapper.trigger('click')
-    expect(wrapper.emitted(customEventName)).toBeTruthy()
-  })
-
-  // Test default event name
-  it('emits default event name when no custom name provided', async () => {
-    const wrapper = mount(Button)
-
-    await wrapper.trigger('click')
-    expect(wrapper.emitted('button-click-default-name')).toBeTruthy()
-  })
-
-  // Test event payload
-  it('emits event when clicked', async () => {
-    const wrapper = mount(Button)
-
-    await wrapper.trigger('click')
-
-    // Check that the event is emitted
-    const emitted = wrapper.emitted('button-click-default-name')
-    expect(emitted).toBeTruthy()
-    expect(emitted?.length).toBe(1)
-  })
-
   // Test custom loading text
   it('displays custom loading text', () => {
     const customText = 'Please wait...'

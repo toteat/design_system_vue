@@ -1,60 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import Button from '../Button.vue';
 import type { IconNames } from '@/components/Icon/icons';
+import * as Icons from '@/components/Icon/icons';
 
-// Use IconNames union type for available icon names
-const availableIconNames: IconNames[] = [
-  'apple-filled',
-  'arrow-down-outline',
-  'arrow-left-outline',
-  'arrow-list-outline',
-  'arrow-right-outline',
-  'arrow-up-outline',
-  'barcode-outline',
-  'checkbox-checked',
-  'checkbox-unchecked',
-  'chevron-left-bicolor',
-  'chevron-right-bicolor',
-  'close-outline',
-  'copy-generic-outline',
-  'copy-square-outline',
-  'delete-outline',
-  'discount-outline',
-  'document-generic-outline',
-  'document-history-outline',
-  'document-list-outline',
-  'error-filled-red',
-  'error-outline',
-  'exclamation-outline',
-  'eye-closed-outline',
-  'eye-open-filled',
-  'facebook-filled',
-  'google-filled',
-  'home-outline',
-  'info-filled-blue',
-  'info-outline',
-  'instagram-filled',
-  'linkedin-filled',
-  'pencil-outline',
-  'radio-button-checked-outline',
-  'radio-button-unchecked-outline',
-  'refresh-double-outline',
-  'refresh-single-outline',
-  'rocket-outline',
-  'search-outline',
-  'shopping-bag-outline',
-  'shopping-basket-outline',
-  'shopping-cart-outline',
-  'success-filled-green',
-  'success-outline',
-  'tag-outline',
-  'ticket-outline',
-  'twitter-filled',
-  'user-outline',
-  'warning-filled-yellow',
-  'warning-outline',
-  'whatsapp-outline',
-];
+// Dynamically derive available icon names from the icons module
+const availableIconNames = Object.keys(Icons)
+  .filter(key => key.startsWith('ICON_'))
+  .map(key =>
+    key.replace(/^ICON_/, '').replace(/_/g, '-').toLowerCase()
+  ) as IconNames[];
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -105,10 +59,6 @@ const meta: Meta<typeof Button> = {
       options: ['button', 'submit', 'reset'],
       description: 'The HTML button type attribute',
     },
-    clickEventName: {
-      control: 'text',
-      description: 'Custom name for the click event emitted by the button',
-    },
   },
   args: {
     // Default values matching the component props
@@ -120,7 +70,6 @@ const meta: Meta<typeof Button> = {
     text: 'Loading...',
     selected: false,
     typeButton: 'button',
-    clickEventName: 'button-click-default-name',
   },
 };
 
@@ -335,36 +284,6 @@ export const AllVariantsWithTextAndIcon: Story = {
     docs: {
       description: {
         story: 'All button variants with both text and an icon.'
-      }
-    }
-  }
-};
-
-// Add new story for custom event names
-export const CustomEventName: Story = {
-  render: () => ({
-    components: { Button },
-    template: `
-      <div style="display: flex; gap: 1rem; align-items: center;">
-        <Button
-          type="primary"
-          text="Custom Event Button"
-          clickEventName="custom-click"
-          @custom-click="() => console.log('Custom event clicked!')"
-        />
-        <Button
-          type="secondary"
-          text="Another Custom Event"
-          clickEventName="another-event"
-          @another-event="() => console.log('Another event clicked!')"
-        />
-      </div>
-    `,
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Buttons with custom event names. Check the console to see the event logs.'
       }
     }
   }
