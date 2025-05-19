@@ -19,6 +19,7 @@ export type ButtonProps = {
   selected?: boolean;
   iconName?: IconNames;
   onlyIcon?: boolean;
+  clickEventName?: string;
 }
 
 export type SpinnerProps = {

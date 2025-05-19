@@ -105,6 +105,10 @@ const meta: Meta<typeof Button> = {
       options: ['button', 'submit', 'reset'],
       description: 'The HTML button type attribute',
     },
+    clickEventName: {
+      control: 'text',
+      description: 'Custom name for the click event emitted by the button',
+    },
   },
   args: {
     // Default values matching the component props
@@ -116,6 +120,7 @@ const meta: Meta<typeof Button> = {
     text: 'Loading...',
     selected: false,
     typeButton: 'button',
+    clickEventName: 'button-click-default-name',
   },
 };
 
@@ -330,6 +335,36 @@ export const AllVariantsWithTextAndIcon: Story = {
     docs: {
       description: {
         story: 'All button variants with both text and an icon.'
+      }
+    }
+  }
+};
+
+// Add new story for custom event names
+export const CustomEventName: Story = {
+  render: () => ({
+    components: { Button },
+    template: `
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <Button
+          type="primary"
+          text="Custom Event Button"
+          clickEventName="custom-click"
+          @custom-click="() => console.log('Custom event clicked!')"
+        />
+        <Button
+          type="secondary"
+          text="Another Custom Event"
+          clickEventName="another-event"
+          @another-event="() => console.log('Another event clicked!')"
+        />
+      </div>
+    `,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Buttons with custom event names. Check the console to see the event logs.'
       }
     }
   }
