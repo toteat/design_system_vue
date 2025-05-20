@@ -24,10 +24,12 @@ export default defineConfig({
     cssInjectedByJsPlugin(),
     vue(),
     dts({
-      include: ['src/**/*.ts', 'src/**/*.d.ts', 'src/**/*.vue'],
+      include: ['src'],
       outDir: 'dist',
-      staticImport: true,
-      insertTypesEntry: true,
+      tsconfigPath: './tsconfig.app.json',
+      entryRoot: 'src',
+      copyDtsFiles: true,
+      cleanVueFileName: true,
     }),
     {
       name: 'custom-declaration',
