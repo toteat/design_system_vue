@@ -2,6 +2,7 @@
 import type { ButtonProps } from '@/types';
 import Spinner from '../Spinner/Spinner.vue';
 import Icon from '../Icon/Icon.vue';
+import { computed } from 'vue';
 
 // Map button sizes to spinner dimensions
 const BUTTON_SIZE_MAP = {
@@ -40,22 +41,24 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   onlyIcon: false,
   clickEventName: 'button-click-default-name',
 });
+
+const buttonClasses = computed(() => [
+  'tot-ds-root',
+  'btn',
+  `btn-${props.type}`,
+  `btn-size-${props.size}`,
+  {
+    'btn-full': props.isFull,
+    'btn-loading': props.loading && !props.disabled,
+    selected: props.selected,
+  },
+]);
 </script>
 
 <template>
   <button
     :type="typeButton || 'button'"
-    class="tot-ds-root"
-    :class="[
-      'btn',
-      `btn-${props.type}`,
-      `btn-size-${props.size}`,
-      {
-        'btn-full': isFull,
-        'btn-loading': props.loading && !props.disabled,
-        selected: props.selected,
-      },
-    ]"
+    :class="buttonClasses"
     :disabled="props.disabled"
   >
     <Spinner v-if="props.loading" :size="getSizeDimension(props.size)" />
@@ -71,7 +74,6 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   </button>
 </template>
 
-/* eslint-disable */
 <style scoped>
 @import '../../style.css';
 /* Base button styles */
@@ -213,4 +215,3 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   }
 }
 </style>
-/* eslint-enable */

@@ -14,7 +14,6 @@ const props = withDefaults(defineProps<SpinnerProps>(), {
   />
 </template>
 
-/* eslint-disable */
 <style scoped>
 @import '../../style.css';
 
@@ -43,4 +42,3 @@ const props = withDefaults(defineProps<SpinnerProps>(), {
   }
 }
 </style>
-/* eslint-enable */

@@ -46,7 +46,6 @@ const applyFillColor = computed(() => {
   ></svg>
 </template>
 
-/* eslint-disable */
 <style scoped>
 @import '../../style.css';
 
@@ -58,4 +57,3 @@ const applyFillColor = computed(() => {
   }
 }
 </style>
-/* eslint-enable */
