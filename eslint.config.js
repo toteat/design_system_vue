@@ -123,11 +123,11 @@ export default [
     files: ['**/*.vue', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs', '**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts'],
     rules: {
       // ESNext specific rules
-      'no-restricted-syntax': [
+      '@typescript-eslint/consistent-type-imports': [
         'error',
         {
-          selector: 'ImportDeclaration[importKind!="type"]',
-          message: 'Use type imports for type-only imports'
+          prefer: 'type-imports',
+          disallowTypeAnnotations: false
         }
       ]
     }

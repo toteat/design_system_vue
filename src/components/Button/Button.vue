@@ -6,16 +6,16 @@ import { computed } from 'vue';
 
 // Map button sizes to spinner dimensions
 const BUTTON_SIZE_MAP = {
-  smaller: 1,
-  small: 1,
-  medium: 1.5,
   large: 2,
+  medium: 1.5,
+  small: 1,
+  tiny: 1,
 } as const;
 
 const ICON_COLOR_MAP = {
+  outline: undefined, // Special case, handled in CSS
   primary: 'white',
   secondary: 'white',
-  outline: undefined, // Special case, handled in CSS
   text: 'black',
 } as const;
 
@@ -112,7 +112,7 @@ const buttonClasses = computed(() => [
     }
 
     /* Button sizes */
-    &.btn-size-smaller {
+    &.btn-size-tiny {
       font-size: var(--text-xs);
       line-height: var(--text-xs--line-height);
       min-width: 4rem;

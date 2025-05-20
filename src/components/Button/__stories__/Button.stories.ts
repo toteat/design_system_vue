@@ -5,9 +5,12 @@ import * as Icons from '@/components/Icon/icons';
 
 // Dynamically derive available icon names from the icons module
 const availableIconNames = Object.keys(Icons)
-  .filter(key => key.startsWith('ICON_'))
-  .map(key =>
-    key.replace(/^ICON_/, '').replace(/_/g, '-').toLowerCase()
+  .filter((key) => key.startsWith('ICON_'))
+  .map((key) =>
+    key
+      .replace(/^ICON_/, '')
+      .replace(/_/g, '-')
+      .toLowerCase(),
   ) as IconNames[];
 
 const meta: Meta<typeof Button> = {
@@ -22,7 +25,7 @@ const meta: Meta<typeof Button> = {
     },
     size: {
       control: { type: 'select' },
-      options: ['smaller', 'small', 'medium', 'large'],
+      options: ['tiny', 'small', 'medium', 'large'],
       description: 'The size of the button',
     },
     text: {
@@ -134,18 +137,18 @@ export const IconButton: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Button in icon-only mode using the onlyIcon prop.'
-      }
-    }
-  }
+        story: 'Button in icon-only mode using the onlyIcon prop.',
+      },
+    },
+  },
 };
 
 // Sizes
-export const SizeSmaller: Story = {
+export const SizeTiny: Story = {
   args: {
     type: 'primary',
-    size: 'smaller',
-    text: 'Smaller Button',
+    size: 'tiny',
+    text: 'Tiny Button',
   },
 };
 
@@ -212,7 +215,7 @@ export const AllSizesWithSpinner: Story = {
     components: { Button },
     template: `
       <div style="display: flex; gap: 1.5rem; align-items: flex-end; flex-wrap: wrap;">
-        <div v-for="size in ['smaller', 'small', 'medium', 'large']" :key="size" style="display: flex; flex-direction: column; align-items: center;">
+        <div v-for="size in ['tiny', 'small', 'medium', 'large']" :key="size" style="display: flex; flex-direction: column; align-items: center;">
           <Button :size="size" loading :text="size.charAt(0).toUpperCase() + size.slice(1)" />
           <span style="margin-top: 0.5rem; font-size: 0.875rem; color: #888;">{{ size }}</span>
         </div>
@@ -252,10 +255,11 @@ export const AllIconButtons: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'All possible icon-only buttons for every icon and every button variant.'
-      }
-    }
-  }
+        story:
+          'All possible icon-only buttons for every icon and every button variant.',
+      },
+    },
+  },
 };
 
 // Buttons with text and icon for all variants
@@ -283,8 +287,8 @@ export const AllVariantsWithTextAndIcon: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'All button variants with both text and an icon.'
-      }
-    }
-  }
+        story: 'All button variants with both text and an icon.',
+      },
+    },
+  },
 };

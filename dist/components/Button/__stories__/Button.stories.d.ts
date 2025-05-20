@@ -8,7 +8,7 @@ export declare const Secondary: Story;
 export declare const Outline: Story;
 export declare const TextButton: Story;
 export declare const IconButton: Story;
-export declare const SizeSmaller: Story;
+export declare const SizeTiny: Story;
 export declare const SizeSmall: Story;
 export declare const SizeMedium: Story;
 export declare const SizeLarge: Story;

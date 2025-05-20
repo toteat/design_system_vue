@@ -6,7 +6,7 @@ import type { IconNames } from '../components/Icon/icons';
 export type ButtonType = 'outline' | 'primary' | 'secondary' | 'text';
 
 // Button size
-export type ButtonSize = 'medium' | 'large' | 'smaller' | 'small';
+export type ButtonSize = 'medium' | 'large' | 'small' | 'tiny';
 
 export type ButtonProps = {
   type?: ButtonType;
