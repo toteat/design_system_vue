@@ -32,6 +32,21 @@ export default [
   // TypeScript recommended rules
   ...tseslint.configs.recommended,
 
+  // Base ESLint rules that override defaults
+  {
+    files: ['**/*.vue', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs', '**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts'],
+    rules: {
+      // Overrides for base ESLint rules
+      // Only including rules that need custom configuration,
+      // others are handled by eslint.configs.recommended
+      'no-console': 'warn',
+      'no-debugger': 'warn',
+      'no-nested-ternary': 'warn',
+      'spaced-comment': ['warn', 'always'],
+      'eqeqeq': ['warn', 'always']
+    }
+  },
+
   // Vue 3 base rules (not using recommended which has extends)
   {
     files: ['**/*.vue'],
@@ -98,7 +113,22 @@ export default [
       'vue/valid-v-pre': 'error',
       'vue/valid-v-show': 'error',
       'vue/valid-v-slot': 'error',
-      'vue/valid-v-text': 'error'
+      'vue/valid-v-text': 'error',
+
+      // Additional Vue rules (using defaults where appropriate)
+      'vue/comment-directive': 'error',
+      'vue/jsx-uses-vars': 'error',
+      'vue/no-static-inline-styles': 'warn',
+      'vue/no-ref-object-reactivity-loss': 'error',
+      'vue/no-lifecycle-after-await': 'error',
+      'vue/custom-event-name-casing': ['error', 'camelCase'],
+      'vue/next-tick-style': ['error', 'promise'],
+      'vue/prefer-import-from-vue': 'error',
+      'vue/prefer-template': 'error',
+      'vue/prefer-separate-static-class': 'error',
+      'vue/prefer-true-attribute-shorthand': 'error',
+      'vue/require-explicit-emits': ['error', { allowProps: false }],
+      'vue/v-on-event-hyphenation': ['error', 'always']
     }
   },
 
@@ -236,19 +266,33 @@ export default [
     }
   },
 
-  // Accessibility plugin recommended rules
+  // Accessibility plugin rules
   {
     files: ['**/*.vue'],
     plugins: {
       'vuejs-accessibility': accessibilityPlugin,
     },
     rules: {
-      // Only include rules that differ from the recommended config
+      // Accessibility rules (essential ones only)
       'vuejs-accessibility/alt-text': 'error',
-      'vuejs-accessibility/form-control-has-label': 'error',
-      'vuejs-accessibility/label-has-for': 'error',
-      'vuejs-accessibility/no-autofocus': 'error',
+      'vuejs-accessibility/anchor-has-content': 'error',
+      'vuejs-accessibility/aria-props': 'error',
+      'vuejs-accessibility/aria-role': 'error',
+      'vuejs-accessibility/aria-unsupported-elements': 'error',
       'vuejs-accessibility/click-events-have-key-events': 'error',
+      'vuejs-accessibility/form-control-has-label': 'error',
+      'vuejs-accessibility/heading-has-content': 'error',
+      'vuejs-accessibility/iframe-has-title': 'error',
+      'vuejs-accessibility/interactive-supports-focus': 'error',
+      'vuejs-accessibility/label-has-for': 'error',
+      'vuejs-accessibility/media-has-caption': 'error',
+      'vuejs-accessibility/mouse-events-have-key-events': 'error',
+      'vuejs-accessibility/no-access-key': 'error',
+      'vuejs-accessibility/no-autofocus': 'error',
+      'vuejs-accessibility/no-distracting-elements': 'error',
+      'vuejs-accessibility/no-redundant-roles': 'error',
+      'vuejs-accessibility/role-has-required-aria-props': 'error',
+      'vuejs-accessibility/tabindex-no-positive': 'error'
     }
   },
 
@@ -273,18 +317,15 @@ export default [
       'jsdoc': jsdocPlugin,
     },
     rules: {
-      // Only include Vue rules that aren't in the recommended config or have different values
       'vue/component-definition-name-casing': ['error', 'PascalCase'],
-      'vue/require-name-property': 'error',
       'vue/component-api-style': ['error', ['script-setup']],
       'vue/define-emits-declaration': ['error', 'type-based'],
       'vue/define-props-declaration': ['error', 'type-based'],
       'vue/valid-define-options': 'error',
       'vue/no-unused-refs': 'error',
-      'vue/prefer-import-from-vue': 'error',
-      'vue/order-in-components': 'error',
-      'vue/attribute-hyphenation': ['error', 'always'],
-      'vue/v-on-event-hyphenation': ['error', 'always'],
+      'vue/attribute-hyphenation': ['error', 'always', {
+        ignore: ['props']
+      }],
 
       // JSDoc rules
       'jsdoc/require-jsdoc': ['error', {
@@ -308,7 +349,7 @@ export default [
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.es2021,
+        ...globals.esnext,
         ...globals.node
       },
       parser: vuePlugin.parser,
