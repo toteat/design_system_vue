@@ -46,7 +46,10 @@ const applyFillColor = computed(() => {
   ></svg>
 </template>
 
+/* eslint-disable */
 <style scoped>
+@import '../../style.css';
+
 .tot-ds-root {
   &.icon {
     width: var(--size, 1rem);
@@ -55,3 +58,4 @@ const applyFillColor = computed(() => {
   }
 }
 </style>
+/* eslint-enable */

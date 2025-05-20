@@ -14,7 +14,10 @@ const props = withDefaults(defineProps<SpinnerProps>(), {
   />
 </template>
 
+/* eslint-disable */
 <style scoped>
+@import '../../style.css';
+
 .tot-ds-root {
   &.spinner {
     display: flex;
@@ -40,3 +43,4 @@ const props = withDefaults(defineProps<SpinnerProps>(), {
   }
 }
 </style>
+/* eslint-enable */

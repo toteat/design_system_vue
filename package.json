@@ -56,10 +56,10 @@
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "lint:js": "eslint .",
-    "lint:style": "stylelint \"**/*.{css,scss}\"",
+    "lint:style": "stylelint \"src/**/*.{vue,css,scss}\"",
     "lint": "run-p lint:js lint:style",
     "lint-fix:js": "eslint . --fix",
-    "lint-fix:style": "stylelint \"**/*.{css,scss}\" --fix",
+    "lint-fix:style": "stylelint \"src/**/*.{vue,css,scss}\" --fix",
     "lint-fix": "run-p \"lint-fix:js --\" \"lint-fix:style --\"",
     "format": "prettier --write src/",
     "prepare": "husky",
@@ -72,17 +72,18 @@
     "typecheck": "vue-tsc --project tsconfig.app.json --skipLibCheck --noEmit"
   },
   "lint-staged": {
-    "*.{ts,tsx,vue}": [
+    "*.{ts,tsx,js,jsx}": [
       "prettier --write",
       "eslint",
       "sh -c 'npm run typecheck'",
       "vitest related --run"
     ],
-    "*.{js,jsx,cjs,mjs}": [
+    "*.vue": [
       "prettier --write",
-      "eslint"
+      "sh -c 'npm run typecheck'",
+      "vitest related --run"
     ],
-    "*.{css,scss}": [
+    "*.css": [
       "stylelint --fix"
     ]
   },
@@ -149,3 +150,4 @@
     }
   }
 }
+

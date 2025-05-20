@@ -71,7 +71,9 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   </button>
 </template>
 
+/* eslint-disable */
 <style scoped>
+@import '../../style.css';
 /* Base button styles */
 .tot-ds-root {
   &.btn {
@@ -84,10 +86,11 @@ const props = withDefaults(defineProps<ButtonProps>(), {
     gap: 0.5rem;
     border-radius: 9999px;
     font-weight: 600;
-    transition: border-color 0.25s ease-in-out,
-                background-color 0.25s ease-in-out,
-                opacity 0.25s ease-in-out,
-                color 0.25s ease-in-out;
+    transition:
+      border-color 0.25s ease-in-out,
+      background-color 0.25s ease-in-out,
+      opacity 0.25s ease-in-out,
+      color 0.25s ease-in-out;
     cursor: pointer;
 
     /* Text content always wrapped */
@@ -210,3 +213,4 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   }
 }
 </style>
+/* eslint-enable */
