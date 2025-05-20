@@ -1,0 +1,12 @@
+# Config files
+*.config.js
+*.config.ts
+*.config.cjs
+*.config.mjs
+
+# Build artifacts
+dist/
+node_modules/
+
+# Test coverage results
+coverage/

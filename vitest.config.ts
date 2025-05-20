@@ -9,10 +9,20 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
+      thresholds: {
+        lines: 80,
+        functions: 80,
+        branches: 80,
+        statements: 80
+      },
     },
     include: ['**/__tests__/**/*.{browser,node}.test.{ts,vue}'],
     deps: {
-      inline: [/@vue/],
+      optimizer: {
+        web: {
+          include: ['vue']
+        }
+      }
     },
     environment: 'jsdom',
     environmentOptions: {
@@ -21,9 +31,19 @@ export default defineConfig({
       },
     },
     setupFiles: ['./src/test/setup.ts'],
-    environmentMatchGlobs: [
-      ['**/__tests__/**/*.browser.{ts,vue}', 'jsdom'],
-      ['**/__tests__/**/*.node.{ts,vue}', 'node'],
+    workspace: [
+      {
+        test: {
+          include: ['**/__tests__/**/*.browser.{ts,vue}'],
+          environment: 'jsdom'
+        }
+      },
+      {
+        test: {
+          include: ['**/__tests__/**/*.node.{ts,vue}'],
+          environment: 'node'
+        }
+      }
     ],
   },
   resolve: {

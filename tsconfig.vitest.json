@@ -4,14 +4,17 @@
     "composite": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "types": ["node", "jsdom", "vitest/globals"],
-    "isolatedModules": false
+    "isolatedModules": false,
+    "module": "ESNext",
+    "moduleResolution": "nodenext"
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "vitest.config.ts"
   ],
-  "exclude": ["node_modules"]
-} 
+  "exclude": ["node_modules", "dist"]
+}
