@@ -2,6 +2,8 @@
   "extends": [
     "stylelint-config-standard"
   ],
+  "customSyntax": "postcss-html",
+  "ignoreFiles": ["**/*.{js,ts,jsx,tsx}"],
   "rules": {
     "declaration-block-no-duplicate-properties": true,
     "block-no-empty": true,
@@ -9,6 +11,16 @@
     "no-empty-source": true,
     "property-no-unknown": [true, { "ignoreProperties": ["/^--/"] }],
     "value-no-vendor-prefix": true,
-    "property-no-vendor-prefix": true
+    "property-no-vendor-prefix": true,
+    "import-notation": null,
+    "comment-empty-line-before": null,
+    "color-hex-length": null,
+    "color-function-notation": null,
+    "color-function-alias-notation": null,
+    "alpha-value-notation": null,
+    "custom-property-pattern": null,
+    "value-keyword-case": null,
+    "no-descending-specificity": null,
+    "declaration-empty-line-before": null
   }
 }
