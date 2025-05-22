@@ -62,6 +62,15 @@ const meta: Meta<typeof Button> = {
       options: ['button', 'submit', 'reset'],
       description: 'The HTML button type attribute',
     },
+    iconPosition: {
+      control: { type: 'select' },
+      options: ['left', 'right'],
+      description: 'The position of the icon relative to the text',
+    },
+    clickEventName: {
+      control: 'text',
+      description: 'The name of the click event',
+    },
   },
   args: {
     // Default values matching the component props
@@ -73,11 +82,23 @@ const meta: Meta<typeof Button> = {
     text: 'Loading...',
     selected: false,
     typeButton: 'button',
+    iconPosition: 'right',
+    onlyIcon: false,
+    clickEventName: 'button-click-default-name',
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof Button>;
+
+export const Default: Story = {
+  args: { ...meta.args, iconName: 'home-outline' },
+  render: (args) => ({
+    components: { Button },
+    setup: () => ({ args }),
+    template: `<Button v-bind="args" />`,
+  }),
+};
 
 // Types
 export const Primary: Story = {

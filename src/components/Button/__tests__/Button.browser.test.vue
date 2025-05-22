@@ -110,6 +110,47 @@ describe('Button Component', () => {
     expect(wrapper.text()).toContain('Home');
   });
 
+  // Test icon positions
+  it('renders icon on the left when iconPosition is left', () => {
+    const wrapper = mount(Button, {
+      props: {
+        iconName: 'home-outline',
+        text: 'Home',
+        iconPosition: 'left',
+      },
+    });
+
+    const icons = wrapper.findAll('svg');
+    expect(icons.length).toBe(1);
+
+    // Check that left icon exists when we update the component to add data-testid
+    const leftIconSelector = '[data-testid="left-icon"]';
+    const rightIconSelector = '[data-testid="right-icon"]';
+
+    expect(wrapper.find(leftIconSelector).exists()).toBe(true);
+    expect(wrapper.find(rightIconSelector).exists()).toBe(false);
+  });
+
+  it('renders icon on the right when iconPosition is right', () => {
+    const wrapper = mount(Button, {
+      props: {
+        iconName: 'home-outline',
+        text: 'Home',
+        iconPosition: 'right',
+      },
+    });
+
+    const icons = wrapper.findAll('svg');
+    expect(icons.length).toBe(1);
+
+    // Check that right icon exists when we update the component to add data-testid
+    const leftIconSelector = '[data-testid="left-icon"]';
+    const rightIconSelector = '[data-testid="right-icon"]';
+
+    expect(wrapper.find(leftIconSelector).exists()).toBe(false);
+    expect(wrapper.find(rightIconSelector).exists()).toBe(true);
+  });
+
   // Test for existence of button and basic states
   it('implements proper hover and active CSS', () => {
     const wrapper = mount(Button);

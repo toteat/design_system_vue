@@ -17,6 +17,7 @@ export type ButtonProps = {
   loading?: boolean;
   text?: string;
   selected?: boolean;
+  iconPosition?: 'left' | 'right';
   iconName?: IconNames;
   onlyIcon?: boolean;
   clickEventName?: string;

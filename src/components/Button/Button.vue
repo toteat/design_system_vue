@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import type { ButtonProps } from '@/types';
 import Spinner from '../Spinner/Spinner.vue';
 import Icon from '../Icon/Icon.vue';
@@ -37,6 +37,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   loading: false,
   text: 'Loading...',
   selected: false,
+  iconPosition: 'right',
   iconName: undefined,
   onlyIcon: false,
   clickEventName: 'button-click-default-name',
@@ -60,16 +61,25 @@ const buttonClasses = computed(() => [
     :type="typeButton || 'button'"
     :class="buttonClasses"
     :disabled="props.disabled"
+    data-cy="tds-button-{{props.iconPosition}}-icon"
   >
     <Spinner v-if="props.loading" :size="getSizeDimension(props.size)" />
+    <Icon
+      v-if="!props.loading && props.iconName && props.iconPosition === 'left'"
+      :name="props.iconName"
+      :size="getSizeDimension(props.size)"
+      :color="getIconColor(props.type)"
+      data-testid="left-icon"
+    />
     <span v-if="props.text && !props.onlyIcon">
       {{ props.text }}
     </span>
     <Icon
-      v-if="props.iconName"
+      v-if="!props.loading && props.iconName && props.iconPosition === 'right'"
       :name="props.iconName"
       :size="getSizeDimension(props.size)"
       :color="getIconColor(props.type)"
+      data-testid="right-icon"
     />
   </button>
 </template>

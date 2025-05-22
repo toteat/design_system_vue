@@ -8,6 +8,7 @@ declare const _default: import('vue').DefineComponent<ButtonProps, {}, {}, {}, {
     typeButton: ButtonHTMLAttributes["type"];
     loading: boolean;
     selected: boolean;
+    iconPosition: "left" | "right";
     iconName: import('../Icon').IconNames;
     onlyIcon: boolean;
     clickEventName: string;

@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import type { SpinnerProps } from '@/types';
 
 const props = withDefaults(defineProps<SpinnerProps>(), {
@@ -22,10 +22,8 @@ const props = withDefaults(defineProps<SpinnerProps>(), {
     display: flex;
     align-items: center;
     justify-content: center;
-
     width: var(--size, 1rem);
     height: var(--size, 1rem);
-
     border: 2px solid currentColor;
     border-top-color: transparent;
     border-radius: 50%;
@@ -37,6 +35,7 @@ const props = withDefaults(defineProps<SpinnerProps>(), {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
