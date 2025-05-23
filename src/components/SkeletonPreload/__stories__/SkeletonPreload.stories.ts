@@ -16,12 +16,12 @@ const meta = {
     },
     borderRadius: {
       control: 'number',
-      description:
-        'Border radius of the skeleton in pixels, if the component is round then the width value will be used for the height',
+      description: 'Border radius of the skeleton in pixels',
     },
     isRounded: {
       control: 'boolean',
-      description: 'Whether the skeleton should be circular',
+      description:
+        'Whether the skeleton should be circular, if the component is round then the width value will be used for the height',
     },
   },
 } satisfies Meta<typeof SkeletonPreload>;
