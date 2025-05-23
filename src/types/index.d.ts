@@ -68,4 +68,25 @@ export type ThemeColor =
   | 'red-light'
   | 'unset';
 
+export type SkeletonPreloadProps = {
+  width?: number;
+  height?: number;
+  borderRadius?: number;
+  isRounded?: boolean;
+};
+
+export type ImagePreviewProps = {
+  width?: number;
+  height?: number;
+  alt?: string;
+  imageSrc: string;
+};
+
+export type ImageMime = string | undefined;
+
+export type ImageStringType = {
+  type: 'base64' | 'url' | undefined;
+  mime: ImageMime;
+};
+
 export {};
