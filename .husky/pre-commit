@@ -1,2 +1,2 @@
 npm run lint-staged
-STAGED_FILES=true npm run test:coverage:staged
+.husky/check-coverage.sh

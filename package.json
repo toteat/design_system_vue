@@ -54,7 +54,6 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:coverage:staged": "git diff --staged --name-only | grep -E '\\.(vue|js|ts|jsx|tsx)$' | grep -v -E '(config|eslint|prettier|vitest)\\.(js|ts)$' | grep -v '\\.gitignore$' | grep -v '\\.json$' | grep -v '^\\.storybook/' | grep -v '^\\.vscode/' | grep -v '^\\.husky/' | grep -v '^\\.github/' | grep -v '^dist/' | tr '\\n' ' ' | xargs -r vitest run --coverage",
     "test:ui": "vitest --ui",
     "lint:js": "eslint .",
     "lint:style": "stylelint \"src/**/*.{vue,css,scss}\"",
