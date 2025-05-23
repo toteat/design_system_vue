@@ -1,7 +1,18 @@
 # Toteat Design System for Vue 3
 
-A TypeScript-based design system for Vue 3 applications. Ships with modern ECMAScript syntax (ESNext).
-This design system is primarily developed for Toteat's needs, and its development roadmap will be guided by Toteat's requirements.
+[![CI](https://github.com/mauriseo/design_system_vue/actions/workflows/ci.yml/badge.svg)](https://github.com/mauriseo/design_system_vue/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-passing-brightgreen)](https://github.com/mauriseo/design_system_vue/actions)
+
+A TypeScript-based design system built specifically for Toteat's Vue 3 applications. This design system implements Toteat's design language and component patterns, ensuring consistency across all Toteat products. Ships with modern ECMAScript syntax (ESNext).
+
+## Features
+
+- 🎨 Toteat's design language implementation
+- 📦 Tree-shakeable components
+- 🔍 TypeScript support out of the box
+- 🚀 ESNext syntax for optimal performance
+- 📊 Comprehensive test suite
+- 📚 Comprehensive documentation with Storybook
 
 ## Installation
 
@@ -80,30 +91,6 @@ export default {
 }
 ```
 
-#### With Webpack
-
-```js
-// webpack.config.js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        include: [
-          path.resolve(__dirname, 'node_modules/@toteat/design-system-vue')
-        ],
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
-      }
-    ]
-  }
-}
-```
-
 ## Styles
 
 Component styles are bundled into a single CSS file and are not applied automatically. You need to import it in your project:
@@ -128,52 +115,11 @@ export default {
 }
 ```
 
-### Webpack Configuration
-
-If your Webpack setup skips `node_modules`, add a rule to include our CSS:
-
-```js
-// webpack.config.js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        include: /node_modules\/@toteat\/design-system-vue/,
-        use: ['style-loader', 'css-loader']
-      }
-    ]
-  }
-}
-```
-
 ## Available Components
 
 - `Button` - A versatile button component with various styles and states
 - `Icon` - A flexible icon component that supports all icons in the design system
 - `Spinner` - A loading spinner component with customizable dimensions
-
-### Component Examples
-
-#### Button
-```vue
-<template>
-  <Button type="primary" size="medium">Click Me</Button>
-</template>
-```
-
-#### Icon
-```vue
-<template>
-  <Icon name="home-outline" size="24" color="primary" />
-</template>
-```
-
-#### Spinner
-```vue
-<template>
-  <Spinner dimension="24" />
-</template>
-```
+- `SkeletonPreload` - A shimmering placeholder component with customizable dimensions and border radius
 
 For detailed component documentation and examples, check out our Storybook documentation.
