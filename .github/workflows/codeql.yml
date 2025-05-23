@@ -42,6 +42,7 @@ jobs:
       run: npm ci
 
     - name: Perform CodeQL Analysis
+      id: codeql
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{ matrix.language }}"
