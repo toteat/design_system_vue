@@ -1,12 +1,12 @@
-import type { Preview } from '@storybook/vue3'
+import type { Preview } from '@storybook/vue3';
 import '../src/style.css'; // Import global styles
 
 const preview: Preview = {
   parameters: {
     controls: {
       matchers: {
-       color: /(background|color)$/i,
-       date: /Date$/i,
+        color: /(background|color)$/i,
+        date: /Date$/i,
       },
     },
     backgrounds: {
@@ -50,7 +50,7 @@ const preview: Preview = {
           },
         },
       },
-      defaultViewport: 'desktop',
+      defaultViewport: 'reset',
     },
   },
   decorators: [
@@ -59,7 +59,6 @@ const preview: Preview = {
       template: '<div style="padding: 1.5rem;"><story /></div>',
     }),
   ],
-
 };
 
 export default preview;
