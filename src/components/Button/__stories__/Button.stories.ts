@@ -67,10 +67,6 @@ const meta: Meta<typeof Button> = {
       options: ['left', 'right'],
       description: 'The position of the icon relative to the text',
     },
-    clickEventName: {
-      control: 'text',
-      description: 'The name of the click event',
-    },
   },
   args: {
     // Default values matching the component props
@@ -84,7 +80,6 @@ const meta: Meta<typeof Button> = {
     typeButton: 'button',
     iconPosition: 'right',
     onlyIcon: false,
-    clickEventName: 'button-click-default-name',
   },
 };
 

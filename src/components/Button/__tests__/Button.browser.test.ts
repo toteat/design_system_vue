@@ -1,4 +1,3 @@
-<script lang="ts">
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Button from '../Button.vue';
@@ -154,6 +153,7 @@ describe('Button Component', () => {
   // Test for existence of button and basic states
   it('implements proper hover and active CSS', () => {
     const wrapper = mount(Button);
+    // eslint-disable-next-line no-undef
     const buttonElement = wrapper.element as HTMLButtonElement;
 
     // Verify the button exists
@@ -173,5 +173,36 @@ describe('Button Component', () => {
     expect(wrapper.classes()).toContain('btn-outline');
     expect(wrapper.classes()).toContain('selected');
   });
+
+  // Test iconName undefined (should not render icon)
+  it('does not render icon if iconName is undefined', () => {
+    const wrapper = mount(Button, {
+      props: { iconName: undefined },
+    });
+    expect(wrapper.find('svg').exists()).toBe(false);
+  });
+
+  // Test iconPosition with no iconName (should not render icon)
+  it('does not render icon if iconPosition is set but iconName is undefined', () => {
+    const wrapper = mount(Button, {
+      props: { iconPosition: 'left', iconName: undefined },
+    });
+    expect(wrapper.find('svg').exists()).toBe(false);
+  });
+
+  // Test onlyIcon true with no iconName (should not render span)
+  it('does not render span if onlyIcon is true and iconName is undefined', () => {
+    const wrapper = mount(Button, {
+      props: { onlyIcon: true, iconName: undefined },
+    });
+    expect(wrapper.find('span').exists()).toBe(false);
+  });
+
+  // Test text is empty (should not render span)
+  it('does not render span if text is empty', () => {
+    const wrapper = mount(Button, {
+      props: { text: '' },
+    });
+    expect(wrapper.find('span').exists()).toBe(false);
+  });
 });
-</script>
