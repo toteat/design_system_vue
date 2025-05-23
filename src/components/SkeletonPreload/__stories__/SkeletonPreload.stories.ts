@@ -9,19 +9,24 @@ const meta = {
     width: {
       control: 'number',
       description: 'Width of the skeleton in pixels',
+      defaultValue: 40,
     },
     height: {
       control: 'number',
       description: 'Height of the skeleton in pixels',
+      defaultValue: 40,
     },
     borderRadius: {
       control: 'number',
-      description: 'Border radius of the skeleton in pixels',
+      description:
+        'Border radius of the skeleton in pixels (ignored when isRounded is true)',
+      defaultValue: 8,
     },
     isRounded: {
       control: 'boolean',
       description:
-        'Whether the skeleton should be circular, if the component is round then the width value will be used for the height',
+        'Whether the skeleton should be circular (overrides height and borderRadius)',
+      defaultValue: false,
     },
   },
 } satisfies Meta<typeof SkeletonPreload>;
@@ -29,117 +34,54 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Base sizes
-const sizes = {
-  tiny: { width: 50, height: 50 },
-  small: { width: 100, height: 100 },
-  medium: { width: 200, height: 200 },
-  large: { width: 400, height: 400 },
-};
-
-// Border radius options
-const borderRadii = {
-  none: 0,
-  small: 8,
-  medium: 16,
-  large: 24,
-};
-
-// Generate stories for each size
-const stories: Record<string, Story> = {};
-
-Object.entries(sizes).forEach(([sizeName, dimensions]) => {
-  // Circular version
-  stories[`${sizeName}Circle`] = {
-    args: {
-      ...dimensions,
-      borderRadius: 0,
-      isRounded: true,
-    },
-  };
-
-  // Square version
-  stories[`${sizeName}Square`] = {
-    args: {
-      ...dimensions,
-      borderRadius: 8,
-      isRounded: false,
-    },
-  };
-
-  // Rounded versions with different border radii
-  Object.entries(borderRadii).forEach(([radiusName, radius]) => {
-    const capitalizedRadius =
-      radiusName.charAt(0).toUpperCase() + radiusName.slice(1);
-    stories[`${sizeName}Rounded${capitalizedRadius}`] = {
-      args: {
-        ...dimensions,
-        borderRadius: radius,
-        isRounded: false,
-      },
-    };
-  });
-});
-
-// Export all generated stories
-export const {
-  tinyCircle,
-  tinySquare,
-  tinyRoundedNone,
-  tinyRoundedSmall,
-  tinyRoundedMedium,
-  tinyRoundedLarge,
-  smallCircle,
-  smallSquare,
-  smallRoundedNone,
-  smallRoundedSmall,
-  smallRoundedMedium,
-  smallRoundedLarge,
-  mediumCircle,
-  mediumSquare,
-  mediumRoundedNone,
-  mediumRoundedSmall,
-  mediumRoundedMedium,
-  mediumRoundedLarge,
-  largeCircle,
-  largeSquare,
-  largeRoundedNone,
-  largeRoundedSmall,
-  largeRoundedMedium,
-  largeRoundedLarge,
-} = stories;
-
-// Special cases
-export const Rectangle: Story = {
+export const Default: Story = {
   args: {
-    width: 300,
+    width: 200,
     height: 100,
     borderRadius: 8,
     isRounded: false,
   },
 };
 
-export const Pill: Story = {
+export const Square: Story = {
   args: {
-    width: 200,
-    height: 40,
-    borderRadius: 20,
+    width: 100,
+    height: 100,
+    borderRadius: 0,
     isRounded: false,
   },
 };
 
-// Additional special cases
-export const Avatar: Story = {
+export const Rounded: Story = {
   args: {
-    width: 64,
-    height: 64,
+    width: 100,
+    height: 100,
+    borderRadius: 16,
+    isRounded: false,
+  },
+};
+
+export const Circular: Story = {
+  args: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
     isRounded: true,
   },
 };
 
-export const Card: Story = {
+export const Small: Story = {
   args: {
-    width: 300,
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    isRounded: false,
+  },
+};
+
+export const Large: Story = {
+  args: {
+    width: 400,
     height: 200,
     borderRadius: 8,
     isRounded: false,
@@ -148,44 +90,18 @@ export const Card: Story = {
 
 export const TextLine: Story = {
   args: {
-    width: 200,
-    height: 16,
-    borderRadius: 4,
-    isRounded: false,
-  },
-};
-
-export const TextBlock: Story = {
-  args: {
     width: 300,
-    height: 100,
-    borderRadius: 4,
-    isRounded: false,
-  },
-};
-
-export const Thumbnail: Story = {
-  args: {
-    width: 120,
-    height: 80,
-    borderRadius: 4,
-    isRounded: false,
-  },
-};
-
-export const Button: Story = {
-  args: {
-    width: 120,
-    height: 36,
-    borderRadius: 4,
-    isRounded: false,
-  },
-};
-
-export const Icon: Story = {
-  args: {
-    width: 24,
     height: 24,
+    borderRadius: 4,
     isRounded: false,
+  },
+};
+
+export const Avatar: Story = {
+  args: {
+    width: 64,
+    height: 64,
+    borderRadius: 8,
+    isRounded: true,
   },
 };

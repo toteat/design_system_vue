@@ -5,7 +5,7 @@ const props = withDefaults(defineProps<SkeletonPreloadProps>(), {
   width: 40,
   height: 40,
   borderRadius: 8,
-  isRounded: true,
+  isRounded: false,
 });
 </script>
 

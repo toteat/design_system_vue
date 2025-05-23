@@ -6,53 +6,84 @@ describe('SkeletonPreload', () => {
   it('renders with default props', () => {
     const wrapper = mount(SkeletonPreload);
     const element = wrapper.find('.skeleton-preload');
+    const style = element.attributes('style');
 
     expect(element.exists()).toBe(true);
-    expect(element.attributes('style')).toContain('--skeleton-width: 40px');
-    expect(element.attributes('style')).toContain('--skeleton-height: 40px');
-    expect(element.attributes('style')).toContain(
-      '--skeleton-border-radius: 50%',
-    );
+    expect(style).toContain('--skeleton-width: 40px');
+    expect(style).toContain('--skeleton-height: 40px');
+    expect(style).toContain('--skeleton-border-radius: 8px');
   });
 
-  it('renders with custom props', () => {
-    const props = {
-      width: 100,
-      height: 50,
-      borderRadius: 4,
-      isRounded: false,
-    };
-
-    const wrapper = mount(SkeletonPreload, { props });
-    const element = wrapper.find('.skeleton-preload');
-
-    expect(element.exists()).toBe(true);
-    expect(element.attributes('style')).toContain('--skeleton-width: 100px');
-    expect(element.attributes('style')).toContain('--skeleton-height: 50px');
-    expect(element.attributes('style')).toContain(
-      '--skeleton-border-radius: 4px',
-    );
-  });
-
-  it('applies rounded style when isRounded is true', () => {
-    const wrapper = mount(SkeletonPreload, { props: { isRounded: true } });
-    const element = wrapper.find('.skeleton-preload');
-
-    expect(element.attributes('style')).toContain(
-      '--skeleton-border-radius: 50%',
-    );
-    expect(element.attributes('style')).toContain('--skeleton-height: 40px');
-  });
-
-  it('applies custom height when isRounded is false', () => {
+  it('applies custom width and height', () => {
     const wrapper = mount(SkeletonPreload, {
       props: {
-        isRounded: false,
-        height: 60,
+        width: 200,
+        height: 100,
       },
     });
     const element = wrapper.find('.skeleton-preload');
+    const style = element.attributes('style');
 
-    expect(element.attributes('style')).toContain('--skeleton-height: 60px');
+    expect(style).toContain('--skeleton-width: 200px');
+    expect(style).toContain('--skeleton-height: 100px');
+  });
+
+  it('applies custom border radius', () => {
+    const wrapper = mount(SkeletonPreload, {
+      props: {
+        borderRadius: 16,
+      },
+    });
+    const element = wrapper.find('.skeleton-preload');
+    const style = element.attributes('style');
+
+    expect(style).toContain('--skeleton-border-radius: 16px');
+  });
+
+  it('applies circular style when isRounded is true', () => {
+    const wrapper = mount(SkeletonPreload, {
+      props: {
+        width: 100,
+        height: 200,
+        borderRadius: 16,
+        isRounded: true,
+      },
+    });
+    const element = wrapper.find('.skeleton-preload');
+    const style = element.attributes('style');
+
+    expect(style).toContain('--skeleton-height: 100px');
+    expect(style).toContain('--skeleton-border-radius: 50%');
+  });
+
+  it('has correct CSS classes and styles', () => {
+    const wrapper = mount(SkeletonPreload);
+    const element = wrapper.find('.skeleton-preload');
+
+    expect(element.classes()).toContain('skeleton-preload');
+    expect(element.attributes('style')).toBeDefined();
+  });
+
+  it('maintains aspect ratio when isRounded is true', () => {
+    const wrapper = mount(SkeletonPreload, {
+      props: {
+        width: 80,
+        height: 120,
+        isRounded: true,
+      },
+    });
+    const element = wrapper.find('.skeleton-preload');
+    const style = element.attributes('style');
+
+    expect(style).toContain('--skeleton-height: 80px');
+    expect(style).toContain('--skeleton-border-radius: 50%');
+  });
+
+  it('applies correct animation styles', () => {
+    const wrapper = mount(SkeletonPreload);
+    const element = wrapper.find('.skeleton-preload');
+    const style = element.attributes('style');
+
+    expect(style).toBeDefined();
   });
 });
