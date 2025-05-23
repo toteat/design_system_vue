@@ -1,7 +1,7 @@
 # Toteat Design System for Vue 3
 
-[![CI](https://github.com/mauriseo/design_system_vue/actions/workflows/ci.yml/badge.svg)](https://github.com/mauriseo/design_system_vue/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-passing-brightgreen)](https://github.com/mauriseo/design_system_vue/actions)
+[![Coverage](https://github.com/mauriseo/design_system_vue/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/mauriseo/design_system_vue/actions)
+[![CodeQL](https://github.com/mauriseo/design_system_vue/actions/workflows/codeql.yml/badge.svg?branch=main&event=push)](https://github.com/mauriseo/design_system_vue/actions/workflows/codeql.yml)
 
 A TypeScript-based design system built specifically for Toteat's Vue 3 applications. This design system implements Toteat's design language and component patterns, ensuring consistency across all Toteat products. Ships with modern ECMAScript syntax (ESNext).
 
