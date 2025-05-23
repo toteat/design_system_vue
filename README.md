@@ -70,7 +70,7 @@ This library is distributed with modern JavaScript syntax (ESNext) and includes 
 
 ### CSS Handling
 
-Component styles are bundled directly with the components. Your client project is responsible for handling CSS extraction and optimization according to your needs.
+Component styles are embedded with each component using Vue's scoped styles. Each component imports its required styles from the design system's style.css file.
 
 ### Configuration in consuming projects
 
