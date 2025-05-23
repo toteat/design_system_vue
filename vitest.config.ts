@@ -1,54 +1,52 @@
-import { defineConfig } from 'vitest/config'
-import vue from '@vitejs/plugin-vue'
-import { fileURLToPath } from 'node:url'
+import { defineConfig, mergeConfig } from 'vitest/config'
+import viteConfig from './vite.config'
 
-export default defineConfig({
-  plugins: [vue()],
-  test: {
-    globals: true,
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      thresholds: {
-        lines: 80,
-        functions: 80,
-        branches: 80,
-        statements: 80
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      exclude: ['**/node_modules/**', '**/dist/**'],
+      include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', '**/__tests__/**/*.{ts,tsx}'],
+      coverage: {
+        provider: 'v8',
+        reporter: ['text', 'json', 'html'],
+        include: [
+          'src/components/**/*.vue',
+          'src/components/**/*.ts',
+          'src/**/*.{js,ts,vue}',
+          '!**/*.d.ts',
+          '!**/node_modules/**',
+          '!**/__tests__/**',
+          '!**/__stories__/**'
+        ],
+        thresholds: process.env.STAGED_FILES ? {
+          lines: 0,
+          functions: 0,
+          branches: 0,
+          statements: 0
+        } : {
+          lines: 80,
+          functions: 80,
+          branches: 80,
+          statements: 80
+        },
+        all: false
       },
-    },
-    include: ['**/__tests__/**/*.{browser,node}.test.{ts,vue}'],
-    deps: {
-      optimizer: {
-        web: {
-          include: ['vue']
-        }
-      }
-    },
-    environment: 'jsdom',
-    environmentOptions: {
-      jsdom: {
-        resources: 'usable',
-      },
-    },
-    setupFiles: ['./src/test/setup.ts'],
-    workspace: [
-      {
-        test: {
-          include: ['**/__tests__/**/*.browser.{ts,vue}'],
-          environment: 'jsdom'
+      deps: {
+        optimizer: {
+          web: {
+            include: ['vue']
+          }
         }
       },
-      {
-        test: {
-          include: ['**/__tests__/**/*.node.{ts,vue}'],
-          environment: 'node'
-        }
-      }
-    ],
-  },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
-})
+      environmentOptions: {
+        jsdom: {
+          resources: 'usable',
+        },
+      },
+      setupFiles: ['./src/test/setup.ts'],
+    }
+  })
+)

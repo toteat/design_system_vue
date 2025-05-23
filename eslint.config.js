@@ -24,6 +24,10 @@ export default [
         extraFileExtensions: ['.vue'],
         parser: tseslint.parser,
       },
+      globals: {
+        console: 'readonly',
+        window: 'readonly'
+      }
     },
     plugins: {
       vue,
@@ -31,7 +35,7 @@ export default [
     },
     rules: {
       // Vue and accessibility rules here
-      // (add your rules as needed)
+      'no-console': ['error', { allow: ['error', 'info', 'warn'] }],
     },
   },
 
