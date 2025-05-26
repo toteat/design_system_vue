@@ -127,3 +127,44 @@ export const MissingSource: Story = {
     imageSrc: '',
   },
 };
+
+export const PerformanceDisplayWithFiftyImages = {
+  render: () => ({
+    components: { ImagePreview },
+    setup() {
+      const images = ref<
+        Array<{ id: string; author: string; download_url: string }>
+      >([]);
+      const isLoading = ref(true);
+      const error = ref('');
+
+      onMounted(async () => {
+        try {
+          const response = await fetch(
+            'https://picsum.photos/v2/list?page=2&limit=50',
+          );
+          if (!response.ok) console.warn('Failed to fetch images');
+          images.value = await response.json();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (err: any) {
+          error.value = err.message || 'Unknown error';
+        } finally {
+          isLoading.value = false;
+        }
+      });
+
+      return { images, isLoading, error };
+    },
+    template: `
+      <div>
+        <div v-if="isLoading">Loading images...</div>
+        <div v-else-if="error">Error: {{ error }}</div>
+        <div v-else style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <div v-for="img in images" :key="img.id" style="width: 200px;">
+            <ImagePreview :imageSrc="img.download_url" :alt="img.author" :width="200" :height="200" />
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+};

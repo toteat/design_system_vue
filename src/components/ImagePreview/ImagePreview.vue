@@ -58,30 +58,28 @@ watch([computedImageSrc, isBase64Image], ([src, isBase64]) => {
     :style="{ width: `${width}px`, height: `${height}px` }"
   >
     <!-- Base64 image display -->
-    <picture v-if="computedImageSrc && !hasError && isBase64Image">
-      <img
-        :src="computedImageSrc"
-        :alt="props.alt"
-        :width="width"
-        :height="height"
-        decoding="async"
-      />
-    </picture>
+    <img
+      v-if="computedImageSrc && !hasError && isBase64Image"
+      :src="computedImageSrc"
+      :alt="props.alt"
+      :width="width"
+      :height="height"
+      decoding="async"
+    />
 
     <!-- URL-based image display -->
-    <picture v-else-if="computedImageSrc && !hasError">
-      <img
-        :src="computedImageSrc"
-        :alt="props.alt"
-        :width="width"
-        :height="height"
-        decoding="async"
-        loading="lazy"
-        :class="{ 'visually-hidden': isLoading }"
-        @error="hasError = true"
-        @load="isLoading = false"
-      />
-    </picture>
+    <img
+      v-else-if="computedImageSrc && !hasError"
+      :src="computedImageSrc"
+      :alt="props.alt"
+      :width="width"
+      :height="height"
+      decoding="async"
+      loading="lazy"
+      :class="{ 'visually-hidden': isLoading }"
+      @error="hasError = true"
+      @load="isLoading = false"
+    />
 
     <!-- Loading state -->
     <SkeletonPreload
@@ -92,9 +90,13 @@ watch([computedImageSrc, isBase64Image], ([src, isBase64]) => {
     />
 
     <!-- Error state -->
-    <div v-if="hasError" class="image-preview__error">
-      <Icon name="error-outline" :size="4" color="neutral-300" />
-    </div>
+    <Icon
+      name="error-outline"
+      :size="4"
+      color="neutral-300"
+      v-if="hasError"
+      class="image-preview__error"
+    />
   </div>
 </template>
 
