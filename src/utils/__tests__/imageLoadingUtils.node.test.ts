@@ -197,6 +197,24 @@ describe('imageLoadingUtils', () => {
       expect(mockStateObjects.isLoading.value).toBe(false);
       expect(mockStateObjects.hasError.value).toBe(true);
     });
+
+    it('sets error for non-url, non-base64 string', async () => {
+      const mockStateObjects = createMockStateObjects();
+      // This string is neither a valid URL nor a valid base64
+      const invalidString = 'not_a_url_or_base64';
+
+      await loadImageType(
+        invalidString,
+        mockStateObjects.imageTypeInfo,
+        mockStateObjects.isLoading,
+        mockStateObjects.hasError,
+        mockStateObjects.isBase64Image,
+        mockStateObjects.computedImageSrc,
+      );
+
+      expect(mockStateObjects.hasError.value).toBe(true);
+      expect(mockStateObjects.isLoading.value).toBe(false);
+    });
   });
 
   describe('useBase64ImageHandler', () => {

@@ -88,6 +88,7 @@ export const loadImageType = async (
   // Handle case when no image source is provided
   if (!imageSrc) {
     resetImageState(imageTypeInfo, isLoading, computedImageSrc);
+
     return;
   }
 
@@ -99,7 +100,13 @@ export const loadImageType = async (
     // Check if the image is in base64 format
     isBase64Image.value = isBase64(imageSrc);
     if (isBase64Image.value) {
-      await handleBase64Image(imageSrc, imageTypeInfo, computedImageSrc);
+      try {
+        await handleBase64Image(imageSrc, imageTypeInfo, computedImageSrc);
+      } catch (error) {
+        hasError.value = true;
+        isLoading.value = false;
+        console.error('Failed to load base64 image:', error);
+      }
       // Keep loading true for base64 images until the image is actually loaded
       // The @load event on the img element will set it to false
       return;

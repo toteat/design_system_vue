@@ -4,6 +4,8 @@ import { loadImageType } from '@/utils/imageLoadingUtils';
 import type { ImagePreviewProps, ImageStringType } from '@/types';
 import SkeletonPreload from '../SkeletonPreload/SkeletonPreload.vue';
 import Icon from '../Icon/Icon.vue';
+import { isBase64 } from '@/utils/base64Utils';
+const URL = globalThis.URL;
 
 const props = withDefaults(defineProps<ImagePreviewProps>(), {
   width: 40,
@@ -21,17 +23,33 @@ const computedImageSrc = ref<string | undefined>(undefined);
 // Update your watcher to handle empty source
 watch(
   () => props.imageSrc,
-  (newSrc) => {
-    hasError.value = false;
-    isLoading.value = true;
-
+  async (newSrc) => {
     if (!newSrc) {
       hasError.value = true;
       isLoading.value = false;
+
       return;
     }
 
-    loadImageType(
+    // If not a valid URL and not base64, mark as error
+    let isValid = false;
+    try {
+      // Try to parse as URL
+      new URL(newSrc);
+      isValid = true;
+    } catch {
+      // Not a valid URL, check base64
+      isValid = isBase64(newSrc);
+    }
+
+    if (!isValid) {
+      hasError.value = true;
+      isLoading.value = false;
+
+      return;
+    }
+
+    await loadImageType(
       newSrc,
       imageTypeInfo,
       isLoading,

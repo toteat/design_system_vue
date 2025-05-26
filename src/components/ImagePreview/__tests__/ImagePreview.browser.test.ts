@@ -136,4 +136,22 @@ describe('ImagePreview.vue (browser)', () => {
     const img = await waitForImg(wrapper);
     expect(img.attributes('loading')).toBe('lazy');
   });
+
+  it('shows error icon for invalid base64 string', async () => {
+    const wrapper = mount(ImagePreview, {
+      props: { imageSrc: 'invalid-base64-string' },
+    });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('.image-preview__error').exists()).toBe(true);
+    expect(wrapper.find('img').exists()).toBe(false);
+  });
+
+  it('shows error icon for non-url, non-base64 string', async () => {
+    const wrapper = mount(ImagePreview, {
+      props: { imageSrc: 'not_a_url_or_base64' },
+    });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('.image-preview__error').exists()).toBe(true);
+    expect(wrapper.find('img').exists()).toBe(false);
+  });
 });
