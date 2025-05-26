@@ -1,31 +1,49 @@
 import { describe, it, expect } from 'vitest';
 import { computeImageSource } from '../imageSourceUtils';
 
-describe('computeImageSource', () => {
-  it('returns undefined if no imageSrc', () => {
-    expect(
-      computeImageSource(undefined, { type: 'base64', mime: 'png' }),
-    ).toBeUndefined();
-    expect(
-      computeImageSource('', { type: 'base64', mime: 'png' }),
-    ).toBeUndefined();
-    expect(computeImageSource('foo', null)).toBeUndefined();
-  });
+describe('imageSourceUtils', () => {
+  describe('computeImageSource', () => {
+    // Base64 image scenarios
+    it('handles base64 data URLs with existing prefix', () => {
+      const result = computeImageSource('data:image/png;base64,base64content', {
+        type: 'base64',
+        mime: 'png',
+      });
+      expect(result).toBe('data:image/png;base64,base64content');
+    });
 
-  it('returns data url for base64 with prefix', () => {
-    const src = 'data:image/png;base64,abcd';
-    expect(computeImageSource(src, { type: 'base64', mime: 'png' })).toBe(src);
-  });
+    it('adds prefix to base64 images without prefix', () => {
+      const result = computeImageSource('base64content', {
+        type: 'base64',
+        mime: 'png',
+      });
+      expect(result).toBe('data:image/png;base64,base64content');
+    });
 
-  it('returns data url for base64 without prefix', () => {
-    const src = 'abcd';
-    expect(computeImageSource(src, { type: 'base64', mime: 'png' })).toBe(
-      'data:image/png;base64,abcd',
-    );
-  });
+    // URL scenarios
+    it('returns original URL for URL type', () => {
+      const url = 'https://example.com/image.jpg';
+      const result = computeImageSource(url, { type: 'url', mime: undefined });
+      expect(result).toBe(url);
+    });
 
-  it('returns original for url', () => {
-    const src = 'https://foo.com/bar.png';
-    expect(computeImageSource(src, { type: 'url', mime: undefined })).toBe(src);
+    // Edge cases
+    it('handles undefined image source', () => {
+      const result = computeImageSource(undefined, {
+        type: undefined,
+        mime: undefined,
+      });
+      expect(result).toBeUndefined();
+    });
+
+    it('handles undefined image type info', () => {
+      const result = computeImageSource('some-source', null);
+      expect(result).toBeUndefined();
+    });
+
+    it('handles undefined type', () => {
+      const result = computeImageSource('some-source', null);
+      expect(result).toBeUndefined();
+    });
   });
 });

@@ -148,5 +148,9 @@
         "dist/*"
       ]
     }
+  },
+  "dependencies": {
+    "@vueuse/core": "^13.2.0",
+    "axios": "^1.9.0"
   }
 }

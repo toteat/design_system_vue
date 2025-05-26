@@ -7,7 +7,7 @@ export const computeImageSource = (
   imageSrc: string | undefined,
   imageTypeInfo: ImageStringType | null,
 ): string | undefined => {
-  if (!imageSrc || !imageTypeInfo) {
+  if (!imageSrc || !imageTypeInfo || imageTypeInfo.type === undefined) {
     return undefined;
   }
 

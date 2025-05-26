@@ -89,4 +89,13 @@ export type ImageStringType = {
   mime: ImageMime;
 };
 
+export type LoadImageTypeFunction = (
+  imageSrc: string | undefined,
+  imageTypeInfo: { value: ImageStringType | null },
+  isLoading: { value: boolean },
+  hasError: { value: boolean },
+  isBase64Image: { value: boolean },
+  computedImageSrc: { value: string | undefined },
+) => Promise<void>;
+
 export {};
