@@ -35,7 +35,7 @@ const DropZoneWrapper = defineComponent({
   },
   setup(props: DropZoneProps) {
     // Reactive state to track events and files
-    const uploadedFiles = ref<File[]>([]);
+    const uploadedFiles = ref<FileWithPreview[]>([]);
     const errorMessage = ref<string>('');
     const removedFile = ref<{ name: string } | null>(null);
     const lastEventType = ref<string>('');
@@ -46,6 +46,13 @@ const DropZoneWrapper = defineComponent({
     // New reactive state for modal
     const isModalOpen = ref(false);
     const modalContent = ref('');
+
+    // Type the dropZoneRef with the exposed methods
+    const dropZoneRef = ref<{
+      getFiles: () => FileWithPreview[];
+      clearFiles: () => void;
+      addFiles: (files: FileList | File[]) => Promise<void>;
+    } | null>(null);
 
     // Method to generate event names
     const getEventName = (suffix: string) => {
@@ -66,18 +73,22 @@ const DropZoneWrapper = defineComponent({
 
         // Create FormData for file upload
         const formData = new FormData();
-        uploadedFiles.value.forEach((file, index) => {
+        uploadedFiles.value.forEach((fileWithPreview, index) => {
           // Append each file to FormData
-          formData.append(`file_${index}`, file, file.name);
+          formData.append(
+            `file_${index}`,
+            fileWithPreview.file,
+            fileWithPreview.name,
+          );
         });
 
         // Prepare data for modal display
         const uploadData = {
-          files: uploadedFiles.value.map((file) => ({
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            lastModified: file.lastModified,
+          files: uploadedFiles.value.map((fileWithPreview) => ({
+            name: fileWithPreview.name,
+            size: fileWithPreview.file.size,
+            type: fileWithPreview.file.type,
+            lastModified: fileWithPreview.file.lastModified,
           })),
           formDataKeys: Array.from(formData.keys()),
         };
@@ -111,6 +122,24 @@ const DropZoneWrapper = defineComponent({
       }
     };
 
+    // Method to clear files programmatically
+    const clearFiles = () => {
+      if (dropZoneRef.value) {
+        dropZoneRef.value.clearFiles();
+      }
+    };
+
+    // Method to add files programmatically
+    const addFiles = async () => {
+      if (dropZoneRef.value) {
+        // Create a mock FileList for demonstration
+        const mockFile = new File(['mock content'], 'mock-file.txt', {
+          type: 'text/plain',
+        });
+        await dropZoneRef.value.addFiles([mockFile]);
+      }
+    };
+
     // Method to close modal
     const closeModal = () => {
       // Close the modal
@@ -120,27 +149,17 @@ const DropZoneWrapper = defineComponent({
       uploadStatus.value = 'idle';
       lastEventType.value = '';
       errorMessage.value = '';
-
-      // Optionally, clear uploaded files if needed
-      // Uncomment the next line if you want to clear files on modal close
-      // uploadedFiles.value = [];
     };
 
     // Event handler for successful file drop
     const handleDrop = (files: FileList) => {
-      // Convert FileList to array and store
-      uploadedFiles.value = Array.from(files);
-
-      // Clear any previous error
-      errorMessage.value = '';
-
       // Record the event type
       lastEventType.value = getEventName('drop');
 
       // Demonstrate file list access
       console.log(
         'Uploaded Files:',
-        uploadedFiles.value.map((f) => ({
+        Array.from(files).map((f) => ({
           name: f.name,
           size: f.size,
           type: f.type,
@@ -153,9 +172,6 @@ const DropZoneWrapper = defineComponent({
       // Store error message
       errorMessage.value = message;
 
-      // Clear uploaded files
-      uploadedFiles.value = [];
-
       // Record the event type
       lastEventType.value = getEventName('drop-error');
 
@@ -167,11 +183,6 @@ const DropZoneWrapper = defineComponent({
     const handleRemove = (file: FileWithPreview) => {
       // Store removed file info
       removedFile.value = { name: file.name };
-
-      // Remove the file from uploaded files
-      uploadedFiles.value = uploadedFiles.value.filter(
-        (f) => f.name !== file.name,
-      );
 
       // Record the event type
       lastEventType.value = getEventName('remove');
@@ -196,21 +207,40 @@ const DropZoneWrapper = defineComponent({
       isModalOpen,
       modalContent,
       closeModal,
+
+      // New programmatic file management methods
+      dropZoneRef,
+      clearFiles,
+      addFiles,
     };
   },
   template: `
     <div class="dropzone-wrapper" style="max-width: 600px; margin: 0 auto; position: relative;">
       <DropZone
+        ref="dropZoneRef"
         :instance-name="instanceName"
         :allowed-file-types="allowedFileTypes"
         :multiple="multiple"
         :display-preview="displayPreview"
         :display-file-list="displayFileList"
         :label="label"
+        v-model="uploadedFiles"
         @[getEventName('drop')]="handleDrop"
         @[getEventName('drop-error')]="handleError"
         @[getEventName('remove')]="handleRemove"
       />
+
+      <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+        <button @click="uploadFiles" :disabled="uploadedFiles.length === 0">
+          Upload Files
+        </button>
+        <button @click="clearFiles">
+          Clear Files
+        </button>
+        <button @click="addFiles">
+          Add Mock File
+        </button>
+      </div>
 
       <h2 style="margin-top: 2rem; color: #333;">Elements below are only for testing purposes</h2>
       <!-- Uploaded Files Section -->
@@ -299,7 +329,7 @@ const DropZoneWrapper = defineComponent({
             <div class="file-info">
               <strong>{{ file.name }}</strong>
               <small style="color: #666; margin-left: 0.5rem;">
-                ({{ (file.size / 1024).toFixed(2) }} KB, {{ file.type }})
+                ({{ (file.file.size / 1024).toFixed(2) }} KB, {{ file.file.type }})
               </small>
             </div>
           </div>

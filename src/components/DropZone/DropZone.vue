@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onUnmounted } from 'vue';
+import { ref, computed, onUnmounted, watch } from 'vue';
 import { validateFileTypes } from '@/utils/fileTypeUtils';
 import { getFilePreview } from '@/utils/filePreviewUtils';
 import { revokeObjectURLs } from '@/utils/urlUtils';
@@ -16,14 +16,22 @@ import Icon from '../Icon/Icon.vue';
 import ImagePreview from '../ImagePreview/ImagePreview.vue';
 import Button from '../Button/Button.vue';
 
-const props = withDefaults(defineProps<DropZoneProps>(), {
-  allowedFileTypes: 'images',
-  multiple: true,
-  accept: '',
-  label: 'Haz click o arrastra un archivo para subir',
-  displayPreview: true,
-  displayFileList: false,
-});
+const props = withDefaults(
+  defineProps<
+    DropZoneProps & {
+      modelValue?: FileWithPreview[];
+    }
+  >(),
+  {
+    allowedFileTypes: 'images',
+    multiple: true,
+    accept: '',
+    label: 'Haz click o arrastra un archivo para subir',
+    displayPreview: true,
+    displayFileList: false,
+    modelValue: () => [],
+  },
+);
 
 if (!props.instanceName || props.instanceName.trim() === '') {
   console.error('Missing or empty DropZone instanceName prop');
@@ -69,12 +77,32 @@ const emit = defineEmits<{
    * @param file Removed file details
    */
   (e: `${string}-remove`, file: FileWithPreview): void;
+
+  (e: 'update:modelValue', files: FileWithPreview[]): void;
 }>();
 
 const isDragging = ref(false);
 const inputRef = ref<HTMLInputElement | null>(null);
 const isProcessing = ref(false);
-const previewFiles = ref<FileWithPreview[]>([]);
+const previewFiles = ref<FileWithPreview[]>(props.modelValue || []);
+
+// Watch for external changes to modelValue
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    previewFiles.value = newValue || [];
+  },
+  { deep: true },
+);
+
+// Watch for internal changes to previewFiles and emit updates
+watch(
+  previewFiles,
+  (newFiles) => {
+    emit('update:modelValue', newFiles);
+  },
+  { deep: true },
+);
 
 /**
  * IMPORTANT:
@@ -105,7 +133,6 @@ async function processFiles(files: FileList): Promise<void> {
     const validFiles = await validateFileTypes(files, props.allowedFileTypes);
 
     if (validFiles.length > 0) {
-      // Create preview URLs for files
       const isImageType = props.allowedFileTypes === 'images';
       const processedFiles: FileWithPreview[] = await Promise.all(
         validFiles.map(async (file) => ({
@@ -115,8 +142,11 @@ async function processFiles(files: FileList): Promise<void> {
         })),
       );
 
-      // Append new files to existing ones instead of replacing
-      previewFiles.value = [...previewFiles.value, ...processedFiles];
+      // Append new files to existing ones or replace based on multiple prop
+      previewFiles.value = props.multiple
+        ? [...previewFiles.value, ...processedFiles]
+        : processedFiles;
+
       emit(`${props.instanceName}-drop`, files);
     } else {
       emit(
@@ -184,6 +214,33 @@ function removeFile(index: number) {
     emit(`${props.instanceName}-remove`, removedFile);
   }
 }
+
+// Expose methods for parent component interaction
+defineExpose({
+  /**
+   * Get all currently processed files
+   * @returns Array of FileWithPreview
+   */
+  getFiles: () => previewFiles.value,
+
+  /**
+   * Clear all files
+   */
+  clearFiles: () => {
+    const currentFiles = [...previewFiles.value];
+    // Revoke all current preview URLs
+    revokeObjectURLs(currentFiles.map((f) => f.preview));
+    previewFiles.value = [];
+  },
+
+  /**
+   * Add files programmatically
+   * @param files FileList or File[]
+   */
+  addFiles: async (files: FileList | globalThis.File[]) => {
+    await processFiles(files as FileList);
+  },
+});
 
 // Cleanup object URLs when component is unmounted
 onUnmounted(() => {
