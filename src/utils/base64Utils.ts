@@ -1,4 +1,4 @@
-import { MIME_TYPES } from '@/constants';
+import { IMAGE_TYPES } from '@/constants';
 
 // Cache for regex patterns to avoid recreating them
 const BASE64_PATTERN = /^[A-Za-z0-9+/=]+$/;
@@ -25,7 +25,7 @@ export const isValidBase64 = async (str: string): Promise<boolean> => {
       const base64 = match[2];
 
       // Check if MIME type is valid
-      if (!MIME_TYPES.includes(mimeType)) {
+      if (!IMAGE_TYPES.includes(mimeType)) {
         return false;
       }
 
@@ -91,7 +91,7 @@ export const isBase64 = (imageSrc: string): boolean => {
       return false;
     }
     const mimeType = match[1];
-    return MIME_TYPES.includes(mimeType.toLowerCase());
+    return IMAGE_TYPES.includes(mimeType.toLowerCase());
   }
 
   // Only run regex test if string looks like base64

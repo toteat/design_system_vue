@@ -79,6 +79,7 @@ export type ImagePreviewProps = {
   height?: number;
   alt?: string;
   imageSrc: string;
+  borderRadius?: number;
 };
 
 export type ImageMime = string | undefined;
@@ -88,4 +89,34 @@ export type ImageStringType = {
   mime: ImageMime;
 };
 
-export {};
+export type LoadImageTypeFunction = (
+  imageSrc: string | undefined,
+  imageTypeInfo: { value: ImageStringType | null },
+  isLoading: { value: boolean },
+  hasError: { value: boolean },
+  isBase64Image: { value: boolean },
+  computedImageSrc: { value: string | undefined },
+) => Promise<void>;
+
+export type AllowedFileTypes = 'images' | 'video' | 'text';
+
+export type DropZoneProps = {
+  instanceName: string;
+  allowedFileTypes?: AllowedFileTypes;
+  multiple?: boolean;
+  accept?: string;
+  disabled?: boolean;
+  label?: string;
+  displayPreview?: boolean;
+  displayFileList?: boolean;
+};
+
+export type FileList = globalThis.FileList;
+export type HTMLInputElement = globalThis.HTMLInputElement;
+export type DragEvent = globalThis.DragEvent;
+export type Event = globalThis.Event;
+export interface FileWithPreview {
+  file: File;
+  name: string;
+  preview: string;
+}

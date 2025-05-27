@@ -12,6 +12,7 @@ const props = withDefaults(defineProps<ImagePreviewProps>(), {
   height: 40,
   alt: 'Image without alt text',
   imageSrc: '',
+  borderRadius: 8,
 });
 
 const isLoading = ref(true);
@@ -73,7 +74,11 @@ watch([computedImageSrc, isBase64Image], ([src, isBase64]) => {
 <template>
   <div
     class="image-preview"
-    :style="{ width: `${width}px`, height: `${height}px` }"
+    :style="{
+      width: `${width}px`,
+      height: `${height}px`,
+      borderRadius: `${borderRadius}px`,
+    }"
   >
     <!-- Base64 image display -->
     <img
@@ -104,7 +109,6 @@ watch([computedImageSrc, isBase64Image], ([src, isBase64]) => {
       v-if="isLoading && !isBase64Image && !hasError"
       :width="width"
       :height="height"
-      :borderRadius="16"
     />
 
     <!-- Error state -->
@@ -125,7 +129,7 @@ watch([computedImageSrc, isBase64Image], ([src, isBase64]) => {
   align-items: center;
   justify-content: center;
   background-color: var(--color-neutral-100);
-  border-radius: 16px;
+  border-radius: var(--border-radius);
   overflow: hidden;
 }
 

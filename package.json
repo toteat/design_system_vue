@@ -36,6 +36,21 @@
       "import": "./dist/Spinner/index.js",
       "require": "./dist/design-system-vue.umd.js"
     },
+    "./DropZone": {
+      "types": "./dist/DropZone/index.d.ts",
+      "import": "./dist/DropZone/index.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
+    "./ImagePreview": {
+      "types": "./dist/ImagePreview/index.d.ts",
+      "import": "./dist/ImagePreview/index.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
+    "./SkeletonPreload": {
+      "types": "./dist/SkeletonPreload/index.d.ts",
+      "import": "./dist/SkeletonPreload/index.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
     "./style.css": "./dist/design-system-vue.css"
   },
   "sideEffects": [

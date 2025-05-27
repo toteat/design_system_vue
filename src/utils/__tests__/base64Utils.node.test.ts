@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { isValidBase64, isBase64 } from '../base64Utils';
-import { MIME_TYPES } from '@/constants';
+import { IMAGE_TYPES } from '@/constants';
 
 describe('base64Utils', () => {
   describe('isValidBase64', () => {
@@ -46,7 +46,7 @@ describe('base64Utils', () => {
     });
 
     it('handles null/undefined', async () => {
-      const result = await isValidBase64(undefined as string | undefined);
+      const result = await isValidBase64('');
       expect(result).toBe(false);
     });
 
@@ -66,7 +66,7 @@ describe('base64Utils', () => {
 
   describe('isBase64', () => {
     it('detects base64 data URLs', () => {
-      MIME_TYPES.forEach((mimeType) => {
+      IMAGE_TYPES.forEach((mimeType) => {
         const dataUrl = `data:image/${mimeType};base64,someBase64String`;
         expect(isBase64(dataUrl)).toBe(true);
       });
