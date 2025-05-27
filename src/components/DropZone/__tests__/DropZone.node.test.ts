@@ -211,4 +211,115 @@ describe('DropZone Node Tests', () => {
     expect(dropEvents?.[0]?.[0]).toBeDefined();
     expect(getDropZoneVm(wrapper).previewFiles.length).toBe(1);
   });
+
+  // Test display behavior combinations
+  describe('Display behavior combinations', () => {
+    it('shows file list when both displayPreview and displayFileList are false', async () => {
+      const { validateFileTypes } = await import('@/utils/fileTypeUtils');
+      const { getFilePreview } = await import('@/utils/filePreviewUtils');
+
+      // Mock implementations
+      vi.mocked(validateFileTypes).mockImplementation(async (files) => {
+        return Array.from(files);
+      });
+      vi.mocked(getFilePreview).mockResolvedValue('mock-preview-url');
+
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          displayPreview: false,
+          displayFileList: false,
+        },
+      });
+
+      // Add a file
+      const mockFiles = new MockDataTransfer();
+      const testFile = createMockFile('test.jpg', 'image/jpeg');
+      mockFiles.items.add(testFile);
+      const dropEvent = {
+        preventDefault: vi.fn(),
+        dataTransfer: { files: mockFiles.files },
+      } as unknown as DragEvent;
+
+      await getDropZoneVm(wrapper).onDrop(dropEvent);
+      await nextTick();
+
+      // Verify file list is shown
+      expect(wrapper.find('.drop-zone__file-list').exists()).toBe(true);
+      expect(wrapper.find('.image-preview-grid').exists()).toBe(false);
+    });
+
+    it('shows preview when displayPreview is true and displayFileList is false', async () => {
+      const { validateFileTypes } = await import('@/utils/fileTypeUtils');
+      const { getFilePreview } = await import('@/utils/filePreviewUtils');
+
+      // Mock implementations
+      vi.mocked(validateFileTypes).mockImplementation(async (files) => {
+        return Array.from(files);
+      });
+      vi.mocked(getFilePreview).mockResolvedValue('mock-preview-url');
+
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          displayPreview: true,
+          displayFileList: false,
+        },
+      });
+
+      // Add a file
+      const mockFiles = new MockDataTransfer();
+      const testFile = createMockFile('test.jpg', 'image/jpeg');
+      mockFiles.items.add(testFile);
+      const dropEvent = {
+        preventDefault: vi.fn(),
+        dataTransfer: { files: mockFiles.files },
+      } as unknown as DragEvent;
+
+      await getDropZoneVm(wrapper).onDrop(dropEvent);
+      await nextTick();
+
+      // Verify preview is shown
+      expect(wrapper.find('.image-preview-grid').exists()).toBe(true);
+      expect(wrapper.find('.drop-zone__file-list').exists()).toBe(false);
+    });
+
+    it('shows file list when displayFileList is true', async () => {
+      const { validateFileTypes } = await import('@/utils/fileTypeUtils');
+      const { getFilePreview } = await import('@/utils/filePreviewUtils');
+
+      // Mock implementations
+      vi.mocked(validateFileTypes).mockImplementation(async (files) => {
+        return Array.from(files);
+      });
+      vi.mocked(getFilePreview).mockResolvedValue('mock-preview-url');
+
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          displayPreview: false,
+          displayFileList: true,
+        },
+      });
+
+      // Add a file
+      const mockFiles = new MockDataTransfer();
+      const testFile = createMockFile('test.jpg', 'image/jpeg');
+      mockFiles.items.add(testFile);
+      const dropEvent = {
+        preventDefault: vi.fn(),
+        dataTransfer: { files: mockFiles.files },
+      } as unknown as DragEvent;
+
+      await getDropZoneVm(wrapper).onDrop(dropEvent);
+      await nextTick();
+
+      // Verify file list is shown
+      expect(wrapper.find('.drop-zone__file-list').exists()).toBe(true);
+      expect(wrapper.find('.image-preview-grid').exists()).toBe(false);
+    });
+  });
 });

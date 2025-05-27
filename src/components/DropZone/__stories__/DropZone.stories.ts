@@ -41,8 +41,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Image variants
-export const SingleImage: Story = {
+// Image variants with different display combinations
+export const SingleImageWithPreview: Story = {
   args: {
     instanceName: 'single-image-dropzone',
     allowedFileTypes: 'images',
@@ -53,7 +53,18 @@ export const SingleImage: Story = {
   },
 };
 
-export const MultipleImages: Story = {
+export const SingleImageWithFileList: Story = {
+  args: {
+    instanceName: 'single-image-dropzone',
+    allowedFileTypes: 'images',
+    multiple: false,
+    displayPreview: false,
+    displayFileList: true,
+    label: 'Upload a single image (PNG, JPG, GIF)',
+  },
+};
+
+export const MultipleImagesWithPreview: Story = {
   args: {
     instanceName: 'multiple-images-dropzone',
     allowedFileTypes: 'images',
@@ -64,8 +75,19 @@ export const MultipleImages: Story = {
   },
 };
 
-// Video variants
-export const SingleVideo: Story = {
+export const MultipleImagesWithFileList: Story = {
+  args: {
+    instanceName: 'multiple-images-dropzone',
+    allowedFileTypes: 'images',
+    multiple: true,
+    displayPreview: false,
+    displayFileList: true,
+    label: 'Upload multiple images (PNG, JPG, GIF)',
+  },
+};
+
+// Video variants with different display combinations
+export const SingleVideoWithFileList: Story = {
   args: {
     instanceName: 'single-video-dropzone',
     allowedFileTypes: 'video',
@@ -76,7 +98,7 @@ export const SingleVideo: Story = {
   },
 };
 
-export const MultipleVideos: Story = {
+export const MultipleVideosWithFileList: Story = {
   args: {
     instanceName: 'multiple-videos-dropzone',
     allowedFileTypes: 'video',
@@ -87,8 +109,8 @@ export const MultipleVideos: Story = {
   },
 };
 
-// Text variants
-export const SingleText: Story = {
+// Text variants with different display combinations
+export const SingleTextWithFileList: Story = {
   args: {
     instanceName: 'single-text-dropzone',
     allowedFileTypes: 'text',
@@ -99,7 +121,7 @@ export const SingleText: Story = {
   },
 };
 
-export const MultipleText: Story = {
+export const MultipleTextWithFileList: Story = {
   args: {
     instanceName: 'multiple-text-dropzone',
     allowedFileTypes: 'text',

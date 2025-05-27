@@ -20,7 +20,6 @@ const props = withDefaults(defineProps<DropZoneProps>(), {
   allowedFileTypes: 'images',
   multiple: true,
   accept: '',
-  disabled: false,
   label: 'Haz click o arrastra un archivo para subir',
   displayPreview: true,
   displayFileList: false,
@@ -76,6 +75,20 @@ const isDragging = ref(false);
 const inputRef = ref<HTMLInputElement | null>(null);
 const isProcessing = ref(false);
 const previewFiles = ref<FileWithPreview[]>([]);
+
+/**
+ * IMPORTANT:
+ * The user should always have a visual feedback of the files being uploaded.
+ * If displayPreview and displayFileList are both false, the list of files will be displayed anyway.
+ * This behavior is intentional and not a bug.
+ */
+const shouldDisplayFileList = computed(() => {
+  return (
+    (props.displayFileList ||
+      (!props.displayPreview && !props.displayFileList)) &&
+    previewFiles.value.length > 0
+  );
+});
 
 const computedAccept = computed(() => {
   return {
@@ -191,7 +204,10 @@ onUnmounted(() => {
   />
   <div class="drop-zone-container" v-else>
     <!-- Image Previews for selected files -->
-    <div v-if="previewFiles.length > 0" class="image-preview-grid">
+    <div
+      v-if="displayPreview && previewFiles.length > 0"
+      class="image-preview-grid"
+    >
       <button
         v-for="(file, index) in previewFiles"
         :key="index"
@@ -241,7 +257,7 @@ onUnmounted(() => {
         </span>
       </p>
     </div>
-    <div v-if="previewFiles.length > 0" class="drop-zone__file-list">
+    <div v-if="shouldDisplayFileList" class="drop-zone__file-list">
       <Button
         v-for="(file, index) in previewFiles"
         :key="index"
