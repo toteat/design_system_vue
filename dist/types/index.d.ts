@@ -105,7 +105,6 @@ export type DropZoneProps = {
   allowedFileTypes?: AllowedFileTypes;
   multiple?: boolean;
   accept?: string;
-  disabled?: boolean;
   label?: string;
   displayPreview?: boolean;
   displayFileList?: boolean;

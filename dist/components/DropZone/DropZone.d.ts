@@ -9,7 +9,6 @@ declare const _default: import('vue').DefineComponent<DropZoneProps, {}, {}, {},
     [x: `on${Capitalize<string>}-remove`]: ((file: FileWithPreview) => any) | undefined;
 }>, {
     label: string;
-    disabled: boolean;
     allowedFileTypes: import('../../types').AllowedFileTypes;
     multiple: boolean;
     accept: string;
