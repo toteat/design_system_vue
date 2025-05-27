@@ -1,5 +1,11 @@
 // Image conversion web worker
 self.onmessage = async (event: MessageEvent) => {
+  // Verify the origin of the message
+  if (event.origin !== self.location.origin) {
+    self.postMessage({ error: 'Unauthorized origin' });
+    return;
+  }
+
   const { file } = event.data;
 
   try {
