@@ -1,95 +1,111 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import DropZone from '../DropZone.vue';
 
-const meta: Meta<typeof DropZone> = {
+const meta = {
   title: 'Components/DropZone',
   component: DropZone,
+  tags: ['autodocs'],
   argTypes: {
     instanceName: {
       control: 'text',
-      description: 'Unique identifier for the dropzone instance',
-      defaultValue: 'default-dropzone',
+      description: 'Unique identifier for the DropZone instance',
+    },
+    allowedFileTypes: {
+      control: 'select',
+      options: ['images', 'video', 'text'],
+      description: 'Types of files allowed to be uploaded',
     },
     multiple: {
       control: 'boolean',
-      description: 'Allow multiple file selection',
+      description: 'Whether multiple files can be uploaded',
     },
     accept: {
       control: 'text',
-      description: 'Accepted file types (extensions or MIME types)',
+      description: 'Custom accept string for file input',
     },
-    disabled: {
+    label: {
+      control: 'text',
+      description: 'Custom label text for the DropZone',
+    },
+    displayPreview: {
       control: 'boolean',
-      description: 'Disable the drop zone',
+      description: 'Whether to display image previews',
+    },
+    displayFileList: {
+      control: 'boolean',
+      description: 'Whether to display file list',
     },
   },
-  parameters: {
-    layout: 'centered',
-  },
-};
+} satisfies Meta<typeof DropZone>;
 
 export default meta;
+type Story = StoryObj<typeof meta>;
 
-type Story = StoryObj<typeof DropZone>;
-
-export const Default: Story = {
+// Image variants
+export const SingleImage: Story = {
   args: {
-    instanceName: 'default-upload',
-    label: 'Drag & drop files here, or browse',
-    multiple: true,
-  },
-};
-
-export const SingleImageUpload: Story = {
-  args: {
-    instanceName: 'single-image-upload',
-    multiple: false,
-    label: 'Select an image',
-  },
-};
-
-export const MultipleImageUploadOnly: Story = {
-  args: {
-    instanceName: 'multiple-images',
+    instanceName: 'single-image-dropzone',
     allowedFileTypes: 'images',
-    label: 'Upload multiple image files only',
+    multiple: false,
+    displayPreview: true,
+    displayFileList: false,
+    label: 'Upload a single image (PNG, JPG, GIF)',
   },
 };
 
-export const VideoUploadOnly: Story = {
+export const MultipleImages: Story = {
   args: {
-    instanceName: 'video-upload',
+    instanceName: 'multiple-images-dropzone',
+    allowedFileTypes: 'images',
+    multiple: true,
+    displayPreview: true,
+    displayFileList: false,
+    label: 'Upload multiple images (PNG, JPG, GIF)',
+  },
+};
+
+// Video variants
+export const SingleVideo: Story = {
+  args: {
+    instanceName: 'single-video-dropzone',
     allowedFileTypes: 'video',
-    label: 'Upload video files only',
+    multiple: false,
+    displayPreview: false,
+    displayFileList: true,
+    label: 'Upload a single video file (MP4, WebM)',
   },
 };
 
-export const CSVUploadOnly: Story = {
+export const MultipleVideos: Story = {
   args: {
-    instanceName: 'csv-upload',
+    instanceName: 'multiple-videos-dropzone',
+    allowedFileTypes: 'video',
+    multiple: true,
+    displayPreview: false,
+    displayFileList: true,
+    label: 'Upload multiple video files (MP4, WebM)',
+  },
+};
+
+// Text variants
+export const SingleText: Story = {
+  args: {
+    instanceName: 'single-text-dropzone',
     allowedFileTypes: 'text',
-    accept: '.csv',
-    label: 'Upload CSV files only',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'You can download a [sample CSV file for testing here](data:text/csv;charset=utf-8,Año,Marca,Modelo,Descripción,Precio%0A1997,Ford,E350,"ac, ABS, moon",3000.00%0A1999,Chevy,Venture,Extended Edition,4900.00%0A1999,Chevy,Venture,"Extended Edition, Very Large",5000.00%0A1996,Jeep,Grand Cherokee,"MUST SELL! air, moon roof, loaded",4799.00)',
-      },
-    },
+    multiple: false,
+    displayPreview: false,
+    displayFileList: true,
+    label: 'Upload a single text file (TXT, CSV)',
   },
 };
 
-export const CustomLabel: Story = {
+export const MultipleText: Story = {
   args: {
-    instanceName: 'custom-label-upload',
-    label: 'Custom message here',
-  },
-};
-
-export const MissingInstanceName: Story = {
-  args: {
-    instanceName: '',
+    instanceName: 'multiple-text-dropzone',
+    allowedFileTypes: 'text',
+    multiple: true,
+    displayPreview: false,
+    displayFileList: true,
+    label: 'Upload multiple text files (TXT, CSV)',
   },
 };
