@@ -1,5 +1,371 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
+import { defineComponent, ref } from 'vue';
 import DropZone from '../DropZone.vue';
+import type { FileWithPreview } from '@/types';
+import type { DropZoneProps } from '@/types';
+
+// Wrapper component to demonstrate event handling
+const DropZoneWrapper = defineComponent({
+  components: { DropZone },
+  props: {
+    instanceName: {
+      type: String,
+      required: true,
+    },
+    allowedFileTypes: {
+      type: String,
+      default: 'images',
+    },
+    multiple: {
+      type: Boolean,
+      default: true,
+    },
+    displayPreview: {
+      type: Boolean,
+      default: true,
+    },
+    displayFileList: {
+      type: Boolean,
+      default: false,
+    },
+    label: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props: DropZoneProps) {
+    // Reactive state to track events and files
+    const uploadedFiles = ref<File[]>([]);
+    const errorMessage = ref<string>('');
+    const removedFile = ref<{ name: string } | null>(null);
+    const lastEventType = ref<string>('');
+    const uploadStatus = ref<'idle' | 'uploading' | 'success' | 'error'>(
+      'idle',
+    );
+
+    // New reactive state for modal
+    const isModalOpen = ref(false);
+    const modalContent = ref('');
+
+    // Method to generate event names
+    const getEventName = (suffix: string) => {
+      return `${props.instanceName}-${suffix}`;
+    };
+
+    // Simulated file upload method
+    const uploadFiles = async () => {
+      // Check if there are files to upload
+      if (uploadedFiles.value.length === 0) {
+        errorMessage.value = 'No files to upload';
+        return;
+      }
+
+      try {
+        // Start upload process
+        uploadStatus.value = 'uploading';
+
+        // Create FormData for file upload
+        const formData = new FormData();
+        uploadedFiles.value.forEach((file, index) => {
+          // Append each file to FormData
+          formData.append(`file_${index}`, file, file.name);
+        });
+
+        // Prepare data for modal display
+        const uploadData = {
+          files: uploadedFiles.value.map((file) => ({
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            lastModified: file.lastModified,
+          })),
+          formDataKeys: Array.from(formData.keys()),
+        };
+
+        // Update modal content with formatted data
+        modalContent.value = JSON.stringify(uploadData, null, 2);
+
+        // Open modal
+        isModalOpen.value = true;
+
+        // Simulated API call (replace with actual API endpoint)
+        const response = await fetch('https://example.com/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error('Upload failed');
+        }
+
+        // Handle successful upload
+        uploadStatus.value = 'success';
+        lastEventType.value = 'files-uploaded';
+      } catch (error) {
+        // Handle upload error
+        uploadStatus.value = 'error';
+        errorMessage.value =
+          error instanceof Error
+            ? error.message
+            : 'An unknown error occurred during upload';
+      }
+    };
+
+    // Method to close modal
+    const closeModal = () => {
+      // Close the modal
+      isModalOpen.value = false;
+
+      // Reset upload-related states
+      uploadStatus.value = 'idle';
+      lastEventType.value = '';
+      errorMessage.value = '';
+
+      // Optionally, clear uploaded files if needed
+      // Uncomment the next line if you want to clear files on modal close
+      // uploadedFiles.value = [];
+    };
+
+    // Event handler for successful file drop
+    const handleDrop = (files: FileList) => {
+      // Convert FileList to array and store
+      uploadedFiles.value = Array.from(files);
+
+      // Clear any previous error
+      errorMessage.value = '';
+
+      // Record the event type
+      lastEventType.value = getEventName('drop');
+
+      // Demonstrate file list access
+      console.log(
+        'Uploaded Files:',
+        uploadedFiles.value.map((f) => ({
+          name: f.name,
+          size: f.size,
+          type: f.type,
+        })),
+      );
+    };
+
+    // Event handler for drop errors
+    const handleError = (message: string) => {
+      // Store error message
+      errorMessage.value = message;
+
+      // Clear uploaded files
+      uploadedFiles.value = [];
+
+      // Record the event type
+      lastEventType.value = getEventName('drop-error');
+
+      // Log the error
+      console.error('Drop Error:', message);
+    };
+
+    // Event handler for file removal
+    const handleRemove = (file: FileWithPreview) => {
+      // Store removed file info
+      removedFile.value = { name: file.name };
+
+      // Remove the file from uploaded files
+      uploadedFiles.value = uploadedFiles.value.filter(
+        (f) => f.name !== file.name,
+      );
+
+      // Record the event type
+      lastEventType.value = getEventName('remove');
+
+      // Log removed file
+      console.log('Removed File:', file.name);
+    };
+
+    return {
+      uploadedFiles,
+      errorMessage,
+      removedFile,
+      lastEventType,
+      uploadStatus,
+      getEventName,
+      handleDrop,
+      handleError,
+      handleRemove,
+      uploadFiles,
+
+      // New modal-related returns
+      isModalOpen,
+      modalContent,
+      closeModal,
+    };
+  },
+  template: `
+    <div class="dropzone-wrapper" style="max-width: 600px; margin: 0 auto; position: relative;">
+      <DropZone
+        :instance-name="instanceName"
+        :allowed-file-types="allowedFileTypes"
+        :multiple="multiple"
+        :display-preview="displayPreview"
+        :display-file-list="displayFileList"
+        :label="label"
+        @[getEventName('drop')]="handleDrop"
+        @[getEventName('drop-error')]="handleError"
+        @[getEventName('remove')]="handleRemove"
+      />
+
+      <h2 style="margin-top: 2rem; color: #333;">Elements below are only for testing purposes</h2>
+      <!-- Uploaded Files Section -->
+      <div v-if="uploadedFiles.length > 0" class="uploaded-files" style="
+        margin-top: 1rem;
+        padding: 1rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        background-color: #f5f5f5;
+      ">
+        <h3 style="margin: 0 0 0.5rem 0; color: #333;">Uploaded Files</h3>
+
+        <!-- Event Tracking Section -->
+      <div class="event-log" style="
+        margin-top: 1rem;
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+      ">
+        <h3 style="margin: 0 0 0.5rem 0; color: #333;">Event Tracking</h3>
+
+        <div style="margin-bottom: 0.5rem;">
+          <strong>Last Event:</strong>
+          <span :style="{
+            color: lastEventType.includes('drop-error') ? 'red' :
+                   lastEventType.includes('remove') ? 'orange' :
+                   lastEventType.includes('uploaded') ? 'green' : 'blue'
+          }">
+            {{ lastEventType || 'No events yet' }}
+          </span>
+        </div>
+
+        <div v-if="errorMessage" style="color: red; margin-top: 0.5rem;">
+          <strong>Error:</strong> {{ errorMessage }}
+        </div>
+
+        <div v-if="removedFile" style="color: orange; margin-top: 0.5rem;">
+          <strong>Removed File:</strong> {{ removedFile.name }}
+        </div>
+      </div>
+
+        <!-- Upload Button -->
+        <div style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1rem;
+        ">
+          <strong>{{ uploadedFiles.length }} file(s) selected</strong>
+          <button
+            @click="uploadFiles"
+            :disabled="uploadStatus === 'uploading'"
+            style="
+              background-color: #28a745;
+              color: white;
+              border: none;
+              padding: 0.5rem 1rem;
+              border-radius: 4px;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+            "
+          >
+            <span style="margin-right: 0.5rem;">🚀</span>
+            {{ uploadStatus === 'uploading' ? 'Uploading...' : 'Upload Files' }}
+          </button>
+        </div>
+
+        <div class="file-list">
+          <div
+            v-for="file in uploadedFiles"
+            :key="file.name"
+            class="file-item"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 0.5rem;
+              background-color: white;
+              border: 1px solid #ddd;
+              margin-bottom: 0.5rem;
+              border-radius: 4px;
+            "
+          >
+            <div class="file-info">
+              <strong>{{ file.name }}</strong>
+              <small style="color: #666; margin-left: 0.5rem;">
+                ({{ (file.size / 1024).toFixed(2) }} KB, {{ file.type }})
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Native HTML Modal -->
+      <dialog
+        :open="isModalOpen"
+        style="
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 80%;
+          max-width: 600px;
+          max-height: 80%;
+          padding: 1rem;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          background-color: white;
+          overflow: auto;
+        "
+      >
+        <div style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1rem;
+        ">
+          <h2 style="margin: 0; color: #333;">Upload Data Preview</h2>
+          <button
+            @click="closeModal"
+            style="
+              background-color: #dc3545;
+              color: white;
+              border: none;
+              padding: 0.5rem 1rem;
+              border-radius: 4px;
+              cursor: pointer;
+            "
+          >
+            Close
+          </button>
+        </div>
+
+        <pre style="
+          background-color: #f4f4f4;
+          padding: 1rem;
+          border-radius: 4px;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          font-family: monospace;
+          max-height: 400px;
+          overflow: auto;
+          color: black;
+          font-size: 0.9rem;
+          line-height: 1.5;
+        ">{{ modalContent }}</pre>
+      </dialog>
+
+
+    </div>
+  `,
+});
 
 const meta = {
   title: 'Components/DropZone',
@@ -41,8 +407,33 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const Default: Story = {
+  render: (args) => ({
+    components: { DropZoneWrapper },
+    setup() {
+      return { args };
+    },
+    template: '<DropZoneWrapper v-bind="args" />',
+  }),
+  args: {
+    instanceName: 'multiple-images-dropzone',
+    allowedFileTypes: 'images',
+    multiple: true,
+    displayPreview: true,
+    displayFileList: true,
+    label: 'Upload multiple images',
+  },
+};
+
 // Image variants with different display combinations
 export const SingleImageWithPreview: Story = {
+  render: (args) => ({
+    components: { DropZoneWrapper },
+    setup() {
+      return { args };
+    },
+    template: '<DropZoneWrapper v-bind="args" />',
+  }),
   args: {
     instanceName: 'single-image-dropzone',
     allowedFileTypes: 'images',
@@ -54,6 +445,13 @@ export const SingleImageWithPreview: Story = {
 };
 
 export const SingleImageWithFileList: Story = {
+  render: (args) => ({
+    components: { DropZoneWrapper },
+    setup() {
+      return { args };
+    },
+    template: '<DropZoneWrapper v-bind="args" />',
+  }),
   args: {
     instanceName: 'single-image-dropzone',
     allowedFileTypes: 'images',
@@ -65,6 +463,13 @@ export const SingleImageWithFileList: Story = {
 };
 
 export const MultipleImagesWithPreview: Story = {
+  render: (args) => ({
+    components: { DropZoneWrapper },
+    setup() {
+      return { args };
+    },
+    template: '<DropZoneWrapper v-bind="args" />',
+  }),
   args: {
     instanceName: 'multiple-images-dropzone',
     allowedFileTypes: 'images',
@@ -76,6 +481,13 @@ export const MultipleImagesWithPreview: Story = {
 };
 
 export const MultipleImagesWithFileList: Story = {
+  render: (args) => ({
+    components: { DropZoneWrapper },
+    setup() {
+      return { args };
+    },
+    template: '<DropZoneWrapper v-bind="args" />',
+  }),
   args: {
     instanceName: 'multiple-images-dropzone',
     allowedFileTypes: 'images',
@@ -88,6 +500,13 @@ export const MultipleImagesWithFileList: Story = {
 
 // Video variants with different display combinations
 export const SingleVideoWithFileList: Story = {
+  render: (args) => ({
+    components: { DropZoneWrapper },
+    setup() {
+      return { args };
+    },
+    template: '<DropZoneWrapper v-bind="args" />',
+  }),
   args: {
     instanceName: 'single-video-dropzone',
     allowedFileTypes: 'video',
@@ -99,6 +518,13 @@ export const SingleVideoWithFileList: Story = {
 };
 
 export const MultipleVideosWithFileList: Story = {
+  render: (args) => ({
+    components: { DropZoneWrapper },
+    setup() {
+      return { args };
+    },
+    template: '<DropZoneWrapper v-bind="args" />',
+  }),
   args: {
     instanceName: 'multiple-videos-dropzone',
     allowedFileTypes: 'video',
@@ -111,6 +537,13 @@ export const MultipleVideosWithFileList: Story = {
 
 // Text variants with different display combinations
 export const SingleTextWithFileList: Story = {
+  render: (args) => ({
+    components: { DropZoneWrapper },
+    setup() {
+      return { args };
+    },
+    template: '<DropZoneWrapper v-bind="args" />',
+  }),
   args: {
     instanceName: 'single-text-dropzone',
     allowedFileTypes: 'text',
@@ -122,6 +555,13 @@ export const SingleTextWithFileList: Story = {
 };
 
 export const MultipleTextWithFileList: Story = {
+  render: (args) => ({
+    components: { DropZoneWrapper },
+    setup() {
+      return { args };
+    },
+    template: '<DropZoneWrapper v-bind="args" />',
+  }),
   args: {
     instanceName: 'multiple-text-dropzone',
     allowedFileTypes: 'text',
