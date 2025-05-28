@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Button from '../Button.vue';
-import type { ButtonType, ButtonSize } from '@/types';
+import type { Variant, ButtonSize } from '@/types';
 
 describe('Button Component', () => {
   // Test default props
@@ -14,13 +14,13 @@ describe('Button Component', () => {
     expect(wrapper.attributes('disabled')).toBeUndefined();
   });
 
-  // Test different button types
-  const buttonTypes: ButtonType[] = ['primary', 'secondary', 'outline', 'text'];
-  it.each(buttonTypes)('renders %s button type correctly', (type) => {
+  // Test different button variants
+  const buttonVariants: Variant[] = ['primary', 'secondary', 'outline', 'text'];
+  it.each(buttonVariants)('renders %s button variant correctly', (variant) => {
     const wrapper = mount(Button, {
-      props: { type },
+      props: { variant },
     });
-    expect(wrapper.classes()).toContain(`btn-${type}`);
+    expect(wrapper.classes()).toContain(`btn-${variant}`);
   });
 
   // Test different sizes
@@ -78,7 +78,7 @@ describe('Button Component', () => {
   // Test custom button type
   it('applies custom button type attribute', () => {
     const wrapper = mount(Button, {
-      props: { typeButton: 'submit' },
+      props: { type: 'submit' },
     });
     expect(wrapper.attributes('type')).toBe('submit');
   });
@@ -153,7 +153,6 @@ describe('Button Component', () => {
   // Test for existence of button and basic states
   it('implements proper hover and active CSS', () => {
     const wrapper = mount(Button);
-    // eslint-disable-next-line no-undef
     const buttonElement = wrapper.element as HTMLButtonElement;
 
     // Verify the button exists
@@ -166,7 +165,7 @@ describe('Button Component', () => {
   // Test outline button configuration
   it('has proper outline button configuration', async () => {
     const wrapper = mount(Button, {
-      props: { type: 'outline', selected: true },
+      props: { variant: 'outline', selected: true },
     });
 
     // Verify the outline button is properly configured

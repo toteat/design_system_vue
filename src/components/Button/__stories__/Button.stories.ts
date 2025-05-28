@@ -18,9 +18,9 @@ const meta: Meta<typeof Button> = {
   component: Button,
   tags: ['autodocs'],
   argTypes: {
-    type: {
+    variant: {
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'outline', 'text', 'icon'],
+      options: ['primary', 'secondary', 'outline', 'text'],
       description: 'The visual style of the button',
     },
     size: {
@@ -57,7 +57,7 @@ const meta: Meta<typeof Button> = {
       control: 'boolean',
       description: 'Whether the button is only an icon',
     },
-    typeButton: {
+    type: {
       control: { type: 'select' },
       options: ['button', 'submit', 'reset'],
       description: 'The HTML button type attribute',
@@ -70,14 +70,14 @@ const meta: Meta<typeof Button> = {
   },
   args: {
     // Default values matching the component props
-    type: 'primary',
+    variant: 'primary',
     size: 'medium',
     disabled: false,
     isFull: false,
     loading: false,
     text: 'Loading...',
     selected: false,
-    typeButton: 'button',
+    type: 'button',
     iconPosition: 'right',
     onlyIcon: false,
   },
@@ -101,8 +101,8 @@ export const Primary: Story = {
     components: { Button },
     template: `
       <div style="display: flex; gap: 1rem; align-items: center;">
-        <Button type="primary" text="Primary Button" />
-        <Button type="primary" text="Primary Button" iconName="home-outline" />
+        <Button variant="primary" text="Primary Button" />
+        <Button variant="primary" text="Primary Button" iconName="home-outline" />
       </div>
     `,
   }),
@@ -113,8 +113,8 @@ export const Secondary: Story = {
     components: { Button },
     template: `
       <div style="display: flex; gap: 1rem; align-items: center;">
-        <Button type="secondary" text="Secondary Button" />
-        <Button type="secondary" text="Secondary Button" iconName="home-outline" />
+        <Button variant="secondary" text="Secondary Button" />
+        <Button variant="secondary" text="Secondary Button" iconName="home-outline" />
       </div>
     `,
   }),
@@ -125,8 +125,8 @@ export const Outline: Story = {
     components: { Button },
     template: `
       <div style="display: flex; gap: 1rem; align-items: center;">
-        <Button type="outline" text="Outline Button" />
-        <Button type="outline" text="Outline Button" iconName="home-outline" />
+        <Button variant="outline" text="Outline Button" />
+        <Button variant="outline" text="Outline Button" iconName="home-outline" />
       </div>
     `,
   }),
@@ -137,8 +137,8 @@ export const TextButton: Story = {
     components: { Button },
     template: `
       <div style="display: flex; gap: 1rem; align-items: center;">
-        <Button type="text" text="Text Button" />
-        <Button type="text" text="Text Button" iconName="home-outline" />
+        <Button variant="text" text="Text Button" />
+        <Button variant="text" text="Text Button" iconName="home-outline" />
       </div>
     `,
   }),
@@ -146,7 +146,7 @@ export const TextButton: Story = {
 
 export const IconButton: Story = {
   args: {
-    type: 'primary',
+    variant: 'primary',
     iconName: 'home-outline',
     onlyIcon: true,
   },
@@ -162,7 +162,7 @@ export const IconButton: Story = {
 // Sizes
 export const SizeTiny: Story = {
   args: {
-    type: 'primary',
+    variant: 'primary',
     size: 'tiny',
     text: 'Tiny Button',
   },
@@ -170,7 +170,7 @@ export const SizeTiny: Story = {
 
 export const SizeSmall: Story = {
   args: {
-    type: 'primary',
+    variant: 'primary',
     size: 'small',
     text: 'Small Button',
   },
@@ -178,7 +178,7 @@ export const SizeSmall: Story = {
 
 export const SizeMedium: Story = {
   args: {
-    type: 'primary',
+    variant: 'primary',
     size: 'medium',
     text: 'Medium Button',
   },
@@ -186,7 +186,7 @@ export const SizeMedium: Story = {
 
 export const SizeLarge: Story = {
   args: {
-    type: 'primary',
+    variant: 'primary',
     size: 'large',
     text: 'Large Button',
   },
@@ -195,7 +195,7 @@ export const SizeLarge: Story = {
 // States
 export const Disabled: Story = {
   args: {
-    type: 'primary',
+    variant: 'primary',
     text: 'Disabled Button',
     disabled: true,
   },
@@ -203,7 +203,7 @@ export const Disabled: Story = {
 
 export const Loading: Story = {
   args: {
-    type: 'primary',
+    variant: 'primary',
     text: 'Loading...',
     loading: true,
   },
@@ -211,7 +211,7 @@ export const Loading: Story = {
 
 export const Selected: Story = {
   args: {
-    type: 'primary',
+    variant: 'primary',
     text: 'Selected Button',
     selected: true,
   },
@@ -219,7 +219,7 @@ export const Selected: Story = {
 
 export const FullWidth: Story = {
   args: {
-    type: 'primary',
+    variant: 'primary',
     text: 'Full Width Button',
     isFull: true,
   },
@@ -257,7 +257,7 @@ export const AllIconButtons: Story = {
             <Button
               v-for="variant in variants"
               :key="variant + '-' + icon"
-              :type="variant"
+              :variant="variant"
               :iconName="icon"
               :onlyIcon="true"
               :aria-label="icon + ' ' + variant"
@@ -293,7 +293,7 @@ export const AllVariantsWithTextAndIcon: Story = {
         <Button
           v-for="variant in variants"
           :key="variant"
-          :type="variant"
+          :variant="variant"
           :iconName="icon"
           :text="variant.charAt(0).toUpperCase() + variant.slice(1) + ' Button'"
         />

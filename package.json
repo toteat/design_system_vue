@@ -1,7 +1,8 @@
 {
   "name": "@toteat/design-system-vue",
   "version": "0.1.0",
-  "description": "Vue 3 Design System with TypeScript support - Ships with modern ESNext syntax",
+  "author": "Mauricio Antunez <mauricio.antunez@toteat.com> (https://toteat.com)",
+  "description": "The Toteat Design System is a collection of components and utilities that help you build consistent and beautiful user interfaces. Build primarely to solve Toteat needs.",
   "type": "module",
   "main": "dist/design-system-vue.umd.js",
   "module": "dist/design-system-vue.es.js",
@@ -12,6 +13,11 @@
       "email": "mauricio.antunez@toteat.com"
     }
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toteat/design_system_vue.git"
+  },
+  "homepage": "https://github.com/toteat/design_system_vue",
   "files": [
     "dist"
   ],

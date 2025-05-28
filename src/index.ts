@@ -8,10 +8,13 @@ import type { App } from 'vue';
 import Button from './components/Button/Button.vue';
 import Icon from './components/Icon/Icon.vue';
 import Spinner from './components/Spinner/Spinner.vue';
+import DropZone from './components/DropZone';
+import SkeletonPreload from './components/SkeletonPreload';
+import { ImagePreview } from './components/ImagePreview';
 
 // Export all component types
 export type {
-  ButtonType,
+  Variant,
   ButtonSize,
   ButtonProps,
   SpinnerProps,
@@ -30,7 +33,10 @@ export { Button, Icon, Spinner };
 export const install = (app: App) => {
   // Register components globally
   app.component('Button', Button);
+  app.component('DropZone', DropZone);
   app.component('Icon', Icon);
+  app.component('ImagePreview', ImagePreview);
+  app.component('SkeletonPreload', SkeletonPreload);
   app.component('Spinner', Spinner);
 };
 

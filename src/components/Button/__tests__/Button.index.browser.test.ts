@@ -9,11 +9,11 @@ describe('Button index', () => {
 
   it('exports ButtonProps type', () => {
     const props: ButtonProps = {
-      type: 'primary',
+      variant: 'primary',
       disabled: false,
       isFull: false,
       size: 'medium',
-      typeButton: 'button',
+      type: 'button',
       loading: false,
       text: 'Button',
       selected: false,

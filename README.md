@@ -4,16 +4,20 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/toteat/design_system_vue/ci.yml?branch=main&label=tests)](https://github.com/toteat/design_system_vue/actions)
 [![Security](https://img.shields.io/github/actions/workflow/status/toteat/design_system_vue/codeql.yml?branch=main&label=security)](https://github.com/toteat/design_system_vue/actions/workflows/codeql.yml)
 
-A TypeScript-based design system built specifically for Toteat's Vue 3 applications. This design system implements Toteat's design language and component patterns, ensuring consistency across all Toteat products. Ships with modern ECMAScript syntax (ESNext).
+A TypeScript-based design system for Vue 3, implementing Toteat's design language and component patterns.
 
 ## Features
 
-- 🎨 Toteat's design language implementation
+- 🎨 Toteat's design language
 - 📦 Tree-shakeable components
-- 🔍 TypeScript support out of the box
-- 🚀 ESNext syntax for optimal performance
-- 📊 Comprehensive test suite
-- 📚 Comprehensive documentation with Storybook
+- 🔍 Full TypeScript support
+- 🚀 ESNext syntax
+- 📊 Comprehensive testing
+
+## Prerequisites
+
+- Node.js >=16.0.0
+- Vue 3.3.0+
 
 ## Installation
 
@@ -23,9 +27,9 @@ npm install @toteat/design-system-vue
 
 ## Usage
 
-### Using the Vue Plugin (registers all components globally)
+### Global Registration
 
-```js
+```javascript
 import { createApp } from 'vue'
 import App from './App.vue'
 import { ToteatDesignSystem } from '@toteat/design-system-vue'
@@ -35,7 +39,7 @@ app.use(ToteatDesignSystem)
 app.mount('#app')
 ```
 
-### Using Individual Components
+### Individual Component Import
 
 ```vue
 <script setup lang="ts">
@@ -49,78 +53,38 @@ import { Button, Icon, Spinner } from '@toteat/design-system-vue'
 </template>
 ```
 
-## TypeScript Support
-
-This library includes TypeScript definitions for all components and utilities.
-
-```ts
-import type { ButtonProps, ColorPalette } from '@toteat/design-system-vue'
-
-// Define type-safe props
-const buttonColor: ColorPalette = 'primary'
-```
-
-## Modern JavaScript (ESNext)
-
-This library is distributed with modern JavaScript syntax (ESNext) and includes TypeScript type definitions. The library intentionally avoids transpiling to older JavaScript versions so that:
-
-1. Consuming projects can determine their own target environments
-2. Tree-shaking and other optimizations work more effectively
-3. The library bundle remains smaller and more efficient
-
-### CSS Handling
-
-Component styles are embedded with each component using Vue's scoped styles. Each component imports its required styles from the design system's style.css file.
-
-### Configuration in consuming projects
-
-When using this library, ensure your build tool is configured to transpile node_modules, specifically for this package:
-
-#### With Vite
-
-```js
-// vite.config.js
-export default {
-  optimizeDeps: {
-    include: ['@toteat/design-system-vue']
-  },
-  build: {
-    commonjsOptions: {
-      include: [/@toteat\/design-system-vue/, /node_modules/]
-    }
-  }
-}
-```
-
 ## Styles
 
-Component styles are bundled into a single CSS file and are not applied automatically. You need to import it in your project:
+Import the CSS in your main entry file:
 
-```js
-// main.ts or main.js
-import 'toteat-design-system-vue/dist/design-system-vue.css';
-// or using subpath export
-import '@toteat/design-system-vue/style.css';
-```
-
-### Vite Configuration
-
-Vite processes CSS imports from `node_modules` by default. If you excluded `node_modules` in your config, include this package:
-
-```js
-// vite.config.js
-export default {
-  optimizeDeps: {
-    include: ['@toteat/design-system-vue']
-  }
-}
+```javascript
+import '@toteat/design-system-vue/style.css'
 ```
 
 ## Available Components
 
-- `Button` - A versatile button component with various styles and states
-- `Icon` - A flexible icon component that supports all icons in the design system
-- `Spinner` - A loading spinner component with customizable dimensions
-- `SkeletonPreload` - A shimmering placeholder component with customizable dimensions and border radius
+- Button
+- DropZone
+- Icon
+- ImagePreview
+- SkeletonPreload
+- Spinner
 
-For detailed component documentation and examples, check out our Storybook documentation.
+## Vite Configuration
+
+```javascript
+// vite.config.js
+export default {
+  optimizeDeps: {
+    include: ['@toteat/design-system-vue']
+  }
+}
+```
+
+## Contributing
+
+Please read our contributing guidelines before submitting pull requests.
+
+## License
+
+See the LICENSE file for details.

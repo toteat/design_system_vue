@@ -24,29 +24,28 @@ const getSizeDimension = (buttonSize: ButtonProps['size']) => {
   return buttonSize ? BUTTON_SIZE_MAP[buttonSize] : BUTTON_SIZE_MAP.small;
 };
 
-const getIconColor = (buttonType: ButtonProps['type']) => {
-  return buttonType ? ICON_COLOR_MAP[buttonType] : ICON_COLOR_MAP.primary;
+const getIconColor = (buttonVariant: ButtonProps['variant']) => {
+  return buttonVariant ? ICON_COLOR_MAP[buttonVariant] : ICON_COLOR_MAP.primary;
 };
 
 const props = withDefaults(defineProps<ButtonProps>(), {
-  type: 'primary',
+  variant: 'primary',
   disabled: false,
   isFull: false,
   size: 'medium',
-  typeButton: 'button',
+  type: 'button',
   loading: false,
   text: 'Loading...',
   selected: false,
   iconPosition: 'right',
   iconName: undefined,
   onlyIcon: false,
-  clickEventName: 'button-click-default-name',
 });
 
 const buttonClasses = computed(() => [
   'tot-ds-root',
   'btn',
-  `btn-${props.type}`,
+  `btn-${props.variant}`,
   `btn-size-${props.size}`,
   {
     'btn-full': props.isFull,
@@ -58,17 +57,19 @@ const buttonClasses = computed(() => [
 
 <template>
   <button
-    :type="typeButton || 'button'"
+    :variant="props.variant"
+    :aria-label="props.text"
     :class="buttonClasses"
     :disabled="props.disabled"
-    data-cy="tds-button-{{props.iconPosition}}-icon"
+    :type="props.type"
+    :data-cy="`tds-button-${props.variant}-icon-${props.iconName}`"
   >
     <Spinner v-if="props.loading" :size="getSizeDimension(props.size)" />
     <Icon
       v-if="!props.loading && props.iconName && props.iconPosition === 'left'"
       :name="props.iconName"
       :size="getSizeDimension(props.size)"
-      :color="getIconColor(props.type)"
+      :color="getIconColor(props.variant)"
       data-testid="left-icon"
     />
     <span v-if="props.text && !props.onlyIcon">
@@ -78,7 +79,7 @@ const buttonClasses = computed(() => [
       v-if="!props.loading && props.iconName && props.iconPosition === 'right'"
       :name="props.iconName"
       :size="getSizeDimension(props.size)"
-      :color="getIconColor(props.type)"
+      :color="getIconColor(props.variant)"
       data-testid="right-icon"
     />
   </button>

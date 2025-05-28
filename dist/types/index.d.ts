@@ -2,24 +2,23 @@ import { IconNames } from '../components/Icon/icons';
 // Common types used across the design system
 
 // Button types
-export type ButtonType = 'outline' | 'primary' | 'secondary' | 'text';
+export type Variant = 'outline' | 'primary' | 'secondary' | 'text';
 
 // Button size
 export type ButtonSize = 'medium' | 'large' | 'small' | 'tiny';
 
 export type ButtonProps = {
-  type?: ButtonType;
+  variant?: Variant;
   disabled?: boolean;
   isFull?: boolean;
   size?: ButtonSize;
-  typeButton?: ButtonHTMLAttributes['type'];
+  type?: ButtonHTMLAttributes['type'];
   loading?: boolean;
   text?: string;
   selected?: boolean;
   iconPosition?: 'left' | 'right';
   iconName?: IconNames;
   onlyIcon?: boolean;
-  clickEventName?: string;
 };
 
 export type SpinnerProps = {
