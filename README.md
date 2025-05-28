@@ -47,7 +47,7 @@ import { Button, Icon, Spinner } from '@toteat/design-system-vue'
 </script>
 
 <template>
-  <Button type="primary" size="medium">Click Me</Button>
+  <Button variant="primary" size="medium">Click Me</Button>
   <Icon name="home-outline" size="24" color="primary" />
   <Spinner dimension="24" />
 </template>
@@ -81,9 +81,74 @@ export default {
 }
 ```
 
-## Contributing
+## Webpack Configuration
 
-Please read our contributing guidelines before submitting pull requests.
+For projects using Webpack, add the following configuration to your `webpack.config.js`:
+
+```javascript
+const path = require('path');
+
+module.exports = {
+  // ... other webpack configurations
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules\/(?!@toteat\/design-system-vue)/
+      },
+      {
+        test: /\.ts$/,
+        loader: 'ts-loader',
+        options: {
+          appendTsSuffixTo: [/\.vue$/]
+        }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  },
+  resolve: {
+    extensions: ['.ts', '.js', '.vue'],
+    alias: {
+      '@toteat/design-system-vue': path.resolve(__dirname, 'node_modules/@toteat/design-system-vue')
+    }
+  },
+  plugins: [
+    new VueLoaderPlugin()
+  ]
+}
+```
+
+### Babel Configuration
+
+Ensure your `.babelrc` or `babel.config.js` includes:
+
+```javascript
+module.exports = {
+  presets: [
+    '@babel/preset-env',
+    '@babel/preset-typescript'
+  ],
+  plugins: [
+    '@vue/babel-plugin-jsx'
+  ]
+}
+```
+
+### Webpack Plugin
+
+Don't forget to import the Vue Loader Plugin:
+
+```javascript
+const { VueLoaderPlugin } = require('vue-loader')
+```
 
 ## License
 
