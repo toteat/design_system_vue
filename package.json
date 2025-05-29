@@ -1,5 +1,5 @@
 {
-  "name": "@toteat/design-system-vue",
+  "name": "@toteat-eng/design-system-vue",
   "version": "0.1.0",
   "author": "Mauricio Antunez <mauricio.antunez@toteat.com> (https://toteat.com)",
   "description": "The Toteat Design System is a collection of components and utilities that help you build consistent and beautiful user interfaces. Build primarely to solve Toteat needs.",
@@ -63,7 +63,8 @@
     "*.css"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "dev": "vite",
@@ -163,5 +164,10 @@
   "dependencies": {
     "@vueuse/core": "^13.2.0",
     "axios": "^1.9.0"
-  }
+  },
+  "keywords": [
+    "vue3",
+    "design-system",
+    "toteat"
+  ]
 }
