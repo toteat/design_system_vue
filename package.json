@@ -15,50 +15,50 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/toteat/design_system_vue.git"
+    "url": "git+https://github.com/toteat/design_system_vue.git"
   },
   "homepage": "https://github.com/toteat/design_system_vue",
   "files": [
     "dist"
   ],
   "exports": {
-      ".": {
-        "types": "./dist/index.d.ts",
-        "import": "./dist/design-system-vue.es.js",
-        "require": "./dist/design-system-vue.umd.js"
-      },
-      "./Button": {
-        "types": "./dist/Button/index.d.ts",
-        "import": "./dist/Button/index.js",
-        "require": "./dist/design-system-vue.umd.js"
-      },
-      "./DropZone": {
-        "types": "./dist/DropZone/index.d.ts",
-        "import": "./dist/DropZone/index.js",
-        "require": "./dist/design-system-vue.umd.js"
-      },
-      "./Icon": {
-        "types": "./dist/Icon/index.d.ts",
-        "import": "./dist/Icon/index.js",
-        "require": "./dist/design-system-vue.umd.js"
-      },
-      "./ImagePreview": {
-        "types": "./dist/ImagePreview/index.d.ts",
-        "import": "./dist/ImagePreview/index.js",
-        "require": "./dist/design-system-vue.umd.js"
-      },
-      "./SkeletonPreload": {
-        "types": "./dist/SkeletonPreload/index.d.ts",
-        "import": "./dist/SkeletonPreload/index.js",
-        "require": "./dist/design-system-vue.umd.js"
-      },
-      "./Spinner": {
-        "types": "./dist/Spinner/index.d.ts",
-        "import": "./dist/Spinner/index.js",
-        "require": "./dist/design-system-vue.umd.js"
-      },
-      "./style.css": "./dist/design-system-vue.css"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/design-system-vue.es.js",
+      "require": "./dist/design-system-vue.umd.js"
     },
+    "./Button": {
+      "types": "./dist/Button/index.d.ts",
+      "import": "./dist/Button/index.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
+    "./DropZone": {
+      "types": "./dist/DropZone/index.d.ts",
+      "import": "./dist/DropZone/index.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
+    "./Icon": {
+      "types": "./dist/Icon/index.d.ts",
+      "import": "./dist/Icon/index.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
+    "./ImagePreview": {
+      "types": "./dist/ImagePreview/index.d.ts",
+      "import": "./dist/ImagePreview/index.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
+    "./SkeletonPreload": {
+      "types": "./dist/SkeletonPreload/index.d.ts",
+      "import": "./dist/SkeletonPreload/index.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
+    "./Spinner": {
+      "types": "./dist/Spinner/index.d.ts",
+      "import": "./dist/Spinner/index.js",
+      "require": "./dist/design-system-vue.umd.js"
+    },
+    "./style.css": "./dist/design-system-vue.css"
+  },
   "sideEffects": [
     "*.css"
   ],
