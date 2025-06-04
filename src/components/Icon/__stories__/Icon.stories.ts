@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Icon from '../Icon.vue';
 import type { IconNames } from '../icons'; // Changed to type-only import
 import * as Icons from '../icons'; // To access all icon names for the AllIcons story
@@ -8,12 +8,12 @@ import * as Icons from '../icons'; // To access all icon names for the AllIcons 
 // This is a bit of a workaround because Storybook controls for select work best with an array.
 // We'll derive it from the keys of the ICON_* constants, matching how IconNames is generated.
 const availableIconNames = Object.keys(Icons)
-  .filter(key => key.startsWith('ICON_'))
-  .map(key =>
+  .filter((key) => key.startsWith('ICON_'))
+  .map((key) =>
     key
       .replace(/^ICON_/, '')
       .replace(/_/g, '-')
-      .toLowerCase()
+      .toLowerCase(),
   ) as IconNames[];
 
 const meta: Meta<typeof Icon> = {

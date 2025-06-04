@@ -1,17 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Spinner from '../Spinner.vue';
 
-const sizeOptions = [
-  1,
-  1.5,
-  2,
-  2.5,
-  3,
-  4,
-  5,
-  6,
-  8,
-];
+const sizeOptions = [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8];
 
 const meta: Meta<typeof Spinner> = {
   title: 'Components/Spinner',
@@ -25,7 +15,8 @@ const meta: Meta<typeof Spinner> = {
     size: {
       control: { type: 'select' },
       options: sizeOptions,
-      description: 'Size is defined by the size number * 16px, so 1 = 16px, 1.5 = 24px, 2 = 32px, etc.',
+      description:
+        'Size is defined by the size number * 16px, so 1 = 16px, 1.5 = 24px, 2 = 32px, etc.',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '1' },
