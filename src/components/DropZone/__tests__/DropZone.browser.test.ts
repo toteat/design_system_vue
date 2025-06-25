@@ -37,7 +37,6 @@ class MockDataTransferItemList implements DataTransferItemList {
 
   add(data: File): DataTransferItem | null;
   add(data: string, type: string): DataTransferItem | null;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   add(data: File | string, _type?: string): DataTransferItem | null {
     const item = new MockDataTransferItem(
       data instanceof File ? data : undefined,
@@ -55,7 +54,6 @@ class MockDataTransferItemList implements DataTransferItemList {
   }
 
   [Symbol.iterator](): ArrayIterator<DataTransferItem> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return
     return this._items as unknown as ArrayIterator<DataTransferItem>;
   }
 }

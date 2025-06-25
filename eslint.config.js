@@ -11,6 +11,22 @@ export default [
   ...tseslint.config(
     eslint.configs.recommended,
     ...tseslint.configs.recommended,
+    {
+      rules: {
+        // Allow unused vars that start with underscore
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          {
+            argsIgnorePattern: '^_',
+            varsIgnorePattern: '^_',
+            caughtErrorsIgnorePattern: '^_',
+            destructuredArrayIgnorePattern: '^_',
+          },
+        ],
+        // Turn off the base rule as it can report incorrect errors
+        'no-unused-vars': 'off',
+      },
+    },
   ),
 
   // Vue SFCs
@@ -36,6 +52,55 @@ export default [
     rules: {
       // Vue and accessibility rules here
       'no-console': ['error', { allow: ['error', 'info', 'warn'] }],
+      // Prevent nested ternaries
+      'no-nested-ternary': 'error',
+      // Cognitive complexity rules using built-in ESLint rules
+      'complexity': ['error', { max: 10 }],
+      'no-return-await': 'error',
+      'no-cond-assign': 'error',
+      'no-extra-boolean-cast': 'error',
+      'no-extra-semi': 'error',
+      'no-multi-spaces': 'error',
+      'no-unused-expressions': 'error',
+      'no-useless-return': 'error',
+      'prefer-arrow-callback': 'error',
+      'prefer-const': 'error',
+      'prefer-destructuring': 'error',
+      'prefer-template': 'error',
+      // Allow unused vars that start with underscore in Vue files too
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+        },
+      ],
+      'no-unused-vars': 'off',
+    },
+  },
+
+  // Test files - relaxed rules
+  {
+    files: ['**/__tests__/**/*', '**/*.test.*', '**/*.spec.*'],
+    linterOptions: {
+      reportUnusedDisableDirectives: false,
+    },
+    rules: {
+      // Disable strict complexity rules for tests
+      'complexity': 'off',
+      'prefer-destructuring': 'off',
+      'no-unused-expressions': 'off',
+      'prefer-arrow-callback': 'off',
+      // Allow any types in tests
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      // Allow console in tests
+      'no-console': 'off',
     },
   },
 
@@ -48,6 +113,9 @@ export default [
     rules: {
       'storybook/prefer-pascal-case': 'error',
       'storybook/no-uninstalled-addons': 'error',
+      // Relax some rules for stories
+      'complexity': 'off',
+      'prefer-destructuring': 'off',
     }
   },
 
