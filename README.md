@@ -22,7 +22,7 @@ A TypeScript-based design system for Vue 3, implementing Toteat's design languag
 ## Installation
 
 ```bash
-npm install @toteat/design-system-vue
+npm install @toteat-eng/design-system-vue
 ```
 
 ## Usage
@@ -32,7 +32,7 @@ npm install @toteat/design-system-vue
 ```javascript
 import { createApp } from 'vue'
 import App from './App.vue'
-import { ToteatDesignSystem } from '@toteat/design-system-vue'
+import { ToteatDesignSystem } from '@toteat-eng/design-system-vue'
 
 const app = createApp(App)
 app.use(ToteatDesignSystem)
@@ -43,7 +43,7 @@ app.mount('#app')
 
 ```vue
 <script setup lang="ts">
-import { Button, Icon, Spinner } from '@toteat/design-system-vue'
+import { Button, Icon, Spinner } from '@toteat-eng/design-system-vue'
 </script>
 
 <template>
@@ -58,7 +58,7 @@ import { Button, Icon, Spinner } from '@toteat/design-system-vue'
 Import the CSS in your main entry file:
 
 ```javascript
-import '@toteat/design-system-vue/style.css'
+import '@toteat-eng/design-system-vue/style.css'
 ```
 
 ## Available Components
@@ -76,7 +76,7 @@ import '@toteat/design-system-vue/style.css'
 // vite.config.js
 export default {
   optimizeDeps: {
-    include: ['@toteat/design-system-vue']
+    include: ['@toteat-eng/design-system-vue']
   }
 }
 ```
@@ -117,7 +117,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js', '.vue'],
     alias: {
-      '@toteat/design-system-vue': path.resolve(__dirname, 'node_modules/@toteat/design-system-vue')
+      '@toteat-eng/design-system-vue': path.resolve(__dirname, 'node_modules/@toteat-eng/design-system-vue')
     }
   },
   plugins: [
