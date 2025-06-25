@@ -27,7 +27,7 @@ export type {
 } from './types/index.d';
 
 // Export components
-export { Button, Icon, Spinner };
+export { Button, Icon, Spinner, DropZone, SkeletonPreload, ImagePreview };
 
 // Export Vue plugin
 export const install = (app: App) => {
