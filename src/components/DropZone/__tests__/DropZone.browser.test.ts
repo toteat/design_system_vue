@@ -412,4 +412,160 @@ describe('DropZone.vue Browser Tests', () => {
     // Verify file preview was generated
     expect(getFilePreviewSpy).toHaveBeenCalledWith(testFile, true);
   });
+
+  // Null handling tests for browser environment
+  describe('Null handling in browser environment', () => {
+    it('handles null modelValue in browser environment', async () => {
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          modelValue: null,
+        },
+      });
+
+      // Component should render without errors
+      expect(wrapper.exists()).toBe(true);
+      expect(wrapper.find('.drop-zone').exists()).toBe(true);
+
+      // Internal state should be empty array
+      const vm = wrapper.vm as any;
+      expect(vm.previewFiles).toEqual([]);
+    });
+
+    it('updates from null to array in browser', async () => {
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          modelValue: null,
+        },
+      });
+
+      const mockFileWithPreview = {
+        file: new File(['test'], 'test.jpg', { type: 'image/jpeg' }),
+        name: 'test.jpg',
+        preview: 'data:image/jpeg;base64,mock-data',
+      };
+
+      // Update props to simulate external change
+      await wrapper.setProps({ modelValue: [mockFileWithPreview] });
+
+      const vm = wrapper.vm as any;
+      expect(vm.previewFiles).toEqual([mockFileWithPreview]);
+    });
+
+    it('emits update:modelValue with null support in browser', async () => {
+      const fileTypeUtils = await import('@/utils/fileTypeUtils');
+      const filePreviewUtils = await import('@/utils/filePreviewUtils');
+
+      const validateFileTypesSpy = vi.fn(async (files: FileList) => {
+        return Array.from(files) as File[];
+      });
+
+      const getFilePreviewSpy = vi.fn(async () => {
+        return 'data:image/jpeg;base64,mock-preview-data';
+      });
+
+      vi.spyOn(fileTypeUtils, 'validateFileTypes').mockImplementation(
+        validateFileTypesSpy,
+      );
+      vi.spyOn(filePreviewUtils, 'getFilePreview').mockImplementation(
+        getFilePreviewSpy,
+      );
+
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          modelValue: null,
+        },
+      });
+
+      const testFile = new File(['test-content'], 'test.jpg', {
+        type: 'image/jpeg',
+      });
+      const mockFileList = {
+        0: testFile,
+        length: 1,
+        item: (index: number) => (index === 0 ? testFile : null),
+        [Symbol.iterator]: function* () {
+          yield testFile;
+        },
+      } as FileList;
+
+      const vm = wrapper.vm as any;
+      await vm.processFiles(mockFileList);
+      await vi.runAllTimersAsync();
+      await wrapper.vm.$nextTick();
+
+      // Check that update:modelValue was emitted
+      const updateEvents = wrapper.emitted('update:modelValue');
+      expect(updateEvents).toBeTruthy();
+      expect(updateEvents?.[0]?.[0]).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            file: expect.any(File),
+            name: 'test.jpg',
+            preview: 'data:image/jpeg;base64,mock-preview-data',
+          }),
+        ]),
+      );
+    });
+
+    it('handles drag and drop with null modelValue in browser', async () => {
+      const fileTypeUtils = await import('@/utils/fileTypeUtils');
+      const filePreviewUtils = await import('@/utils/filePreviewUtils');
+
+      const validateFileTypesSpy = vi.fn(async (files: FileList) => {
+        return Array.from(files) as File[];
+      });
+
+      const getFilePreviewSpy = vi.fn(async () => {
+        return 'data:image/jpeg;base64,mock-preview-data';
+      });
+
+      vi.spyOn(fileTypeUtils, 'validateFileTypes').mockImplementation(
+        validateFileTypesSpy,
+      );
+      vi.spyOn(filePreviewUtils, 'getFilePreview').mockImplementation(
+        getFilePreviewSpy,
+      );
+
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          modelValue: null,
+        },
+      });
+
+      const testFile = new File(['test-content'], 'test.jpg', {
+        type: 'image/jpeg',
+      });
+
+      const mockFileList = {
+        0: testFile,
+        length: 1,
+        item: (index: number) => (index === 0 ? testFile : null),
+        [Symbol.iterator]: function* () {
+          yield testFile;
+        },
+      } as FileList;
+
+      // Instead of simulating DOM event, call the method directly
+      const vm = wrapper.vm as any;
+      await vm.processFiles(mockFileList);
+      await vi.runAllTimersAsync();
+      await wrapper.vm.$nextTick();
+
+      // Verify the component handled the drop correctly
+      expect(vm.previewFiles.length).toBe(1);
+      expect(vm.previewFiles[0].name).toBe('test.jpg');
+
+      // Check emitted events
+      const dropEvents = wrapper.emitted('test-upload-drop');
+      expect(dropEvents).toBeTruthy();
+    });
+  });
 });

@@ -73,7 +73,7 @@ watch([computedImageSrc, isBase64Image], ([src, isBase64]) => {
 
 <template>
   <div
-    class="image-preview"
+    class="tot-ds-root image-preview"
     :style="{
       width: `${width}px`,
       height: `${height}px`,
@@ -123,26 +123,28 @@ watch([computedImageSrc, isBase64Image], ([src, isBase64]) => {
 </template>
 
 <style scoped>
-.image-preview {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-neutral-100);
-  border-radius: var(--border-radius);
-  overflow: hidden;
+.tot-ds-root {
+  &.image-preview {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-neutral-100);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+  }
 }
 
-img {
+.tot-ds-root img {
   object-fit: cover;
 }
 
-.image-preview__loading {
+.tot-ds-root .image-preview__loading {
   width: 100%;
   height: 100%;
 }
 
-.image-preview__error {
+.tot-ds-root .image-preview__error {
   width: 100%;
   height: 100%;
   display: flex;
@@ -157,7 +159,7 @@ img {
   }
 }
 
-.visually-hidden {
+.tot-ds-root .visually-hidden {
   opacity: 0;
   position: absolute;
   pointer-events: none;

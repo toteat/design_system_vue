@@ -322,4 +322,195 @@ describe('DropZone Node Tests', () => {
       expect(wrapper.find('.image-preview-grid').exists()).toBe(false);
     });
   });
+
+  // Test null handling for modelValue
+  describe('Null handling for modelValue', () => {
+    it('handles null modelValue prop correctly', async () => {
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          modelValue: null,
+        },
+      });
+
+      await nextTick();
+
+      // Component should initialize with empty array internally
+      expect(getDropZoneVm(wrapper).previewFiles).toEqual([]);
+    });
+
+    it('handles undefined modelValue prop correctly', async () => {
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          modelValue: undefined,
+        },
+      });
+
+      await nextTick();
+
+      // Component should initialize with empty array internally
+      expect(getDropZoneVm(wrapper).previewFiles).toEqual([]);
+    });
+
+    it('emits update:modelValue with correct type when files change', async () => {
+      const { validateFileTypes } = await import('@/utils/fileTypeUtils');
+      const { getFilePreview } = await import('@/utils/filePreviewUtils');
+
+      // Mock implementations
+      vi.mocked(validateFileTypes).mockImplementation(async (files) => {
+        return Array.from(files);
+      });
+      vi.mocked(getFilePreview).mockResolvedValue('mock-preview-url');
+
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          modelValue: null,
+        },
+      });
+
+      // Add a file
+      const mockFiles = new MockDataTransfer();
+      const testFile = createMockFile('test.jpg', 'image/jpeg');
+      mockFiles.items.add(testFile);
+      const dropEvent = {
+        preventDefault: vi.fn(),
+        dataTransfer: { files: mockFiles.files },
+      } as unknown as DragEvent;
+
+      await getDropZoneVm(wrapper).onDrop(dropEvent);
+      await nextTick();
+
+      // Check that update:modelValue was emitted
+      const updateEvents = wrapper.emitted('update:modelValue');
+      expect(updateEvents).toBeTruthy();
+      expect(updateEvents?.[0]?.[0]).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            file: expect.any(File),
+            name: 'test.jpg',
+            preview: 'mock-preview-url',
+          }),
+        ]),
+      );
+    });
+
+    it('watches modelValue changes and updates internal state', async () => {
+      const mockFileWithPreview: FileWithPreview = {
+        file: createMockFile('test.jpg', 'image/jpeg'),
+        name: 'test.jpg',
+        preview: 'mock-preview-url',
+      };
+
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          modelValue: null,
+        },
+      });
+
+      // Initially should be empty
+      expect(getDropZoneVm(wrapper).previewFiles).toEqual([]);
+
+      // Update modelValue to include a file
+      await wrapper.setProps({ modelValue: [mockFileWithPreview] });
+      await nextTick();
+
+      // Internal state should be updated
+      expect(getDropZoneVm(wrapper).previewFiles).toEqual([
+        mockFileWithPreview,
+      ]);
+
+      // Update modelValue back to null
+      await wrapper.setProps({ modelValue: null });
+      await nextTick();
+
+      // Internal state should be empty again
+      expect(getDropZoneVm(wrapper).previewFiles).toEqual([]);
+    });
+
+    it('handles modelValue changes from external source', async () => {
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          modelValue: [],
+        },
+      });
+
+      const mockFileWithPreview: FileWithPreview = {
+        file: createMockFile('external.jpg', 'image/jpeg'),
+        name: 'external.jpg',
+        preview: 'external-preview-url',
+      };
+
+      // Simulate external change to modelValue
+      await wrapper.setProps({ modelValue: [mockFileWithPreview] });
+      await nextTick();
+
+      // Internal state should reflect the external change
+      expect(getDropZoneVm(wrapper).previewFiles).toEqual([
+        mockFileWithPreview,
+      ]);
+      expect(getDropZoneVm(wrapper).previewFiles[0].name).toBe('external.jpg');
+
+      // Change back to null
+      await wrapper.setProps({ modelValue: null });
+      await nextTick();
+
+      expect(getDropZoneVm(wrapper).previewFiles).toEqual([]);
+    });
+  });
+
+  // Test v-model compatibility
+  describe('v-model compatibility', () => {
+    it('works with v-model when initialized with null', async () => {
+      const { validateFileTypes } = await import('@/utils/fileTypeUtils');
+      const { getFilePreview } = await import('@/utils/filePreviewUtils');
+
+      // Mock implementations
+      vi.mocked(validateFileTypes).mockImplementation(async (files) => {
+        return Array.from(files);
+      });
+      vi.mocked(getFilePreview).mockResolvedValue('mock-preview-url');
+
+      const wrapper = mount(DropZone, {
+        props: {
+          instanceName: 'test-upload',
+          allowedFileTypes: 'images',
+          modelValue: null,
+          'onUpdate:modelValue': (files: FileWithPreview[] | null) => {
+            wrapper.setProps({ modelValue: files });
+          },
+        },
+      });
+
+      // Add a file through drop
+      const mockFiles = new MockDataTransfer();
+      const testFile = createMockFile('vmodel.jpg', 'image/jpeg');
+      mockFiles.items.add(testFile);
+      const dropEvent = {
+        preventDefault: vi.fn(),
+        dataTransfer: { files: mockFiles.files },
+      } as unknown as DragEvent;
+
+      await getDropZoneVm(wrapper).onDrop(dropEvent);
+      await nextTick();
+
+      // The modelValue should be updated
+      expect(wrapper.props('modelValue')).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            name: 'vmodel.jpg',
+            preview: 'mock-preview-url',
+          }),
+        ]),
+      );
+    });
+  });
 });

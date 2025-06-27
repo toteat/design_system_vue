@@ -601,3 +601,93 @@ export const MultipleTextWithFileList: Story = {
     label: 'Upload multiple text files (TXT, CSV)',
   },
 };
+
+// New story to demonstrate null handling
+export const WithNullModelValue: Story = {
+  render: (args) => ({
+    components: { DropZone },
+    setup() {
+      const files = ref<FileWithPreview[] | null>(null);
+      const errorMessage = ref<string>('');
+      const lastEvent = ref<string>('');
+
+      const handleDrop = (fileList: FileList) => {
+        lastEvent.value = `${args.instanceName}-drop`;
+        console.log(
+          'Files dropped:',
+          Array.from(fileList).map((f) => f.name),
+        );
+      };
+
+      const handleError = (message: string) => {
+        errorMessage.value = message;
+        lastEvent.value = `${args.instanceName}-drop-error`;
+      };
+
+      const handleRemove = (file: FileWithPreview) => {
+        lastEvent.value = `${args.instanceName}-remove`;
+        console.log('File removed:', file.name);
+      };
+
+      const resetToNull = () => {
+        files.value = null;
+        lastEvent.value = 'reset-to-null';
+      };
+
+      const resetToEmpty = () => {
+        files.value = [];
+        lastEvent.value = 'reset-to-empty';
+      };
+
+      return {
+        args,
+        files,
+        errorMessage,
+        lastEvent,
+        handleDrop,
+        handleError,
+        handleRemove,
+        resetToNull,
+        resetToEmpty,
+      };
+    },
+    template: `
+      <div style="max-width: 600px; margin: 0 auto;">
+        <h3>DropZone with Null Model Value Support</h3>
+        <p>This story demonstrates that the DropZone can handle null values in v-model.</p>
+
+        <DropZone
+          v-bind="args"
+          v-model="files"
+          @[args.instanceName + '-drop']="handleDrop"
+          @[args.instanceName + '-drop-error']="handleError"
+          @[args.instanceName + '-remove']="handleRemove"
+        />
+
+        <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+          <button @click="resetToNull" style="padding: 0.5rem 1rem; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Set to null
+          </button>
+          <button @click="resetToEmpty" style="padding: 0.5rem 1rem; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Set to empty array
+          </button>
+        </div>
+
+        <div style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 4px;">
+          <h4>Debug Information:</h4>
+          <p><strong>Model Value:</strong> {{ files === null ? 'null' : JSON.stringify(files) }}</p>
+          <p><strong>Last Event:</strong> {{ lastEvent || 'None' }}</p>
+          <p v-if="errorMessage" style="color: red;"><strong>Error:</strong> {{ errorMessage }}</p>
+        </div>
+      </div>
+    `,
+  }),
+  args: {
+    instanceName: 'null-test-dropzone',
+    allowedFileTypes: 'images',
+    multiple: true,
+    displayPreview: true,
+    displayFileList: true,
+    label: 'Upload images (supports null v-model)',
+  },
+};

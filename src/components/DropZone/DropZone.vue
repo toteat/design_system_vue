@@ -19,7 +19,7 @@ import Button from '../Button/Button.vue';
 const props = withDefaults(
   defineProps<
     DropZoneProps & {
-      modelValue?: FileWithPreview[];
+      modelValue?: FileWithPreview[] | null;
     }
   >(),
   {
@@ -78,7 +78,7 @@ const emit = defineEmits<{
    */
   (e: `${string}-remove`, file: FileWithPreview): void;
 
-  (e: 'update:modelValue', files: FileWithPreview[]): void;
+  (e: 'update:modelValue', files: FileWithPreview[] | null): void;
 }>();
 
 const isDragging = ref(false);
@@ -189,12 +189,11 @@ function onClick() {
 }
 
 async function onFileChange(event: Event) {
-  const target = event.target as HTMLInputElement;
-  const files = target.files;
+  const { files } = event.target as HTMLInputElement;
 
   if (files && files.length > 0) {
     await processFiles(files);
-    target.value = ''; // Reset input
+    (event.target as HTMLInputElement).value = ''; // Reset input
   }
 }
 
@@ -259,7 +258,7 @@ onUnmounted(() => {
     iconPosition="left"
     :text="`Missing or empty DropZone instanceName prop`"
   />
-  <div class="drop-zone-container" v-else>
+  <div class="tot-ds-root drop-zone-container" v-else>
     <!-- Image Previews for selected files -->
     <div
       v-if="displayPreview && previewFiles.length > 0"
@@ -331,100 +330,102 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.drop-zone-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  width: 100%;
-
-  .image-preview-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-    grid-auto-rows: auto;
-    grid-gap: 1.5rem;
-    width: 100%;
-    justify-items: center;
-
-    button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.125rem 0.125rem 0.5rem 0.125rem;
-      border-radius: 0.5rem;
-      transition-property: fill, transform, background-color, padding;
-      transition-duration: 0.2s;
-      transition-timing-function: ease-in-out;
-      background-color: transparent;
-
-      svg {
-        transition-property: fill, transform, color;
-        transition-duration: 0.2s;
-        transition-timing-function: ease-in-out;
-      }
-
-      &:hover {
-        background-color: var(--color-gray-100);
-        transform: scale(1.25);
-
-        svg {
-          fill: var(--color-primary);
-        }
-      }
-    }
-  }
-
-  .drop-zone {
-    border: 0.125rem dashed var(--color-neutral-300, #ccc);
-    border-radius: 0.5rem;
-    padding: 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition:
-      border-color 0.2s,
-      background 0.2s,
-      opacity 0.2s;
-    background: var(--color-neutral-100, #fafafa);
-    outline: none;
-    width: 100%;
-    position: relative;
+.tot-ds-root {
+  &.drop-zone-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0;
-    &:hover {
-      opacity: 0.5;
+    gap: 2rem;
+    width: 100%;
+
+    .image-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+      grid-auto-rows: auto;
+      grid-gap: 1.5rem;
+      width: 100%;
+      justify-items: center;
+
+      button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.125rem 0.125rem 0.5rem 0.125rem;
+        border-radius: 0.5rem;
+        transition-property: fill, transform, background-color, padding;
+        transition-duration: 0.2s;
+        transition-timing-function: ease-in-out;
+        background-color: transparent;
+
+        svg {
+          transition-property: fill, transform, color;
+          transition-duration: 0.2s;
+          transition-timing-function: ease-in-out;
+        }
+
+        &:hover {
+          background-color: var(--color-gray-100);
+          transform: scale(1.25);
+
+          svg {
+            fill: var(--color-primary);
+          }
+        }
+      }
     }
 
-    .tot-ds-root.btn:hover:not(:disabled) {
-      opacity: 1;
+    .drop-zone {
+      border: 0.125rem dashed var(--color-neutral-300, #ccc);
+      border-radius: 0.5rem;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition:
+        border-color 0.2s,
+        background 0.2s,
+        opacity 0.2s;
+      background: var(--color-neutral-100, #fafafa);
+      outline: none;
+      width: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      &:hover {
+        opacity: 0.5;
+      }
+
+      .tot-ds-root.btn:hover:not(:disabled) {
+        opacity: 1;
+      }
     }
-  }
-  .drop-zone__file-list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .drop-zone--dragging {
-    border-color: var(--color-primary-500, #007bff);
-    background: var(--color-primary-50, #e6f0ff);
-  }
-  .drop-zone--processing {
-    opacity: 0.6;
-    cursor: wait;
-  }
-  .drop-zone__input {
-    display: none;
-  }
-  .drop-zone__browse {
-    color: var(--color-primary-500, #007bff);
-    text-decoration: underline;
-    cursor: pointer;
+    .drop-zone__file-list {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .drop-zone--dragging {
+      border-color: var(--color-primary-500, #007bff);
+      background: var(--color-primary-50, #e6f0ff);
+    }
+    .drop-zone--processing {
+      opacity: 0.6;
+      cursor: wait;
+    }
+    .drop-zone__input {
+      display: none;
+    }
+    .drop-zone__browse {
+      color: var(--color-primary-500, #007bff);
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
 }
 </style>

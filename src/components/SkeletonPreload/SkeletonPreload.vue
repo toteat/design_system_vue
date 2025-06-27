@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<SkeletonPreloadProps>(), {
 
 <template>
   <div
-    class="skeleton-preload"
+    class="tot-ds-root skeleton-preload"
     :style="{
       '--skeleton-width': `${props.width}px`,
       '--skeleton-height': props.isRounded
@@ -26,21 +26,24 @@ const props = withDefaults(defineProps<SkeletonPreloadProps>(), {
 
 <style scoped>
 @import '../../style.css';
-.skeleton-preload {
-  width: var(--skeleton-width);
-  height: var(--skeleton-height);
-  background: linear-gradient(
-    90deg,
-    var(--color-neutral-200) 0%,
-    var(--color-neutral-100) 50%,
-    var(--color-neutral-200) 100%
-  );
-  background-size: 200% 100%;
-  background-color: var(--color-primary-light);
-  animation: shimmer 1.5s infinite;
-  opacity: 1;
-  visibility: visible;
-  border-radius: var(--skeleton-border-radius);
+
+.tot-ds-root {
+  &.skeleton-preload {
+    width: var(--skeleton-width);
+    height: var(--skeleton-height);
+    background: linear-gradient(
+      90deg,
+      var(--color-neutral-200) 0%,
+      var(--color-neutral-100) 50%,
+      var(--color-neutral-200) 100%
+    );
+    background-size: 200% 100%;
+    background-color: var(--color-primary-light);
+    animation: shimmer 1.5s infinite;
+    opacity: 1;
+    visibility: visible;
+    border-radius: var(--skeleton-border-radius);
+  }
 }
 
 @keyframes shimmer {

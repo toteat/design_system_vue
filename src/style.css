@@ -1,5 +1,5 @@
-/* Browser theme configuration */
-:root {
+/* Browser theme configuration - scoped to design system root */
+.tot-ds-root {
   /* Colors */
   --color-primary: #ff4235;
   --color-primary-light: #ffa099;
@@ -60,93 +60,82 @@
   --text-4xl--line-height: 56px;
   --text-5xl--line-height: 64px;
   --text-6xl--line-height: 72px;
-}
 
-/* Custom CSS Reset for Modern Browsers */
-body {
-  /* Base font settings */
+  /* Base font settings for design system components */
   font-family: "Manrope", Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
   color: black;
-  background-color: white;
   font-synthesis: none;
-  min-height: 100dvh;
   text-rendering: optimizeLegibility;
 }
-/* Reset default styles */
-*,
-*::before,
-*::after {
+
+/* Scoped CSS Reset for Design System Components */
+.tot-ds-root *,
+.tot-ds-root *::before,
+.tot-ds-root *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Remove default margin */
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-figure,
-blockquote,
-dl,
-dd {
+/* Remove default margin for design system elements */
+.tot-ds-root h1,
+.tot-ds-root h2,
+.tot-ds-root h3,
+.tot-ds-root h4,
+.tot-ds-root p,
+.tot-ds-root figure,
+.tot-ds-root blockquote,
+.tot-ds-root dl,
+.tot-ds-root dd {
   margin: 0;
 }
 
-/* Set core root defaults */
-html:focus-within {
-  scroll-behavior: smooth;
-}
-
-/* Make images easier to work with */
-img,
-picture {
+/* Make images easier to work with in design system */
+.tot-ds-root img,
+.tot-ds-root picture {
   max-width: 100%;
   display: block;
 }
 
-/* Inherit fonts for inputs and buttons */
-input,
-button,
-textarea,
-select {
+/* Inherit fonts for inputs and buttons in design system */
+.tot-ds-root input,
+.tot-ds-root button,
+.tot-ds-root textarea,
+.tot-ds-root select {
   font: inherit;
 }
 
-/* Remove list styles on ul, ol elements */
-ul,
-ol {
+/* Remove list styles on ul, ol elements in design system */
+.tot-ds-root ul,
+.tot-ds-root ol {
   list-style: none;
 }
 
-/* A elements that don't have a class get default styles */
-a:not([class]) {
+/* A elements that don't have a class get default styles in design system */
+.tot-ds-root a:not([class]) {
   text-decoration-skip-ink: auto;
 }
 
-/* Remove default button styles */
-button {
+/* Remove default button styles in design system */
+.tot-ds-root button {
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
 }
 
-/* Remove default fieldset styles */
-fieldset {
+/* Remove default fieldset styles in design system */
+.tot-ds-root fieldset {
   border: none;
   padding: 0;
   margin: 0;
   min-width: 0;
 }
 
-/* Remove default table styles */
-table {
+/* Remove default table styles in design system */
+.tot-ds-root table {
   border-collapse: collapse;
   border-spacing: 0;
 }

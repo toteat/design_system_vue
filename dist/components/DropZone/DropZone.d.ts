@@ -1,6 +1,6 @@
 import { FileList, DropZoneProps, FileWithPreview } from '../../types';
 type __VLS_Props = DropZoneProps & {
-    modelValue?: FileWithPreview[];
+    modelValue?: FileWithPreview[] | null;
 };
 declare const _default: import('vue').DefineComponent<__VLS_Props, {
     /**
@@ -36,12 +36,12 @@ declare const _default: import('vue').DefineComponent<__VLS_Props, {
     [x: `${string}-drop`]: (files: globalThis.FileList) => any;
     [x: `${string}-drop-error`]: (message: string) => any;
     [x: `${string}-remove`]: (file: FileWithPreview) => any;
-    "update:modelValue": (files: FileWithPreview[]) => any;
+    "update:modelValue": (files: FileWithPreview[] | null) => any;
 }, string, import('vue').PublicProps, Readonly<__VLS_Props> & Readonly<{
     [x: `on${Capitalize<string>}-drop`]: ((files: globalThis.FileList) => any) | undefined;
     [x: `on${Capitalize<string>}-drop-error`]: ((message: string) => any) | undefined;
     [x: `on${Capitalize<string>}-remove`]: ((file: FileWithPreview) => any) | undefined;
-    "onUpdate:modelValue"?: ((files: FileWithPreview[]) => any) | undefined;
+    "onUpdate:modelValue"?: ((files: FileWithPreview[] | null) => any) | undefined;
 }>, {
     label: string;
     allowedFileTypes: import('../../types').AllowedFileTypes;
@@ -49,7 +49,7 @@ declare const _default: import('vue').DefineComponent<__VLS_Props, {
     accept: string;
     displayPreview: boolean;
     displayFileList: boolean;
-    modelValue: FileWithPreview[];
+    modelValue: FileWithPreview[] | null;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
     inputRef: globalThis.HTMLInputElement;
 }, any>;
