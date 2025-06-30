@@ -27,8 +27,8 @@ const meta: Meta<typeof Icon> = {
       description: 'Name of the icon to display',
     },
     size: {
-      control: { type: 'number', min: 4, max: 128, step: 2 },
-      description: 'Size of the icon in pixels',
+      control: { type: 'number', min: 1, max: 128, step: 1 },
+      description: 'Size of the icon in rem (1 rem = 16px)',
     },
     color: {
       control: { type: 'select' },
