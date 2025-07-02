@@ -1,2 +1,3 @@
-npm run lint-staged
+# Use mise to run commands with correct Node.js version
+mise exec -- npm run lint-staged
 .husky/check-coverage.sh
