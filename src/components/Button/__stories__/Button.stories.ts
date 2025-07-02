@@ -308,3 +308,208 @@ export const AllVariantsWithTextAndIcon: Story = {
     },
   },
 };
+
+// Button with click event handler
+export const WithClickEventHandler: Story = {
+  render: () => ({
+    components: { Button },
+    data() {
+      return {
+        clickCount: 0,
+        lastClickedButton: '',
+        clickHistory: [] as string[],
+      };
+    },
+    methods: {
+      handleButtonClick(buttonType: string) {
+        this.clickCount++;
+        this.lastClickedButton = buttonType;
+        this.clickHistory.push(
+          `${buttonType} clicked at ${new Date().toLocaleTimeString()}`,
+        );
+
+        // Keep only last 5 clicks for display
+        if (this.clickHistory.length > 5) {
+          this.clickHistory.shift();
+        }
+
+        // You can add any custom logic here
+        console.log(`${buttonType} button clicked!`, {
+          clickCount: this.clickCount,
+          timestamp: new Date().toISOString(),
+        });
+      },
+    },
+    template: `
+      <div style="max-width: 600px;">
+        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 2rem;">
+          <Button
+            variant="primary"
+            text="Primary Action"
+            iconName="home-outline"
+            @click="handleButtonClick('Primary')"
+          />
+          <Button
+            variant="secondary"
+            text="Secondary Action"
+            iconName="eye-open-filled"
+            @click="handleButtonClick('Secondary')"
+          />
+          <Button
+            variant="outline"
+            text="Outline Action"
+            iconName="info-outline"
+            @click="handleButtonClick('Outline')"
+          />
+          <Button
+            variant="text"
+            text="Text Action"
+            iconName="warning-outline"
+            @click="handleButtonClick('Text')"
+          />
+        </div>
+
+        <!-- Event Information Display -->
+        <div style="
+          padding: 1rem;
+          background-color: #f8f9fa;
+          border: 1px solid #e9ecef;
+          border-radius: 8px;
+          font-family: monospace;
+        ">
+          <h3 style="margin: 0 0 1rem 0; font-family: sans-serif;">Click Event Information:</h3>
+
+          <div style="margin-bottom: 0.5rem;">
+            <strong>Total Clicks:</strong> {{ clickCount }}
+          </div>
+
+          <div style="margin-bottom: 0.5rem;">
+            <strong>Last Clicked:</strong> {{ lastClickedButton || 'None' }}
+          </div>
+
+          <div v-if="clickHistory.length > 0">
+            <strong>Recent Activity:</strong>
+            <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+              <li v-for="(event, index) in clickHistory" :key="index" style="margin-bottom: 0.25rem;">
+                {{ event }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: `This story demonstrates how to handle click events from a parent project using the Button component.
+
+## Features:
+- Click event handlers that receive button type information
+- Click counter to track interactions
+- Event history tracking
+- Console logging for debugging
+
+## How to Use in Your Vue 3 Project:
+
+### 1. Using Composition API
+\`\`\`vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Button } from '@toteat-eng/design-system-vue'
+
+// Reactive state for tracking clicks
+const clickCount = ref(0)
+const lastClickedButton = ref('')
+
+// Click handler function
+const handleButtonClick = (buttonType: string) => {
+  clickCount.value++
+  lastClickedButton.value = buttonType
+
+  // Add your custom logic here
+  console.log(\`\${buttonType} button clicked!\`, {
+    clickCount: clickCount.value,
+    timestamp: new Date().toISOString()
+  })
+
+  // Example: Call an API, update state, navigate, etc.
+  // await saveData()
+  // router.push('/next-page')
+  // showNotification('Action completed!')
+}
+</script>
+
+<template>
+  <div>
+    <!-- Your buttons with click handlers -->
+    <Button
+      variant="primary"
+      text="Save Changes"
+      icon-name="check-outline"
+      @click="handleButtonClick('Save')"
+    />
+
+    <Button
+      variant="secondary"
+      text="Cancel"
+      @click="handleButtonClick('Cancel')"
+    />
+
+    <Button
+      variant="outline"
+      text="Delete"
+      icon-name="delete-outline"
+      @click="handleButtonClick('Delete')"
+    />
+  </div>
+</template>
+\`\`\`
+
+### 2. Using Options API
+\`\`\`vue
+<script>
+import { Button } from '@toteat-eng/design-system-vue'
+
+export default {
+  name: 'MyComponent',
+  components: {
+    Button
+  },
+  data() {
+    return {
+      clickCount: 0,
+      lastClickedButton: ''
+    }
+  },
+  methods: {
+    handleButtonClick(buttonType) {
+      this.clickCount++
+      this.lastClickedButton = buttonType
+
+      // Add your custom logic here
+      console.log(\`\${buttonType} button clicked!\`)
+    }
+  }
+}
+</script>
+\`\`\`
+
+## Key Implementation Points:
+
+1. **Always use \`@click\`** to handle button clicks in Vue
+2. **Use \`ref()\`** for reactive data in Composition API
+3. **Handle loading states** with the \`loading\` prop when doing async operations
+4. **Always provide \`aria-label\`** for icon-only buttons for accessibility
+5. **Use try-catch blocks** when handling async operations like API calls
+
+This pattern can be used for:
+- Form submissions
+- Navigation actions
+- API calls
+- State updates
+- Any custom business logic that needs user interaction`,
+      },
+    },
+  },
+};
