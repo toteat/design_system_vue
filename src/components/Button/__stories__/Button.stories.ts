@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Button from '../Button.vue';
 import type { IconNames } from '@/components/Icon/icons';
 import * as Icons from '@/components/Icon/icons';
+import { ref } from 'vue';
 
 // Dynamically derive available icon names from the icons module
 const availableIconNames = Object.keys(Icons)
@@ -313,32 +314,36 @@ export const AllVariantsWithTextAndIcon: Story = {
 export const WithClickEventHandler: Story = {
   render: () => ({
     components: { Button },
-    data() {
-      return {
-        clickCount: 0,
-        lastClickedButton: '',
-        clickHistory: [] as string[],
-      };
-    },
-    methods: {
-      handleButtonClick(buttonType: string) {
-        this.clickCount++;
-        this.lastClickedButton = buttonType;
-        this.clickHistory.push(
+    setup() {
+      const clickCount = ref(0);
+      const lastClickedButton = ref('');
+      const clickHistory = ref<string[]>([]);
+
+      const handleButtonClick = (buttonType: string) => {
+        clickCount.value++;
+        lastClickedButton.value = buttonType;
+        clickHistory.value.push(
           `${buttonType} clicked at ${new Date().toLocaleTimeString()}`,
         );
 
         // Keep only last 5 clicks for display
-        if (this.clickHistory.length > 5) {
-          this.clickHistory.shift();
+        if (clickHistory.value.length > 5) {
+          clickHistory.value.shift();
         }
 
         // You can add any custom logic here
         console.log(`${buttonType} button clicked!`, {
-          clickCount: this.clickCount,
+          clickCount: clickCount.value,
           timestamp: new Date().toISOString(),
         });
-      },
+      };
+
+      return {
+        clickCount,
+        lastClickedButton,
+        clickHistory,
+        handleButtonClick,
+      };
     },
     template: `
       <div style="max-width: 600px;">
@@ -412,7 +417,6 @@ export const WithClickEventHandler: Story = {
 
 ## How to Use in Your Vue 3 Project:
 
-### 1. Using Composition API
 \`\`\`vue
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -464,35 +468,6 @@ const handleButtonClick = (buttonType: string) => {
     />
   </div>
 </template>
-\`\`\`
-
-### 2. Using Options API
-\`\`\`vue
-<script>
-import { Button } from '@toteat-eng/design-system-vue'
-
-export default {
-  name: 'MyComponent',
-  components: {
-    Button
-  },
-  data() {
-    return {
-      clickCount: 0,
-      lastClickedButton: ''
-    }
-  },
-  methods: {
-    handleButtonClick(buttonType) {
-      this.clickCount++
-      this.lastClickedButton = buttonType
-
-      // Add your custom logic here
-      console.log(\`\${buttonType} button clicked!\`)
-    }
-  }
-}
-</script>
 \`\`\`
 
 ## Key Implementation Points:

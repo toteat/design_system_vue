@@ -4,6 +4,11 @@ import Spinner from '../Spinner/Spinner.vue';
 import Icon from '../Icon/Icon.vue';
 import { computed } from 'vue';
 
+// Define emits for click and touch events
+const emit = defineEmits<{
+  click: [event: MouseEvent | TouchEvent];
+}>();
+
 // Map button sizes to spinner dimensions
 const BUTTON_SIZE_MAP = {
   large: 2,
@@ -63,6 +68,9 @@ const buttonClasses = computed(() => [
     :disabled="props.disabled"
     :type="props.type"
     :data-cy="`tds-button-${props.variant}-icon-${props.iconName}`"
+    role="button"
+    :tabindex="props.disabled ? -1 : 0"
+    @click="emit('click', $event)"
   >
     <Spinner v-if="props.loading" :size="getSizeDimension(props.size)" />
     <Icon
@@ -105,6 +113,11 @@ const buttonClasses = computed(() => [
       opacity 0.25s ease-in-out,
       color 0.25s ease-in-out;
     cursor: pointer;
+
+    /* Mobile touch optimization */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
 
     /* Text content always wrapped */
     & span {
