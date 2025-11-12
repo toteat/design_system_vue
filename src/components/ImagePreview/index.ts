@@ -1,3 +1,2 @@
-import ImagePreview from './ImagePreview.vue';
-
-export { ImagePreview };
+export { default } from './ImagePreview.vue';
+export { default as ImagePreview } from './ImagePreview.vue';

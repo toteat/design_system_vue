@@ -37,7 +37,7 @@ onMounted(async () => {
       <div v-else class="grid grid-rows-auto grid-cols-auto gap-4">
         <div v-for="img in images" :key="img.id">
           <ImagePreview
-            :imageSrc="img.download_url"
+            :image-src="img.download_url"
             :alt="img.author"
             :width="200"
             :height="200"

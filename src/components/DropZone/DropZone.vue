@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onUnmounted, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { validateFileTypes } from '@/utils/fileTypeUtils';
 import { getFilePreview } from '@/utils/filePreviewUtils';
 import { revokeObjectURLs } from '@/utils/urlUtils';
@@ -33,10 +33,6 @@ const props = withDefaults(
   },
 );
 
-if (!props.instanceName || props.instanceName.trim() === '') {
-  console.error('Missing or empty DropZone instanceName prop');
-}
-
 /**
  * DropZone Component
  *
@@ -58,6 +54,13 @@ if (!props.instanceName || props.instanceName.trim() === '') {
  *   @avatar-upload-drop-error="handleError"
  *   @avatar-upload-remove="handleRemove"
  * />
+ *
+ * @note Dynamic Event Names
+ * This component uses template literal types for dynamic event names based on the `instanceName` prop.
+ * Vue's runtime warning system cannot validate these at compile time, so you may see warnings like:
+ * "Component emitted event 'test-upload-drop' but it is neither declared in the emits option..."
+ * These warnings are EXPECTED and do not indicate a problem. The events are properly typed in TypeScript
+ * and work correctly at runtime. This pattern allows multiple DropZone instances with unique event names.
  */
 const emit = defineEmits<{
   /**
@@ -84,7 +87,21 @@ const emit = defineEmits<{
 const isDragging = ref(false);
 const inputRef = ref<HTMLInputElement | null>(null);
 const isProcessing = ref(false);
-const previewFiles = ref<FileWithPreview[]>(props.modelValue || []);
+const previewFiles = ref<FileWithPreview[]>([]);
+
+// Initialize and validate on mount
+onMounted(() => {
+  // Validate instanceName
+  if (!props.instanceName || props.instanceName.trim() === '') {
+    console.error('Missing or empty DropZone instanceName prop');
+  }
+
+  // Initialize previewFiles from modelValue
+  // Only assign if modelValue is not null/undefined to avoid triggering unnecessary watcher emissions
+  if (props.modelValue) {
+    previewFiles.value = props.modelValue;
+  }
+});
 
 // Watch for external changes to modelValue
 watch(
@@ -96,6 +113,8 @@ watch(
 );
 
 // Watch for internal changes to previewFiles and emit updates
+// Note: We don't use immediate: true because we initialize previewFiles in onMounted
+// and we don't want to emit on the initial assignment
 watch(
   previewFiles,
   (newFiles) => {
@@ -252,11 +271,11 @@ onUnmounted(() => {
 <template>
   <Button
     v-if="!instanceName"
-    :type="'text'"
+    type="text"
     size="large"
-    iconName="warning-outline"
-    iconPosition="left"
-    :text="`Missing or empty DropZone instanceName prop`"
+    icon-name="warning-outline"
+    icon-position="left"
+    text="Missing or empty DropZone instanceName prop"
   />
   <div class="tot-ds-root drop-zone-container" v-else>
     <!-- Image Previews for selected files -->
@@ -271,10 +290,10 @@ onUnmounted(() => {
       >
         <ImagePreview
           :key="index"
-          :imageSrc="file.preview"
+          :image-src="file.preview"
           :width="70"
           :height="70"
-          :borderRadius="8"
+          :border-radius="8"
           alt="Uploaded file preview"
         />
         <Icon name="delete-outline" :size="1" color="gray-400" />
@@ -319,10 +338,10 @@ onUnmounted(() => {
         :key="index"
         class="drop-zone__file-item"
         @click.stop="removeFile(index)"
-        :type="'outline'"
-        :typeButton="'button'"
+        type="outline"
+        type-button="button"
         size="small"
-        iconName="delete-outline"
+        icon-name="delete-outline"
         :text="file.name"
       />
     </div>
@@ -353,7 +372,7 @@ onUnmounted(() => {
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
-        padding: 0.125rem 0.125rem 0.5rem 0.125rem;
+        padding: 0.125rem 0.125rem 0.5rem;
         border-radius: 0.5rem;
         transition-property: fill, transform, background-color, padding;
         transition-duration: 0.2s;
@@ -396,6 +415,7 @@ onUnmounted(() => {
       align-items: center;
       justify-content: center;
       gap: 0;
+
       &:hover {
         opacity: 0.5;
       }
@@ -404,23 +424,27 @@ onUnmounted(() => {
         opacity: 1;
       }
     }
+
     .drop-zone__file-list {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+      flex-flow: row wrap;
       gap: 0.5rem;
     }
+
     .drop-zone--dragging {
       border-color: var(--color-primary-500, #007bff);
       background: var(--color-primary-50, #e6f0ff);
     }
+
     .drop-zone--processing {
       opacity: 0.6;
       cursor: wait;
     }
+
     .drop-zone__input {
       display: none;
     }
+
     .drop-zone__browse {
       color: var(--color-primary-500, #007bff);
       text-decoration: underline;

@@ -29,7 +29,19 @@ export default [
     },
   ),
 
-  // Vue SFCs
+  // Vue SFCs - Strictly recommended rules
+  ...vue.configs['flat/strongly-recommended'],
+
+  // Disable multi-word component name rule for index.ts files (plugin registration)
+  {
+    files: ['**/index.ts', '**/main.ts'],
+    rules: {
+      'vue/multi-word-component-names': 'off',
+      'vue/no-reserved-component-names': 'off',
+    },
+  },
+
+  // Vue SFCs - Custom configuration with strict standards
   {
     files: ['**/*.vue'],
     languageOptions: {
@@ -50,7 +62,79 @@ export default [
       'vuejs-accessibility': accessibilityPlugin,
     },
     rules: {
-      // Vue and accessibility rules here
+      // Vue 3 Composition API & Script Setup - Strict enforcement
+      'vue/no-export-in-script-setup': 'error',
+      'vue/no-setup-props-reactivity-loss': 'error',
+      'vue/require-explicit-emits': 'error',
+      'vue/prefer-import-from-vue': 'error',
+      'vue/component-api-style': ['error', ['script-setup']], // Enforce script setup only
+      'vue/block-lang': ['error', { script: { lang: 'ts' } }], // Require TypeScript
+      'vue/define-macros-order': ['error', {
+        order: ['defineProps', 'defineEmits'],
+      }],
+      'vue/define-emits-declaration': ['error', 'type-based'], // Enforce type-based emits
+      'vue/define-props-declaration': ['error', 'type-based'], // Enforce type-based props
+      'vue/valid-define-props': 'error',
+      'vue/valid-define-emits': 'error',
+      'vue/valid-define-options': 'error',
+      'vue/no-lifecycle-after-await': 'error',
+      'vue/no-watch-after-await': 'error',
+      'vue/no-ref-as-operand': 'error',
+      'vue/require-macro-variable-name': ['error', {
+        defineProps: 'props',
+        defineEmits: 'emit',
+        defineSlots: 'slots',
+        useSlots: 'slots',
+        useAttrs: 'attrs',
+      }],
+      'vue/block-order': ['error', {
+        order: ['script', 'template', 'style'],
+      }],
+
+      // Component structure - Strict
+      'vue/one-component-per-file': 'error',
+      'vue/require-prop-types': 'error',
+      'vue/prop-name-casing': ['error', 'camelCase'],
+      'vue/component-name-in-template-casing': ['error', 'PascalCase', {
+        registeredComponentsOnly: false,
+      }],
+      'vue/custom-event-name-casing': ['error', 'kebab-case'], // Allow kebab-case for events (Vue convention)
+
+      // Template best practices - Strict
+      'vue/html-self-closing': ['error', {
+        html: { void: 'always', normal: 'never', component: 'always' },
+        svg: 'always',
+        math: 'always',
+      }],
+      'vue/max-attributes-per-line': ['error', {
+        singleline: 3,
+        multiline: 1,
+      }],
+      'vue/first-attribute-linebreak': ['error', {
+        singleline: 'ignore',
+        multiline: 'below',
+      }],
+      'vue/html-closing-bracket-newline': ['error', {
+        singleline: 'never',
+        multiline: 'always',
+      }],
+      'vue/multi-word-component-names': 'off', // Design systems often have single-word names
+
+      // Code quality - Strict
+      'vue/no-unused-refs': 'error',
+      'vue/no-useless-v-bind': 'error',
+      'vue/no-useless-mustaches': 'error',
+      'vue/no-useless-concat': 'error',
+      'vue/prefer-true-attribute-shorthand': 'error',
+      'vue/prefer-separate-static-class': 'error',
+      'vue/no-static-inline-styles': 'error',
+      'vue/padding-line-between-blocks': ['error', 'always'],
+
+      // Accessibility - Strict
+      'vue/require-default-prop': 'error',
+      'vue/no-boolean-default': ['error', 'default-false'],
+
+      // Standard rules
       'no-console': ['error', { allow: ['error', 'info', 'warn'] }],
       // Prevent nested ternaries
       'no-nested-ternary': 'error',

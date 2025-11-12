@@ -9,11 +9,9 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-    backgrounds: {
-      default: 'light',
-    },
+    backgrounds: {},
     viewport: {
-      viewports: {
+      options: {
         mobile: {
           name: 'Mobile',
           styles: {
@@ -50,15 +48,26 @@ const preview: Preview = {
           },
         },
       },
-      defaultViewport: 'reset',
     },
   },
+
   decorators: [
     (story) => ({
       components: { story },
       template: '<div style="padding: 1.5rem;"><story /></div>',
     }),
   ],
+
+  initialGlobals: {
+    viewport: {
+      value: 'reset',
+      isRotated: false,
+    },
+
+    backgrounds: {
+      value: 'light',
+    },
+  },
 };
 
 export default preview;

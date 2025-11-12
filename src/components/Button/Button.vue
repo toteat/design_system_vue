@@ -4,6 +4,22 @@ import Spinner from '../Spinner/Spinner.vue';
 import Icon from '../Icon/Icon.vue';
 import { computed } from 'vue';
 
+/* global MouseEvent, TouchEvent */
+
+const props = withDefaults(defineProps<ButtonProps>(), {
+  variant: 'primary',
+  disabled: false,
+  isFull: false,
+  size: 'medium',
+  type: 'button',
+  loading: false,
+  text: 'Loading...',
+  selected: false,
+  iconPosition: 'right',
+  iconName: undefined,
+  onlyIcon: false,
+});
+
 // Define emits for click and touch events
 const emit = defineEmits<{
   click: [event: MouseEvent | TouchEvent];
@@ -32,20 +48,6 @@ const getSizeDimension = (buttonSize: ButtonProps['size']) => {
 const getIconColor = (buttonVariant: ButtonProps['variant']) => {
   return buttonVariant ? ICON_COLOR_MAP[buttonVariant] : ICON_COLOR_MAP.primary;
 };
-
-const props = withDefaults(defineProps<ButtonProps>(), {
-  variant: 'primary',
-  disabled: false,
-  isFull: false,
-  size: 'medium',
-  type: 'button',
-  loading: false,
-  text: 'Loading...',
-  selected: false,
-  iconPosition: 'right',
-  iconName: undefined,
-  onlyIcon: false,
-});
 
 const buttonClasses = computed(() => [
   'tot-ds-root',

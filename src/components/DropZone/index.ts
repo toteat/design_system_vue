@@ -1,3 +1,2 @@
-import DropZone from './DropZone.vue';
-
-export default DropZone;
+export { default } from './DropZone.vue';
+export { default as DropZone } from './DropZone.vue';

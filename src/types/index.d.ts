@@ -119,3 +119,29 @@ export interface FileWithPreview {
   name: string;
   preview: string;
 }
+
+export type MultiselectOption = {
+  value: string | number;
+  label: string;
+  disabled?: boolean;
+};
+
+export type MultiselectProps = {
+  options: MultiselectOption[];
+  modelValue?: (string | number)[];
+  placeholder?: string;
+  searchPlaceholder?: string;
+  disabled?: boolean;
+  maxSelections?: number;
+  searchable?: boolean;
+  clearable?: boolean;
+  closeOnSelect?: boolean;
+  size?: ButtonSize;
+};
+
+export type CheckboxProps = {
+  checked?: boolean;
+  disabled?: boolean;
+  size?: number;
+  color?: ThemeColor;
+};

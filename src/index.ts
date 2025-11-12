@@ -10,7 +10,7 @@ import Icon from './components/Icon/Icon.vue';
 import Spinner from './components/Spinner/Spinner.vue';
 import DropZone from './components/DropZone';
 import SkeletonPreload from './components/SkeletonPreload';
-import { ImagePreview } from './components/ImagePreview';
+import ImagePreview from './components/ImagePreview';
 
 // Export all component types
 export type {

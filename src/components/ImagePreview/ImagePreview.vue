@@ -5,8 +5,6 @@ import type { ImagePreviewProps, ImageStringType } from '@/types';
 import SkeletonPreload from '../SkeletonPreload/SkeletonPreload.vue';
 import Icon from '../Icon/Icon.vue';
 import { isBase64 } from '@/utils/base64Utils';
-const URL = globalThis.URL;
-
 const props = withDefaults(defineProps<ImagePreviewProps>(), {
   width: 40,
   height: 40,
@@ -14,6 +12,8 @@ const props = withDefaults(defineProps<ImagePreviewProps>(), {
   imageSrc: '',
   borderRadius: 8,
 });
+
+const { URL } = globalThis;
 
 const isLoading = ref(true);
 const hasError = ref(false);
