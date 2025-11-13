@@ -1,7 +1,7 @@
 {
   "name": "@toteat-eng/design-system-vue",
   "version": "0.1.12",
-  "author": "Mauricio Antunez <mauricio.antunez@toteat.com> (https://toteat.com)",
+  "author": "Mauricio Antunez <mantunez@toteat.com> (https://toteat.com)",
   "description": "The Toteat Design System is a collection of components and utilities that help you build consistent and beautiful user interfaces. Build primarely to solve Toteat needs.",
   "type": "module",
   "main": "dist/design-system-vue.umd.js",
@@ -10,7 +10,7 @@
   "maintainers": [
     {
       "name": "Mauricio Antunez",
-      "email": "mauricio.antunez@toteat.com"
+      "email": "mantunez@toteat.com"
     }
   ],
   "repository": {
