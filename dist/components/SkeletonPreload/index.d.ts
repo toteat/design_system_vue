@@ -1,2 +1,2 @@
-import { default as SkeletonPreload } from './SkeletonPreload';
-export default SkeletonPreload;
+export { default } from './SkeletonPreload';
+export { default as SkeletonPreload } from './SkeletonPreload';

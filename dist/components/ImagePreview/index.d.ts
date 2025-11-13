@@ -1,2 +1,2 @@
-import { default as ImagePreview } from './ImagePreview';
-export { ImagePreview };
+export { default } from './ImagePreview';
+export { default as ImagePreview } from './ImagePreview';

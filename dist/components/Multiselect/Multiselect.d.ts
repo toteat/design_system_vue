@@ -1,0 +1,31 @@
+import { MultiselectProps, MultiselectOption } from '../../types';
+declare const _default: import('vue').DefineComponent<MultiselectProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+    "update:modelValue": (value: (string | number)[]) => any;
+    change: (value: (string | number)[]) => any;
+    open: () => any;
+    close: () => any;
+    clear: () => any;
+    "option-select": (option: MultiselectOption) => any;
+    "option-deselect": (option: MultiselectOption) => any;
+    "remove-tag": (value: string | number) => any;
+}, string, import('vue').PublicProps, Readonly<MultiselectProps> & Readonly<{
+    "onUpdate:modelValue"?: ((value: (string | number)[]) => any) | undefined;
+    onChange?: ((value: (string | number)[]) => any) | undefined;
+    onOpen?: (() => any) | undefined;
+    onClose?: (() => any) | undefined;
+    onClear?: (() => any) | undefined;
+    "onOption-select"?: ((option: MultiselectOption) => any) | undefined;
+    "onOption-deselect"?: ((option: MultiselectOption) => any) | undefined;
+    "onRemove-tag"?: ((value: string | number) => any) | undefined;
+}>, {
+    size: import('../../types').ButtonSize;
+    disabled: boolean;
+    modelValue: (string | number)[];
+    searchable: boolean;
+    clearable: boolean;
+    closeOnSelect: boolean;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
+    dropdownRef: HTMLDivElement;
+    inputRef: HTMLInputElement;
+}, HTMLDivElement>;
+export default _default;
