@@ -349,6 +349,8 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+@import '../../style.css';
+
 .tot-ds-root {
   &.drop-zone-container {
     display: flex;

@@ -1,6 +1,6 @@
 {
   "name": "@toteat-eng/design-system-vue",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "author": "Mauricio Antunez <mauricio.antunez@toteat.com> (https://toteat.com)",
   "description": "The Toteat Design System is a collection of components and utilities that help you build consistent and beautiful user interfaces. Build primarely to solve Toteat needs.",
   "type": "module",
@@ -22,43 +22,53 @@
     "dist"
   ],
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/design-system-vue.es.js",
-      "require": "./dist/design-system-vue.umd.js"
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/design-system-vue.es.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Button": {
+        "types": "./dist/Button/index.d.ts",
+        "import": "./dist/Button/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Checkbox": {
+        "types": "./dist/Checkbox/index.d.ts",
+        "import": "./dist/Checkbox/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./DropZone": {
+        "types": "./dist/DropZone/index.d.ts",
+        "import": "./dist/DropZone/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Icon": {
+        "types": "./dist/Icon/index.d.ts",
+        "import": "./dist/Icon/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./ImagePreview": {
+        "types": "./dist/ImagePreview/index.d.ts",
+        "import": "./dist/ImagePreview/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Multiselect": {
+        "types": "./dist/Multiselect/index.d.ts",
+        "import": "./dist/Multiselect/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./SkeletonPreload": {
+        "types": "./dist/SkeletonPreload/index.d.ts",
+        "import": "./dist/SkeletonPreload/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Spinner": {
+        "types": "./dist/Spinner/index.d.ts",
+        "import": "./dist/Spinner/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./style.css": "./dist/design-system-vue.css"
     },
-    "./Button": {
-      "types": "./dist/Button/index.d.ts",
-      "import": "./dist/Button/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./DropZone": {
-      "types": "./dist/DropZone/index.d.ts",
-      "import": "./dist/DropZone/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Icon": {
-      "types": "./dist/Icon/index.d.ts",
-      "import": "./dist/Icon/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./ImagePreview": {
-      "types": "./dist/ImagePreview/index.d.ts",
-      "import": "./dist/ImagePreview/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./SkeletonPreload": {
-      "types": "./dist/SkeletonPreload/index.d.ts",
-      "import": "./dist/SkeletonPreload/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Spinner": {
-      "types": "./dist/Spinner/index.d.ts",
-      "import": "./dist/Spinner/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./style.css": "./dist/design-system-vue.css"
-  },
   "sideEffects": [
     "*.css"
   ],
@@ -122,8 +132,8 @@
     "@chromatic-com/storybook": "^4.1.2",
     "@eslint/eslintrc": "^3.3.1",
     "@rushstack/eslint-patch": "^1.11.0",
-    "@storybook/addon-docs": "^10.0.5",
-    "@storybook/vue3-vite": "^10.0.5",
+    "@storybook/addon-docs": "^10.0.7",
+    "@storybook/vue3-vite": "^10.0.7",
     "@tailwindcss/vite": "^4.1.6",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^20.11.24",
@@ -135,7 +145,7 @@
     "eslint-config-prettier": "^10.1.3",
     "eslint-plugin-jsdoc": "^50.6.17",
     "eslint-plugin-prettier": "^5.4.0",
-    "eslint-plugin-storybook": "^10.0.5",
+    "eslint-plugin-storybook": "^10.0.7",
     "eslint-plugin-vue": "^10.1.0",
     "eslint-plugin-vuejs-accessibility": "^2.4.1",
     "husky": "^9.1.7",
@@ -144,7 +154,7 @@
     "npm-run-all": "^4.1.5",
     "postcss-html": "^1.8.0",
     "prettier": "^3.5.3",
-    "storybook": "^10.0.5",
+    "storybook": "^10.0.7",
     "stylelint": "^16.19.1",
     "stylelint-config-standard": "^38.0.0",
     "tailwindcss": "^4.1.6",

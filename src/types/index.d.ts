@@ -137,6 +137,8 @@ export type MultiselectProps = {
   clearable?: boolean;
   closeOnSelect?: boolean;
   size?: ButtonSize;
+  id?: string;
+  name?: string;
 };
 
 export type CheckboxProps = {

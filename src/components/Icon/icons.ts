@@ -121,7 +121,7 @@ export const ICON_CHILI_FILLED = [
   '0 0 24 24',
 ];
 export const ICON_CLOSE_OUTLINE = [
-  "<path stroke='#464646' stroke-linecap='round' d='m2 2 12 12M14 2 2 14'/>",
+  "<path d='m8 7.293 5.646-5.647a.502.502 0 0 1 .708.708L8.707 8l5.647 5.646a.502.502 0 0 1-.708.708L8 8.707l-5.646 5.647a.502.502 0 0 1-.708-.708L7.293 8 1.646 2.354a.502.502 0 0 1 .708-.708z' />",
   '0 0 15 15',
 ];
 export const ICON_CLOUD_DOWNLOAD_OUTLINE = [
@@ -153,7 +153,7 @@ export const ICON_DOCUMENT_GENERIC_OUTLINE = [
   '0 0 16 16',
 ];
 export const ICON_DOCUMENT_HISTORY_ALT_OUTLINE = [
-  "<path d='M14.17 3.44A6.928 6.928 0 1 1 3.264 11.99a.533.533 0 1 1 .839-.658 5.884 5.884 0 1 0-1.207-4.246s-.077.117-.308.298l-.81-.098.095-.526A6.922 6.922 0 0 1 14.169 3.44Z'/><path d='m.486 5.994 4.531-.29a.289.289 0 0 1 .252.458L3.177 9.026a.289.289 0 0 1-.442.029L.295 6.48a.289.289 0 0 1 .191-.486Z'/><path stroke='#1B1B1B' stroke-linecap='round' stroke-linejoin='round' d='M8 5v4h4'/>",
+  "<path stroke='#1B1B1B' stroke-linecap='round' stroke-linejoin='round' d='M7.5 5v4H11'/><circle cx='8' cy='8' r='6.4' stroke='#1B1B1B' stroke-width='1.2'/>",
   '0 0 16 16',
 ];
 export const ICON_DOCUMENT_HISTORY_OUTLINE = [

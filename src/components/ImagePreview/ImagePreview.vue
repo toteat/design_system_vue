@@ -123,6 +123,8 @@ watch([computedImageSrc, isBase64Image], ([src, isBase64]) => {
 </template>
 
 <style scoped>
+@import '../../style.css';
+
 .tot-ds-root {
   &.image-preview {
     position: relative;
