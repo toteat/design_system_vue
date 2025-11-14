@@ -2,12 +2,15 @@
 import { computed, getCurrentInstance } from 'vue';
 import type { CheckboxProps } from '@/types';
 import Icon from '../Icon/Icon.vue';
+import { COMPONENT_SIZE_MAP } from '@/constants';
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
   checked: false,
   disabled: false,
-  size: 1.25,
+  size: 'medium',
   color: 'primary',
+  checkboxPosition: 'left',
+  fullWidth: false,
 });
 
 const emit = defineEmits<{
@@ -18,6 +21,11 @@ const emit = defineEmits<{
 // Generate unique ID for accessibility using component UID
 const instance = getCurrentInstance();
 const checkboxId = `checkbox-${instance?.uid ?? Math.random().toString(36).substring(2, 11)}`;
+
+// Map size prop to rem values for icon sizing using shared constant
+const iconSize = computed(() => {
+  return COMPONENT_SIZE_MAP[props.size] || COMPONENT_SIZE_MAP.medium;
+});
 
 // Determine icon color based on state
 const iconColor = computed(() => {
@@ -45,6 +53,9 @@ const handleClick = () => {
       'checkbox-checked': checked,
       'checkbox-disabled': disabled,
     }"
+    :data-checkbox-position="checkboxPosition"
+    :data-full-width="fullWidth"
+    :data-size="size"
   >
     <input
       :id="checkboxId"
@@ -60,10 +71,15 @@ const handleClick = () => {
       <Icon
         v-if="checked"
         name="checkbox-checked"
-        :size="size"
+        :size="iconSize"
         :color="iconColor"
       />
-      <Icon v-else name="checkbox-unchecked" :size="size" :color="iconColor" />
+      <Icon
+        v-else
+        name="checkbox-unchecked"
+        :size="iconSize"
+        :color="iconColor"
+      />
     </span>
     <span v-if="$slots.default" class="checkbox__label">
       <slot />
@@ -103,6 +119,36 @@ const handleClick = () => {
 
     .checkbox__label {
       flex: 1;
+    }
+
+    /* Size variants inherit from global .tot-ds-root[data-size] definitions in style.css */
+
+    /* Default: checkbox on left, label on right */
+    &[data-checkbox-position='left'] {
+      .checkbox__visual {
+        order: 1;
+      }
+
+      .checkbox__label {
+        order: 2;
+      }
+    }
+
+    /* Checkbox on right, label on left */
+    &[data-checkbox-position='right'] {
+      .checkbox__visual {
+        order: 2;
+      }
+
+      .checkbox__label {
+        order: 1;
+      }
+    }
+
+    /* Full width variant - using data attribute */
+    &[data-full-width='true'] {
+      display: flex;
+      width: 100%;
     }
 
     /* Focus state from native checkbox */

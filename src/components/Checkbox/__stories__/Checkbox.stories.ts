@@ -17,8 +17,17 @@ const meta: Meta<typeof Checkbox> = {
       description: 'Whether the checkbox is disabled',
     },
     size: {
-      control: 'number',
-      description: 'Size of the checkbox icon',
+      control: { type: 'select' },
+      options: [
+        'tiny',
+        'small',
+        'medium',
+        'large',
+        'very-large',
+        'very-very-large',
+        'ridiculously-large',
+      ],
+      description: 'Size of the checkbox (affects both icon and font size)',
     },
     color: {
       control: { type: 'select' },
@@ -49,12 +58,24 @@ const meta: Meta<typeof Checkbox> = {
       ],
       description: 'Color of the checked checkbox',
     },
+    checkboxPosition: {
+      control: { type: 'select' },
+      options: ['left', 'right'],
+      description: 'Position of the checkbox (left or right)',
+    },
+    fullWidth: {
+      control: 'boolean',
+      description:
+        'Whether the checkbox should take full width of its container',
+    },
   },
   args: {
     checked: false,
     disabled: false,
-    size: 1.25,
+    size: 'medium',
     color: 'primary',
+    checkboxPosition: 'left',
+    fullWidth: false,
   },
 };
 
@@ -143,7 +164,15 @@ export const Sizes: Story = {
   render: () => ({
     components: { Checkbox },
     setup() {
-      const sizes = [0.75, 1, 1.25, 1.5, 2, 2.5];
+      const sizes = [
+        { name: 'tiny', label: 'Tiny (14px)' },
+        { name: 'small', label: 'Small (14px)' },
+        { name: 'medium', label: 'Medium (16px)' },
+        { name: 'large', label: 'Large (20px)' },
+        { name: 'very-large', label: 'Very Large (24px)' },
+        { name: 'very-very-large', label: 'Very Very Large (32px)' },
+        { name: 'ridiculously-large', label: 'Ridiculously Large (40px)' },
+      ];
       const checkedStates = ref(sizes.map(() => true));
       return { sizes, checkedStates };
     },
@@ -151,11 +180,11 @@ export const Sizes: Story = {
       <div style="display: flex; flex-direction: column; gap: 1rem;">
         <Checkbox
           v-for="(size, index) in sizes"
-          :key="size"
+          :key="size.name"
           v-model:checked="checkedStates[index]"
-          :size="size"
+          :size="size.name"
         >
-          Size: {{ size }}
+          {{ size.label }}
         </Checkbox>
       </div>
     `,
@@ -439,6 +468,156 @@ export const KeyboardNavigation: Story = {
               {{ option.label }}
             </Checkbox>
           </div>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+// Checkbox position right (label on left)
+export const CheckboxRight: Story = {
+  render: () => ({
+    components: { Checkbox },
+    setup() {
+      const checked = ref(true);
+      return { checked };
+    },
+    template: `
+      <Checkbox v-model:checked="checked" checkbox-position="right">
+        Checkbox on the right, label on the left
+      </Checkbox>
+    `,
+  }),
+};
+
+// Full width
+export const FullWidth: Story = {
+  render: () => ({
+    components: { Checkbox },
+    setup() {
+      const checked = ref(true);
+      return { checked };
+    },
+    template: `
+      <div style="border: 2px dashed #ccc; padding: 1rem;">
+        <Checkbox v-model:checked="checked" :full-width="true">
+          Full width checkbox
+        </Checkbox>
+      </div>
+    `,
+  }),
+};
+
+// Full width with checkbox on right
+export const FullWidthCheckboxRight: Story = {
+  render: () => ({
+    components: { Checkbox },
+    setup() {
+      const checked = ref(true);
+      return { checked };
+    },
+    template: `
+      <div style="border: 2px dashed #ccc; padding: 1rem;">
+        <Checkbox v-model:checked="checked" :full-width="true" checkbox-position="right">
+          Full width with checkbox on right
+        </Checkbox>
+      </div>
+    `,
+  }),
+};
+
+// Sizing demonstration
+export const SizingDemo: Story = {
+  render: () => ({
+    components: { Checkbox },
+    setup() {
+      const checks = ref([true, true, true, true, true]);
+      return { checks };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <h3 style="margin: 0;">Checkbox Size Variants</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <Checkbox v-model:checked="checks[0]" size="small">
+            Small (14px) - WCAG 2.2 minimum
+          </Checkbox>
+          <Checkbox v-model:checked="checks[1]" size="medium">
+            Medium (16px) - Default size
+          </Checkbox>
+          <Checkbox v-model:checked="checks[2]" size="large">
+            Large (20px) - Comfortable reading
+          </Checkbox>
+          <Checkbox v-model:checked="checks[3]" size="very-large">
+            Very Large (24px) - Touch-friendly
+          </Checkbox>
+          <Checkbox v-model:checked="checks[4]" size="very-very-large">
+            Very Very Large (32px) - High visibility
+          </Checkbox>
+        </div>
+        <div style="padding: 1rem; background-color: #f8f9fa; border-radius: 0.5rem; font-size: 0.875rem;">
+          <strong>Note:</strong> Size prop controls both icon and font size for consistent 1:1 relationship. All sizes meet WCAG 2.2 accessibility standards.
+        </div>
+      </div>
+    `,
+  }),
+};
+
+// All features combined
+export const AllFeaturesCombined: Story = {
+  render: () => ({
+    components: { Checkbox },
+    setup() {
+      const settings = ref({
+        notifications: true,
+        darkMode: false,
+        autoSave: true,
+        analytics: false,
+      });
+      return { settings };
+    },
+    template: `
+      <div style="max-width: 500px;">
+        <h3 style="margin-bottom: 1rem;">Settings Panel (All Features)</h3>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; border: 1px solid #e0e0e0; border-radius: 0.5rem; padding: 1rem;">
+          <Checkbox
+            v-model:checked="settings.notifications"
+            :full-width="true"
+            checkbox-position="right"
+            size="small"
+          >
+            Enable Notifications
+          </Checkbox>
+          <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid #e0e0e0;" />
+          <Checkbox
+            v-model:checked="settings.darkMode"
+            :full-width="true"
+            checkbox-position="right"
+            size="small"
+          >
+            Dark Mode
+          </Checkbox>
+          <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid #e0e0e0;" />
+          <Checkbox
+            v-model:checked="settings.autoSave"
+            :full-width="true"
+            checkbox-position="right"
+            size="small"
+          >
+            Auto-save Changes
+          </Checkbox>
+          <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid #e0e0e0;" />
+          <Checkbox
+            v-model:checked="settings.analytics"
+            :full-width="true"
+            checkbox-position="right"
+            size="small"
+          >
+            Share Analytics Data
+          </Checkbox>
+        </div>
+        <div style="margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 0.5rem;">
+          <strong>Current Settings:</strong>
+          <pre style="margin-top: 0.5rem; font-size: 0.75rem;">{{ JSON.stringify(settings, null, 2) }}</pre>
         </div>
       </div>
     `,

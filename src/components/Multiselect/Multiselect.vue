@@ -14,6 +14,7 @@ const props = withDefaults(defineProps<MultiselectProps>(), {
   closeOnSelect: false,
   size: 'medium',
   modelValue: () => [],
+  checkboxPosition: 'left',
 });
 
 const emit = defineEmits<{
@@ -225,7 +226,7 @@ onUnmounted(() => {
       />
       <div class="multiselect__actions">
         <Icon
-          :name="isOpen ? 'chevron-up-outline' : 'chevron-down-outline'"
+          name="chevron-down-outline"
           :size="1.25"
           color="neutral-400"
           class="multiselect__arrow"
@@ -248,7 +249,7 @@ onUnmounted(() => {
       </span>
       <div class="multiselect__actions">
         <Icon
-          :name="isOpen ? 'chevron-up-outline' : 'chevron-down-outline'"
+          name="chevron-down-outline"
           :size="1.25"
           color="neutral-400"
           class="multiselect__arrow"
@@ -278,7 +279,9 @@ onUnmounted(() => {
             <Checkbox
               :checked="isSelected(option)"
               :disabled="isOptionDisabled(option)"
-              :size="1.25"
+              size="small"
+              :full-width="true"
+              :checkbox-position="checkboxPosition"
               color="black"
               class="multiselect__checkbox"
               @change="toggleOption(option)"
@@ -346,7 +349,7 @@ onUnmounted(() => {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     min-height: 3rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0 0 0 0.75rem;
 
     &:hover:not(.multiselect-disabled &) {
       border-color: var(--color-neutral-400);
@@ -379,13 +382,11 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
     background-color: var(--color-neutral);
     border: 1.5px solid var(--color-neutral-300);
     border-radius: 0.5rem;
     transition: all 0.2s ease-in-out;
     min-height: 3rem;
-    padding: 0.5rem 0.75rem;
 
     &:hover:not(.multiselect-disabled &) {
       border-color: var(--color-neutral-400);
@@ -407,33 +408,73 @@ onUnmounted(() => {
     background-color: var(--color-neutral-100);
   }
 
+  & .multiselect__actions {
+    min-width: 44px;
+    justify-content: center;
+  }
   /* Size variants for both trigger and input wrapper */
-  &.multiselect-size-tiny .multiselect__trigger,
-  &.multiselect-size-tiny .multiselect__input-wrapper {
-    min-height: 2rem;
-    font-size: var(--text-xs);
-    padding: 0.25rem 0.5rem;
+  &.multiselect-size-tiny {
+    & .multiselect__trigger,
+    & .multiselect__input-wrapper {
+      min-height: 2rem;
+      font-size: var(--text-xs);
+    }
+
+    & .multiselect__search-input {
+      padding: 0.25rem 0 0.25rem 0.5rem;
+    }
+
+    & .multiselect__actions {
+      padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    }
   }
 
-  &.multiselect-size-small .multiselect__trigger,
-  &.multiselect-size-small .multiselect__input-wrapper {
-    min-height: 2.5rem;
-    font-size: var(--text-sm);
-    padding: 0.375rem 0.625rem;
+  &.multiselect-size-small {
+    & .multiselect__trigger,
+    & .multiselect__input-wrapper {
+      min-height: 2.5rem;
+      font-size: var(--text-sm);
+    }
+
+    & .multiselect__search-input {
+      padding: 0.375rem 0 0.375rem 0.625rem;
+    }
+
+    & .multiselect__actions {
+      padding: 0.375rem 0.625rem 0.375rem 0.5rem;
+    }
   }
 
-  &.multiselect-size-medium .multiselect__trigger,
-  &.multiselect-size-medium .multiselect__input-wrapper {
-    min-height: 3rem;
-    font-size: var(--text-base);
-    padding: 0.5rem 0.75rem;
+  &.multiselect-size-medium {
+    & .multiselect__trigger,
+    & .multiselect__input-wrapper {
+      min-height: 3rem;
+      font-size: var(--text-base);
+    }
+
+    & .multiselect__search-input {
+      padding: 0.5rem 0 0.5rem 0.75rem;
+    }
+
+    & .multiselect__actions {
+      padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+    }
   }
 
-  &.multiselect-size-large .multiselect__trigger,
-  &.multiselect-size-large .multiselect__input-wrapper {
-    min-height: 3.75rem;
-    font-size: var(--text-lg);
-    padding: 0.75rem 1rem;
+  &.multiselect-size-large {
+    & .multiselect__trigger,
+    & .multiselect__input-wrapper {
+      min-height: 3.75rem;
+      font-size: var(--text-lg);
+    }
+
+    & .multiselect__search-input {
+      padding: 0.75rem 0 0.75rem 1rem;
+    }
+
+    & .multiselect__actions {
+      padding: 0.75rem 1rem 0.75rem 0.5rem;
+    }
   }
 
   .multiselect__search-input {
@@ -454,13 +495,6 @@ onUnmounted(() => {
     }
   }
 
-  .multiselect__actions {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    flex-shrink: 0;
-  }
-
   .multiselect__clear {
     display: inline-flex;
     align-items: center;
@@ -475,8 +509,22 @@ onUnmounted(() => {
     }
   }
 
+  .multiselect__actions {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    flex-shrink: 0;
+    border-left: 1px solid var(--color-neutral-300);
+  }
+
   .multiselect__arrow {
     flex-shrink: 0;
+    transition: transform 200ms ease-out;
+  }
+
+  /* Rotate only the icon when open */
+  &.multiselect-open .multiselect__arrow {
+    transform: rotate(180deg);
   }
 
   .multiselect__dropdown {
@@ -528,6 +576,9 @@ onUnmounted(() => {
     padding: 0.625rem 0.75rem;
     border-radius: 0;
     transition: background-color 0.15s ease-in-out;
+
+    /* Font size matches checkbox icon size for 1:1 relationship */
+    font-size: var(--text-sm);
 
     /* Remove default checkbox gap since we're using it as a full-width container */
     gap: 0.5rem;

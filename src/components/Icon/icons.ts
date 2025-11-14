@@ -77,12 +77,12 @@ export const ICON_CARROT_FILLED = [
   '0 0 24 24',
 ];
 export const ICON_CHECKBOX_CHECKED = [
-  "<path fill='#1B1B1B' d='M13 2H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Zm-6 8.75L4.5 8.271l.795-.771L7 9.173 10.704 5.5l.796.788L7 10.75Z'/>",
-  '0 0 16 16',
+  "<path fill='#1B1B1B' d='M11 0H1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1Zm-6 8.75L2.5 6.271l.795-.771L5 7.173 8.704 3.5l.796.788L5 8.75Z'/>",
+  '0 0 12 12',
 ];
 export const ICON_CHECKBOX_UNCHECKED = [
-  "<path fill='#1B1B1B' d='M13 2H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1ZM3 13V3h10v10H3Z'/>",
-  '0 0 16 16',
+  "<path fill='#1B1B1B' d='M11 0H1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1ZM1 11V1h10v10H1Z'/>",
+  '0 0 12 12',
 ];
 export const ICON_CHECK_OUTLINE = [
   "<path d='M14.04 4.04a.65.65 0 0 1 .92.92l-9 9a.651.651 0 0 1-.968-.054l-4-5-.071-.11A.65.65 0 0 1 1.915 8l.093.094 3.546 4.431L14.04 4.04Z'/>",

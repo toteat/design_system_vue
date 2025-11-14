@@ -68,80 +68,98 @@
   color: black;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-}
 
-/* Ensure all child elements use Manrope font */
-.tot-ds-root * {
-  font-family: "Manrope", Helvetica, Arial, sans-serif;
-}
+  /* Modern CSS nesting - all child elements */
+  & * {
+    font-family: "Manrope", Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 
-/* Scoped CSS Reset for Design System Components */
-.tot-ds-root *,
-.tot-ds-root *::before,
-.tot-ds-root *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+    &::before,
+    &::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  }
 
-/* Remove default margin for design system elements */
-.tot-ds-root h1,
-.tot-ds-root h2,
-.tot-ds-root h3,
-.tot-ds-root h4,
-.tot-ds-root p,
-.tot-ds-root figure,
-.tot-ds-root blockquote,
-.tot-ds-root dl,
-.tot-ds-root dd {
-  margin: 0;
-}
+  /* Typography elements - remove default margins */
+  & :is(h1, h2, h3, h4, p, figure, blockquote, dl, dd) {
+    margin: 0;
+  }
 
-/* Make images easier to work with in design system */
-.tot-ds-root img,
-.tot-ds-root picture {
-  max-width: 100%;
-  display: block;
-}
+  /* Media elements - responsive by default */
+  & :is(img, picture) {
+    max-width: 100%;
+    display: block;
+  }
 
-/* Inherit fonts for inputs and buttons in design system */
-.tot-ds-root input,
-.tot-ds-root button,
-.tot-ds-root textarea,
-.tot-ds-root select {
-  font: inherit;
-}
+  /* Form elements - inherit font */
+  & :is(input, button, textarea, select) {
+    font: inherit;
+  }
 
-/* Remove list styles on ul, ol elements in design system */
-.tot-ds-root ul,
-.tot-ds-root ol {
-  list-style: none;
-}
+  /* List elements - no default styles */
+  & :is(ul, ol) {
+    list-style: none;
+  }
 
-/* A elements that don't have a class get default styles in design system */
-.tot-ds-root a:not([class]) {
-  text-decoration-skip-ink: auto;
-}
+  /* Links without classes - default styling */
+  & a:not([class]) {
+    text-decoration-skip-ink: auto;
+  }
 
-/* Remove default button styles in design system */
-.tot-ds-root button {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
+  /* Button reset */
+  & button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
 
-/* Remove default fieldset styles in design system */
-.tot-ds-root fieldset {
-  border: none;
-  padding: 0;
-  margin: 0;
-  min-width: 0;
-}
+  /* Fieldset reset */
+  & fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+  }
 
-/* Remove default table styles in design system */
-.tot-ds-root table {
-  border-collapse: collapse;
-  border-spacing: 0;
+  /* Table reset */
+  & table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  /* Global component size definitions - WCAG 2.2 compliant */
+  /* All components using data-size attribute will inherit these font sizes */
+  &[data-size="tiny"] {
+    font-size: var(--text-sm); /* 14px - WCAG 2.2 minimum */
+  }
+
+  &[data-size="small"] {
+    font-size: var(--text-sm); /* 14px - WCAG 2.2 minimum */
+  }
+
+  &[data-size="medium"] {
+    font-size: var(--text-base); /* 16px */
+  }
+
+  &[data-size="large"] {
+    font-size: var(--text-lg); /* 20px */
+  }
+
+  &[data-size="very-large"] {
+    font-size: var(--text-xl); /* 24px */
+  }
+
+  &[data-size="very-very-large"] {
+    font-size: var(--text-2xl); /* 32px */
+  }
+
+  &[data-size="ridiculously-large"] {
+    font-size: var(--text-3xl); /* 40px */
+  }
 }
 

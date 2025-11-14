@@ -90,6 +90,11 @@ const meta: Meta<typeof Multiselect> = {
       options: ['tiny', 'small', 'medium', 'large'],
       description: 'Size of the multiselect component',
     },
+    checkboxPosition: {
+      control: { type: 'select' },
+      options: ['left', 'right'],
+      description: 'Position of the checkbox in dropdown options',
+    },
   },
   args: {
     options: fruitOptions,
@@ -99,6 +104,7 @@ const meta: Meta<typeof Multiselect> = {
     clearable: true,
     closeOnSelect: false,
     size: 'medium',
+    checkboxPosition: 'left',
   },
 };
 
@@ -882,6 +888,95 @@ export const FormIntegration: Story = {
         >
           <h4 style="margin-top: 0;">Submitted Data:</h4>
           <pre style="margin: 0; white-space: pre-wrap; word-wrap: break-word;">{{ JSON.stringify(submittedData, null, 2) }}</pre>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+// Checkbox sizing demonstration
+export const CheckboxSizing: Story = {
+  render: () => ({
+    components: { Multiselect },
+    setup() {
+      const selected = ref<(string | number)[]>(['apple', 'banana']);
+      return { selected, fruitOptions };
+    },
+    template: `
+      <div style="max-width: 400px;">
+        <h3 style="margin-bottom: 1rem;">Checkbox Sizing in Multiselect</h3>
+        <p style="margin-bottom: 1rem; font-size: 0.875rem; color: #666;">
+          Checkboxes in the dropdown use "small" size (14px) - WCAG 2.2 compliant minimum for interactive elements.
+        </p>
+        <Multiselect
+          v-model="selected"
+          :options="fruitOptions"
+          placeholder="Select fruits..."
+          :searchable="false"
+        />
+        <div style="margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 0.5rem;">
+          <strong>Accessibility Notes:</strong>
+          <ul style="margin: 0.5rem 0 0 1.5rem; font-size: 0.875rem;">
+            <li>Checkbox size: "small" (14px) - WCAG 2.2 minimum</li>
+            <li>Font size: 14px (matches icon for 1:1 relationship)</li>
+            <li>Predefined sizes ensure consistency</li>
+            <li>Checkbox uses full width by default</li>
+            <li>Checkbox position: left (default)</li>
+          </ul>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+// Checkbox position demonstration
+export const CheckboxPosition: Story = {
+  render: () => ({
+    components: { Multiselect },
+    setup() {
+      const leftPosition = ref<(string | number)[]>(['apple', 'orange']);
+      const rightPosition = ref<(string | number)[]>(['banana', 'grape']);
+      return { leftPosition, rightPosition, fruitOptions };
+    },
+    template: `
+      <div style="max-width: 900px;">
+        <h3 style="margin-bottom: 1.5rem;">Checkbox Position Options</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+          <div>
+            <h4 style="margin-bottom: 0.5rem;">Left Position (Default)</h4>
+            <p style="margin-bottom: 1rem; font-size: 0.875rem; color: #666;">
+              Checkbox appears on the left side
+            </p>
+            <Multiselect
+              v-model="leftPosition"
+              :options="fruitOptions"
+              placeholder="Select fruits..."
+              :searchable="false"
+              checkbox-position="left"
+            />
+          </div>
+          <div>
+            <h4 style="margin-bottom: 0.5rem;">Right Position</h4>
+            <p style="margin-bottom: 1rem; font-size: 0.875rem; color: #666;">
+              Checkbox appears on the right side
+            </p>
+            <Multiselect
+              v-model="rightPosition"
+              :options="fruitOptions"
+              placeholder="Select fruits..."
+              :searchable="false"
+              checkbox-position="right"
+            />
+          </div>
+        </div>
+        <div style="margin-top: 2rem; padding: 1rem; background-color: #f8f9fa; border-radius: 0.5rem;">
+          <strong>Notes:</strong>
+          <ul style="margin: 0.5rem 0 0 1.5rem; font-size: 0.875rem;">
+            <li>Default position is <code>left</code></li>
+            <li>Checkboxes always use full width in dropdown</li>
+            <li>Position controlled by <code>checkboxPosition</code> prop</li>
+            <li>Uses CSS flexbox <code>order</code> for visual reordering</li>
+          </ul>
         </div>
       </div>
     `,

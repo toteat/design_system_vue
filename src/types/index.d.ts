@@ -5,8 +5,21 @@ import type { IconNames } from '../components/Icon/icons';
 // Button types
 export type Variant = 'outline' | 'primary' | 'secondary' | 'text';
 
-// Button size
-export type ButtonSize = 'medium' | 'large' | 'small' | 'tiny';
+// Component sizes - shared across components
+export type ComponentSize =
+  | 'tiny'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'very-large'
+  | 'very-very-large'
+  | 'ridiculously-large';
+
+// Button size (legacy, using ComponentSize)
+export type ButtonSize = 'tiny' | 'small' | 'medium' | 'large';
+
+// Checkbox size
+export type CheckboxSize = ComponentSize;
 
 export type ButtonProps = {
   variant?: Variant;
@@ -139,11 +152,14 @@ export type MultiselectProps = {
   size?: ButtonSize;
   id?: string;
   name?: string;
+  checkboxPosition?: 'left' | 'right';
 };
 
 export type CheckboxProps = {
   checked?: boolean;
   disabled?: boolean;
-  size?: number;
+  size?: CheckboxSize;
   color?: ThemeColor;
+  checkboxPosition?: 'left' | 'right';
+  fullWidth?: boolean;
 };

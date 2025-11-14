@@ -1,4 +1,16 @@
-import type { AllowedFileTypes } from './types';
+import type { AllowedFileTypes, ComponentSize } from './types';
+
+// Component size to rem mapping - shared across all components
+// WCAG 2.2 compliant: Minimum 14px (0.875rem) for interactive elements
+export const COMPONENT_SIZE_MAP: Record<ComponentSize, number> = {
+  tiny: 0.875, // 14px - WCAG 2.2 minimum
+  small: 0.875, // 14px - WCAG 2.2 minimum
+  medium: 1, // 16px
+  large: 1.25, // 20px
+  'very-large': 1.5, // 24px
+  'very-very-large': 2, // 32px
+  'ridiculously-large': 3, // 48px
+};
 
 export const ALLOWED_TYPES_MAP: Record<
   AllowedFileTypes,
