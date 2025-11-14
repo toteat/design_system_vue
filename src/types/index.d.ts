@@ -3,7 +3,12 @@ import type { IconNames } from '../components/Icon/icons';
 // Common types used across the design system
 
 // Button types
-export type Variant = 'outline' | 'primary' | 'secondary' | 'text';
+export type Variant =
+  | 'outline'
+  | 'primary'
+  | 'secondary'
+  | 'text'
+  | 'neutral-dark';
 
 // Component sizes - shared across components
 export type ComponentSize =
@@ -142,8 +147,9 @@ export type MultiselectOption = {
 export type MultiselectProps = {
   options: MultiselectOption[];
   modelValue?: (string | number)[];
-  placeholder?: string;
+  selectPlaceholder?: string;
   searchPlaceholder?: string;
+  maxSelectionsMessage?: string;
   disabled?: boolean;
   maxSelections?: number;
   searchable?: boolean;

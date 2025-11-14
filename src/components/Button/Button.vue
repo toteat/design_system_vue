@@ -38,6 +38,7 @@ const ICON_COLOR_MAP = {
   primary: 'white',
   secondary: 'white',
   text: 'black',
+  'neutral-dark': 'white',
 } as const;
 
 // Helper function to get spinner dimension based on button size
@@ -224,6 +225,12 @@ const buttonClasses = computed(() => [
       border-width: 0;
       border-style: solid;
       border-color: currentColor;
+    }
+
+    /* Neutral Dark Button */
+    &.btn-neutral-dark {
+      background-color: var(--color-neutral-500);
+      color: var(--color-neutral);
     }
 
     /* Common states */

@@ -57,13 +57,17 @@ const meta: Meta<typeof Multiselect> = {
       control: 'object',
       description: 'Array of selected values (v-model)',
     },
-    placeholder: {
+    selectPlaceholder: {
       control: 'text',
-      description: 'Placeholder text when no items are selected',
+      description: 'Placeholder text when multiselect is closed',
     },
     searchPlaceholder: {
       control: 'text',
-      description: 'Placeholder text for the search input',
+      description: 'Placeholder text when searching (multiselect is open)',
+    },
+    maxSelectionsMessage: {
+      control: 'text',
+      description: 'Message displayed when maximum selections limit is reached',
     },
     disabled: {
       control: 'boolean',
@@ -98,7 +102,7 @@ const meta: Meta<typeof Multiselect> = {
   },
   args: {
     options: fruitOptions,
-    placeholder: 'Select options...',
+    selectPlaceholder: 'Select options...',
     disabled: false,
     searchable: false,
     clearable: true,
@@ -148,7 +152,7 @@ export const SizeTiny: Story = {
           :options="options"
           v-model="selectedValues"
           size="tiny"
-          placeholder="Select fruits..."
+          select-placeholder="Select fruits..."
         />
       </div>
     `,
@@ -168,7 +172,7 @@ export const SizeSmall: Story = {
           :options="options"
           v-model="selectedValues"
           size="small"
-          placeholder="Select fruits..."
+          select-placeholder="Select fruits..."
         />
       </div>
     `,
@@ -188,7 +192,7 @@ export const SizeMedium: Story = {
           :options="options"
           v-model="selectedValues"
           size="medium"
-          placeholder="Select fruits..."
+          select-placeholder="Select fruits..."
         />
       </div>
     `,
@@ -208,7 +212,7 @@ export const SizeLarge: Story = {
           :options="options"
           v-model="selectedValues"
           size="large"
-          placeholder="Select fruits..."
+          select-placeholder="Select fruits..."
         />
       </div>
     `,
@@ -240,7 +244,7 @@ export const AllSizes: Story = {
             :options="options"
             v-model="tinyValues"
             size="tiny"
-            placeholder="Select fruits..."
+            select-placeholder="Select fruits..."
           />
         </div>
         <div>
@@ -249,7 +253,7 @@ export const AllSizes: Story = {
             :options="options"
             v-model="smallValues"
             size="small"
-            placeholder="Select fruits..."
+            select-placeholder="Select fruits..."
           />
         </div>
         <div>
@@ -258,7 +262,7 @@ export const AllSizes: Story = {
             :options="options"
             v-model="mediumValues"
             size="medium"
-            placeholder="Select fruits..."
+            select-placeholder="Select fruits..."
           />
         </div>
         <div>
@@ -267,7 +271,7 @@ export const AllSizes: Story = {
             :options="options"
             v-model="largeValues"
             size="large"
-            placeholder="Select fruits..."
+            select-placeholder="Select fruits..."
           />
         </div>
       </div>
@@ -290,10 +294,11 @@ export const WithMaxSelections: Story = {
           :options="options"
           v-model="selectedValues"
           :maxSelections="3"
-          placeholder="Select up to 3 fruits..."
+          select-placeholder="Select up to 3 fruits..."
+          max-selections-message="You can only select up to 3 fruits!"
         />
         <p style="margin-top: 1rem; color: #666; font-size: 0.875rem;">
-          Try selecting more than 3 items - the options will become disabled when the limit is reached.
+          Try selecting more than 3 items - a warning message will appear and non-selected options will become disabled when the limit is reached.
         </p>
       </div>
     `,
@@ -314,7 +319,7 @@ export const WithDisabledOptions: Story = {
         <Multiselect
           :options="options"
           v-model="selectedValues"
-          placeholder="Select your skills..."
+          select-placeholder="Select your skills..."
         />
         <p style="margin-top: 1rem; color: #666; font-size: 0.875rem;">
           Java and C# options are disabled in this example.
@@ -342,7 +347,7 @@ export const Disabled: Story = {
           :options="options"
           v-model="selectedValues"
           :disabled="true"
-          placeholder="Select fruits..."
+          select-placeholder="Select fruits..."
         />
       </div>
     `,
@@ -364,7 +369,7 @@ export const WithSearch: Story = {
           :options="options"
           v-model="selectedValues"
           :searchable="true"
-          placeholder="Select fruits..."
+          select-placeholder="Select fruits..."
           searchPlaceholder="Type to search..."
         />
         <p style="margin-top: 1rem; color: #666; font-size: 0.875rem;">
@@ -389,7 +394,7 @@ export const WithoutClearButton: Story = {
           :options="options"
           v-model="selectedValues"
           :clearable="false"
-          placeholder="Select fruits..."
+          select-placeholder="Select fruits..."
         />
       </div>
     `,
@@ -411,7 +416,7 @@ export const CloseOnSelect: Story = {
           :options="options"
           v-model="selectedValues"
           :closeOnSelect="true"
-          placeholder="Select fruits..."
+          select-placeholder="Select fruits..."
         />
         <p style="margin-top: 1rem; color: #666; font-size: 0.875rem;">
           The dropdown will close automatically after selecting an item.
@@ -439,7 +444,7 @@ export const WithPreselectedValues: Story = {
         <Multiselect
           :options="options"
           v-model="selectedValues"
-          placeholder="Select fruits..."
+          select-placeholder="Select fruits..."
         />
       </div>
     `,
@@ -460,7 +465,7 @@ export const CustomPlaceholders: Story = {
         <Multiselect
           :options="options"
           v-model="selectedValues"
-          placeholder="Choose your destinations..."
+          select-placeholder="Choose your destinations..."
           searchPlaceholder="Type to filter countries..."
         />
         <p style="margin-top: 1rem; color: #666; font-size: 0.875rem;">
@@ -484,7 +489,7 @@ export const EmptyState: Story = {
         <Multiselect
           :options="options"
           v-model="selectedValues"
-          placeholder="No options available..."
+          select-placeholder="No options available..."
         />
       </div>
     `,
@@ -569,7 +574,7 @@ export const WithEventHandlers: Story = {
         <Multiselect
           :options="options"
           v-model="selectedValues"
-          placeholder="Select fruits..."
+          select-placeholder="Select fruits..."
           @change="handleChange"
           @open="handleOpen"
           @close="handleClose"
@@ -671,7 +676,7 @@ const handleRemoveTag = (value: string | number) => {
   <Multiselect
     :options="options"
     v-model="selectedValues"
-    placeholder="Select your options..."
+    select-placeholder="Select your options..."
     :maxSelections="5"
     @change="handleChange"
     @open="handleOpen"
@@ -735,7 +740,7 @@ export const MultipleInstances: Story = {
           <Multiselect
             :options="fruitOptions"
             v-model="fruits"
-            placeholder="Select your favorite fruits..."
+            select-placeholder="Select your favorite fruits..."
             :maxSelections="3"
           />
         </div>
@@ -745,7 +750,7 @@ export const MultipleInstances: Story = {
           <Multiselect
             :options="countryOptions"
             v-model="countries"
-            placeholder="Select countries you've visited..."
+            select-placeholder="Select countries you've visited..."
           />
         </div>
 
@@ -754,7 +759,7 @@ export const MultipleInstances: Story = {
           <Multiselect
             :options="skillOptions"
             v-model="skills"
-            placeholder="Select your skills..."
+            select-placeholder="Select your skills..."
           />
         </div>
 
@@ -824,7 +829,7 @@ export const FormIntegration: Story = {
             <input
               v-model="formData.name"
               type="text"
-              placeholder="Enter your name..."
+              select-placeholder="Enter your name..."
               style="width: 100%; padding: 0.5rem; border: 1.5px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;"
               required
             />
@@ -835,7 +840,7 @@ export const FormIntegration: Story = {
             <Multiselect
               :options="fruitOptions"
               v-model="formData.fruits"
-              placeholder="Select your favorite fruits..."
+              select-placeholder="Select your favorite fruits..."
               :maxSelections="5"
             />
           </div>
@@ -845,7 +850,7 @@ export const FormIntegration: Story = {
             <Multiselect
               :options="countryOptions"
               v-model="formData.countries"
-              placeholder="Select countries..."
+              select-placeholder="Select countries..."
             />
           </div>
 
@@ -854,7 +859,7 @@ export const FormIntegration: Story = {
             <Multiselect
               :options="skillOptions"
               v-model="formData.skills"
-              placeholder="Select your skills..."
+              select-placeholder="Select your skills..."
             />
           </div>
 
@@ -911,7 +916,7 @@ export const CheckboxSizing: Story = {
         <Multiselect
           v-model="selected"
           :options="fruitOptions"
-          placeholder="Select fruits..."
+          select-placeholder="Select fruits..."
           :searchable="false"
         />
         <div style="margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 0.5rem;">
@@ -950,7 +955,7 @@ export const CheckboxPosition: Story = {
             <Multiselect
               v-model="leftPosition"
               :options="fruitOptions"
-              placeholder="Select fruits..."
+              select-placeholder="Select fruits..."
               :searchable="false"
               checkbox-position="left"
             />
@@ -963,7 +968,7 @@ export const CheckboxPosition: Story = {
             <Multiselect
               v-model="rightPosition"
               :options="fruitOptions"
-              placeholder="Select fruits..."
+              select-placeholder="Select fruits..."
               :searchable="false"
               checkbox-position="right"
             />

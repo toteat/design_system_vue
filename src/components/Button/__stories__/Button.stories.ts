@@ -21,7 +21,7 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'outline', 'text'],
+      options: ['primary', 'secondary', 'outline', 'text', 'neutral-dark'],
       description: 'The visual style of the button',
     },
     size: {
@@ -145,6 +145,28 @@ export const TextButton: Story = {
   }),
 };
 
+export const NeutralDark: Story = {
+  render: () => ({
+    components: { Button },
+    template: `
+      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+        <Button variant="neutral-dark" text="Neutral Dark" />
+        <Button variant="neutral-dark" text="Neutral Dark" iconName="close-outline" />
+        <Button variant="neutral-dark" text="Remove" iconName="close-outline" icon-position="right" />
+        <Button variant="neutral-dark" size="tiny" text="Tiny Tag" iconName="close-outline" icon-position="right" />
+      </div>
+    `,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Neutral dark variant with gray-500 background and white text/icons. Commonly used for tags and removable items in multiselect components.',
+      },
+    },
+  },
+};
+
 export const IconButton: Story = {
   args: {
     variant: 'primary',
@@ -248,7 +270,7 @@ export const AllIconButtons: Story = {
     data() {
       return {
         icons: availableIconNames,
-        variants: ['primary', 'secondary', 'outline', 'text'],
+        variants: ['primary', 'secondary', 'outline', 'text', 'neutral-dark'],
       };
     },
     template: `
@@ -285,7 +307,7 @@ export const AllVariantsWithTextAndIcon: Story = {
     components: { Button },
     data() {
       return {
-        variants: ['primary', 'secondary', 'outline', 'text'],
+        variants: ['primary', 'secondary', 'outline', 'text', 'neutral-dark'],
         icon: 'home-outline',
       };
     },

@@ -5,7 +5,7 @@ import Icon from '../Icon/Icon.vue';
 import Button from '../Button/Button.vue';
 import Checkbox from '../Checkbox/Checkbox.vue';
 
-/* global Event, MouseEvent, Node, document, HTMLElement, HTMLInputElement */
+/* global Event, MouseEvent, Node, document, HTMLElement, HTMLInputElement, Element */
 
 const props = withDefaults(defineProps<MultiselectProps>(), {
   disabled: false,
@@ -28,14 +28,23 @@ const emit = defineEmits<{
   'remove-tag': [value: string | number];
 }>();
 // Computed placeholders with fallback
-const placeholderText = computed(
-  () => props.placeholder || 'Select options...',
+const selectPlaceholderText = computed(
+  () => props.selectPlaceholder || 'Select options...',
 );
-const searchPlaceholderText = computed(
-  () => props.searchPlaceholder || 'Search...',
-);
+const searchPlaceholderText = computed(() => {
+  // If searchable is enabled, use searchPlaceholder; otherwise use selectPlaceholder
+  if (props.searchable) {
+    return props.searchPlaceholder || 'Search...';
+  }
+  return props.selectPlaceholder || 'Select options...';
+});
+
+const maxSelectionsMessageText = computed(() => {
+  return props.maxSelectionsMessage || 'Maximum selections reached';
+});
 
 const isOpen = ref(false);
+const isDropdownAnimating = ref(false);
 const searchQuery = ref('');
 const dropdownRef = ref<HTMLElement | null>(null);
 const inputRef = ref<HTMLInputElement | null>(null);
@@ -90,12 +99,11 @@ const isOptionDisabled = (option: MultiselectOption) => {
 const toggleDropdown = () => {
   if (props.disabled) return;
 
-  isOpen.value = !isOpen.value;
-
   if (isOpen.value) {
-    emit('open');
+    closeDropdown();
   } else {
-    emit('close');
+    isOpen.value = true;
+    emit('open');
   }
 };
 
@@ -104,6 +112,10 @@ const closeDropdown = () => {
   if (isOpen.value) {
     isOpen.value = false;
     searchQuery.value = '';
+    // Remove focus from search input when closing
+    if (inputRef.value) {
+      inputRef.value.blur();
+    }
     emit('close');
   }
 };
@@ -157,6 +169,72 @@ const handleClickOutside = (event: MouseEvent) => {
   }
 };
 
+// Dropdown transition hooks to coordinate with selected items positioning
+const onDropdownAfterEnter = () => {
+  isDropdownAnimating.value = false;
+};
+
+const onDropdownLeave = () => {
+  isDropdownAnimating.value = true;
+};
+
+const onDropdownAfterLeave = () => {
+  isDropdownAnimating.value = false;
+};
+
+// Smooth transition hooks for selected items
+const onSelectedEnter = (el: Element, done: () => void) => {
+  const element = el as HTMLElement;
+
+  // Set initial state
+  element.style.height = '0';
+  element.style.opacity = '0';
+  element.style.marginTop = '0';
+  element.style.overflow = 'hidden';
+
+  // Force reflow
+  void element.offsetHeight;
+
+  // Animate to final state with smooth easing
+  element.style.transition = 'all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1)';
+  element.style.height = `${element.scrollHeight}px`;
+  element.style.opacity = '1';
+  element.style.marginTop = '0.5rem';
+
+  const handleTransitionEnd = () => {
+    element.style.height = 'auto';
+    element.style.overflow = 'visible';
+    element.removeEventListener('transitionend', handleTransitionEnd);
+    done();
+  };
+
+  element.addEventListener('transitionend', handleTransitionEnd);
+};
+
+const onSelectedLeave = (el: Element, done: () => void) => {
+  const element = el as HTMLElement;
+
+  // Set current height
+  element.style.height = `${element.scrollHeight}px`;
+  element.style.overflow = 'hidden';
+
+  // Force reflow
+  void element.offsetHeight;
+
+  // Animate to hidden state with smooth easing
+  element.style.transition = 'all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1)';
+  element.style.height = '0';
+  element.style.opacity = '0';
+  element.style.marginTop = '0';
+
+  const handleTransitionEnd = () => {
+    element.removeEventListener('transitionend', handleTransitionEnd);
+    done();
+  };
+
+  element.addEventListener('transitionend', handleTransitionEnd);
+};
+
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
 });
@@ -175,38 +253,10 @@ onUnmounted(() => {
       {
         'multiselect-disabled': disabled,
         'multiselect-open': isOpen,
+        'multiselect-dropdown-animating': isDropdownAnimating,
       },
     ]"
   >
-    <!-- Selected items display (outside selector) -->
-    <div v-if="selectedLabels.length > 0" class="multiselect__selected-wrapper">
-      <div class="multiselect__selected-tags">
-        <Button
-          v-for="(label, index) in selectedLabels"
-          :key="index"
-          variant="primary"
-          size="tiny"
-          :text="label"
-          :disabled="disabled"
-          icon-name="close-outline"
-          icon-position="right"
-          @click="removeItem(selectedValues[index], $event)"
-          :aria-label="`Remove ${label}`"
-          class="multiselect__tag"
-        />
-        <Button
-          v-if="clearable && !disabled"
-          variant="secondary"
-          size="tiny"
-          icon-name="menu-close-outline"
-          only-icon
-          class="multiselect__clear-all"
-          @click="clearAll"
-          aria-label="Clear all selections"
-        />
-      </div>
-    </div>
-
     <!-- Search input trigger (when searchable) -->
     <div v-if="searchable" class="multiselect__input-wrapper">
       <input
@@ -224,7 +274,7 @@ onUnmounted(() => {
         "
         @keydown.escape="closeDropdown"
       />
-      <div class="multiselect__actions">
+      <div class="multiselect__actions" @click="toggleDropdown">
         <Icon
           name="chevron-down-outline"
           :size="1.25"
@@ -245,7 +295,7 @@ onUnmounted(() => {
       @keydown.escape="closeDropdown"
     >
       <span class="multiselect__trigger-text">
-        {{ placeholderText }}
+        {{ selectPlaceholderText }}
       </span>
       <div class="multiselect__actions">
         <Icon
@@ -258,11 +308,21 @@ onUnmounted(() => {
     </div>
 
     <!-- Dropdown -->
-    <Transition name="multiselect-dropdown">
+    <Transition
+      name="multiselect-dropdown"
+      @after-enter="onDropdownAfterEnter"
+      @leave="onDropdownLeave"
+      @after-leave="onDropdownAfterLeave"
+    >
       <div v-if="isOpen" class="multiselect__dropdown">
         <!-- Selection limit indicator -->
         <div v-if="maxSelections !== undefined" class="multiselect__limit-info">
           {{ selectedValues.length }} / {{ maxSelections }} selected
+        </div>
+
+        <!-- Max selections reached message -->
+        <div v-if="isLimitReached" class="multiselect__max-message">
+          {{ maxSelectionsMessageText }}
         </div>
 
         <!-- Options list -->
@@ -280,7 +340,7 @@ onUnmounted(() => {
               :checked="isSelected(option)"
               :disabled="isOptionDisabled(option)"
               size="small"
-              :full-width="true"
+              full-width
               :checkbox-position="checkboxPosition"
               color="black"
               class="multiselect__checkbox"
@@ -298,6 +358,40 @@ onUnmounted(() => {
         </ul>
       </div>
     </Transition>
+
+    <!-- Selected items display (below selector, always visible but behind dropdown when open) -->
+    <Transition @enter="onSelectedEnter" @leave="onSelectedLeave" :css="false">
+      <div
+        v-if="selectedLabels.length > 0"
+        class="multiselect__selected-wrapper"
+      >
+        <div class="multiselect__selected-tags">
+          <Button
+            v-for="(label, index) in selectedLabels"
+            :key="index"
+            variant="neutral-dark"
+            size="tiny"
+            :text="label"
+            :disabled="disabled"
+            icon-name="close-outline"
+            icon-position="right"
+            @click="removeItem(selectedValues[index], $event)"
+            :aria-label="`Remove ${label}`"
+            class="multiselect__tag"
+          />
+          <Button
+            v-if="clearable && !disabled"
+            variant="secondary"
+            size="tiny"
+            icon-name="menu-close-outline"
+            only-icon
+            class="multiselect__clear-all"
+            @click="clearAll"
+            aria-label="Clear all selections"
+          />
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -311,12 +405,24 @@ onUnmounted(() => {
     font-family: inherit;
   }
 
-  /* Selected wrapper with border */
+  /* Selected wrapper with border - displayed below selector */
   .multiselect__selected-wrapper {
     border: 1px solid var(--color-neutral-300);
     border-radius: 0.5rem;
     padding: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    position: relative;
+  }
+
+  /* When multiselect is open OR dropdown is animating, selected wrapper becomes absolute positioned behind dropdown */
+  &.multiselect-open .multiselect__selected-wrapper,
+  &.multiselect-dropdown-animating .multiselect__selected-wrapper {
+    position: absolute;
+    z-index: 1;
+    top: 3rem;
+    left: 0;
+    right: 0;
+    margin-top: 0;
   }
 
   /* Selected tags container (inside wrapper) */
@@ -408,10 +514,6 @@ onUnmounted(() => {
     background-color: var(--color-neutral-100);
   }
 
-  & .multiselect__actions {
-    min-width: 44px;
-    justify-content: center;
-  }
   /* Size variants for both trigger and input wrapper */
   &.multiselect-size-tiny {
     & .multiselect__trigger,
@@ -515,6 +617,14 @@ onUnmounted(() => {
     align-self: stretch;
     flex-shrink: 0;
     border-left: 1px solid var(--color-neutral-300);
+    min-width: 44px;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 200ms ease-in-out;
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 
   .multiselect__arrow {
@@ -528,11 +638,8 @@ onUnmounted(() => {
   }
 
   .multiselect__dropdown {
-    position: absolute;
-    top: calc(100% + 0.25rem);
-    left: 0;
-    right: 0;
-    z-index: 1000;
+    position: relative;
+    z-index: 2;
     background-color: var(--color-neutral);
     border: 1.5px solid var(--color-neutral-300);
     border-radius: 0.5rem;
@@ -543,6 +650,7 @@ onUnmounted(() => {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    margin-top: 0.25rem;
   }
 
   .multiselect__limit-info {
@@ -552,6 +660,16 @@ onUnmounted(() => {
     background-color: var(--color-neutral-100);
     border-bottom: 1px solid var(--color-neutral-200);
     text-align: center;
+  }
+
+  .multiselect__max-message {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-secondary);
+    background-color: var(--color-secondary-light);
+    border-bottom: 1px solid var(--color-secondary);
+    text-align: center;
+    font-weight: 600;
   }
 
   .multiselect__options {
@@ -623,5 +741,7 @@ onUnmounted(() => {
     opacity: 1;
     transform: scaleY(1) translateY(0);
   }
+
+  /* Selected items transitions handled by JavaScript hooks */
 }
 </style>
