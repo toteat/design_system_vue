@@ -169,3 +169,13 @@ export type CheckboxProps = {
   checkboxPosition?: 'left' | 'right';
   fullWidth?: boolean;
 };
+
+export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
+
+export type TooltipProps = {
+  content: string;
+  position?: TooltipPosition;
+  disabled?: boolean;
+  delay?: number;
+  maxWidth?: number;
+};

@@ -13,6 +13,7 @@ import SkeletonPreload from './components/SkeletonPreload';
 import ImagePreview from './components/ImagePreview';
 import Checkbox from './components/Checkbox';
 import Multiselect from './components/Multiselect';
+import Tooltip from './components/Tooltip';
 
 // Export all component types
 export type {
@@ -29,6 +30,8 @@ export type {
   CheckboxProps,
   MultiselectProps,
   MultiselectOption,
+  TooltipProps,
+  TooltipPosition,
 } from './types/index.d';
 
 // Export components using export...from syntax
@@ -40,6 +43,7 @@ export { default as SkeletonPreload } from './components/SkeletonPreload';
 export { default as ImagePreview } from './components/ImagePreview';
 export { default as Checkbox } from './components/Checkbox';
 export { default as Multiselect } from './components/Multiselect';
+export { default as Tooltip } from './components/Tooltip';
 
 // Export Vue plugin
 export const install = (app: App) => {
@@ -52,6 +56,7 @@ export const install = (app: App) => {
   app.component('Multiselect', Multiselect);
   app.component('SkeletonPreload', SkeletonPreload);
   app.component('Spinner', Spinner);
+  app.component('Tooltip', Tooltip);
 };
 
 // Export plugin object
