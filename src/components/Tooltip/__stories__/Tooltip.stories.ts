@@ -6,31 +6,65 @@ const meta: Meta<typeof Tooltip> = {
   title: 'Components/Tooltip',
   component: Tooltip,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'A tooltip component that displays helpful information when hovering over or focusing on an element. Wrap this component around any trigger element (button, text, icon, etc.) to add a tooltip.',
+      },
+      source: {
+        code: `<Tooltip content="Helpful tooltip text" position="top">
+  <Button text="Hover over me" variant="primary" />
+</Tooltip>`,
+      },
+    },
+  },
   argTypes: {
     content: {
       control: 'text',
       description: 'The text content displayed in the tooltip',
+      table: {
+        type: { summary: 'string' },
+      },
     },
     position: {
       control: { type: 'select' },
       options: ['top', 'bottom', 'left', 'right'],
-      description: 'Position of the tooltip relative to the trigger element',
+      description:
+        'Position of the tooltip relative to the trigger element. Automatically flips if it would overflow the viewport.',
+      table: {
+        type: { summary: 'TooltipPosition' },
+        defaultValue: { summary: 'top' },
+      },
     },
     disabled: {
       control: 'boolean',
       description: 'Whether the tooltip is disabled',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
     },
     delay: {
       control: { type: 'number', min: 0, max: 2000, step: 100 },
-      description: 'Delay in milliseconds before showing the tooltip',
+      description: 'Delay in milliseconds before showing the tooltip on hover',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '200' },
+      },
     },
     maxWidth: {
       control: { type: 'number', min: 100, max: 500, step: 50 },
-      description: 'Maximum width of the tooltip in pixels',
+      description:
+        'Maximum width of the tooltip in pixels (currently not implemented)',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '250' },
+      },
     },
   },
   args: {
-    content: 'This is a helpful tooltip',
+    content: 'Helpful tooltip text',
     position: 'top',
     disabled: false,
     delay: 200,
