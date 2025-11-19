@@ -4,7 +4,7 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/toteat/design_system_vue/ci.yml?branch=main&label=tests)](https://github.com/toteat/design_system_vue/actions)
 [![Security](https://img.shields.io/github/actions/workflow/status/toteat/design_system_vue/codeql.yml?branch=main&label=security)](https://github.com/toteat/design_system_vue/actions/workflows/codeql.yml)
 
-A TypeScript-based design system for Vue 3, implementing Toteat's design language and component patterns.
+A TypeScript-based design system for Vue 3, implementing [Toteat](https://toteat.com)'s design language and component patterns.
 
 ## Features
 
@@ -64,11 +64,14 @@ import '@toteat-eng/design-system-vue/style.css'
 ## Available Components
 
 - Button
+- Checkbox
 - DropZone
 - Icon
 - ImagePreview
+- Multiselect
 - SkeletonPreload
 - Spinner
+- Tooltip
 
 ## Vite Configuration
 
@@ -81,74 +84,7 @@ export default {
 }
 ```
 
-## Webpack Configuration
-
-For projects using Webpack, add the following configuration to your `webpack.config.js`:
-
-```javascript
-const path = require('path');
-
-module.exports = {
-  // ... other webpack configurations
-  module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules\/(?!@toteat\/design-system-vue)/
-      },
-      {
-        test: /\.ts$/,
-        loader: 'ts-loader',
-        options: {
-          appendTsSuffixTo: [/\.vue$/]
-        }
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
-      }
-    ]
-  },
-  resolve: {
-    extensions: ['.ts', '.js', '.vue'],
-    alias: {
-      '@toteat-eng/design-system-vue': path.resolve(__dirname, 'node_modules/@toteat-eng/design-system-vue')
-    }
-  },
-  plugins: [
-    new VueLoaderPlugin()
-  ]
-}
-```
-
-### Babel Configuration
-
-Ensure your `.babelrc` or `babel.config.js` includes:
-
-```javascript
-module.exports = {
-  presets: [
-    '@babel/preset-env',
-    '@babel/preset-typescript'
-  ],
-  plugins: [
-    '@vue/babel-plugin-jsx'
-  ]
-}
-```
-
-### Webpack Plugin
-
-Don't forget to import the Vue Loader Plugin:
-
-```javascript
-const { VueLoaderPlugin } = require('vue-loader')
-```
+**Note:** This library is built with Vite and optimized for Vite-based projects. Other build tools (Webpack, Rollup, etc.) are not officially supported and may require additional configuration.
 
 ## License
 
