@@ -100,6 +100,15 @@ const handleHide = () => {
   emit('hide');
 };
 
+// Handle touch events for mobile support
+const handleTouchStart = () => {
+  if (props.disabled) return;
+
+  // On touch devices, show tooltip on touch
+  // The tooltip will auto-hide on blur or when user touches elsewhere
+  handleShow();
+};
+
 // Calculate position when tooltip becomes visible
 watch(isVisible, async (visible) => {
   if (visible) {
@@ -125,6 +134,7 @@ onBeforeUnmount(() => {
     @mouseleave="handleHide"
     @focus="handleShow"
     @blur="handleHide"
+    @touchstart.passive="handleTouchStart"
   >
     <!-- Trigger element (slotted content) -->
     <div class="tooltip-trigger">
