@@ -40,10 +40,6 @@ const searchPlaceholderText = computed(() => {
   return props.selectPlaceholder || 'Select options...';
 });
 
-const maxSelectionsMessageText = computed(() => {
-  return props.maxSelectionsMessage || 'Maximum selections reached';
-});
-
 const isOpen = ref(false);
 const isDropdownAnimating = ref(false);
 const searchQuery = ref('');
@@ -123,7 +119,9 @@ const closeDropdown = () => {
 
 // Toggle option selection
 const toggleOption = (option: MultiselectOption) => {
-  if (isOptionDisabled(option)) return;
+  if (isOptionDisabled(option)) {
+    return;
+  }
 
   const newValue = [...selectedValues.value];
   const index = newValue.indexOf(option.value);
@@ -318,13 +316,12 @@ onUnmounted(() => {
     >
       <div v-if="isOpen" class="multiselect__dropdown">
         <!-- Selection limit indicator -->
-        <div v-if="maxSelections !== undefined" class="multiselect__limit-info">
+        <div
+          v-if="maxSelections !== undefined"
+          class="multiselect__limit-info"
+          :class="{ 'multiselect__limit-info--max': isLimitReached }"
+        >
           {{ selectedValues.length }} / {{ maxSelections }} selected
-        </div>
-
-        <!-- Max selections reached message -->
-        <div v-if="isLimitReached" class="multiselect__max-message">
-          {{ maxSelectionsMessageText }}
         </div>
 
         <!-- Options list -->
@@ -381,14 +378,17 @@ onUnmounted(() => {
             :aria-label="`Remove ${label}`"
             class="multiselect__tag"
           />
-          <Tooltip content="Limpiar todo" position="right">
+          <Tooltip
+            content="Limpiar todo"
+            position="right"
+            class="multiselect__clear-all"
+          >
             <Button
               v-if="clearable && !disabled"
               variant="outline"
               size="tiny"
               icon-name="delete-outline"
               only-icon
-              class="multiselect__clear-all"
               @click="clearAll"
               aria-label="Clear all selections"
             />
@@ -414,6 +414,7 @@ onUnmounted(() => {
     border: 1px solid var(--color-neutral-300);
     border-radius: 0.5rem;
     padding: 0.5rem;
+    padding-right: 3rem; /* Space for absolutely positioned clear button */
     margin-top: 0.5rem;
     position: relative;
   }
@@ -435,6 +436,7 @@ onUnmounted(() => {
     flex-wrap: wrap;
     gap: 0.375rem;
     align-items: center;
+    justify-content: flex-start;
   }
 
   /* Tag button styling - using Button component */
@@ -443,8 +445,10 @@ onUnmounted(() => {
   }
 
   .multiselect__clear-all {
-    margin-left: auto;
-    align-self: center;
+    /* Position absolutely at top-right corner of wrapper */
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
   }
 
   /* Simple trigger (non-searchable mode) */
@@ -660,21 +664,32 @@ onUnmounted(() => {
 
   .multiselect__limit-info {
     padding: 0.5rem 0.75rem;
-    font-size: 0.75rem;
+    font-size: var(--text-sm);
     color: var(--color-neutral-400);
     background-color: var(--color-neutral-100);
     border-bottom: 1px solid var(--color-neutral-200);
     text-align: center;
+    transition:
+      background-color 300ms ease-in-out,
+      color 300ms ease-in-out;
+
+    &.multiselect__limit-info--max {
+      color: var(--color-white);
+      background-color: var(--color-black);
+      border-bottom-color: var(--color-black);
+      font-weight: 700;
+      animation: limitPulse 1.5s ease-in-out infinite;
+    }
   }
 
-  .multiselect__max-message {
-    padding: 0.75rem;
-    font-size: 0.875rem;
-    color: var(--color-secondary);
-    background-color: var(--color-secondary-light);
-    border-bottom: 1px solid var(--color-secondary);
-    text-align: center;
-    font-weight: 600;
+  @keyframes limitPulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
   }
 
   .multiselect__options {
