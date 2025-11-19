@@ -42,6 +42,7 @@ const applyFillColor = computed(() => {
     :fill="applyFillColor ? `var(--color-${props.color})` : undefined"
     xmlns="http://www.w3.org/2000/svg"
     :viewBox="iconContent.viewBox"
+    :test-id="`tds-icon-${props.name}`"
     v-html="iconContent.path"
   ></svg>
 </template>

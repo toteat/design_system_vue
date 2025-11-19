@@ -56,6 +56,7 @@ const handleClick = () => {
     :data-checkbox-position="checkboxPosition"
     :data-full-width="fullWidth"
     :data-size="size"
+    :test-id="`tds-checkbox-${checked ? 'checked' : 'unchecked'}`"
   >
     <input
       :id="checkboxId"

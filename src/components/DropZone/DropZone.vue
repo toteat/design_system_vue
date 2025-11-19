@@ -277,7 +277,7 @@ onUnmounted(() => {
     icon-position="left"
     text="Missing or empty DropZone instanceName prop"
   />
-  <div class="tot-ds-root drop-zone-container" v-else>
+  <div class="tot-ds-root drop-zone-container" v-else test-id="tds-dropzone">
     <!-- Image Previews for selected files -->
     <div
       v-if="displayPreview && previewFiles.length > 0"

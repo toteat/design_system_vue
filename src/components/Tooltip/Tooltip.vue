@@ -130,6 +130,7 @@ onBeforeUnmount(() => {
 <template>
   <div
     class="tot-ds-root tooltip-wrapper"
+    test-id="tds-tooltip-wrapper"
     @mouseenter="handleShow"
     @mouseleave="handleHide"
     @focus="handleShow"
@@ -149,6 +150,7 @@ onBeforeUnmount(() => {
       :data-position="actualPosition"
       role="tooltip"
       :aria-hidden="!isVisible"
+      :test-id="`tds-tooltip-content-${actualPosition}`"
     >
       <div class="tooltip-box">
         <span class="tooltip-text">{{ content }}</span>

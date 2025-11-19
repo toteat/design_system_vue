@@ -79,6 +79,7 @@ watch([computedImageSrc, isBase64Image], ([src, isBase64]) => {
       height: `${height}px`,
       borderRadius: `${borderRadius}px`,
     }"
+    :test-id="`tds-image-preview-${hasError ? 'error' : isLoading ? 'loading' : 'loaded'}`"
   >
     <!-- Base64 image display -->
     <img

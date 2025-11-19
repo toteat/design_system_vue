@@ -4,6 +4,7 @@ import type { MultiselectProps, MultiselectOption } from '@/types';
 import Icon from '../Icon/Icon.vue';
 import Button from '../Button/Button.vue';
 import Checkbox from '../Checkbox/Checkbox.vue';
+import Tooltip from '../Tooltip/Tooltip.vue';
 
 /* global Event, MouseEvent, Node, document, HTMLElement, HTMLInputElement, Element */
 
@@ -256,6 +257,7 @@ onUnmounted(() => {
         'multiselect-dropdown-animating': isDropdownAnimating,
       },
     ]"
+    :test-id="`tds-multiselect-${isOpen ? 'open' : 'closed'}`"
   >
     <!-- Search input trigger (when searchable) -->
     <div v-if="searchable" class="multiselect__input-wrapper">
@@ -379,16 +381,18 @@ onUnmounted(() => {
             :aria-label="`Remove ${label}`"
             class="multiselect__tag"
           />
-          <Button
-            v-if="clearable && !disabled"
-            variant="secondary"
-            size="tiny"
-            icon-name="menu-close-outline"
-            only-icon
-            class="multiselect__clear-all"
-            @click="clearAll"
-            aria-label="Clear all selections"
-          />
+          <Tooltip content="Limpiar todo" position="right">
+            <Button
+              v-if="clearable && !disabled"
+              variant="outline"
+              size="tiny"
+              icon-name="delete-outline"
+              only-icon
+              class="multiselect__clear-all"
+              @click="clearAll"
+              aria-label="Clear all selections"
+            />
+          </Tooltip>
         </div>
       </div>
     </Transition>
@@ -493,6 +497,7 @@ onUnmounted(() => {
     border-radius: 0.5rem;
     transition: all 0.2s ease-in-out;
     min-height: 3rem;
+    position: relative;
 
     &:hover:not(.multiselect-disabled &) {
       border-color: var(--color-neutral-400);

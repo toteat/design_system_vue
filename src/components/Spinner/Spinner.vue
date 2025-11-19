@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<SpinnerProps>(), {
     class="tot-ds-root spinner"
     :style="{ '--size': `${props.size}rem` }"
     aria-label="Loading"
+    test-id="tds-spinner"
   />
 </template>
 

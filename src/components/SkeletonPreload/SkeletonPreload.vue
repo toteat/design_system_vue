@@ -21,6 +21,7 @@ const props = withDefaults(defineProps<SkeletonPreloadProps>(), {
         ? '50%'
         : `${props.borderRadius}px`,
     }"
+    test-id="tds-skeleton-preload"
   />
 </template>
 
