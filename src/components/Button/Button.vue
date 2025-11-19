@@ -58,6 +58,7 @@ const buttonClasses = computed(() => [
   {
     'btn-full': props.isFull,
     'btn-loading': props.loading && !props.disabled,
+    'btn-icon-only': props.onlyIcon || (!props.text && props.iconName),
     selected: props.selected,
   },
 ]);
@@ -136,6 +137,41 @@ const buttonClasses = computed(() => [
 
     &.btn-full {
       width: 100%;
+    }
+
+    /* Icon-only buttons: circular with equal width and height */
+    &.btn-icon-only {
+      padding: 0;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+
+      &.btn-size-tiny {
+        width: 2rem;
+        height: 2rem;
+        min-width: 2rem;
+        min-height: 2rem;
+      }
+
+      &.btn-size-small {
+        width: 2.75rem;
+        height: 2.75rem;
+        min-width: 2.75rem;
+        min-height: 2.75rem;
+      }
+
+      &.btn-size-medium {
+        width: 3.75rem;
+        height: 3.75rem;
+        min-width: 3.75rem;
+        min-height: 3.75rem;
+      }
+
+      &.btn-size-large {
+        width: 5rem;
+        height: 5rem;
+        min-width: 5rem;
+        min-height: 5rem;
+      }
     }
 
     /* Button sizes */

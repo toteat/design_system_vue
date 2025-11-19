@@ -176,7 +176,43 @@ export const IconButton: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Button in icon-only mode using the onlyIcon prop.',
+        story:
+          'Button in icon-only mode using the onlyIcon prop. Icon-only buttons are circular.',
+      },
+    },
+  },
+};
+
+// Circular Icon-Only Buttons in All Sizes
+export const CircularIconButtons: Story = {
+  render: () => ({
+    components: { Button },
+    template: `
+      <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+          <Button size="tiny" iconName="search-outline" onlyIcon aria-label="Search" variant="primary" />
+          <span style="font-size: 0.75rem; color: #888;">Tiny</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+          <Button size="small" iconName="search-outline" onlyIcon aria-label="Search" variant="primary" />
+          <span style="font-size: 0.75rem; color: #888;">Small</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+          <Button size="medium" iconName="search-outline" onlyIcon aria-label="Search" variant="primary" />
+          <span style="font-size: 0.75rem; color: #888;">Medium</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+          <Button size="large" iconName="search-outline" onlyIcon aria-label="Search" variant="primary" />
+          <span style="font-size: 0.75rem; color: #888;">Large</span>
+        </div>
+      </div>
+    `,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Icon-only buttons are perfectly circular with equal width and height based on their size.',
       },
     },
   },
