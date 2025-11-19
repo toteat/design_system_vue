@@ -2,10 +2,28 @@ import { IconNames } from '../components/Icon/icons';
 // Common types used across the design system
 
 // Button types
-export type Variant = 'outline' | 'primary' | 'secondary' | 'text';
+export type Variant =
+  | 'outline'
+  | 'primary'
+  | 'secondary'
+  | 'text'
+  | 'neutral-dark';
 
-// Button size
-export type ButtonSize = 'medium' | 'large' | 'small' | 'tiny';
+// Component sizes - shared across components
+export type ComponentSize =
+  | 'tiny'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'very-large'
+  | 'very-very-large'
+  | 'ridiculously-large';
+
+// Button size (legacy, using ComponentSize)
+export type ButtonSize = 'tiny' | 'small' | 'medium' | 'large';
+
+// Checkbox size
+export type CheckboxSize = ComponentSize;
 
 export type ButtonProps = {
   variant?: Variant;
@@ -128,8 +146,9 @@ export type MultiselectOption = {
 export type MultiselectProps = {
   options: MultiselectOption[];
   modelValue?: (string | number)[];
-  placeholder?: string;
+  selectPlaceholder?: string;
   searchPlaceholder?: string;
+  maxSelectionsMessage?: string;
   disabled?: boolean;
   maxSelections?: number;
   searchable?: boolean;
@@ -138,11 +157,24 @@ export type MultiselectProps = {
   size?: ButtonSize;
   id?: string;
   name?: string;
+  checkboxPosition?: 'left' | 'right';
 };
 
 export type CheckboxProps = {
   checked?: boolean;
   disabled?: boolean;
-  size?: number;
+  size?: CheckboxSize;
   color?: ThemeColor;
+  checkboxPosition?: 'left' | 'right';
+  fullWidth?: boolean;
+};
+
+export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
+
+export type TooltipProps = {
+  content: string;
+  position?: TooltipPosition;
+  disabled?: boolean;
+  delay?: number;
+  maxWidth?: number;
 };

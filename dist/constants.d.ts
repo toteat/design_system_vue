@@ -1,4 +1,5 @@
-import { AllowedFileTypes } from './types';
+import { AllowedFileTypes, ComponentSize } from './types';
+export declare const COMPONENT_SIZE_MAP: Record<ComponentSize, number>;
 export declare const ALLOWED_TYPES_MAP: Record<AllowedFileTypes, {
     types: string[];
     prefix: string;

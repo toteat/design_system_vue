@@ -15,10 +15,12 @@ declare const __VLS_component: import('vue').DefineComponent<CheckboxProps, {}, 
     onChange?: ((checked: boolean) => any) | undefined;
     "onUpdate:checked"?: ((checked: boolean) => any) | undefined;
 }>, {
-    size: number;
+    size: import('../../types').CheckboxSize;
     color: import('../../types').ThemeColor;
     disabled: boolean;
     checked: boolean;
+    checkboxPosition: "left" | "right";
+    fullWidth: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLLabelElement>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;

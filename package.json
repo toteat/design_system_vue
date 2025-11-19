@@ -1,6 +1,6 @@
 {
   "name": "@toteat-eng/design-system-vue",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "author": "Mauricio Antunez <mantunez@toteat.com> (https://toteat.com)",
   "description": "The Toteat Design System is a collection of components and utilities that help you build consistent and beautiful user interfaces. Build primarely to solve Toteat needs.",
   "type": "module",
@@ -65,6 +65,11 @@
       "./Spinner": {
         "types": "./dist/Spinner/index.d.ts",
         "import": "./dist/Spinner/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Tooltip": {
+        "types": "./dist/Tooltip/index.d.ts",
+        "import": "./dist/Tooltip/index.js",
         "require": "./dist/design-system-vue.umd.js"
       },
       "./style.css": "./dist/design-system-vue.css"

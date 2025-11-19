@@ -21,6 +21,7 @@ declare const _default: import('vue').DefineComponent<MultiselectProps, {}, {}, 
     size: import('../../types').ButtonSize;
     disabled: boolean;
     modelValue: (string | number)[];
+    checkboxPosition: "left" | "right";
     searchable: boolean;
     clearable: boolean;
     closeOnSelect: boolean;
