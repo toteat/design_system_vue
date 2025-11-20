@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<LogoToteatProps>(), {
   variant: 'original',
   width: undefined,
   height: undefined,
+  alt: 'Logo Toteat',
 });
 
 // Computed SVG content based on mode and variant
@@ -73,16 +74,17 @@ const computedDimensions = computed(() => {
   };
 });
 
-// Modify SVG content to apply custom dimensions
+// Modify SVG content to apply custom dimensions and accessibility attributes
 const modifiedSvg = computed(() => {
   return svgContent.value
     .replace(/width="\d+"/, `width="${computedDimensions.value.width}"`)
-    .replace(/height="\d+"/, `height="${computedDimensions.value.height}"`);
+    .replace(/height="\d+"/, `height="${computedDimensions.value.height}"`)
+    .replace(/<svg/, `<svg role="img" aria-label="${props.alt}"`);
 });
 </script>
 
 <template>
-  <div
+  <picture
     class="tot-ds-root logo-toteat"
     :data-mode="mode"
     :data-variant="variant"
@@ -98,10 +100,14 @@ const modifiedSvg = computed(() => {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    margin: 0;
+    padding: 0;
 
     /* Target SVG inside */
     :deep(svg) {
       display: block;
+      margin: 0;
+      padding: 0;
       transition: opacity 200ms ease-in-out;
 
       &:hover {

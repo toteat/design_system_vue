@@ -187,4 +187,5 @@ export type LogoToteatProps = {
   variant?: LogoToteatVariant;
   width?: number;
   height?: number;
+  alt?: string;
 };

@@ -25,10 +25,15 @@ const meta: Meta<typeof LogoToteat> = {
       control: 'number',
       description: 'Custom height in pixels (optional)',
     },
+    alt: {
+      control: 'text',
+      description: 'Alternative text for accessibility (WCAG 2.2 Level A)',
+    },
   },
   args: {
     mode: 'complete',
     variant: 'original',
+    alt: 'Logo Toteat',
   },
 };
 

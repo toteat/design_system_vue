@@ -3,6 +3,7 @@ declare const _default: import('vue').DefineComponent<LogoToteatProps, {}, {}, {
     variant: LogoToteatVariant;
     width: number;
     height: number;
+    alt: string;
     mode: import('../../types').LogoToteatMode;
-}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLPictureElement>;
 export default _default;
