@@ -5,7 +5,6 @@ import Button from '../Button/Button.vue';
 const props = withDefaults(defineProps<GroupedButtonsProps>(), {
   modelValue: undefined,
   size: 'medium',
-  variant: 'primary',
   fullWidth: false,
   disabled: false,
 });
@@ -36,11 +35,10 @@ const getGroupPosition = (index: number) => {
 </script>
 
 <template>
-  <div
+  <fieldset
     class="tot-ds-root grouped-buttons"
-    role="group"
-    :aria-label="'Button group'"
     :data-full-width="fullWidth"
+    :disabled="disabled"
   >
     <Button
       v-for="(option, index) in options"
@@ -48,13 +46,13 @@ const getGroupPosition = (index: number) => {
       :text="option.label"
       :icon="option.icon"
       :size="size"
-      :variant="isSelected(option.value) ? 'secondary' : 'outline'"
+      :variant="isSelected(option.value) ? 'secondary' : 'outline-gray'"
       :disabled="disabled || option.disabled"
       :group-position="getGroupPosition(index)"
       class="grouped-buttons__button"
       @click="handleSelect(option.value, option.disabled ?? false)"
     />
-  </div>
+  </fieldset>
 </template>
 
 <style scoped>
@@ -62,13 +60,15 @@ const getGroupPosition = (index: number) => {
 
 .tot-ds-root {
   &.grouped-buttons {
-    display: inline-flex;
+    display: flex;
     gap: 0;
-    border-radius: var(--radius-pill);
     overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: none;
+    width: fit-content;
 
     &[data-full-width='true'] {
-      display: flex;
       width: 100%;
 
       & .grouped-buttons__button {
