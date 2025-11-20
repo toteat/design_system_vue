@@ -36,6 +36,7 @@ const BUTTON_SIZE_MAP = {
 
 const ICON_COLOR_MAP = {
   outline: undefined, // Special case, handled in CSS
+  'outline-gray': undefined, // Special case, handled in CSS
   primary: 'white',
   secondary: 'white',
   text: 'black',
@@ -257,6 +258,33 @@ const buttonClasses = computed(() => [
       }
     }
 
+    /* Outline Gray Button */
+    &.btn-outline-gray {
+      border-color: var(--color-neutral-300);
+      color: var(--color-neutral-500);
+
+      &:not(:disabled) {
+        &.selected,
+        &:hover {
+          border-color: var(--color-neutral-400);
+        }
+
+        &.selected {
+          border-color: var(--color-neutral-400);
+          color: var(--color-neutral-500);
+        }
+
+        &:active {
+          border-color: var(--color-neutral-400);
+          color: var(--color-neutral-400);
+
+          svg {
+            fill: var(--color-neutral-400);
+          }
+        }
+      }
+    }
+
     /* Text Button */
     &.btn-text {
       color: var(--color-secondary);
@@ -285,30 +313,25 @@ const buttonClasses = computed(() => [
     }
 
     /* Grouped button positions */
-    &[data-group-position='left'] {
-      border-top-right-radius: var(--radius-none);
-      border-bottom-right-radius: var(--radius-none);
-
-      &.btn-outline {
-        border-right: none;
-      }
+    &[data-group-position='left'],
+    &[data-group-position='center'],
+    &[data-group-position='right'] {
+      border-width: 1px;
+      border-radius: var(--radius-base);
     }
 
     &[data-group-position='center'] {
+      border-right-width: 0;
+      border-left-width: 0;
       border-radius: var(--radius-none);
-
-      &.btn-outline {
-        border-right: none;
-      }
     }
-
+    &[data-group-position='left'] {
+      border-top-right-radius: var(--radius-none);
+      border-bottom-right-radius: var(--radius-none);
+    }
     &[data-group-position='right'] {
       border-top-left-radius: var(--radius-none);
       border-bottom-left-radius: var(--radius-none);
-    }
-
-    &[data-group-position='standalone'] {
-      /* Keep default pill radius */
     }
   }
 }

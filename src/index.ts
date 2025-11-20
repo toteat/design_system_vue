@@ -15,11 +15,14 @@ import Checkbox from './components/Checkbox';
 import Multiselect from './components/Multiselect';
 import Tooltip from './components/Tooltip';
 import LogoToteat from './components/LogoToteat';
+import GroupedButtons from './components/GroupedButtons';
+import Tab from './components/Tab';
 
 // Export all component types
 export type {
   Variant,
   ButtonSize,
+  ButtonGroupPosition,
   ButtonProps,
   SpinnerProps,
   IconContent,
@@ -36,6 +39,10 @@ export type {
   LogoToteatProps,
   LogoToteatMode,
   LogoToteatVariant,
+  GroupedButtonsProps,
+  GroupedButtonsOption,
+  TabProps,
+  TabItem,
 } from './types/index.d';
 
 // Export components using export...from syntax
@@ -49,6 +56,8 @@ export { default as Checkbox } from './components/Checkbox';
 export { default as Multiselect } from './components/Multiselect';
 export { default as Tooltip } from './components/Tooltip';
 export { default as LogoToteat } from './components/LogoToteat';
+export { default as GroupedButtons } from './components/GroupedButtons';
+export { default as Tab } from './components/Tab';
 
 // Export Vue plugin
 export const install = (app: App) => {
@@ -56,12 +65,14 @@ export const install = (app: App) => {
   app.component('Button', Button);
   app.component('Checkbox', Checkbox);
   app.component('DropZone', DropZone);
+  app.component('GroupedButtons', GroupedButtons);
   app.component('Icon', Icon);
   app.component('ImagePreview', ImagePreview);
   app.component('LogoToteat', LogoToteat);
   app.component('Multiselect', Multiselect);
   app.component('SkeletonPreload', SkeletonPreload);
   app.component('Spinner', Spinner);
+  app.component('Tab', Tab);
   app.component('Tooltip', Tooltip);
 };
 

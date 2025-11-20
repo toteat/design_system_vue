@@ -5,6 +5,7 @@ import type { IconNames } from '../components/Icon/icons';
 // Button types
 export type Variant =
   | 'outline'
+  | 'outline-gray'
   | 'primary'
   | 'secondary'
   | 'text'
@@ -26,6 +27,8 @@ export type ButtonSize = 'tiny' | 'small' | 'medium' | 'large';
 // Checkbox size
 export type CheckboxSize = ComponentSize;
 
+export type ButtonGroupPosition = 'left' | 'center' | 'right' | 'standalone';
+
 export type ButtonProps = {
   variant?: Variant;
   disabled?: boolean;
@@ -38,6 +41,7 @@ export type ButtonProps = {
   iconPosition?: 'left' | 'right';
   iconName?: IconNames;
   onlyIcon?: boolean;
+  groupPosition?: ButtonGroupPosition;
 };
 
 export type SpinnerProps = {
@@ -189,4 +193,35 @@ export type LogoToteatProps = {
   width?: number;
   height?: number;
   alt?: string;
+};
+
+// GroupedButtons
+export type GroupedButtonsOption = {
+  value: string | number;
+  label: string;
+  disabled?: boolean;
+  icon?: string;
+};
+
+export type GroupedButtonsProps = {
+  options: GroupedButtonsOption[];
+  modelValue?: string | number;
+  size?: ButtonSize;
+  variant?: ButtonVariant;
+  fullWidth?: boolean;
+  disabled?: boolean;
+};
+
+// Tab
+export type TabItem = {
+  value: string | number;
+  label: string;
+  disabled?: boolean;
+  icon?: string;
+};
+
+export type TabProps = {
+  tabs: TabItem[];
+  modelValue?: string | number;
+  size?: ButtonSize;
 };
