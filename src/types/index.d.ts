@@ -200,12 +200,12 @@ export type GroupedButtonsOption = {
   value: string | number;
   label: string;
   disabled?: boolean;
-  icon?: string;
+  icon?: IconNames;
 };
 
 export type GroupedButtonsProps = {
   options: GroupedButtonsOption[];
-  modelValue?: string | number;
+  selectedButton?: string | number;
   size?: ButtonSize;
   variant?: ButtonVariant;
   fullWidth?: boolean;
@@ -217,11 +217,11 @@ export type TabItem = {
   value: string | number;
   label: string;
   disabled?: boolean;
-  icon?: string;
+  icon?: IconNames;
 };
 
 export type TabProps = {
   tabs: TabItem[];
-  modelValue?: string | number;
+  selectedTab?: string | number;
   size?: ButtonSize;
 };
