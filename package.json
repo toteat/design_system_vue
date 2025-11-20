@@ -52,6 +52,11 @@
         "import": "./dist/ImagePreview/index.js",
         "require": "./dist/design-system-vue.umd.js"
       },
+      "./LogoToteat": {
+        "types": "./dist/LogoToteat/index.d.ts",
+        "import": "./dist/LogoToteat/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
       "./Multiselect": {
         "types": "./dist/Multiselect/index.d.ts",
         "import": "./dist/Multiselect/index.js",
