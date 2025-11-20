@@ -1,28 +1,48 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import type { GroupedButtonsProps } from '@/types';
 import Button from '../Button/Button.vue';
 
 const props = withDefaults(defineProps<GroupedButtonsProps>(), {
-  modelValue: undefined,
+  selectedButton: undefined,
   size: 'medium',
   fullWidth: false,
   disabled: false,
 });
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string | number];
+  'update:selectedButton': [value: string | number];
   change: [value: string | number];
 }>();
+
+// Ensure selectedButton is one of the available options, fallback to first option
+const validatedSelectedButton = computed(() => {
+  if (props.selectedButton === undefined) {
+    return props.options[0]?.value;
+  }
+
+  const isValid = props.options.some(
+    (option) => option.value === props.selectedButton,
+  );
+  if (!isValid) {
+    console.warn(
+      `GroupedButtons: selectedButton "${props.selectedButton}" is not in the options list. Falling back to first option.`,
+    );
+    return props.options[0]?.value;
+  }
+
+  return props.selectedButton;
+});
 
 const handleSelect = (value: string | number, optionDisabled: boolean) => {
   if (props.disabled || optionDisabled) return;
 
-  emit('update:modelValue', value);
+  emit('update:selectedButton', value);
   emit('change', value);
 };
 
 const isSelected = (value: string | number) => {
-  return props.modelValue === value;
+  return validatedSelectedButton.value === value;
 };
 
 const getGroupPosition = (index: number) => {
@@ -44,7 +64,7 @@ const getGroupPosition = (index: number) => {
       v-for="(option, index) in options"
       :key="option.value"
       :text="option.label"
-      :icon="option.icon"
+      :icon-name="option.icon"
       :size="size"
       :variant="isSelected(option.value) ? 'secondary' : 'outline-gray'"
       :disabled="disabled || option.disabled"
@@ -73,6 +93,13 @@ const getGroupPosition = (index: number) => {
 
       & .grouped-buttons__button {
         flex: 1;
+      }
+    }
+
+    /* Add left border to center buttons (except the first center button after left button) */
+    & .grouped-buttons__button {
+      &[data-group-position='center']:not(:nth-child(2)) {
+        border-left-width: 1px;
       }
     }
   }
