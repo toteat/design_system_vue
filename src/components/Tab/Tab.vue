@@ -4,38 +4,42 @@ import type { TabProps } from '@/types';
 import GroupedButtons from '../GroupedButtons/GroupedButtons.vue';
 
 const props = withDefaults(defineProps<TabProps>(), {
-  modelValue: undefined,
+  selectedTab: undefined,
   size: 'medium',
-  variant: 'primary',
 });
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string | number];
+  'update:selectedTab': [value: string | number];
   change: [value: string | number];
   'tab-click': [tab: { value: string | number; label: string }];
 }>();
 
-// Initialize with first tab if no modelValue provided
-const internalValue = ref(props.modelValue ?? props.tabs[0]?.value);
+// Initialize internal value
+const internalValue = ref<string | number | undefined>(undefined);
 
 const currentValue = computed({
-  get: () => props.modelValue ?? internalValue.value,
+  get: () => {
+    // If selectedTab prop is provided, use it; otherwise use internal value or first tab
+    if (props.selectedTab !== undefined) {
+      return props.selectedTab;
+    }
+    if (internalValue.value !== undefined) {
+      return internalValue.value;
+    }
+    return props.tabs[0]?.value;
+  },
   set: (value) => {
     internalValue.value = value;
-    emit('update:modelValue', value);
+    emit('update:selectedTab', value);
+
+    // Emit additional events
+    const tab = props.tabs.find((t) => t.value === value);
+    if (tab) {
+      emit('tab-click', { value: tab.value, label: tab.label });
+    }
+    emit('change', value);
   },
 });
-
-const handleTabChange = (value: string | number) => {
-  currentValue.value = value;
-
-  const tab = props.tabs.find((t) => t.value === value);
-  if (tab) {
-    emit('tab-click', { value: tab.value, label: tab.label });
-  }
-
-  emit('change', value);
-};
 
 const currentTab = computed(() => {
   return props.tabs.find((tab) => tab.value === currentValue.value);
@@ -47,25 +51,14 @@ const currentTab = computed(() => {
     <!-- Tab Navigation -->
     <GroupedButtons
       :options="tabs"
-      :model-value="currentValue"
+      v-model:selected-button="currentValue"
       :size="size"
-      :variant="variant"
       class="tab-component__navigation"
-      @update:model-value="handleTabChange"
     />
 
     <!-- Tab Content -->
     <div class="tab-component__content">
-      <slot :current-tab="currentTab" :current-value="currentValue">
-        <!-- Default content if no slot provided -->
-        <div class="tab-component__default-content">
-          <p
-            style="font-size: var(--text-base); color: var(--color-neutral-400)"
-          >
-            Tab content for: <strong>{{ currentTab?.label }}</strong>
-          </p>
-        </div>
-      </slot>
+      <slot :current-tab="currentTab" :current-value="currentValue" />
     </div>
   </div>
 </template>
@@ -90,14 +83,6 @@ const currentTab = computed(() => {
       border-radius: var(--radius-base);
       padding: 1.5rem;
       min-height: 200px;
-    }
-
-    .tab-component__default-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      min-height: 150px;
     }
   }
 }
