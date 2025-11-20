@@ -215,7 +215,7 @@ onBeforeUnmount(() => {
     position: relative;
     display: inline-flex;
     background: var(--color-neutral-500);
-    border-radius: 0.5rem;
+    border-radius: var(--radius-base);
     padding: 0.5rem;
     min-height: 2rem; /* 32px minimum height */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);

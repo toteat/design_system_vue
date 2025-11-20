@@ -61,6 +61,15 @@
   --text-5xl--line-height: 64px;
   --text-6xl--line-height: 72px;
 
+  /* Border radius */
+  --radius-none: 0;
+  --radius-sm: 0.25rem;   /* 4px - Small radius for subtle rounding */
+  --radius-base: 0.5rem;  /* 8px - Standard radius (DropZone, Multiselect, cards) */
+  --radius-lg: 0.75rem;   /* 12px - Large radius */
+  --radius-xl: 1rem;      /* 16px - Extra large radius */
+  --radius-pill: 9999px;  /* Pill shape (fully rounded sides) */
+  --radius-circle: 50%;   /* Perfect circle */
+
   /* Base font settings for design system components */
   font-family: "Manrope", Helvetica, Arial, sans-serif;
   line-height: 1.5;

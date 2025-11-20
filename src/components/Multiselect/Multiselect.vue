@@ -412,7 +412,7 @@ onUnmounted(() => {
   /* Selected wrapper with border - displayed below selector */
   .multiselect__selected-wrapper {
     border: 1px solid var(--color-neutral-300);
-    border-radius: 0.5rem;
+    border-radius: var(--radius-base);
     padding: 0.5rem;
     padding-right: 3rem; /* Space for absolutely positioned clear button */
     margin-top: 0.5rem;
@@ -459,7 +459,7 @@ onUnmounted(() => {
     gap: 0.5rem;
     background-color: var(--color-neutral);
     border: 1.5px solid var(--color-neutral-300);
-    border-radius: 0.5rem;
+    border-radius: var(--radius-base);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     min-height: 3rem;
@@ -498,7 +498,7 @@ onUnmounted(() => {
     justify-content: space-between;
     background-color: var(--color-neutral);
     border: 1.5px solid var(--color-neutral-300);
-    border-radius: 0.5rem;
+    border-radius: var(--radius-base);
     transition: all 0.2s ease-in-out;
     min-height: 3rem;
     position: relative;
@@ -651,7 +651,7 @@ onUnmounted(() => {
     z-index: 2;
     background-color: var(--color-neutral);
     border: 1.5px solid var(--color-neutral-300);
-    border-radius: 0.5rem;
+    border-radius: var(--radius-base);
     box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -712,7 +712,7 @@ onUnmounted(() => {
   .multiselect__checkbox {
     width: 100%;
     padding: 0.625rem 0.75rem;
-    border-radius: 0;
+    border-radius: var(--radius-none);
     transition: background-color 0.15s ease-in-out;
 
     /* Font size matches checkbox icon size for 1:1 relationship */

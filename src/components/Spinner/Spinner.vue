@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<SpinnerProps>(), {
     height: var(--size, 1rem);
     border: 2px solid currentColor;
     border-top-color: transparent;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     animation: spin 1s linear infinite;
   }
 }

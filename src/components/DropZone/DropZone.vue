@@ -375,7 +375,7 @@ onUnmounted(() => {
         justify-content: center;
         gap: 0.5rem;
         padding: 0.125rem 0.125rem 0.5rem;
-        border-radius: 0.5rem;
+        border-radius: var(--radius-base);
         transition-property: fill, transform, background-color, padding;
         transition-duration: 0.2s;
         transition-timing-function: ease-in-out;
@@ -400,7 +400,7 @@ onUnmounted(() => {
 
     .drop-zone {
       border: 0.125rem dashed var(--color-neutral-300, #ccc);
-      border-radius: 0.5rem;
+      border-radius: var(--radius-base);
       padding: 2rem;
       text-align: center;
       cursor: pointer;

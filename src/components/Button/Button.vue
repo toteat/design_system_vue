@@ -18,6 +18,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   iconPosition: 'right',
   iconName: undefined,
   onlyIcon: false,
+  groupPosition: 'standalone',
 });
 
 // Define emits for click and touch events
@@ -72,6 +73,7 @@ const buttonClasses = computed(() => [
     :disabled="props.disabled"
     :type="props.type"
     :test-id="`tds-button-${props.variant}-icon-${props.iconName}`"
+    :data-group-position="groupPosition"
     role="button"
     :tabindex="props.disabled ? -1 : 0"
     @click="emit('click', $event)"
@@ -109,7 +111,7 @@ const buttonClasses = computed(() => [
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: 9999px;
+    border-radius: var(--radius-pill);
     font-weight: 600;
     transition:
       border-color 0.25s ease-in-out,
@@ -143,7 +145,7 @@ const buttonClasses = computed(() => [
     &.btn-icon-only {
       padding: 0;
       aspect-ratio: 1 / 1;
-      border-radius: 50%;
+      border-radius: var(--radius-circle);
 
       &.btn-size-tiny {
         width: 2rem;
@@ -280,6 +282,33 @@ const buttonClasses = computed(() => [
       transition-property: fill;
       transition-duration: 0.25s;
       transition-timing-function: ease-in-out;
+    }
+
+    /* Grouped button positions */
+    &[data-group-position='left'] {
+      border-top-right-radius: var(--radius-none);
+      border-bottom-right-radius: var(--radius-none);
+
+      &.btn-outline {
+        border-right: none;
+      }
+    }
+
+    &[data-group-position='center'] {
+      border-radius: var(--radius-none);
+
+      &.btn-outline {
+        border-right: none;
+      }
+    }
+
+    &[data-group-position='right'] {
+      border-top-left-radius: var(--radius-none);
+      border-bottom-left-radius: var(--radius-none);
+    }
+
+    &[data-group-position='standalone'] {
+      /* Keep default pill radius */
     }
   }
 }
