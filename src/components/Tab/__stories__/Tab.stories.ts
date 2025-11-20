@@ -24,6 +24,10 @@ const meta: Meta<typeof Tab> = {
       options: ['tiny', 'small', 'medium', 'large'],
       description: 'Tab button size',
     },
+    fullWidth: {
+      control: 'boolean',
+      description: 'Make tab buttons take full width of container',
+    },
   },
   args: {
     tabs: [
@@ -33,6 +37,7 @@ const meta: Meta<typeof Tab> = {
     ],
     selectedTab: 'tab1',
     size: 'medium',
+    fullWidth: true,
   },
 };
 
@@ -60,6 +65,7 @@ export const Default: Story = {
         <Tab
           :tabs="args.tabs"
           :size="args.size"
+          :full-width="args.fullWidth"
           v-model:selected-tab="activeTab"
         >
           <template #default="{ currentTab }">

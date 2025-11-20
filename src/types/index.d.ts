@@ -224,4 +224,5 @@ export type TabProps = {
   tabs: TabItem[];
   selectedTab?: string | number;
   size?: ButtonSize;
+  fullWidth?: boolean;
 };

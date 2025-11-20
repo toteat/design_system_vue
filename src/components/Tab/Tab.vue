@@ -6,6 +6,7 @@ import GroupedButtons from '../GroupedButtons/GroupedButtons.vue';
 const props = withDefaults(defineProps<TabProps>(), {
   selectedTab: undefined,
   size: 'medium',
+  fullWidth: true,
 });
 
 const emit = defineEmits<{
@@ -53,6 +54,7 @@ const currentTab = computed(() => {
       :options="tabs"
       v-model:selected-button="currentValue"
       :size="size"
+      :full-width="fullWidth"
       class="tab-component__navigation"
     />
 
