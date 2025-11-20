@@ -14,6 +14,7 @@ import ImagePreview from './components/ImagePreview';
 import Checkbox from './components/Checkbox';
 import Multiselect from './components/Multiselect';
 import Tooltip from './components/Tooltip';
+import LogoToteat from './components/LogoToteat';
 
 // Export all component types
 export type {
@@ -32,6 +33,9 @@ export type {
   MultiselectOption,
   TooltipProps,
   TooltipPosition,
+  LogoToteatProps,
+  LogoToteatMode,
+  LogoToteatVariant,
 } from './types/index.d';
 
 // Export components using export...from syntax
@@ -44,6 +48,7 @@ export { default as ImagePreview } from './components/ImagePreview';
 export { default as Checkbox } from './components/Checkbox';
 export { default as Multiselect } from './components/Multiselect';
 export { default as Tooltip } from './components/Tooltip';
+export { default as LogoToteat } from './components/LogoToteat';
 
 // Export Vue plugin
 export const install = (app: App) => {
@@ -53,6 +58,7 @@ export const install = (app: App) => {
   app.component('DropZone', DropZone);
   app.component('Icon', Icon);
   app.component('ImagePreview', ImagePreview);
+  app.component('LogoToteat', LogoToteat);
   app.component('Multiselect', Multiselect);
   app.component('SkeletonPreload', SkeletonPreload);
   app.component('Spinner', Spinner);

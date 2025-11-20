@@ -179,3 +179,13 @@ export type TooltipProps = {
   delay?: number;
   maxWidth?: number;
 };
+
+export type LogoToteatMode = 'icon' | 'complete';
+export type LogoToteatVariant = 'original' | 'cream-orange' | 'black-cream';
+
+export type LogoToteatProps = {
+  mode?: LogoToteatMode;
+  variant?: LogoToteatVariant;
+  width?: number;
+  height?: number;
+};
