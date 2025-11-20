@@ -218,6 +218,7 @@ export type TabItem = {
   label: string;
   disabled?: boolean;
   icon?: IconNames;
+  content?: () => unknown; // Render function that returns VNode
 };
 
 export type TabProps = {
