@@ -1,0 +1,1 @@
+export { BackgroundWrapper } from '../index';
