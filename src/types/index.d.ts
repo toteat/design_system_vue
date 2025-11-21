@@ -227,3 +227,7 @@ export type TabProps = {
   size?: ButtonSize;
   fullWidth?: boolean;
 };
+
+// BackgroundWrapper - Fixed styling, no props
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export type BackgroundWrapperProps = {};

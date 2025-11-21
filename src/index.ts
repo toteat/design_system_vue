@@ -17,6 +17,7 @@ import Tooltip from './components/Tooltip';
 import LogoToteat from './components/LogoToteat';
 import GroupedButtons from './components/GroupedButtons';
 import Tab from './components/Tab';
+import BackgroundWrapper from './components/BackgroundWrapper';
 
 // Export all component types
 export type {
@@ -43,6 +44,7 @@ export type {
   GroupedButtonsOption,
   TabProps,
   TabItem,
+  BackgroundWrapperProps,
 } from './types/index.d';
 
 // Export components using export...from syntax
@@ -58,6 +60,7 @@ export { default as Tooltip } from './components/Tooltip';
 export { default as LogoToteat } from './components/LogoToteat';
 export { default as GroupedButtons } from './components/GroupedButtons';
 export { default as Tab } from './components/Tab';
+export { default as BackgroundWrapper } from './components/BackgroundWrapper';
 
 // Export Vue plugin
 export const install = (app: App) => {
@@ -74,6 +77,7 @@ export const install = (app: App) => {
   app.component('Spinner', Spinner);
   app.component('Tab', Tab);
   app.component('Tooltip', Tooltip);
+  app.component('BackgroundWrapper', BackgroundWrapper);
 };
 
 // Export plugin object

@@ -59,11 +59,6 @@ const preview: Preview = {
   ],
 
   initialGlobals: {
-    viewport: {
-      value: 'reset',
-      isRotated: false,
-    },
-
     backgrounds: {
       value: 'light',
     },
