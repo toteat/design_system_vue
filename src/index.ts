@@ -18,6 +18,7 @@ import LogoToteat from './components/LogoToteat';
 import GroupedButtons from './components/GroupedButtons';
 import Tab from './components/Tab';
 import BackgroundWrapper from './components/BackgroundWrapper';
+import Table from './components/Table';
 
 // Export all component types
 export type {
@@ -45,6 +46,11 @@ export type {
   TabProps,
   TabItem,
   BackgroundWrapperProps,
+  TableProps,
+  TableColumn,
+  TableData,
+  TableSortOrder,
+  TableColumnType,
 } from './types/index.d';
 
 // Export components using export...from syntax
@@ -61,6 +67,7 @@ export { default as LogoToteat } from './components/LogoToteat';
 export { default as GroupedButtons } from './components/GroupedButtons';
 export { default as Tab } from './components/Tab';
 export { default as BackgroundWrapper } from './components/BackgroundWrapper';
+export { default as Table } from './components/Table';
 
 // Export Vue plugin
 export const install = (app: App) => {
@@ -78,6 +85,7 @@ export const install = (app: App) => {
   app.component('Tab', Tab);
   app.component('Tooltip', Tooltip);
   app.component('BackgroundWrapper', BackgroundWrapper);
+  app.component('Table', Table);
 };
 
 // Export plugin object

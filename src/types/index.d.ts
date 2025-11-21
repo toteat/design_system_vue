@@ -231,3 +231,25 @@ export type TabProps = {
 // BackgroundWrapper - Fixed styling, no props
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type BackgroundWrapperProps = {};
+
+// Table
+export type TableSortOrder = 'asc' | 'desc';
+
+export type TableColumnType = 'text' | 'number' | 'date';
+
+export type TableColumn = {
+  key: string;
+  label: string;
+  sortable?: boolean;
+  sortType?: TableColumnType;
+};
+
+export type TableData = Record<string, unknown>;
+
+export type TableProps = {
+  columns: TableColumn[];
+  data: TableData[];
+  striped?: boolean;
+  defaultSortColumn?: string;
+  defaultSortOrder?: TableSortOrder;
+};
