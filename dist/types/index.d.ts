@@ -4,6 +4,7 @@ import { IconNames } from '../components/Icon/icons';
 // Button types
 export type Variant =
   | 'outline'
+  | 'outline-gray'
   | 'primary'
   | 'secondary'
   | 'text'
@@ -25,6 +26,8 @@ export type ButtonSize = 'tiny' | 'small' | 'medium' | 'large';
 // Checkbox size
 export type CheckboxSize = ComponentSize;
 
+export type ButtonGroupPosition = 'left' | 'center' | 'right' | 'standalone';
+
 export type ButtonProps = {
   variant?: Variant;
   disabled?: boolean;
@@ -37,6 +40,7 @@ export type ButtonProps = {
   iconPosition?: 'left' | 'right';
   iconName?: IconNames;
   onlyIcon?: boolean;
+  groupPosition?: ButtonGroupPosition;
 };
 
 export type SpinnerProps = {
@@ -188,4 +192,63 @@ export type LogoToteatProps = {
   width?: number;
   height?: number;
   alt?: string;
+};
+
+// GroupedButtons
+export type GroupedButtonsOption = {
+  value: string | number;
+  label: string;
+  disabled?: boolean;
+  icon?: IconNames;
+};
+
+export type GroupedButtonsProps = {
+  options: GroupedButtonsOption[];
+  selectedButton?: string | number;
+  size?: ButtonSize;
+  variant?: ButtonVariant;
+  fullWidth?: boolean;
+  disabled?: boolean;
+};
+
+// Tab
+export type TabItem = {
+  value: string | number;
+  label: string;
+  disabled?: boolean;
+  icon?: IconNames;
+  content?: () => unknown; // Render function that returns VNode
+};
+
+export type TabProps = {
+  tabs: TabItem[];
+  selectedTab?: string | number;
+  size?: ButtonSize;
+  fullWidth?: boolean;
+};
+
+// BackgroundWrapper - Fixed styling, no props
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export type BackgroundWrapperProps = {};
+
+// Table
+export type TableSortOrder = 'asc' | 'desc';
+
+export type TableColumnType = 'text' | 'number' | 'date';
+
+export type TableColumn = {
+  key: string;
+  label: string;
+  sortable?: boolean;
+  sortType?: TableColumnType;
+};
+
+export type TableData = Record<string, unknown>;
+
+export type TableProps = {
+  columns: TableColumn[];
+  data: TableData[];
+  striped?: boolean;
+  defaultSortColumn?: string;
+  defaultSortOrder?: TableSortOrder;
 };

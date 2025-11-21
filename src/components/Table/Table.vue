@@ -211,7 +211,7 @@ const sortedData = computed(() => {
     color: var(--color-neutral-500);
     border-bottom: 1px solid var(--color-gray-200);
 
-    &--sortable {
+    &.table__header-cell--sortable {
       cursor: pointer;
       user-select: none;
       transition: background-color 200ms ease-in-out;

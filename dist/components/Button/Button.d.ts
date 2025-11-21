@@ -15,5 +15,6 @@ declare const _default: import('vue').DefineComponent<ButtonProps, {}, {}, {}, {
     iconPosition: "left" | "right";
     iconName: import('../Icon').IconNames;
     onlyIcon: boolean;
+    groupPosition: import('../../types').ButtonGroupPosition;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLButtonElement>;
 export default _default;
