@@ -19,6 +19,7 @@ import GroupedButtons from './components/GroupedButtons';
 import Tab from './components/Tab';
 import BackgroundWrapper from './components/BackgroundWrapper';
 import Table from './components/Table';
+import Radio from './components/Radio';
 
 // Export all component types
 export type {
@@ -51,6 +52,7 @@ export type {
   TableData,
   TableSortOrder,
   TableColumnType,
+  RadioProps,
 } from './types/index.d';
 
 // Export components using export...from syntax
@@ -68,6 +70,7 @@ export { default as GroupedButtons } from './components/GroupedButtons';
 export { default as Tab } from './components/Tab';
 export { default as BackgroundWrapper } from './components/BackgroundWrapper';
 export { default as Table } from './components/Table';
+export { default as Radio } from './components/Radio';
 
 // Export Vue plugin
 export const install = (app: App) => {
@@ -86,6 +89,7 @@ export const install = (app: App) => {
   app.component('Tooltip', Tooltip);
   app.component('BackgroundWrapper', BackgroundWrapper);
   app.component('Table', Table);
+  app.component('Radio', Radio);
 };
 
 // Export plugin object

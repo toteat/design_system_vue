@@ -172,6 +172,9 @@ export type CheckboxProps = {
   color?: ThemeColor;
   checkboxPosition?: 'left' | 'right';
   fullWidth?: boolean;
+  title?: string;
+  description?: string;
+  card?: boolean;
 };
 
 export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
@@ -253,4 +256,14 @@ export type TableProps = {
   defaultSortColumn?: string;
   defaultSortOrder?: TableSortOrder;
   nonInteractive?: boolean;
+};
+
+// Radio
+export type RadioProps = {
+  title: string;
+  description?: string;
+  checked?: boolean;
+  disabled?: boolean;
+  size?: ButtonSize;
+  card?: boolean;
 };
