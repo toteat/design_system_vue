@@ -23,9 +23,7 @@ defineProps<BackgroundWrapperProps>();
     align-items: center;
     justify-content: center;
     text-align: center;
-    min-height: 100vh;
     min-height: 100dvh;
-    min-width: 100vw;
     min-width: 100dvw;
     background-color: #ffffff;
     color: #1b1b1b;
@@ -35,7 +33,7 @@ defineProps<BackgroundWrapperProps>();
     background-repeat: no-repeat;
     background-size: 100dvw auto;
 
-    @media (min-width: 768px) {
+    @media (width >= 768px) {
       background-image: url('./assets/login-background-desktop.svg');
       background-position: right top;
       background-repeat: no-repeat;

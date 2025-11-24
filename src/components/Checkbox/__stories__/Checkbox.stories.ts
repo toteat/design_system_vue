@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import Checkbox from '../Checkbox.vue';
 import type { ThemeColor } from '@/types';
 
@@ -68,6 +68,20 @@ const meta: Meta<typeof Checkbox> = {
       description:
         'Whether the checkbox should take full width of its container',
     },
+    title: {
+      control: 'text',
+      description:
+        'Title text (when set, replaces slot content with title/description layout)',
+    },
+    description: {
+      control: 'text',
+      description: 'Description text shown below the title (requires title)',
+    },
+    card: {
+      control: 'boolean',
+      description:
+        'Enable card styling with border and background (works with any content)',
+    },
   },
   args: {
     checked: false,
@@ -76,6 +90,9 @@ const meta: Meta<typeof Checkbox> = {
     color: 'primary',
     checkboxPosition: 'left',
     fullWidth: false,
+    title: undefined,
+    description: undefined,
+    card: false,
   },
 };
 
@@ -87,17 +104,38 @@ export const Default: Story = {
   render: (args) => ({
     components: { Checkbox },
     setup() {
-      const checked = ref(false);
+      const checked = ref(args.checked);
+
+      watch(
+        () => args.checked,
+        (newValue) => {
+          checked.value = newValue;
+        },
+      );
+
       return { args, checked };
     },
     template: `
-      <div>
+      <div style="max-width: 350px;">
         <Checkbox
-          v-bind="args"
-          v-model:checked="checked"
+          :checked="checked"
+          :disabled="args.disabled"
+          :size="args.size"
+          :color="args.color"
+          :checkbox-position="args.checkboxPosition"
+          :full-width="args.fullWidth"
+          :title="args.title"
+          :description="args.description"
+          :card="args.card"
+          @update:checked="checked = $event"
         >
-          {{ checked ? 'Checked' : 'Unchecked' }}
+          <template v-if="!args.title">
+            {{ checked ? 'Checked' : 'Unchecked' }}
+          </template>
         </Checkbox>
+        <p style="margin-top: 1rem; font-size: var(--text-sm); color: var(--color-neutral-400);">
+          Selected: <strong>{{ checked }}</strong>
+        </p>
       </div>
     `,
   }),
@@ -618,6 +656,261 @@ export const AllFeaturesCombined: Story = {
         <div style="margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 0.5rem;">
           <strong>Current Settings:</strong>
           <pre style="margin-top: 0.5rem; font-size: 0.75rem;">{{ JSON.stringify(settings, null, 2) }}</pre>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+// Card variant
+export const CardVariant: Story = {
+  args: {
+    card: true,
+    title: 'Título del checkbox',
+    description: 'Descripción del checkbox (opcional)',
+  },
+  render: (args) => ({
+    components: { Checkbox },
+    setup() {
+      const checked = ref(false);
+      return { args, checked };
+    },
+    template: `
+      <div style="max-width: 350px;">
+        <Checkbox
+          v-model:checked="checked"
+          :title="args.title"
+          :description="args.description"
+          :card="args.card"
+        />
+      </div>
+    `,
+  }),
+};
+
+// Card variant checked
+export const CardVariantChecked: Story = {
+  args: {
+    card: true,
+    checked: true,
+    title: 'Opción seleccionada',
+    description: 'Esta opción está marcada',
+  },
+  render: (args) => ({
+    components: { Checkbox },
+    setup() {
+      const checked = ref(args.checked);
+      return { args, checked };
+    },
+    template: `
+      <div style="max-width: 350px;">
+        <Checkbox
+          v-model:checked="checked"
+          :title="args.title"
+          :description="args.description"
+          :card="args.card"
+        />
+      </div>
+    `,
+  }),
+};
+
+// Card sizes
+export const CardSizes: Story = {
+  args: {
+    card: true,
+  },
+  render: (args) => ({
+    components: { Checkbox },
+    setup() {
+      const checkedTiny = ref(false);
+      const checkedSmall = ref(false);
+      const checkedMedium = ref(true);
+      const checkedLarge = ref(false);
+
+      return { args, checkedTiny, checkedSmall, checkedMedium, checkedLarge };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 350px;">
+        <div>
+          <h4 style="margin-bottom: 0.5rem; font-size: var(--text-base); font-weight: 600;">Tiny Card</h4>
+          <Checkbox
+            title="Tiny option"
+            description="Minimal size (description hidden)"
+            size="tiny"
+            :card="args.card"
+            v-model:checked="checkedTiny"
+          />
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem; font-size: var(--text-base); font-weight: 600;">Small Card</h4>
+          <Checkbox
+            title="Small option"
+            description="Compact size for tight spaces"
+            size="small"
+            :card="args.card"
+            v-model:checked="checkedSmall"
+          />
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem; font-size: var(--text-base); font-weight: 600;">Medium Card (default)</h4>
+          <Checkbox
+            title="Medium option"
+            description="Standard size for most use cases"
+            size="medium"
+            :card="args.card"
+            v-model:checked="checkedMedium"
+          />
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem; font-size: var(--text-base); font-weight: 600;">Large Card</h4>
+          <Checkbox
+            title="Large option"
+            description="Prominent size for emphasis"
+            size="large"
+            :card="args.card"
+            v-model:checked="checkedLarge"
+          />
+        </div>
+      </div>
+    `,
+  }),
+};
+
+// Card disabled
+export const CardDisabled: Story = {
+  args: {
+    card: true,
+    disabled: true,
+  },
+  render: (args) => ({
+    components: { Checkbox },
+    setup() {
+      const unchecked = ref(false);
+      const checked = ref(true);
+      return { args, unchecked, checked };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 350px;">
+        <Checkbox
+          title="Disabled unselected"
+          description="Cannot be interacted with"
+          :disabled="args.disabled"
+          :card="args.card"
+          v-model:checked="unchecked"
+        />
+        <Checkbox
+          title="Disabled selected"
+          description="Cannot be interacted with"
+          :disabled="args.disabled"
+          :card="args.card"
+          v-model:checked="checked"
+        />
+      </div>
+    `,
+  }),
+};
+
+// Card checkbox group (multiple selection)
+export const CardCheckboxGroup: Story = {
+  args: {
+    card: true,
+  },
+  render: (args) => ({
+    components: { Checkbox },
+    setup() {
+      const options = ref([
+        {
+          id: 1,
+          title: 'Mi perfil',
+          description: 'Editar información personal',
+          checked: true,
+        },
+        {
+          id: 2,
+          title: 'Configurar claves',
+          description: 'Cambiar contraseña y seguridad',
+          checked: false,
+        },
+        {
+          id: 3,
+          title: 'Invitaciones',
+          description: 'Gestionar invitaciones pendientes',
+          checked: false,
+        },
+        {
+          id: 4,
+          title: 'Notificaciones',
+          description: 'Configurar alertas y avisos',
+          checked: true,
+        },
+      ]);
+
+      return { args, options };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; max-width: 350px;">
+        <h3 style="margin-bottom: 0.5rem; font-size: var(--text-lg); font-weight: 600;">Select options</h3>
+        <Checkbox
+          v-for="option in options"
+          :key="option.id"
+          :title="option.title"
+          :description="option.description"
+          :card="args.card"
+          v-model:checked="option.checked"
+        />
+        <p style="margin-top: 1rem; font-size: var(--text-sm); color: var(--color-neutral-400);">
+          Selected: {{ options.filter(o => o.checked).map(o => o.title).join(', ') || 'None' }}
+        </p>
+      </div>
+    `,
+  }),
+};
+
+// Card in grid
+export const CardInGrid: Story = {
+  args: {
+    card: true,
+  },
+
+  render: (args) => ({
+    components: { Checkbox },
+    setup() {
+      const option1 = ref(true);
+      const option2 = ref(false);
+      const option3 = ref(false);
+      const option4 = ref(true);
+
+      return { args, option1, option2, option3, option4 };
+    },
+    template: `
+      <div>
+        <h3 style="margin-bottom: 1rem; font-size: var(--text-lg); font-weight: 600;">Select features</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; max-width: 600px;">
+          <Checkbox
+            title="Dark mode"
+            description="Enable dark theme"
+            :card="args.card"
+            v-model:checked="option1"
+          />
+          <Checkbox
+            title="Notifications"
+            description="Receive alerts"
+            :card="args.card"
+            v-model:checked="option2"
+          />
+          <Checkbox
+            title="Auto-save"
+            description="Save changes automatically"
+            :card="args.card"
+            v-model:checked="option3"
+          />
+          <Checkbox
+            title="Analytics"
+            description="Help improve the app"
+            :card="args.card"
+            v-model:checked="option4"
+          />
         </div>
       </div>
     `,

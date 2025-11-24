@@ -72,6 +72,11 @@
         "import": "./dist/Multiselect/index.js",
         "require": "./dist/design-system-vue.umd.js"
       },
+      "./Radio": {
+        "types": "./dist/Radio/index.d.ts",
+        "import": "./dist/Radio/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
       "./SkeletonPreload": {
         "types": "./dist/SkeletonPreload/index.d.ts",
         "import": "./dist/SkeletonPreload/index.js",

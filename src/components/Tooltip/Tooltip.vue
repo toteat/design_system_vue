@@ -235,7 +235,7 @@ onBeforeUnmount(() => {
     bottom: -7px;
     left: 50%;
     transform: translateX(-50%);
-    border-width: 7px 7px 0 7px;
+    border-width: 7px 7px 0;
     border-color: var(--color-neutral-500) transparent transparent transparent;
   }
 
@@ -243,7 +243,7 @@ onBeforeUnmount(() => {
     top: -7px;
     left: 50%;
     transform: translateX(-50%);
-    border-width: 0 7px 7px 7px;
+    border-width: 0 7px 7px;
     border-color: transparent transparent var(--color-neutral-500) transparent;
   }
 

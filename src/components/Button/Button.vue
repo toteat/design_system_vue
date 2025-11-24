@@ -325,10 +325,12 @@ const buttonClasses = computed(() => [
       border-left-width: 0;
       border-radius: var(--radius-none);
     }
+
     &[data-group-position='left'] {
       border-top-right-radius: var(--radius-none);
       border-bottom-right-radius: var(--radius-none);
     }
+
     &[data-group-position='right'] {
       border-top-left-radius: var(--radius-none);
       border-bottom-left-radius: var(--radius-none);
