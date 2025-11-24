@@ -15,9 +15,15 @@ const meta: Meta<typeof Table> = {
       description: 'Enable alternating row colors',
       defaultValue: false,
     },
+    nonInteractive: {
+      control: 'boolean',
+      description: 'Render table without interactive (sortable) headers',
+      defaultValue: false,
+    },
   },
   args: {
     striped: false,
+    nonInteractive: false,
   },
 };
 
@@ -225,6 +231,22 @@ export const MinimalData: Story = {
     data: [
       { id: '1', title: 'First Item' },
       { id: '2', title: 'Second Item' },
+    ],
+  },
+};
+
+export const NonInteractive: Story = {
+  args: {
+    nonInteractive: true,
+    columns: [
+      { key: 'id', label: 'ID', sortable: true, sortType: 'number' },
+      { key: 'name', label: 'Name', sortable: true, sortType: 'text' },
+      { key: 'status', label: 'Status' },
+    ],
+    data: [
+      { id: 1, name: 'Alpha', status: 'Draft' },
+      { id: 2, name: 'Beta', status: 'Published' },
+      { id: 3, name: 'Gamma', status: 'Scheduled' },
     ],
   },
 };

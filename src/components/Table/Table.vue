@@ -7,10 +7,15 @@ import Button from '../Button/Button.vue';
 const props = withDefaults(defineProps<TableProps>(), {
   striped: false,
   defaultSortOrder: 'asc',
+  nonInteractive: false,
 });
 
 // If no defaultSortColumn is provided, use the first sortable column
 const getInitialSortColumn = (): string | null => {
+  if (props.nonInteractive) {
+    return null;
+  }
+
   if (props.defaultSortColumn) {
     return props.defaultSortColumn;
   }
@@ -22,6 +27,10 @@ const getInitialSortColumn = (): string | null => {
 
 // Determine initial sort order
 const getInitialSortOrder = (): TableSortOrder => {
+  if (props.nonInteractive) {
+    return 'asc';
+  }
+
   // If user explicitly set defaultSortOrder, use it
   if (props.defaultSortColumn && props.defaultSortOrder) {
     return props.defaultSortOrder;
@@ -56,6 +65,8 @@ const detectColumnType = (value: unknown): TableColumnType => {
 };
 
 const handleSort = (columnKey: string) => {
+  if (props.nonInteractive) return;
+
   const column = props.columns.find((col) => col.key === columnKey);
   if (!column?.sortable) return;
 
@@ -80,7 +91,7 @@ const handleSort = (columnKey: string) => {
 };
 
 const sortedData = computed(() => {
-  if (!sortColumn.value) return props.data;
+  if (props.nonInteractive || !sortColumn.value) return props.data;
 
   const column = props.columns.find((col) => col.key === sortColumn.value);
   if (!column) return props.data;
@@ -119,19 +130,31 @@ const sortedData = computed(() => {
 
 <template>
   <div class="tot-ds-root table-wrapper">
-    <table class="table" :data-striped="striped">
+    <table
+      class="table"
+      :data-striped="striped"
+      :data-interactive="!nonInteractive"
+    >
       <thead class="table__header">
         <tr>
           <th
             v-for="(column, index) in columns"
             :key="index"
             class="table__header-cell"
-            :class="{ 'table__header-cell--sortable': column.sortable }"
-            @click="column.sortable ? handleSort(column.key) : null"
+            :class="{
+              'table__header-cell--sortable':
+                column.sortable && !nonInteractive,
+            }"
+            @click="
+              column.sortable && !nonInteractive ? handleSort(column.key) : null
+            "
           >
             <div class="table__header-content">
               <span>{{ column.label }}</span>
-              <span v-if="column.sortable" class="table__sort-icon">
+              <span
+                v-if="column.sortable && !nonInteractive"
+                class="table__sort-icon"
+              >
                 <!-- Active sort: use Button in icon-only mode with secondary variant -->
                 <Button
                   v-if="sortColumn === column.key"
@@ -140,7 +163,7 @@ const sortedData = computed(() => {
                       ? 'arrow-down-outline'
                       : 'arrow-up-outline'
                   "
-                  :only-icon="true"
+                  only-icon
                   variant="secondary"
                   size="tiny"
                   @click.stop="handleSort(column.key)"
@@ -255,6 +278,26 @@ const sortedData = computed(() => {
   & .table[data-striped='true'] {
     & .table__row:nth-child(even) {
       background-color: var(--color-gray-100);
+    }
+  }
+
+  & .table[data-interactive='false'] {
+    & .table__header-cell {
+      cursor: default;
+
+      &.table__header-cell--sortable {
+        cursor: default;
+      }
+
+      &:hover {
+        background-color: var(--color-gray-100);
+      }
+    }
+
+    & .table__row {
+      &:hover {
+        background-color: var(--color-white);
+      }
     }
   }
 }

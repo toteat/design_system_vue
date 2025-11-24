@@ -252,4 +252,5 @@ export type TableProps = {
   striped?: boolean;
   defaultSortColumn?: string;
   defaultSortOrder?: TableSortOrder;
+  nonInteractive?: boolean;
 };
