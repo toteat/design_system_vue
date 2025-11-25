@@ -28,7 +28,16 @@ const meta: Meta<typeof TextInput> = {
     },
     type: {
       control: { type: 'select' },
-      options: ['text', 'password', 'email', 'search', 'tel', 'url', 'number'],
+      options: [
+        'text',
+        'password',
+        'email',
+        'search',
+        'tel',
+        'url',
+        'number',
+        'date',
+      ],
     },
     prefixIcon: {
       control: { type: 'select' },
@@ -47,7 +56,6 @@ const meta: Meta<typeof TextInput> = {
     size: 'medium',
     clearable: true,
     width: 404,
-    height: 92,
   },
 };
 
@@ -104,6 +112,25 @@ export const ValidationStates: Story = {
           error-message="Something went wrong"
           validation-state="error"
         />
+      </div>
+    `,
+  }),
+};
+
+export const Sizes: Story = {
+  render: () => ({
+    components: { TextInput },
+    setup() {
+      const small = ref('S');
+      const medium = ref('Medium size');
+      const large = ref('Large display value');
+      return { small, medium, large };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 420px;">
+        <TextInput label="Small" size="small" v-model="small" />
+        <TextInput label="Medium" size="medium" v-model="medium" />
+        <TextInput label="Large" size="large" v-model="large" />
       </div>
     `,
   }),
@@ -193,20 +220,84 @@ export const PasswordConfirmation: Story = {
 };
 
 export const TextKinds: Story = {
+  name: 'Input Types',
   render: () => ({
     components: { TextInput },
     setup() {
       const email = ref('hello@toteat.com');
       const url = ref('https://toteat.com');
       const number = ref('42');
-      return { email, url, number };
+      const date = ref('2025-01-01');
+      return { email, url, number, date };
     },
     template: `
       <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 420px;">
         <TextInput label="Email" type="email" v-model="email" clearable />
         <TextInput label="URL" type="url" v-model="url" />
         <TextInput label="Quantity" type="number" v-model="number" show-counter max-length="4" />
+        <TextInput
+          label="Reservation date"
+          type="date"
+          v-model="date"
+          helper-text="Select any date in 2025"
+          min="2025-01-01"
+          max="2025-12-31"
+        />
       </div>
     `,
+  }),
+};
+
+export const DateOnly: Story = {
+  args: {
+    label: 'Event date',
+    helperText: 'Pick the day guests will arrive',
+    type: 'date',
+    min: '2025-04-01',
+    max: '2025-12-31',
+    clearable: false,
+  },
+  render: (args) => ({
+    components: { TextInput },
+    setup() {
+      const value = ref('2025-06-15');
+      return { args, value };
+    },
+    template: `<TextInput v-bind="args" v-model="value" />`,
+  }),
+};
+
+export const ReadonlyAndDisabled: Story = {
+  render: () => ({
+    components: { TextInput },
+    setup() {
+      const readonlyValue = ref('Fixed reference code');
+      const disabledValue = ref('Cannot edit right now');
+      return { readonlyValue, disabledValue };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 420px;">
+        <TextInput label="Readonly" :readonly="true" v-model="readonlyValue" helper-text="Use this to display immutable data." />
+        <TextInput label="Disabled" :disabled="true" v-model="disabledValue" helper-text="Disabled inputs keep their value but are non-interactive." />
+      </div>
+    `,
+  }),
+};
+
+export const CounterAndLimit: Story = {
+  args: {
+    label: 'Short bio',
+    helperText: 'Max 140 characters',
+    placeholder: 'Tell us about yourself',
+    showCounter: true,
+    maxLength: 140,
+  },
+  render: (args) => ({
+    components: { TextInput },
+    setup() {
+      const value = ref('Chef and food lover');
+      return { args, value };
+    },
+    template: `<TextInput v-bind="args" v-model="value" />`,
   }),
 };

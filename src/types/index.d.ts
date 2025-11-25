@@ -66,7 +66,8 @@ export type TextInputType =
   | 'search'
   | 'tel'
   | 'url'
-  | 'number';
+  | 'number'
+  | 'date';
 
 export type TextInputValidationState =
   | 'default'
