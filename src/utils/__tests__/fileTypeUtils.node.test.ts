@@ -64,7 +64,7 @@ if (
   (global as any).DataTransfer = MockDataTransfer;
 }
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { validateFileTypes, isFileTypeAllowed } from '../fileTypeUtils';
 
 describe('fileTypeUtils', () => {
@@ -121,6 +121,34 @@ describe('fileTypeUtils', () => {
 
       expect(validFiles.length).toBe(0);
     });
+
+    it('filters out invalid entries and uses extension fallback', async () => {
+      const mockWarn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const invalidEntry = {} as File;
+      const entries = [createMockFile('picture.PNG', ''), invalidEntry];
+
+      const fileList = {
+        length: entries.length,
+        item: (index: number) => entries[index],
+        [Symbol.iterator]: function* () {
+          for (let i = 0; i < this.length; i++) {
+            yield this.item(i);
+          }
+        },
+      } as FileList;
+
+      const validFiles = await validateFileTypes(fileList, 'images');
+
+      expect(validFiles).toHaveLength(1);
+      expect(validFiles[0].name).toBe('picture.PNG');
+      expect(mockWarn).toHaveBeenCalledWith(
+        'Invalid file object:',
+        invalidEntry,
+      );
+
+      mockWarn.mockRestore();
+    });
   });
 
   describe('isFileTypeAllowed', () => {
@@ -138,6 +166,15 @@ describe('fileTypeUtils', () => {
 
       expect(isFileTypeAllowed(pdfFile, 'images')).toBe(false);
       expect(isFileTypeAllowed(txtFile, 'images')).toBe(false);
+    });
+
+    it('uses extension match when MIME type is missing', () => {
+      const fileWithNoMime = createMockFile(
+        'photo.jpeg',
+        'application/octet-stream',
+      );
+
+      expect(isFileTypeAllowed(fileWithNoMime, 'images')).toBe(true);
     });
   });
 });

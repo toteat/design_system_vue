@@ -63,6 +63,24 @@ describe('useImageStringTypeDetector', () => {
     });
   });
 
+  it('returns undefined when MIME pattern is missing base64 declaration', async () => {
+    const { getImageStringType } = useImageStringTypeDetector();
+
+    const malformed = 'data:image/png;param=value,';
+    const result = await getImageStringType(malformed);
+
+    expect(result).toBeUndefined();
+  });
+
+  it('returns undefined when base64 payload is invalid', async () => {
+    const { getImageStringType } = useImageStringTypeDetector();
+
+    const malformedBase64 = 'data:image/png;base64,invalid*!';
+    const result = await getImageStringType(malformedBase64);
+
+    expect(result).toBeUndefined();
+  });
+
   it('handles empty string', async () => {
     const { getImageStringType } = useImageStringTypeDetector();
 

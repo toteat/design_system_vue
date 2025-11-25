@@ -1,6 +1,17 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { isValidBase64, isBase64 } from '../base64Utils';
 import { IMAGE_TYPES } from '@/constants';
+
+type AtobFn = (data: string) => string;
+const originalAtob = globalThis.atob as AtobFn | undefined;
+
+afterEach(() => {
+  if (originalAtob) {
+    globalThis.atob = originalAtob;
+  } else {
+    delete (globalThis as { atob?: AtobFn }).atob;
+  }
+});
 
 describe('base64Utils', () => {
   describe('isValidBase64', () => {
@@ -50,6 +61,40 @@ describe('base64Utils', () => {
       expect(result).toBe(false);
     });
 
+    it('rejects data URLs with malformed base64 segment', async () => {
+      const malformedBase64 = 'data:image/png;base64,invalid*!';
+      const result = await isValidBase64(malformedBase64);
+      expect(result).toBe(false);
+    });
+
+    it('handles data URLs that resolve to empty payloads', async () => {
+      const forcedUrl = 'data:image/png;base64,placeholder';
+      const originalMatch = String.prototype.match;
+      const matchSpy = vi
+        .spyOn(String.prototype, 'match')
+        .mockImplementation(function (this: string, pattern: RegExp) {
+          if (this === forcedUrl) {
+            return [
+              'data:image/png;base64,',
+              'png',
+              '',
+            ] as unknown as RegExpMatchArray;
+          }
+          return originalMatch.call(this, pattern);
+        });
+
+      const result = await isValidBase64(forcedUrl);
+      expect(result).toBe(false);
+
+      matchSpy.mockRestore();
+    });
+
+    it('rejects data URLs with invalid padding', async () => {
+      const invalidPaddingUrl = 'data:image/png;base64,abcde';
+      const result = await isValidBase64(invalidPaddingUrl);
+      expect(result).toBe(false);
+    });
+
     // Raw base64 string tests
     it('validates raw base64 strings', async () => {
       const validRawBase64 = 'SGVsbG8gV29ybGQ='; // "Hello World" in base64
@@ -60,6 +105,42 @@ describe('base64Utils', () => {
     it('rejects invalid raw base64 strings', async () => {
       const invalidRawBase64 = 'invalid base64!@#';
       const result = await isValidBase64(invalidRawBase64);
+      expect(result).toBe(false);
+    });
+
+    it('rejects raw base64 strings with invalid padding length', async () => {
+      const invalidPadding = 'abcde';
+      const result = await isValidBase64(invalidPadding);
+      expect(result).toBe(false);
+    });
+
+    it('returns false when decoding throws an error', async () => {
+      globalThis.atob = vi.fn(() => {
+        throw new Error('decode failed');
+      }) as unknown as AtobFn;
+
+      const validRawBase64 = 'SGVsbG8gV29ybGQ=';
+      const result = await isValidBase64(validRawBase64);
+      expect(result).toBe(false);
+    });
+
+    it('returns false when data URL decoding throws an error', async () => {
+      globalThis.atob = vi.fn(() => {
+        throw new Error('decode failed');
+      }) as unknown as AtobFn;
+
+      const result = await isValidBase64('data:image/png;base64,SGVsbG8=');
+      expect(result).toBe(false);
+    });
+
+    it('handles unexpected runtime errors gracefully', async () => {
+      const trickyInput = {
+        startsWith() {
+          throw new Error('boom');
+        },
+      } as unknown as string;
+
+      const result = await isValidBase64(trickyInput);
       expect(result).toBe(false);
     });
   });
@@ -89,6 +170,15 @@ describe('base64Utils', () => {
     it('rejects invalid base64 strings', () => {
       const invalidBase64 = 'invalid base64!@#';
       expect(isBase64(invalidBase64)).toBe(false);
+    });
+
+    it('rejects base64-looking strings with invalid length', () => {
+      const invalidLength = 'abc';
+      expect(isBase64(invalidLength)).toBe(false);
+    });
+
+    it('rejects malformed data URLs lacking a payload separator', () => {
+      expect(isBase64('data:image/png;base64')).toBe(false);
     });
   });
 });
