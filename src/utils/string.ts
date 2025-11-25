@@ -283,7 +283,7 @@ export const sanitizeTextInput = (
   input: unknown,
   options: SanitizeTextOptions = {},
 ): string => {
-  const { allowNewLines = false, maxLength = 1024 } = options;
+  const { allowNewLines = false, maxLength } = options;
   if (input === undefined || input === null) {
     return '';
   }
@@ -331,7 +331,12 @@ export const sanitizeTextInput = (
 
   value = escapeHtml(value).trim();
 
-  if (value.length > maxLength) {
+  if (
+    typeof maxLength === 'number' &&
+    Number.isFinite(maxLength) &&
+    maxLength >= 0 &&
+    value.length > maxLength
+  ) {
     value = value.slice(0, maxLength);
   }
 
