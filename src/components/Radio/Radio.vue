@@ -24,7 +24,7 @@ const handleToggle = () => {
   emit('change', newValue);
 };
 
-const handleKeydown = (event: KeyboardEvent) => {
+const handleKeydown = (event: globalThis.KeyboardEvent) => {
   if (event.key === 'Enter' || event.key === ' ') {
     event.preventDefault();
     handleToggle();

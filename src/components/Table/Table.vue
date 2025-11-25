@@ -131,29 +131,30 @@ const sortedData = computed(() => {
 <template>
   <div class="tot-ds-root table-wrapper">
     <table
-      class="table"
+      class="table table-component"
       :data-striped="striped"
       :data-interactive="!nonInteractive"
     >
-      <thead class="table__header">
+      <thead class="table__header table-component__header">
         <tr>
           <th
             v-for="(column, index) in columns"
             :key="index"
-            class="table__header-cell"
+            class="table__header-cell table-component__header-cell"
             :class="{
-              'table__header-cell--sortable':
+              'table__header-cell-sortable': column.sortable && !nonInteractive,
+              'table-component__header-cell-sortable':
                 column.sortable && !nonInteractive,
             }"
             @click="
               column.sortable && !nonInteractive ? handleSort(column.key) : null
             "
           >
-            <div class="table__header-content">
+            <div class="table__header-content table-component__header-content">
               <span>{{ column.label }}</span>
               <span
                 v-if="column.sortable && !nonInteractive"
-                class="table__sort-icon"
+                class="table__sort-icon table-component__sort-icon"
               >
                 <!-- Active sort: use Button in icon-only mode with secondary variant -->
                 <Button
@@ -180,16 +181,16 @@ const sortedData = computed(() => {
           </th>
         </tr>
       </thead>
-      <tbody class="table__body">
+      <tbody class="table__body table-component__body">
         <tr
           v-for="(row, rowIndex) in sortedData"
           :key="rowIndex"
-          class="table__row"
+          class="table__row table-component__row"
         >
           <td
             v-for="(column, colIndex) in columns"
             :key="colIndex"
-            class="table__cell"
+            class="table__cell table-component__cell"
           >
             <slot
               :name="`cell-${column.key}`"
@@ -215,18 +216,18 @@ const sortedData = computed(() => {
     overflow-x: auto;
   }
 
-  & .table {
+  & .table-component {
     width: 100%;
     border-collapse: collapse;
     font-size: var(--text-sm);
     color: var(--color-neutral-500);
   }
 
-  & .table__header {
+  & .table-component__header {
     background-color: var(--color-gray-100);
   }
 
-  & .table__header-cell {
+  & .table-component__header-cell {
     padding: 0.75rem 1rem;
     text-align: left;
     font-weight: 600;
@@ -234,7 +235,7 @@ const sortedData = computed(() => {
     color: var(--color-neutral-500);
     border-bottom: 1px solid var(--color-gray-200);
 
-    &.table__header-cell--sortable {
+    &.table-component__header-cell-sortable {
       cursor: pointer;
       user-select: none;
       transition: background-color 200ms ease-in-out;
@@ -245,21 +246,21 @@ const sortedData = computed(() => {
     }
   }
 
-  & .table__header-content {
+  & .table-component__header-content {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     justify-content: space-between;
   }
 
-  & .table__sort-icon {
+  & .table-component__sort-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
   }
 
-  & .table__row {
+  & .table-component__row {
     background-color: var(--color-white);
     transition: background-color 200ms ease-in-out;
 
@@ -268,24 +269,24 @@ const sortedData = computed(() => {
     }
   }
 
-  & .table__cell {
+  & .table-component__cell {
     padding: 0.75rem 1rem;
     font-size: var(--text-sm);
     color: var(--color-neutral-500);
     border-bottom: 1px solid var(--color-gray-200);
   }
 
-  & .table[data-striped='true'] {
-    & .table__row:nth-child(even) {
+  & .table-component[data-striped='true'] {
+    & .table-component__row:nth-child(even) {
       background-color: var(--color-gray-100);
     }
   }
 
-  & .table[data-interactive='false'] {
-    & .table__header-cell {
+  & .table-component[data-interactive='false'] {
+    & .table-component__header-cell {
       cursor: default;
 
-      &.table__header-cell--sortable {
+      &.table-component__header-cell-sortable {
         cursor: default;
       }
 
@@ -294,7 +295,7 @@ const sortedData = computed(() => {
       }
     }
 
-    & .table__row {
+    & .table-component__row {
       &:hover {
         background-color: var(--color-white);
       }

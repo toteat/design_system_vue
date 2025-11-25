@@ -102,33 +102,23 @@ const modifiedSvg = computed(() => {
     justify-content: center;
     margin: 0;
     padding: 0;
+    line-height: 0;
+    transition: opacity 200ms ease-in-out;
 
-    /* Target SVG inside */
-    :deep(svg) {
-      display: block;
-      margin: 0;
-      padding: 0;
-      transition: opacity 200ms ease-in-out;
-
-      &:hover {
-        opacity: 0.9;
-      }
+    &:hover {
+      opacity: 0.9;
     }
   }
 
   /* Mode-specific styles */
   &[data-mode='icon'] {
-    :deep(svg) {
-      max-width: 100px;
-      max-height: 100px;
-    }
+    max-width: 100px;
+    max-height: 100px;
   }
 
   &[data-mode='complete'] {
-    :deep(svg) {
-      max-width: 400px;
-      max-height: 100px;
-    }
+    max-width: 400px;
+    max-height: 100px;
   }
 }
 </style>

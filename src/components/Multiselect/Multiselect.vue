@@ -319,7 +319,7 @@ onUnmounted(() => {
         <div
           v-if="maxSelections !== undefined"
           class="multiselect__limit-info"
-          :class="{ 'multiselect__limit-info--max': isLimitReached }"
+          :class="{ 'multiselect__limit-info-max': isLimitReached }"
         >
           {{ selectedValues.length }} / {{ maxSelections }} selected
         </div>
@@ -673,16 +673,16 @@ onUnmounted(() => {
       background-color 300ms ease-in-out,
       color 300ms ease-in-out;
 
-    &.multiselect__limit-info--max {
+    &.multiselect__limit-info-max {
       color: var(--color-white);
       background-color: var(--color-black);
       border-bottom-color: var(--color-black);
       font-weight: 700;
-      animation: limitPulse 1.5s ease-in-out infinite;
+      animation: limit-pulse 1.5s ease-in-out infinite;
     }
   }
 
-  @keyframes limitPulse {
+  @keyframes limit-pulse {
     0%,
     100% {
       opacity: 1;

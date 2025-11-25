@@ -20,6 +20,7 @@ import Tab from './components/Tab';
 import BackgroundWrapper from './components/BackgroundWrapper';
 import Table from './components/Table';
 import Radio from './components/Radio';
+import TextInput from './components/TextInput';
 
 // Export all component types
 export type {
@@ -53,6 +54,10 @@ export type {
   TableSortOrder,
   TableColumnType,
   RadioProps,
+  TextInputProps,
+  TextInputSize,
+  TextInputType,
+  TextInputValidationState,
 } from './types/index.d';
 
 // Export components using export...from syntax
@@ -71,6 +76,7 @@ export { default as Tab } from './components/Tab';
 export { default as BackgroundWrapper } from './components/BackgroundWrapper';
 export { default as Table } from './components/Table';
 export { default as Radio } from './components/Radio';
+export { default as TextInput } from './components/TextInput';
 
 // Export Vue plugin
 export const install = (app: App) => {
@@ -90,6 +96,7 @@ export const install = (app: App) => {
   app.component('BackgroundWrapper', BackgroundWrapper);
   app.component('Table', Table);
   app.component('Radio', Radio);
+  app.component('TextInput', TextInput);
 };
 
 // Export plugin object
