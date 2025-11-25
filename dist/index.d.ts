@@ -1,5 +1,5 @@
 import { App } from 'vue';
-export type { Variant, ButtonSize, ButtonGroupPosition, ButtonProps, SpinnerProps, IconContent, IconProps, ThemeColor, ImageStringType, ImageMime, LoadImageTypeFunction, CheckboxProps, MultiselectProps, MultiselectOption, TooltipProps, TooltipPosition, LogoToteatProps, LogoToteatMode, LogoToteatVariant, GroupedButtonsProps, GroupedButtonsOption, TabProps, TabItem, BackgroundWrapperProps, TableProps, TableColumn, TableData, TableSortOrder, TableColumnType, RadioProps, TextInputProps, TextInputSize, TextInputType, TextInputValidationState, } from './types/index.d';
+export type { Variant, ButtonSize, ButtonGroupPosition, ButtonProps, SpinnerProps, IconContent, IconProps, ThemeColor, ImageStringType, ImageMime, LoadImageTypeFunction, CheckboxProps, MultiselectProps, MultiselectOption, TooltipProps, TooltipPosition, LogoToteatProps, LogoToteatMode, LogoToteatVariant, GroupedButtonsProps, GroupedButtonsOption, TabProps, TabItem, BackgroundWrapperProps, TableProps, TableColumn, TableData, TableSortOrder, TableColumnType, RadioProps, TextInputProps, TextInputSize, TextInputType, TextInputValidationState, OverlayProps, OverlayPlacement, OverlayMessageProps, OverlayMessageStatus, } from './types/index.d';
 export { default as Button } from './components/Button/Button';
 export { default as Icon } from './components/Icon/Icon';
 export { default as Spinner } from './components/Spinner/Spinner';
@@ -16,6 +16,8 @@ export { default as BackgroundWrapper } from './components/BackgroundWrapper';
 export { default as Table } from './components/Table';
 export { default as Radio } from './components/Radio';
 export { default as TextInput } from './components/TextInput';
+export { default as Overlay } from './components/Overlay';
+export { default as OverlayMessage } from './components/OverlayMessage';
 export declare const install: (app: App) => void;
 export declare const ToteatDesignSystem: {
     install: (app: App) => void;

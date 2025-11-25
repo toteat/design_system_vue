@@ -72,6 +72,16 @@
         "import": "./dist/Multiselect/index.js",
         "require": "./dist/design-system-vue.umd.js"
       },
+      "./Overlay": {
+        "types": "./dist/Overlay/index.d.ts",
+        "import": "./dist/Overlay/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./OverlayMessage": {
+        "types": "./dist/OverlayMessage/index.d.ts",
+        "import": "./dist/OverlayMessage/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
       "./Radio": {
         "types": "./dist/Radio/index.d.ts",
         "import": "./dist/Radio/index.js",

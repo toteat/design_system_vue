@@ -328,3 +328,48 @@ export type RadioProps = {
   size?: ButtonSize;
   card?: boolean;
 };
+
+export type OverlayPlacement = 'top' | 'center' | 'bottom';
+
+export type OverlayProps = {
+  visible?: boolean;
+  dismissible?: boolean;
+  closeOnBackdrop?: boolean;
+  closeOnEsc?: boolean;
+  lockScroll?: boolean;
+  blur?: boolean;
+  placement?: OverlayPlacement;
+  zIndex?: number;
+  role?: 'presentation' | 'dialog';
+  ariaLabel?: string;
+};
+
+export type OverlayMessageStatus = 'success' | 'info' | 'warning' | 'error';
+
+export type OverlayMessageProps = {
+  visible?: boolean;
+  status?: OverlayMessageStatus;
+  iconName?: IconNames;
+  iconColor?: ThemeColor;
+  iconSize?: number;
+  title: string;
+  eyebrow?: string;
+  dismissible?: boolean;
+  closeButtonLabel?: string;
+  closeOnBackdrop?: boolean;
+  closeOnEsc?: boolean;
+  lockScroll?: boolean;
+  zIndex?: number;
+  blur?: boolean;
+  placement?: OverlayPlacement;
+  ariaLabel?: string;
+  primaryButtonLabel?: string;
+  secondaryButtonLabel?: string;
+  primaryButtonVariant?: Variant;
+  secondaryButtonVariant?: Variant;
+  loadingPrimary?: boolean;
+  loadingSecondary?: boolean;
+  showCloseButton?: boolean;
+  maxWidth?: number;
+  standalone?: boolean;
+};

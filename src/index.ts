@@ -21,6 +21,8 @@ import BackgroundWrapper from './components/BackgroundWrapper';
 import Table from './components/Table';
 import Radio from './components/Radio';
 import TextInput from './components/TextInput';
+import Overlay from './components/Overlay';
+import OverlayMessage from './components/OverlayMessage';
 
 // Export all component types
 export type {
@@ -58,6 +60,10 @@ export type {
   TextInputSize,
   TextInputType,
   TextInputValidationState,
+  OverlayProps,
+  OverlayPlacement,
+  OverlayMessageProps,
+  OverlayMessageStatus,
 } from './types/index.d';
 
 // Export components using export...from syntax
@@ -77,6 +83,8 @@ export { default as BackgroundWrapper } from './components/BackgroundWrapper';
 export { default as Table } from './components/Table';
 export { default as Radio } from './components/Radio';
 export { default as TextInput } from './components/TextInput';
+export { default as Overlay } from './components/Overlay';
+export { default as OverlayMessage } from './components/OverlayMessage';
 
 // Export Vue plugin
 export const install = (app: App) => {
@@ -97,6 +105,8 @@ export const install = (app: App) => {
   app.component('Table', Table);
   app.component('Radio', Radio);
   app.component('TextInput', TextInput);
+  app.component('Overlay', Overlay);
+  app.component('OverlayMessage', OverlayMessage);
 };
 
 // Export plugin object
