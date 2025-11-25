@@ -1,0 +1,54 @@
+import { TextInputProps } from '../../types';
+declare const _default: import('vue').DefineComponent<TextInputProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+    input: (value: string) => any;
+    "update:modelValue": (value: string) => any;
+    change: (value: string) => any;
+    clear: () => any;
+    enter: (value: string) => any;
+    blur: (event: FocusEvent) => any;
+    focus: (event: FocusEvent) => any;
+    keydown: (event: KeyboardEvent) => any;
+}, string, import('vue').PublicProps, Readonly<TextInputProps> & Readonly<{
+    onInput?: ((value: string) => any) | undefined;
+    "onUpdate:modelValue"?: ((value: string) => any) | undefined;
+    onChange?: ((value: string) => any) | undefined;
+    onClear?: (() => any) | undefined;
+    onEnter?: ((value: string) => any) | undefined;
+    onBlur?: ((event: FocusEvent) => any) | undefined;
+    onFocus?: ((event: FocusEvent) => any) | undefined;
+    onKeydown?: ((event: KeyboardEvent) => any) | undefined;
+}>, {
+    size: import('../../types').TextInputSize;
+    type: import('../../types').TextInputType;
+    label: string;
+    pattern: string;
+    name: string;
+    required: boolean;
+    disabled: boolean;
+    width: number;
+    modelValue: string;
+    fullWidth: boolean;
+    id: string;
+    clearable: boolean;
+    placeholder: string;
+    maxLength: number;
+    helperText: string;
+    errorMessage: string;
+    readonly: boolean;
+    autocomplete: string;
+    minLength: number;
+    min: number | string;
+    max: number | string;
+    step: number | string;
+    prefixIcon: import('../Icon').IconNames;
+    suffixIcon: import('../Icon').IconNames;
+    autoFocus: boolean;
+    validationState: import('../../types').TextInputValidationState;
+    showCounter: boolean;
+    ariaLabel: string;
+    ariaDescribedBy: string;
+    showValidationIcon: boolean;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
+    inputRef: HTMLInputElement;
+}, HTMLDivElement>;
+export default _default;
