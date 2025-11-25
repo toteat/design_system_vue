@@ -30,7 +30,6 @@ const props = withDefaults(defineProps<TextInputProps>(), {
   validationState: 'default',
   showCounter: false,
   width: 404,
-  height: 92,
   ariaLabel: undefined,
   ariaDescribedBy: undefined,
   name: undefined,
@@ -115,10 +114,6 @@ const componentStyle = computed(() => {
     style.width = '100%';
   } else if (props.width) {
     style.width = `${props.width}px`;
-  }
-
-  if (props.height) {
-    style.minHeight = `${props.height}px`;
   }
 
   return style;
@@ -364,6 +359,15 @@ onMounted(() => {
         background-color 160ms ease,
         box-shadow 160ms ease;
       background-color: var(--color-white);
+      min-height: 3.75rem;
+    }
+
+    &[data-size='small'] .text-input__field {
+      min-height: 2.75rem;
+    }
+
+    &[data-size='large'] .text-input__field {
+      min-height: 5rem;
     }
 
     &[data-focused='true'] .text-input__field {
@@ -402,7 +406,8 @@ onMounted(() => {
       color: var(--color-secondary);
       font-size: var(--text-base);
       line-height: var(--text-base--line-height);
-      min-height: 2.5rem;
+      height: 100%;
+      min-height: 100%;
 
       &::placeholder {
         color: var(--color-neutral-400);
@@ -416,13 +421,11 @@ onMounted(() => {
     &[data-size='small'] .text-input__control {
       font-size: var(--text-sm);
       line-height: var(--text-sm--line-height);
-      min-height: 2.25rem;
     }
 
     &[data-size='large'] .text-input__control {
       font-size: var(--text-lg);
       line-height: var(--text-lg--line-height);
-      min-height: 2.75rem;
     }
 
     .text-input__icon {
