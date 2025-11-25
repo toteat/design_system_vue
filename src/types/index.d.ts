@@ -59,6 +59,66 @@ export type IconProps = {
   color?: ThemeColor;
 };
 
+export type TextInputType =
+  | 'text'
+  | 'password'
+  | 'email'
+  | 'search'
+  | 'tel'
+  | 'url'
+  | 'number';
+
+export type TextInputValidationState =
+  | 'default'
+  | 'success'
+  | 'warning'
+  | 'error';
+export type TextInputSize = 'small' | 'medium' | 'large';
+export type TextInputInputMode =
+  | 'text'
+  | 'email'
+  | 'search'
+  | 'tel'
+  | 'url'
+  | 'none'
+  | 'numeric'
+  | 'decimal';
+
+export type TextInputProps = {
+  modelValue?: string;
+  label?: string;
+  placeholder?: string;
+  helperText?: string;
+  errorMessage?: string;
+  disabled?: boolean;
+  readonly?: boolean;
+  required?: boolean;
+  type?: TextInputType;
+  name?: string;
+  id?: string;
+  autocomplete?: string;
+  inputmode?: TextInputInputMode;
+  maxLength?: number;
+  minLength?: number;
+  min?: number | string;
+  max?: number | string;
+  step?: number | string;
+  pattern?: string;
+  prefixIcon?: IconNames;
+  suffixIcon?: IconNames;
+  clearable?: boolean;
+  autoFocus?: boolean;
+  size?: TextInputSize;
+  fullWidth?: boolean;
+  validationState?: TextInputValidationState;
+  showCounter?: boolean;
+  width?: number;
+  height?: number;
+  ariaLabel?: string;
+  ariaDescribedBy?: string;
+  showValidationIcon?: boolean;
+};
+
 export type ThemeColor =
   | 'primary'
   | 'primary-light'
