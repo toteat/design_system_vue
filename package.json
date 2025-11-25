@@ -1,6 +1,6 @@
 {
   "name": "@toteat-eng/design-system-vue",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "author": "Mauricio Antunez <mantunez@toteat.com> (https://toteat.com)",
   "description": "The Toteat Design System is a collection of components and utilities that help you build consistent and beautiful user interfaces. Build primarely to solve Toteat needs.",
   "type": "module",
