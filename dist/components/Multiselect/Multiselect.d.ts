@@ -25,6 +25,7 @@ declare const _default: import('vue').DefineComponent<MultiselectProps, {}, {}, 
     searchable: boolean;
     clearable: boolean;
     closeOnSelect: boolean;
+    showSelectedItems: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
     dropdownRef: HTMLDivElement;
     inputRef: HTMLInputElement;

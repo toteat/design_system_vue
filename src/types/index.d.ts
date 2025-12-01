@@ -225,6 +225,7 @@ export type MultiselectProps = {
   id?: string;
   name?: string;
   checkboxPosition?: 'left' | 'right';
+  showSelectedItems?: boolean;
 };
 
 export type CheckboxProps = {

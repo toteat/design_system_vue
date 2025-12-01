@@ -99,6 +99,11 @@ const meta: Meta<typeof Multiselect> = {
       options: ['left', 'right'],
       description: 'Position of the checkbox in dropdown options',
     },
+    showSelectedItems: {
+      control: 'boolean',
+      description:
+        'Whether to display selected items as tags below the selector',
+    },
   },
   args: {
     options: fruitOptions,
@@ -109,6 +114,7 @@ const meta: Meta<typeof Multiselect> = {
     closeOnSelect: false,
     size: 'medium',
     checkboxPosition: 'left',
+    showSelectedItems: true,
   },
 };
 
@@ -981,6 +987,70 @@ export const CheckboxPosition: Story = {
             <li>Checkboxes always use full width in dropdown</li>
             <li>Position controlled by <code>checkboxPosition</code> prop</li>
             <li>Uses CSS flexbox <code>order</code> for visual reordering</li>
+          </ul>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+// Hide selected items demonstration
+export const HideSelectedItems: Story = {
+  render: () => ({
+    components: { Multiselect },
+    setup() {
+      const withTags = ref<(string | number)[]>(['apple', 'banana', 'orange']);
+      const withoutTags = ref<(string | number)[]>([
+        'apple',
+        'banana',
+        'orange',
+      ]);
+      return { withTags, withoutTags, fruitOptions };
+    },
+    template: `
+      <div style="max-width: 900px;">
+        <h3 style="margin-bottom: 1.5rem;">Show/Hide Selected Items</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+          <div>
+            <h4 style="margin-bottom: 0.5rem;">With Selected Items (Default)</h4>
+            <p style="margin-bottom: 1rem; font-size: 0.875rem; color: #666;">
+              Selected items are displayed as tags below the selector
+            </p>
+            <Multiselect
+              v-model="withTags"
+              :options="fruitOptions"
+              select-placeholder="Select fruits..."
+              :searchable="false"
+              :show-selected-items="true"
+            />
+            <div style="margin-top: 1rem; padding: 0.75rem; background-color: #f8f9fa; border-radius: 0.5rem; font-size: 0.875rem;">
+              <strong>Selected:</strong> {{ withTags.join(', ') || 'None' }}
+            </div>
+          </div>
+          <div>
+            <h4 style="margin-bottom: 0.5rem;">Without Selected Items</h4>
+            <p style="margin-bottom: 1rem; font-size: 0.875rem; color: #666;">
+              Selected items are hidden - useful for compact layouts
+            </p>
+            <Multiselect
+              v-model="withoutTags"
+              :options="fruitOptions"
+              select-placeholder="Select fruits..."
+              :searchable="false"
+              :show-selected-items="false"
+            />
+            <div style="margin-top: 1rem; padding: 0.75rem; background-color: #f8f9fa; border-radius: 0.5rem; font-size: 0.875rem;">
+              <strong>Selected:</strong> {{ withoutTags.join(', ') || 'None' }}
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 2rem; padding: 1rem; background-color: #f8f9fa; border-radius: 0.5rem;">
+          <strong>Use Cases:</strong>
+          <ul style="margin: 0.5rem 0 0 1.5rem; font-size: 0.875rem;">
+            <li>Set <code>:show-selected-items="false"</code> for compact layouts where space is limited</li>
+            <li>Useful when selections are displayed elsewhere in the UI</li>
+            <li>Default is <code>true</code> - showing selected items for better user feedback</li>
+            <li>Selections are still tracked in the v-model regardless of visibility</li>
           </ul>
         </div>
       </div>

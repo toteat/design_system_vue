@@ -16,6 +16,7 @@ const props = withDefaults(defineProps<MultiselectProps>(), {
   size: 'medium',
   modelValue: () => [],
   checkboxPosition: 'left',
+  showSelectedItems: true,
 });
 
 const emit = defineEmits<{
@@ -361,7 +362,7 @@ onUnmounted(() => {
     <!-- Selected items display (below selector, always visible but behind dropdown when open) -->
     <Transition @enter="onSelectedEnter" @leave="onSelectedLeave" :css="false">
       <div
-        v-if="selectedLabels.length > 0"
+        v-if="showSelectedItems && selectedLabels.length > 0"
         class="multiselect__selected-wrapper"
       >
         <div class="multiselect__selected-tags">
