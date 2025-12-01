@@ -33,6 +33,7 @@ declare const _default: import('vue').DefineComponent<TextInputProps, {}, {}, {}
     placeholder: string;
     maxLength: number;
     helperText: string;
+    helperTextAlign: "left" | "right";
     errorMessage: string;
     readonly: boolean;
     autocomplete: string;
