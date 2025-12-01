@@ -9,6 +9,7 @@ const props = withDefaults(defineProps<TextInputProps>(), {
   label: '',
   placeholder: '',
   helperText: '',
+  helperTextAlign: 'right',
   errorMessage: '',
   disabled: false,
   readonly: false,
@@ -75,9 +76,7 @@ const describedBy = computed(() => {
 const showErrorMessage = computed(
   () => props.validationState === 'error' && Boolean(props.errorMessage),
 );
-const showHelperText = computed(
-  () => !showErrorMessage.value && Boolean(props.helperText),
-);
+const showHelperText = computed(() => Boolean(props.helperText));
 const hasValue = computed(() => Boolean(sanitizedModelValue.value.length));
 const showClearButton = computed(
   () => props.clearable && hasValue.value && !props.disabled && !props.readonly,
@@ -87,6 +86,10 @@ const shouldShowCounter = computed(
   () => hasMaxLength.value || props.showCounter,
 );
 const characterCount = computed(() => sanitizedModelValue.value.length);
+const shouldShowMeta = computed(
+  () =>
+    showHelperText.value || showErrorMessage.value || shouldShowCounter.value,
+);
 
 const iconSizeMap = {
   small: 1,
@@ -279,14 +282,24 @@ onMounted(() => {
       />
     </div>
 
-    <div class="text-input__meta">
-      <p v-if="showHelperText" class="text-input__helper" :id="helperId">
-        {{ props.helperText }}
-      </p>
+    <div
+      v-if="shouldShowMeta"
+      class="text-input__meta"
+      :data-helper-align="props.helperTextAlign"
+      :data-has-both="showHelperText && showErrorMessage"
+    >
+      <div
+        v-if="showHelperText || showErrorMessage"
+        class="text-input__messages"
+      >
+        <p v-if="showHelperText" class="text-input__helper" :id="helperId">
+          {{ props.helperText }}
+        </p>
 
-      <p v-if="showErrorMessage" class="text-input__error" :id="errorId">
-        {{ props.errorMessage }}
-      </p>
+        <p v-if="showErrorMessage" class="text-input__error" :id="errorId">
+          {{ props.errorMessage }}
+        </p>
+      </div>
 
       <span v-if="shouldShowCounter" class="text-input__counter">
         {{ characterCount
@@ -408,9 +421,14 @@ onMounted(() => {
       line-height: var(--text-base--line-height);
       height: 100%;
       min-height: 100%;
+      min-width: 0;
+      text-overflow: ellipsis;
 
       &::placeholder {
         color: var(--color-neutral-400);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
       }
 
       &:disabled {
@@ -486,22 +504,59 @@ onMounted(() => {
       gap: 0.5rem;
       min-height: 1rem;
       margin-inline: 0.75rem;
+
+      &[data-helper-align='left'] {
+        flex-direction: row;
+
+        .text-input__messages {
+          order: 0;
+        }
+
+        .text-input__counter {
+          order: 1;
+          margin-left: auto;
+        }
+      }
+
+      &[data-helper-align='right'] {
+        flex-direction: row-reverse;
+
+        .text-input__messages {
+          order: 1;
+          margin-left: auto;
+        }
+
+        .text-input__counter {
+          order: 0;
+          margin-left: 0;
+        }
+      }
+    }
+
+    .text-input__messages {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      flex: 1;
+      min-width: 0;
     }
 
     .text-input__helper {
       font-size: var(--text-sm);
       color: var(--color-neutral-400);
+      margin: 0;
     }
 
     .text-input__error {
       font-size: var(--text-sm);
       color: var(--color-red);
+      margin: 0;
     }
 
     .text-input__counter {
-      margin-left: auto;
       font-size: var(--text-sm);
       color: var(--color-neutral-400);
+      flex-shrink: 0;
     }
   }
 }

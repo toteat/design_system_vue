@@ -90,6 +90,7 @@ export type TextInputProps = {
   label?: string;
   placeholder?: string;
   helperText?: string;
+  helperTextAlign?: 'left' | 'right';
   errorMessage?: string;
   disabled?: boolean;
   readonly?: boolean;
