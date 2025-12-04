@@ -75,7 +75,6 @@ const buttonClasses = computed(() => [
     :type="props.type"
     :test-id="`tds-button-${props.variant}-icon-${props.iconName}`"
     :data-group-position="groupPosition"
-    role="button"
     :tabindex="props.disabled ? -1 : 0"
     @click="emit('click', $event)"
   >
