@@ -19,6 +19,8 @@ export interface UseSelectorOptions {
   searchable?: Ref<boolean>;
   /** Whether to close on select */
   closeOnSelect?: Ref<boolean>;
+  /** When true, disables client-side filtering (backend handles filtering) */
+  disableAutofilter?: Ref<boolean>;
   /** Emit functions */
   emit: {
     open: () => void;
@@ -60,6 +62,7 @@ export function useSelector(options: UseSelectorOptions): UseSelectorReturn {
     searchQueryProp,
     searchable = ref(true),
     closeOnSelect: _closeOnSelect = ref(true),
+    disableAutofilter = ref(false),
     emit,
   } = options;
 
@@ -79,7 +82,12 @@ export function useSelector(options: UseSelectorOptions): UseSelectorReturn {
   };
 
   // Filtered options based on search
+  // When disableAutofilter is true, return all options (backend handles filtering)
   const filteredOptions = computed(() => {
+    if (disableAutofilter.value) {
+      return optionsRef.value;
+    }
+
     if (!searchable.value || !searchQuery.value) {
       return optionsRef.value;
     }

@@ -33,6 +33,7 @@ declare const __VLS_component: import('vue').DefineComponent<SelectProps, {}, {}
     disabled: boolean;
     modelValue: string | number | null;
     searchable: boolean;
+    disableAutofilter: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
     dropdownRef: HTMLDivElement;
     inputRef: HTMLInputElement;
