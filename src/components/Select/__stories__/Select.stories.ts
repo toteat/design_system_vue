@@ -63,8 +63,9 @@ const meta: Meta<typeof Select> = {
       table: { category: 'Data' },
     },
     searchQuery: {
-      control: 'text',
-      description: 'Search query text (v-model:searchQuery)',
+      control: false,
+      description:
+        'Search query text (v-model:searchQuery) - use ControlledSearchQuery story for demo',
       table: { category: 'Data' },
     },
     // Display props
@@ -110,7 +111,6 @@ const meta: Meta<typeof Select> = {
   args: {
     options: fruitOptions,
     modelValue: null,
-    searchQuery: '',
     placeholder: 'Select an option...',
     searchPlaceholder: 'Search...',
     disabled: false,
