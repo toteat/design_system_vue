@@ -101,6 +101,16 @@ export const Small: Story = {
   },
 };
 
+export const Rounded: Story = {
+  args: {
+    width: 100,
+    height: 100,
+    alt: 'Rounded avatar',
+    imageSrc: 'https://picsum.photos/100/100',
+    borderRadius: 50,
+  },
+};
+
 export const Large: Story = {
   args: {
     width: 400,

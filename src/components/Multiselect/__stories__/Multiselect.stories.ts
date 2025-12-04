@@ -57,6 +57,11 @@ const meta: Meta<typeof Multiselect> = {
       control: 'object',
       description: 'Array of selected values (v-model)',
     },
+    searchQuery: {
+      control: 'text',
+      description:
+        'Search query text (v-model:searchQuery) - useful for controlling search from parent component',
+    },
     selectPlaceholder: {
       control: 'text',
       description: 'Placeholder text when multiselect is closed',
@@ -1051,6 +1056,80 @@ export const HideSelectedItems: Story = {
             <li>Useful when selections are displayed elsewhere in the UI</li>
             <li>Default is <code>true</code> - showing selected items for better user feedback</li>
             <li>Selections are still tracked in the v-model regardless of visibility</li>
+          </ul>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+// Controlled search query example
+export const ControlledSearchQuery: Story = {
+  render: () => ({
+    components: { Multiselect },
+    setup() {
+      const selectedValues = ref<(string | number)[]>([]);
+      const searchText = ref('');
+
+      const setSearch = (text: string) => {
+        searchText.value = text;
+      };
+
+      return { selectedValues, searchText, fruitOptions, setSearch };
+    },
+    template: `
+      <div style="max-width: 600px;">
+        <h3 style="margin-bottom: 1rem;">Controlled Search Query with v-model:searchQuery</h3>
+        <p style="margin-bottom: 1rem; font-size: 0.875rem; color: #666;">
+          The search query can be controlled from the parent component using <code>v-model:searchQuery</code>.
+          This is useful for programmatically setting search text or clearing it.
+        </p>
+
+        <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem;">
+          <button
+            @click="setSearch('apple')"
+            style="padding: 0.5rem 1rem; background-color: #3b82f6; color: white; border: none; border-radius: 0.375rem; cursor: pointer;"
+          >
+            Search "apple"
+          </button>
+          <button
+            @click="setSearch('banana')"
+            style="padding: 0.5rem 1rem; background-color: #3b82f6; color: white; border: none; border-radius: 0.375rem; cursor: pointer;"
+          >
+            Search "banana"
+          </button>
+          <button
+            @click="setSearch('')"
+            style="padding: 0.5rem 1rem; background-color: #6b7280; color: white; border: none; border-radius: 0.375rem; cursor: pointer;"
+          >
+            Clear search
+          </button>
+        </div>
+
+        <Multiselect
+          v-model="selectedValues"
+          v-model:searchQuery="searchText"
+          :options="fruitOptions"
+          :searchable="true"
+          select-placeholder="Select fruits..."
+          search-placeholder="Type to search..."
+        />
+
+        <div style="margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 0.5rem;">
+          <strong>Current Search Text:</strong>
+          <pre style="margin-top: 0.5rem;">{{ searchText || '(empty)' }}</pre>
+          <strong style="margin-top: 0.5rem; display: block;">Selected Values:</strong>
+          <pre style="margin-top: 0.5rem;">{{ selectedValues.length > 0 ? JSON.stringify(selectedValues) : 'None' }}</pre>
+        </div>
+
+        <div style="margin-top: 1rem; padding: 1rem; background-color: #dbeafe; border: 1px solid #3b82f6; border-radius: 0.5rem;">
+          <strong>Use Cases for v-model:searchQuery:</strong>
+          <ul style="margin: 0.5rem 0 0 1.5rem; font-size: 0.875rem;">
+            <li>Programmatically set search text from external inputs</li>
+            <li>Clear search when certain conditions are met</li>
+            <li>Sync search across multiple components</li>
+            <li>Track user search behavior for analytics</li>
+            <li>Pre-fill search based on URL parameters or saved state</li>
           </ul>
         </div>
       </div>

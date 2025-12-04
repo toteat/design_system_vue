@@ -4,19 +4,19 @@ declare const _default: import('vue').DefineComponent<TextInputProps, {}, {}, {}
     "update:modelValue": (value: string) => any;
     change: (value: string) => any;
     clear: () => any;
-    enter: (value: string) => any;
     blur: (event: FocusEvent) => any;
     focus: (event: FocusEvent) => any;
     keydown: (event: KeyboardEvent) => any;
+    enter: (value: string) => any;
 }, string, import('vue').PublicProps, Readonly<TextInputProps> & Readonly<{
     onInput?: ((value: string) => any) | undefined;
     "onUpdate:modelValue"?: ((value: string) => any) | undefined;
     onChange?: ((value: string) => any) | undefined;
     onClear?: (() => any) | undefined;
-    onEnter?: ((value: string) => any) | undefined;
     onBlur?: ((event: FocusEvent) => any) | undefined;
     onFocus?: ((event: FocusEvent) => any) | undefined;
     onKeydown?: ((event: KeyboardEvent) => any) | undefined;
+    onEnter?: ((value: string) => any) | undefined;
 }>, {
     size: import('../../types').TextInputSize;
     type: import('../../types').TextInputType;

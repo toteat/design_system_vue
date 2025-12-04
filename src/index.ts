@@ -13,6 +13,7 @@ import SkeletonPreload from './components/SkeletonPreload';
 import ImagePreview from './components/ImagePreview';
 import Checkbox from './components/Checkbox';
 import Multiselect from './components/Multiselect';
+import Select from './components/Select';
 import Tooltip from './components/Tooltip';
 import LogoToteat from './components/LogoToteat';
 import GroupedButtons from './components/GroupedButtons';
@@ -40,6 +41,7 @@ export type {
   CheckboxProps,
   MultiselectProps,
   MultiselectOption,
+  SelectProps,
   TooltipProps,
   TooltipPosition,
   LogoToteatProps,
@@ -75,6 +77,7 @@ export { default as SkeletonPreload } from './components/SkeletonPreload';
 export { default as ImagePreview } from './components/ImagePreview';
 export { default as Checkbox } from './components/Checkbox';
 export { default as Multiselect } from './components/Multiselect';
+export { default as Select } from './components/Select';
 export { default as Tooltip } from './components/Tooltip';
 export { default as LogoToteat } from './components/LogoToteat';
 export { default as GroupedButtons } from './components/GroupedButtons';
@@ -97,6 +100,7 @@ export const install = (app: App) => {
   app.component('ImagePreview', ImagePreview);
   app.component('LogoToteat', LogoToteat);
   app.component('Multiselect', Multiselect);
+  app.component('Select', Select);
   app.component('SkeletonPreload', SkeletonPreload);
   app.component('Spinner', Spinner);
   app.component('Tab', Tab);

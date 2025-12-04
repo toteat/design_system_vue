@@ -212,6 +212,7 @@ export type MultiselectOption = {
 export type MultiselectProps = {
   options: MultiselectOption[];
   modelValue?: (string | number)[];
+  searchQuery?: string;
   selectPlaceholder?: string;
   searchPlaceholder?: string;
   maxSelectionsMessage?: string;
@@ -225,6 +226,20 @@ export type MultiselectProps = {
   name?: string;
   checkboxPosition?: 'left' | 'right';
   showSelectedItems?: boolean;
+};
+
+// Select - Single selection combobox with search
+export type SelectProps = {
+  options: MultiselectOption[];
+  modelValue?: string | number | null;
+  searchQuery?: string;
+  placeholder?: string;
+  searchPlaceholder?: string;
+  disabled?: boolean;
+  searchable?: boolean;
+  size?: ButtonSize;
+  id?: string;
+  name?: string;
 };
 
 export type CheckboxProps = {

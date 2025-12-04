@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, toRef } from 'vue';
 import type { MultiselectProps, MultiselectOption } from '@/types';
+import { useSelector } from '@/composables/useSelector';
 import Icon from '../Icon/Icon.vue';
 import Button from '../Button/Button.vue';
 import Checkbox from '../Checkbox/Checkbox.vue';
 import Tooltip from '../Tooltip/Tooltip.vue';
 
-/* global Event, MouseEvent, Node, document, HTMLElement, HTMLInputElement, Element */
+/* global Event, Element, HTMLElement, HTMLInputElement */
 
 const props = withDefaults(defineProps<MultiselectProps>(), {
   disabled: false,
@@ -21,6 +22,7 @@ const props = withDefaults(defineProps<MultiselectProps>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: (string | number)[]];
+  'update:searchQuery': [value: string];
   change: [value: (string | number)[]];
   open: [];
   close: [];
@@ -29,37 +31,46 @@ const emit = defineEmits<{
   'option-deselect': [option: MultiselectOption];
   'remove-tag': [value: string | number];
 }>();
+
 // Computed placeholders with fallback
 const selectPlaceholderText = computed(
   () => props.selectPlaceholder || 'Select options...',
 );
 const searchPlaceholderText = computed(() => {
-  // If searchable is enabled, use searchPlaceholder; otherwise use selectPlaceholder
   if (props.searchable) {
     return props.searchPlaceholder || 'Search...';
   }
   return props.selectPlaceholder || 'Select options...';
 });
 
-const isOpen = ref(false);
+// Use shared selector composable
+const {
+  isOpen,
+  searchQuery,
+  setSearchQuery,
+  filteredOptions,
+  dropdownRef,
+  inputRef,
+  closeDropdown,
+  toggleDropdown,
+  handleInputFocus,
+} = useSelector({
+  options: toRef(props, 'options'),
+  searchQueryProp: toRef(props, 'searchQuery'),
+  searchable: toRef(props, 'searchable'),
+  closeOnSelect: toRef(props, 'closeOnSelect'),
+  emit: {
+    open: () => emit('open'),
+    close: () => emit('close'),
+    updateSearchQuery: (value: string) => emit('update:searchQuery', value),
+  },
+});
+
 const isDropdownAnimating = ref(false);
-const searchQuery = ref('');
-const dropdownRef = ref<HTMLElement | null>(null);
-const inputRef = ref<HTMLInputElement | null>(null);
 
 // Computed property for selected values
-const selectedValues = computed(() => props.modelValue || []);
-
-// Computed property for filtered options
-const filteredOptions = computed(() => {
-  if (!props.searchable || !searchQuery.value) {
-    return props.options;
-  }
-
-  const query = searchQuery.value.toLowerCase();
-  return props.options.filter((option) =>
-    option.label.toLowerCase().includes(query),
-  );
+const selectedValues = computed(() => {
+  return props.modelValue || [];
 });
 
 // Get selected options (maintaining selection order) for display
@@ -93,38 +104,13 @@ const isOptionDisabled = (option: MultiselectOption) => {
   return option.disabled || (isLimitReached.value && !isSelected(option));
 };
 
-// Toggle dropdown (for non-searchable mode)
-const toggleDropdown = () => {
-  if (props.disabled) return;
-
-  if (isOpen.value) {
-    closeDropdown();
-  } else {
-    isOpen.value = true;
-    emit('open');
-  }
-};
-
-// Close dropdown
-const closeDropdown = () => {
-  if (isOpen.value) {
-    isOpen.value = false;
-    searchQuery.value = '';
-    // Remove focus from search input when closing
-    if (inputRef.value) {
-      inputRef.value.blur();
-    }
-    emit('close');
-  }
-};
-
 // Toggle option selection
 const toggleOption = (option: MultiselectOption) => {
   if (isOptionDisabled(option)) {
     return;
   }
 
-  const newValue = [...selectedValues.value];
+  const newValue: (string | number)[] = [...selectedValues.value];
   const index = newValue.indexOf(option.value);
 
   if (index > -1) {
@@ -162,14 +148,7 @@ const clearAll = (event: Event) => {
   emit('change', []);
 };
 
-// Handle click outside to close dropdown
-const handleClickOutside = (event: MouseEvent) => {
-  if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
-    closeDropdown();
-  }
-};
-
-// Dropdown transition hooks to coordinate with selected items positioning
+// Dropdown transition hooks
 const onDropdownAfterEnter = () => {
   isDropdownAnimating.value = false;
 };
@@ -186,16 +165,13 @@ const onDropdownAfterLeave = () => {
 const onSelectedEnter = (el: Element, done: () => void) => {
   const element = el as HTMLElement;
 
-  // Set initial state
   element.style.height = '0';
   element.style.opacity = '0';
   element.style.marginTop = '0';
   element.style.overflow = 'hidden';
 
-  // Force reflow
   void element.offsetHeight;
 
-  // Animate to final state with smooth easing
   element.style.transition = 'all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1)';
   element.style.height = `${element.scrollHeight}px`;
   element.style.opacity = '1';
@@ -214,14 +190,11 @@ const onSelectedEnter = (el: Element, done: () => void) => {
 const onSelectedLeave = (el: Element, done: () => void) => {
   const element = el as HTMLElement;
 
-  // Set current height
   element.style.height = `${element.scrollHeight}px`;
   element.style.overflow = 'hidden';
 
-  // Force reflow
   void element.offsetHeight;
 
-  // Animate to hidden state with smooth easing
   element.style.transition = 'all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1)';
   element.style.height = '0';
   element.style.opacity = '0';
@@ -235,13 +208,11 @@ const onSelectedLeave = (el: Element, done: () => void) => {
   element.addEventListener('transitionend', handleTransitionEnd);
 };
 
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside);
-});
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside);
-});
+// Handle search input
+const handleSearchInput = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  setSearchQuery(target.value);
+};
 </script>
 
 <template>
@@ -262,17 +233,15 @@ onUnmounted(() => {
     <div v-if="searchable" class="multiselect__input-wrapper">
       <input
         ref="inputRef"
-        v-model="searchQuery"
         type="text"
         class="multiselect__search-input"
         :id="id"
         :name="name"
+        :value="searchQuery"
         :placeholder="searchPlaceholderText"
         :disabled="disabled"
-        @focus="
-          isOpen = true;
-          emit('open');
-        "
+        @input="handleSearchInput"
+        @focus="handleInputFocus"
         @keydown.escape="closeDropdown"
       />
       <div class="multiselect__actions" @click="toggleDropdown">
@@ -308,7 +277,7 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <!-- Dropdown -->
+    <!-- Dropdown (ABSOLUTE POSITIONED) -->
     <Transition
       name="multiselect-dropdown"
       @after-enter="onDropdownAfterEnter"
@@ -335,6 +304,7 @@ onUnmounted(() => {
               'multiselect__option-selected': isSelected(option),
               'multiselect__option-disabled': isOptionDisabled(option),
             }"
+            @click="toggleOption(option)"
           >
             <Checkbox
               :checked="isSelected(option)"
@@ -359,7 +329,7 @@ onUnmounted(() => {
       </div>
     </Transition>
 
-    <!-- Selected items display (below selector, always visible but behind dropdown when open) -->
+    <!-- Selected items display (below selector) -->
     <Transition @enter="onSelectedEnter" @leave="onSelectedLeave" :css="false">
       <div
         v-if="showSelectedItems && selectedLabels.length > 0"
@@ -375,7 +345,9 @@ onUnmounted(() => {
             :disabled="disabled"
             icon-name="close-outline"
             icon-position="right"
-            @click="removeItem(selectedValues[index], $event)"
+            @click="
+              removeItem(selectedValues[index] as string | number, $event)
+            "
             :aria-label="`Remove ${label}`"
             class="multiselect__tag"
           />
@@ -415,20 +387,9 @@ onUnmounted(() => {
     border: 1px solid var(--color-neutral-300);
     border-radius: var(--radius-base);
     padding: 0.5rem;
-    padding-right: 3rem; /* Space for absolutely positioned clear button */
+    padding-right: 3rem;
     margin-top: 0.5rem;
     position: relative;
-  }
-
-  /* When multiselect is open OR dropdown is animating, selected wrapper becomes absolute positioned behind dropdown */
-  &.multiselect-open .multiselect__selected-wrapper,
-  &.multiselect-dropdown-animating .multiselect__selected-wrapper {
-    position: absolute;
-    z-index: 1;
-    top: 3rem;
-    left: 0;
-    right: 0;
-    margin-top: 0;
   }
 
   /* Selected tags container (inside wrapper) */
@@ -440,13 +401,12 @@ onUnmounted(() => {
     justify-content: flex-start;
   }
 
-  /* Tag button styling - using Button component */
+  /* Tag button styling */
   .multiselect__tag {
     flex-shrink: 0;
   }
 
   .multiselect__clear-all {
-    /* Position absolutely at top-right corner of wrapper */
     position: absolute;
     bottom: 0.5rem;
     right: 0.5rem;
@@ -642,14 +602,17 @@ onUnmounted(() => {
     transition: transform 200ms ease-out;
   }
 
-  /* Rotate only the icon when open */
   &.multiselect-open .multiselect__arrow {
     transform: rotate(180deg);
   }
 
+  /* Dropdown - ABSOLUTE POSITIONED */
   .multiselect__dropdown {
-    position: relative;
-    z-index: 2;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     background-color: var(--color-neutral);
     border: 1.5px solid var(--color-neutral-300);
     border-radius: var(--radius-base);
@@ -716,23 +679,17 @@ onUnmounted(() => {
     padding: 0.625rem 0.75rem;
     border-radius: var(--radius-none);
     transition: background-color 0.15s ease-in-out;
-
-    /* Font size matches checkbox icon size for 1:1 relationship */
     font-size: var(--text-sm);
-
-    /* Remove default checkbox gap since we're using it as a full-width container */
     gap: 0.5rem;
 
     &:hover:not(:disabled) {
       background-color: var(--color-tertiary-light);
     }
 
-    /* Selected state styling */
     .multiselect__option-selected & {
       background-color: rgba(0, 123, 255, 0.05);
     }
 
-    /* Override disabled cursor from parent */
     &:disabled {
       cursor: not-allowed;
     }
@@ -763,7 +720,5 @@ onUnmounted(() => {
     opacity: 1;
     transform: scaleY(1) translateY(0);
   }
-
-  /* Selected items transitions handled by JavaScript hooks */
 }
 </style>
