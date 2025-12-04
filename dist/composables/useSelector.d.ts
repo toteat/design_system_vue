@@ -9,6 +9,8 @@ export interface UseSelectorOptions {
     searchable?: Ref<boolean>;
     /** Whether to close on select */
     closeOnSelect?: Ref<boolean>;
+    /** When true, disables client-side filtering (backend handles filtering) */
+    disableAutofilter?: Ref<boolean>;
     /** Emit functions */
     emit: {
         open: () => void;

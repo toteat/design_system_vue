@@ -9,6 +9,7 @@ import Icon from '../Icon/Icon.vue';
 const props = withDefaults(defineProps<SelectProps>(), {
   disabled: false,
   searchable: true,
+  disableAutofilter: false,
   size: 'medium',
   modelValue: null,
 });
@@ -46,6 +47,7 @@ const {
   options: toRef(props, 'options'),
   searchQueryProp: toRef(props, 'searchQuery'),
   searchable: toRef(props, 'searchable'),
+  disableAutofilter: toRef(props, 'disableAutofilter'),
   closeOnSelect: ref(true),
   emit: {
     open: () => emit('open'),
