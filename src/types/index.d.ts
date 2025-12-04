@@ -238,6 +238,8 @@ export type SelectProps = {
   searchPlaceholder?: string;
   disabled?: boolean;
   searchable?: boolean;
+  /** When true, disables client-side filtering. Use when backend handles filtering. */
+  disableAutofilter?: boolean;
   size?: ButtonSize;
   id?: string;
   name?: string;

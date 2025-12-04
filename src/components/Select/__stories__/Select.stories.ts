@@ -96,6 +96,12 @@ const meta: Meta<typeof Select> = {
       description: 'Whether search input is enabled (default: true)',
       table: { category: 'Behavior' },
     },
+    disableAutofilter: {
+      control: 'boolean',
+      description:
+        'When true, disables client-side filtering. Use when backend handles filtering.',
+      table: { category: 'Behavior' },
+    },
     // Form props
     id: {
       control: 'text',
@@ -115,6 +121,7 @@ const meta: Meta<typeof Select> = {
     searchPlaceholder: 'Search...',
     disabled: false,
     searchable: true,
+    disableAutofilter: false,
     size: 'medium',
     id: '',
     name: '',
@@ -746,6 +753,219 @@ export const WithRoundedImagesAndSublabel: Story = {
         <div style="margin-top: 1rem; padding: 0.75rem; background-color: #f8f9fa; border-radius: 0.5rem; font-size: 0.875rem;">
           <strong>Selected:</strong> {{ selectedValue ?? 'None' }}
         </div>
+      </div>
+    `,
+  }),
+};
+
+// All products for the backend filtering demo
+const allProducts: MultiselectOption[] = [
+  { value: 'laptop', label: 'Laptop Pro 15"' },
+  { value: 'laptop-air', label: 'Laptop Air 13"' },
+  { value: 'phone', label: 'Smartphone X' },
+  { value: 'phone-mini', label: 'Smartphone Mini' },
+  { value: 'tablet', label: 'Tablet Pro 12"' },
+  { value: 'tablet-mini', label: 'Tablet Mini 8"' },
+  { value: 'watch', label: 'Smart Watch Series 5' },
+  { value: 'earbuds', label: 'Wireless Earbuds Pro' },
+  { value: 'speaker', label: 'Bluetooth Speaker' },
+  { value: 'charger', label: 'Fast Charger 65W' },
+  { value: 'keyboard', label: 'Mechanical Keyboard' },
+  { value: 'mouse', label: 'Ergonomic Mouse' },
+  { value: 'monitor', label: 'Ultra Wide Monitor 34"' },
+  { value: 'webcam', label: 'HD Webcam 4K' },
+  { value: 'headphones', label: 'Noise Cancelling Headphones' },
+];
+
+// Backend filtering simulation - disableAutofilter demo
+export const BackendFiltering: Story = {
+  render: () => ({
+    components: { Select },
+    setup() {
+      const selectedValue = ref<string | number | null>(null);
+      const searchQuery = ref('');
+      const isLoading = ref(false);
+      const requestCount = ref(0);
+
+      // Simulated backend-filtered options (starts with all options)
+      const backendOptions = ref<MultiselectOption[]>(allProducts);
+
+      // Simulate backend API call with debounce
+      const simulateBackendSearch = (query: string) => {
+        isLoading.value = true;
+        requestCount.value++;
+        const currentRequest = requestCount.value;
+
+        // Simulate network delay (300-800ms)
+        const delay = 300 + Math.random() * 500;
+
+        setTimeout(() => {
+          // Only process if this is still the latest request
+          if (currentRequest === requestCount.value) {
+            if (!query.trim()) {
+              backendOptions.value = allProducts;
+            } else {
+              // Simulate backend filtering logic
+              const lowerQuery = query.toLowerCase();
+              backendOptions.value = allProducts.filter(
+                (option) =>
+                  option.label.toLowerCase().includes(lowerQuery) ||
+                  String(option.value).toLowerCase().includes(lowerQuery),
+              );
+            }
+            isLoading.value = false;
+          }
+        }, delay);
+      };
+
+      // Handle search query changes
+      const handleSearchUpdate = (query: string) => {
+        searchQuery.value = query;
+        simulateBackendSearch(query);
+      };
+
+      return {
+        selectedValue,
+        searchQuery,
+        backendOptions,
+        isLoading,
+        requestCount,
+        handleSearchUpdate,
+        allProducts,
+      };
+    },
+    template: `
+      <div style="max-width: 500px;">
+        <h3 style="margin-bottom: 1rem;">Backend Filtering (disable-autofilter)</h3>
+
+        <p style="margin-bottom: 1rem; color: #666; font-size: 0.875rem;">
+          When <code>disable-autofilter</code> is set, the component doesn't filter options
+          client-side. Instead, you control the options array from a backend API.
+        </p>
+
+        <div style="position: relative;">
+          <Select
+            v-model="selectedValue"
+            v-model:search-query="searchQuery"
+            :options="backendOptions"
+            disable-autofilter
+            placeholder="Search products..."
+            search-placeholder="Type to search backend..."
+            @update:search-query="handleSearchUpdate"
+          />
+          <div
+            v-if="isLoading"
+            style="position: absolute; right: 50px; top: 50%; transform: translateY(-50%); font-size: 0.75rem; color: #3b82f6;"
+          >
+            Loading...
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: #f0fdf4; border: 1px solid #22c55e; border-radius: 0.5rem;">
+          <strong style="color: #166534;">How it works:</strong>
+          <ol style="margin: 0.5rem 0 0 1.5rem; font-size: 0.875rem; color: #166534;">
+            <li>Set <code>disable-autofilter</code> prop to disable client-side filtering</li>
+            <li>Listen to <code>@update:search-query</code> event</li>
+            <li>Call your backend API with the search query</li>
+            <li>Update the <code>:options</code> array with API results</li>
+          </ol>
+        </div>
+
+        <div style="margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 0.5rem; font-family: monospace; font-size: 0.875rem;">
+          <div><strong>Search Query:</strong> "{{ searchQuery || '(empty)' }}"</div>
+          <div><strong>Options Count:</strong> {{ backendOptions.length }} of {{ allProducts.length }}</div>
+          <div><strong>Selected:</strong> {{ selectedValue ?? 'null' }}</div>
+          <div><strong>API Requests:</strong> {{ requestCount }}</div>
+        </div>
+
+        <div style="margin-top: 1rem; padding: 1rem; background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 0.5rem; font-size: 0.875rem;">
+          <strong>⚠️ Note:</strong> This demo simulates a backend with 300-800ms delay.
+          In production, you'd call your actual API endpoint.
+        </div>
+      </div>
+    `,
+  }),
+};
+
+// Comparison: Client vs Backend filtering
+export const ClientVsBackendFiltering: Story = {
+  render: () => ({
+    components: { Select },
+    setup() {
+      const clientValue = ref<string | number | null>(null);
+      const backendValue = ref<string | number | null>(null);
+      const backendSearchQuery = ref('');
+      const backendOptions = ref<MultiselectOption[]>(fruitOptions);
+
+      // Simulate backend filtering
+      const handleBackendSearch = (query: string) => {
+        backendSearchQuery.value = query;
+        // Simulate backend delay
+        setTimeout(() => {
+          if (!query.trim()) {
+            backendOptions.value = fruitOptions;
+          } else {
+            const lowerQuery = query.toLowerCase();
+            backendOptions.value = fruitOptions.filter((opt) =>
+              opt.label.toLowerCase().includes(lowerQuery),
+            );
+          }
+        }, 200);
+      };
+
+      return {
+        clientValue,
+        backendValue,
+        backendSearchQuery,
+        backendOptions,
+        handleBackendSearch,
+        fruitOptions,
+      };
+    },
+    template: `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 800px;">
+        <div>
+          <h3 style="margin-bottom: 1rem; color: #3b82f6;">Client-Side Filtering</h3>
+          <p style="margin-bottom: 1rem; color: #666; font-size: 0.875rem;">
+            Default behavior. Options are filtered in the browser as you type.
+          </p>
+          <Select
+            v-model="clientValue"
+            :options="fruitOptions"
+            placeholder="Select a fruit..."
+            search-placeholder="Type to filter..."
+          />
+          <div style="margin-top: 0.5rem; padding: 0.5rem; background-color: #dbeafe; border-radius: 0.25rem; font-size: 0.75rem;">
+            <code>:disable-autofilter="false"</code> (default)
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 1rem; color: #22c55e;">Backend Filtering</h3>
+          <p style="margin-bottom: 1rem; color: #666; font-size: 0.875rem;">
+            Options are controlled by the parent. Backend handles filtering.
+          </p>
+          <Select
+            v-model="backendValue"
+            v-model:search-query="backendSearchQuery"
+            :options="backendOptions"
+            disable-autofilter
+            placeholder="Select a fruit..."
+            search-placeholder="Type to search API..."
+            @update:search-query="handleBackendSearch"
+          />
+          <div style="margin-top: 0.5rem; padding: 0.5rem; background-color: #dcfce7; border-radius: 0.25rem; font-size: 0.75rem;">
+            <code>disable-autofilter</code>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 2rem; padding: 1rem; background-color: #f8f9fa; border-radius: 0.5rem;">
+        <strong>When to use each approach:</strong>
+        <ul style="margin: 0.5rem 0 0 1.5rem; font-size: 0.875rem;">
+          <li><strong>Client-side (default):</strong> Small option lists (&lt;100 items), static data</li>
+          <li><strong>Backend filtering:</strong> Large datasets, paginated results, dynamic data, search APIs</li>
+        </ul>
       </div>
     `,
   }),
