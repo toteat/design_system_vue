@@ -154,13 +154,20 @@ const handleSearchInput = (event: Event) => {
     <Transition name="tds-select-dropdown">
       <div v-if="isOpen" class="tds-select__dropdown">
         <ul class="tds-select__options">
+          <!-- eslint-disable-next-line vuejs-accessibility/interactive-supports-focus -->
           <li
             v-for="option in filteredOptions"
             :key="option.value"
             class="tds-select__option"
             :data-selected="isSelected(option)"
             :data-disabled="isOptionDisabled(option)"
+            role="option"
+            :aria-selected="isSelected(option)"
+            :aria-disabled="isOptionDisabled(option)"
+            :tabindex="isOptionDisabled(option) ? -1 : 0"
             @click="selectOption(option)"
+            @keydown.enter.prevent="selectOption(option)"
+            @keydown.space.prevent="selectOption(option)"
           >
             <slot name="option" :option="option" :selected="isSelected(option)">
               {{ option.label }}

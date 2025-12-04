@@ -244,14 +244,20 @@ const handleSearchInput = (event: Event) => {
         @focus="handleInputFocus"
         @keydown.escape="closeDropdown"
       />
-      <div class="multiselect__actions" @click="toggleDropdown">
+      <button
+        type="button"
+        class="multiselect__actions"
+        @click="toggleDropdown"
+        :tabindex="-1"
+        aria-label="Toggle dropdown"
+      >
         <Icon
           name="chevron-down-outline"
           :size="1.25"
           color="neutral-400"
           class="multiselect__arrow"
         />
-      </div>
+      </button>
     </div>
 
     <!-- Simple trigger (when not searchable) -->
@@ -296,6 +302,7 @@ const handleSearchInput = (event: Event) => {
 
         <!-- Options list -->
         <ul class="multiselect__options">
+          <!-- eslint-disable-next-line vuejs-accessibility/interactive-supports-focus -->
           <li
             v-for="option in filteredOptions"
             :key="option.value"
@@ -304,7 +311,13 @@ const handleSearchInput = (event: Event) => {
               'multiselect__option-selected': isSelected(option),
               'multiselect__option-disabled': isOptionDisabled(option),
             }"
+            role="option"
+            :aria-selected="isSelected(option)"
+            :aria-disabled="isOptionDisabled(option)"
+            :tabindex="isOptionDisabled(option) ? -1 : 0"
             @click="toggleOption(option)"
+            @keydown.enter.prevent="toggleOption(option)"
+            @keydown.space.prevent="toggleOption(option)"
           >
             <Checkbox
               :checked="isSelected(option)"
