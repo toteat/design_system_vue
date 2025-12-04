@@ -96,9 +96,12 @@ const sortedData = computed(() => {
   const column = props.columns.find((col) => col.key === sortColumn.value);
   if (!column) return props.data;
 
+  const currentSortColumn = sortColumn.value;
+  if (!currentSortColumn) return props.data;
+
   const sorted = [...props.data].sort((a, b) => {
-    const aValue = a[sortColumn.value!];
-    const bValue = b[sortColumn.value!];
+    const aValue = a[currentSortColumn];
+    const bValue = b[currentSortColumn];
 
     // Handle null/undefined
     if (aValue === null || aValue === undefined) return 1;
