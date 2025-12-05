@@ -1,8 +1,22 @@
 #!/bin/sh
-# Pre-commit hook: lint-staged handles all validations
+# Pre-commit hook: generate files + lint-staged validations
 # Coverage check is integrated via lint-staged's vitest related --run
 
 set -e
+
+# Check if SVG assets changed → regenerate icons
+if git diff --cached --name-only | grep -q "src/components/Icon/assets/.*\.svg$"; then
+  echo "SVG assets changed, generating icons..."
+  mise exec -- npm run generate-icons
+  git add src/components/Icon/icons.ts 2>/dev/null || true
+fi
+
+# Check if component directories changed → regenerate exports
+if git diff --cached --name-only | grep -q "^src/components/[^/]*/"; then
+  echo "Components changed, generating exports..."
+  mise exec -- npm run generate-exports
+  git add package.json 2>/dev/null || true
+fi
 
 # Use mise to run commands with correct Node.js version
 mise exec -- npm run lint-staged
