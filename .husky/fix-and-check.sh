@@ -15,15 +15,15 @@ fi
 
 case "$TOOL" in
   prettier)
-    prettier --write $FILES
+    prettier --write "$@"
     TOOL_NAME="Prettier"
     ;;
   eslint)
-    eslint --fix $FILES
+    eslint --fix "$@"
     TOOL_NAME="ESLint"
     ;;
   stylelint)
-    stylelint --fix $FILES
+    stylelint --fix "$@"
     TOOL_NAME="Stylelint"
     ;;
   *)
@@ -35,4 +35,4 @@ esac
 # Re-stage fixed files (lint-staged handles this automatically in v10+)
 # The files passed to this script are already staged, so after fixing
 # we need to re-add them to include the fixes in the commit
-git add $FILES 2>/dev/null || true
+git add "$@" 2>/dev/null || true
