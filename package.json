@@ -155,6 +155,7 @@
     "lint-fix": "run-p \"lint-fix:js --\" \"lint-fix:style --\"",
     "format": "prettier --write src/",
     "prepare": "husky",
+    "prepublishOnly": "npm run build",
     "lint-staged": "lint-staged",
     "lint-staged:test": "lint-staged --verbose",
     "lint-staged:debug": "DEBUG=lint-staged:* lint-staged",

@@ -1,1 +1,0 @@
-export { ImagePreview } from '../index';
