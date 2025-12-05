@@ -252,14 +252,20 @@ func generateIconFileContent(svgFiles []os.DirEntry, assetDir string) (string, i
 	sort.Strings(iconNames)
 
 	if len(iconNames) > 0 {
-		content += "\n// Icon type definition\nexport type IconNames =\n"
+		// Generate the array first (single source of truth)
+		content += "\n// Runtime array of all icon names\nexport const iconNames = [\n"
 		for i, name := range iconNames {
-			if i > 0 {
+			content += fmt.Sprintf("  '%s'", name)
+			if i < len(iconNames)-1 {
+				content += ",\n"
+			} else {
 				content += "\n"
 			}
-			content += fmt.Sprintf("  | '%s'", name)
 		}
-		content += ";\n"
+		content += "] as const;\n"
+
+		// Derive the type from the array
+		content += "\n// Icon type definition (derived from iconNames array)\nexport type IconNames = typeof iconNames[number];\n"
 	}
 
 	return content, resultCount, nil

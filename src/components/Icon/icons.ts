@@ -60,6 +60,10 @@ export const ICON_BARCODE_OUTLINE = [
   "<path d='M13.76 8a.48.48 0 0 1-.48.48H2.72a.48.48 0 1 1 0-.96h.96v-2.4h.96v2.4h.96v-2.4h.96v2.4h.96v-2.4h.96v2.4h.96v-2.4h.96v2.4h.96v-2.4h.96v2.4h.96a.48.48 0 0 1 .48.48ZM4.64 10.88h-.96V9.44h.96v1.44ZM12.32 10.88h-.96V9.44h.96v1.44ZM6.56 10.4H5.6v-.96h.96v.96ZM8.48 10.4h-.96v-.96h.96v.96ZM10.4 10.4h-.96v-.96h.96v.96ZM1.28 5.12V3.68c0-.794.646-1.44 1.44-1.44h1.44a.48.48 0 1 1 0 .96H2.72a.48.48 0 0 0-.48.48v1.44a.48.48 0 1 1-.96 0ZM14.72 3.68v1.44a.48.48 0 1 1-.96 0V3.68a.48.48 0 0 0-.48-.48h-1.44a.48.48 0 1 1 0-.96h1.44c.794 0 1.44.646 1.44 1.44ZM4.64 13.28a.48.48 0 0 1-.48.48H2.72c-.794 0-1.44-.646-1.44-1.44v-1.44a.48.48 0 1 1 .96 0v1.44c0 .265.215.48.48.48h1.44a.48.48 0 0 1 .48.48ZM14.72 10.88v1.44c0 .794-.646 1.44-1.44 1.44h-1.44a.48.48 0 1 1 0-.96h1.44a.48.48 0 0 0 .48-.48v-1.44a.48.48 0 1 1 .96 0Z'/>",
   '0 0 16 16',
 ];
+export const ICON_BELL_OUTLINE = [
+  "<path d='M13.98 12.667h-.525V8.139c0-2.424-1.483-4.488-3.563-5.288V1.96C9.892.877 9.042 0 7.995 0 6.95 0 6.103.88 6.103 1.96v.885C4.025 3.643 2.54 5.71 2.54 8.136v4.53h-.525a.526.526 0 0 0-.515.534c0 .293.232.533.515.533H5.45C5.64 15.013 6.708 16 8 16s2.36-.987 2.549-2.267h3.436c.283 0 .515-.24.515-.533a.53.53 0 0 0-.52-.533M7.132 1.96A.88.88 0 0 1 8 1.067c.476 0 .862.4.862.893v.608a5 5 0 0 0-.872-.08c-.294 0-.577.032-.858.077zM8 14.8c-.72 0-1.216-.376-1.39-1.067h2.812C9.249 14.424 8.72 14.8 8 14.8m-4.297-2.3V8.139C3.703 5.613 5.895 3.8 8 3.8s4.203 1.813 4.203 4.339V12.5z'/>",
+  '0 0 16 16',
+];
 export const ICON_CALENDAR_ALT_OUTLINE = [
   "<path d='M7.47 10.14a.842.842 0 0 1-.205-.724c.01-.053.025-.102.04-.15.02-.048.045-.096.07-.14.03-.042.06-.085.095-.122a.617.617 0 0 1 .245-.171.662.662 0 0 1 .57 0c.045.015.09.042.13.069.04.032.08.064.115.102.035.037.065.08.095.123.025.043.05.09.065.14a.777.777 0 0 1 .06.305c0 .208-.08.417-.22.567-.034.038-.075.07-.115.102-.04.027-.085.054-.13.075a1.1 1.1 0 0 1-.14.043.636.636 0 0 1-.29 0c-.05-.01-.095-.027-.14-.043a1.048 1.048 0 0 1-.13-.075 1.07 1.07 0 0 1-.115-.102Zm3.335 2.951a.77.77 0 0 0 .165.262c.035.038.075.07.115.103.04.026.085.053.13.075.045.015.09.032.14.042a.725.725 0 0 0 .675-.22.699.699 0 0 0 .16-.262.777.777 0 0 0 .045-.46.737.737 0 0 0-.045-.15.694.694 0 0 0-.16-.263.716.716 0 0 0-.675-.22.624.624 0 0 0-.14.049.617.617 0 0 0-.245.171 1.19 1.19 0 0 0-.095.123c-.025.043-.05.091-.07.14-.014.048-.03.096-.04.15a.777.777 0 0 0 0 .31c.01.054.025.102.04.15Zm-3.5 0c.02.048.045.097.07.14.03.042.06.085.095.123a.621.621 0 0 0 .245.171.624.624 0 0 0 .285.064.636.636 0 0 0 .284-.064.61.61 0 0 0 .131-.07c.04-.032.08-.064.115-.101a.699.699 0 0 0 .16-.262.777.777 0 0 0 .06-.305.843.843 0 0 0-.22-.569.607.607 0 0 0-.246-.171.663.663 0 0 0-.57 0 .617.617 0 0 0-.244.171.843.843 0 0 0-.165.873Zm3.5-3.214a.77.77 0 0 0 .165.263c.035.037.075.069.115.101.04.027.085.054.13.075.045.016.09.032.14.043a.636.636 0 0 0 .29 0c.05-.01.095-.027.14-.043a1.02 1.02 0 0 0 .13-.075c.04-.032.08-.064.115-.102a.699.699 0 0 0 .16-.263.777.777 0 0 0 .045-.46.737.737 0 0 0-.045-.15.697.697 0 0 0-.16-.262.716.716 0 0 0-1.06 0 .806.806 0 0 0-.165.262c-.014.048-.03.097-.04.15a.777.777 0 0 0 0 .31c.01.054.025.103.04.15Zm-6.305.498c.195 0 .39-.086.53-.236s.22-.353.22-.567a.843.843 0 0 0-.22-.568c-.28-.3-.78-.3-1.06 0a.843.843 0 0 0 0 1.135c.14.15.33.236.53.236ZM15 4.215v10.178c0 .886-.673 1.607-1.5 1.607h-11c-.827 0-1.5-.721-1.5-1.607V4.214c0-.886.673-1.607 1.5-1.607H4V1.536C4 1.24 4.224 1 4.5 1s.5.24.5.536v1.071h6V1.536c0-.296.224-.536.5-.536s.5.24.5.536v1.071h1.5c.827 0 1.5.721 1.5 1.607Zm-1 3.214H2v6.964c0 .295.224.536.5.536h11c.276 0 .5-.24.5-.536V7.429Zm0-3.215c0-.295-.224-.535-.5-.535H12V4.75c0 .296-.224.536-.5.536s-.5-.24-.5-.536V3.679H5V4.75c0 .296-.224.536-.5.536S4 5.046 4 4.75V3.679H2.5c-.276 0-.5.24-.5.535v2.143h12V4.214ZM4.5 13.59c.2 0 .39-.085.53-.235.14-.15.22-.354.22-.568a.833.833 0 0 0-.22-.568.737.737 0 0 0-1.06 0 .833.833 0 0 0-.22.568c0 .214.08.418.22.568.14.15.33.235.53.235Z'/>",
   '0 0 16 16',
@@ -501,130 +505,135 @@ export const ICON_WIFI_SIGNAL_OUTLINE = [
   '0 0 18 18',
 ];
 
-// Icon type definition
-export type IconNames =
-  | 'apple-filled'
-  | 'arrow-circle-down-outline'
-  | 'arrow-circle-left-outline'
-  | 'arrow-circle-right-outline'
-  | 'arrow-circle-up-outline'
-  | 'arrow-down-outline'
-  | 'arrow-left-outline'
-  | 'arrow-list-outline'
-  | 'arrow-point-down-filled'
-  | 'arrow-point-left-filled'
-  | 'arrow-point-right-filled'
-  | 'arrow-point-up-filled'
-  | 'arrow-right-outline'
-  | 'arrow-up-outline'
-  | 'barcode-outline'
-  | 'calendar-alt-outline'
-  | 'calendar-locked-outline'
-  | 'calendar-outline'
-  | 'carrot-filled'
-  | 'check-outline'
-  | 'checkbox-checked'
-  | 'checkbox-unchecked'
-  | 'chevron-down-outline'
-  | 'chevron-left-bicolor'
-  | 'chevron-left-outline'
-  | 'chevron-right-bicolor'
-  | 'chevron-right-outline'
-  | 'chevron-up-outline'
-  | 'chicken-filled'
-  | 'chili-filled'
-  | 'close-outline'
-  | 'cloud-download-outline'
-  | 'cloud-upload-outline'
-  | 'copy-generic-outline'
-  | 'copy-square-outline'
-  | 'delete-outline'
-  | 'discount-outline'
-  | 'document-generic-outline'
-  | 'document-history-alt-outline'
-  | 'document-history-outline'
-  | 'document-list-outline'
-  | 'error-filled-red'
-  | 'error-outline'
-  | 'exclamation-outline'
-  | 'expand-outline'
-  | 'export-outline'
-  | 'eye-closed-outline'
-  | 'eye-open-filled'
-  | 'eye-open-outline'
-  | 'facebook-filled'
-  | 'fire-filled'
-  | 'fish-filled'
-  | 'google-filled'
-  | 'hashtag-outline'
-  | 'home-outline'
-  | 'import-outline'
-  | 'info-filled-blue'
-  | 'info-outline'
-  | 'instagram-filled'
-  | 'key-outline'
-  | 'lactose-intolerant-filled'
-  | 'layout-1-outline'
-  | 'layout-2-outline'
-  | 'layout-3-outline'
-  | 'layout-4-outline'
-  | 'layout-5-outline'
-  | 'leaf-filled'
-  | 'linkedin-filled'
-  | 'location-filled'
-  | 'lock-password-1-outline'
-  | 'lock-password-2-outline'
-  | 'mail-outline'
-  | 'menu-close-outline'
-  | 'menu-hamburger-outline'
-  | 'minus-bicolor-tertiary'
-  | 'minus-bicolor-tertiary-light'
-  | 'minus-filled'
-  | 'money-bill-outline'
-  | 'money-cash-outline'
-  | 'money-coin-outline'
-  | 'money-credit-card-outline'
-  | 'nfc-filled'
-  | 'nfc-outline'
-  | 'pencil'
-  | 'pencil-outline'
-  | 'phone-outline'
-  | 'plus-bicolor-tertiary'
-  | 'plus-bicolor-tertiary-light'
-  | 'plus-filled'
-  | 'printer-outline'
-  | 'purchase-order-bill-outline'
-  | 'purchase-order-list-outline'
-  | 'purchase-order-ticket-outline'
-  | 'radio-button-checked-outline'
-  | 'radio-button-unchecked-outline'
-  | 'refresh-double-outline'
-  | 'refresh-single-outline'
-  | 'rocket-outline'
-  | 'search-outline'
-  | 'sheet-bent-outline'
-  | 'sheet-generic-outline'
-  | 'sheet-list-outline'
-  | 'shopping-bag-outline'
-  | 'shopping-basket-outline'
-  | 'shopping-cart-outline'
-  | 'split-bill-ticket-1-outline'
-  | 'split-bill-ticket-2-outline'
-  | 'star-filled'
-  | 'success-filled-green'
-  | 'success-outline'
-  | 'sugar-free-filled'
-  | 'tag-filled'
-  | 'tag-outline'
-  | 'tap-click-hand-outline'
-  | 'ticket-outline'
-  | 'tickets-outline'
-  | 'twitter-filled'
-  | 'user-outline'
-  | 'warning-filled-yellow'
-  | 'warning-outline'
-  | 'whatsapp-outline'
-  | 'wheat-filled'
-  | 'wifi-no-signal-outline'
-  | 'wifi-signal-filled'
-  | 'wifi-signal-outline';
+// Runtime array of all icon names
+export const iconNames = [
+  'apple-filled',
+  'arrow-circle-down-outline',
+  'arrow-circle-left-outline',
+  'arrow-circle-right-outline',
+  'arrow-circle-up-outline',
+  'arrow-down-outline',
+  'arrow-left-outline',
+  'arrow-list-outline',
+  'arrow-point-down-filled',
+  'arrow-point-left-filled',
+  'arrow-point-right-filled',
+  'arrow-point-up-filled',
+  'arrow-right-outline',
+  'arrow-up-outline',
+  'barcode-outline',
+  'bell-outline',
+  'calendar-alt-outline',
+  'calendar-locked-outline',
+  'calendar-outline',
+  'carrot-filled',
+  'check-outline',
+  'checkbox-checked',
+  'checkbox-unchecked',
+  'chevron-down-outline',
+  'chevron-left-bicolor',
+  'chevron-left-outline',
+  'chevron-right-bicolor',
+  'chevron-right-outline',
+  'chevron-up-outline',
+  'chicken-filled',
+  'chili-filled',
+  'close-outline',
+  'cloud-download-outline',
+  'cloud-upload-outline',
+  'copy-generic-outline',
+  'copy-square-outline',
+  'delete-outline',
+  'discount-outline',
+  'document-generic-outline',
+  'document-history-alt-outline',
+  'document-history-outline',
+  'document-list-outline',
+  'error-filled-red',
+  'error-outline',
+  'exclamation-outline',
+  'expand-outline',
+  'export-outline',
+  'eye-closed-outline',
+  'eye-open-filled',
+  'eye-open-outline',
+  'facebook-filled',
+  'fire-filled',
+  'fish-filled',
+  'google-filled',
+  'hashtag-outline',
+  'home-outline',
+  'import-outline',
+  'info-filled-blue',
+  'info-outline',
+  'instagram-filled',
+  'key-outline',
+  'lactose-intolerant-filled',
+  'layout-1-outline',
+  'layout-2-outline',
+  'layout-3-outline',
+  'layout-4-outline',
+  'layout-5-outline',
+  'leaf-filled',
+  'linkedin-filled',
+  'location-filled',
+  'lock-password-1-outline',
+  'lock-password-2-outline',
+  'mail-outline',
+  'menu-close-outline',
+  'menu-hamburger-outline',
+  'minus-bicolor-tertiary',
+  'minus-bicolor-tertiary-light',
+  'minus-filled',
+  'money-bill-outline',
+  'money-cash-outline',
+  'money-coin-outline',
+  'money-credit-card-outline',
+  'nfc-filled',
+  'nfc-outline',
+  'pencil',
+  'pencil-outline',
+  'phone-outline',
+  'plus-bicolor-tertiary',
+  'plus-bicolor-tertiary-light',
+  'plus-filled',
+  'printer-outline',
+  'purchase-order-bill-outline',
+  'purchase-order-list-outline',
+  'purchase-order-ticket-outline',
+  'radio-button-checked-outline',
+  'radio-button-unchecked-outline',
+  'refresh-double-outline',
+  'refresh-single-outline',
+  'rocket-outline',
+  'search-outline',
+  'sheet-bent-outline',
+  'sheet-generic-outline',
+  'sheet-list-outline',
+  'shopping-bag-outline',
+  'shopping-basket-outline',
+  'shopping-cart-outline',
+  'split-bill-ticket-1-outline',
+  'split-bill-ticket-2-outline',
+  'star-filled',
+  'success-filled-green',
+  'success-outline',
+  'sugar-free-filled',
+  'tag-filled',
+  'tag-outline',
+  'tap-click-hand-outline',
+  'ticket-outline',
+  'tickets-outline',
+  'twitter-filled',
+  'user-outline',
+  'warning-filled-yellow',
+  'warning-outline',
+  'whatsapp-outline',
+  'wheat-filled',
+  'wifi-no-signal-outline',
+  'wifi-signal-filled',
+  'wifi-signal-outline',
+] as const;
+
+// Icon type definition (derived from iconNames array)
+export type IconNames = (typeof iconNames)[number];
