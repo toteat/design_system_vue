@@ -37,6 +37,11 @@
         "import": "./dist/Button/index.js",
         "require": "./dist/design-system-vue.umd.js"
       },
+      "./Card": {
+        "types": "./dist/Card/index.d.ts",
+        "import": "./dist/Card/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
       "./Checkbox": {
         "types": "./dist/Checkbox/index.d.ts",
         "import": "./dist/Checkbox/index.js",
@@ -151,6 +156,7 @@
     "lint-fix": "run-p \"lint-fix:js --\" \"lint-fix:style --\"",
     "format": "prettier --write src/",
     "prepare": "husky",
+    "prepublishOnly": "npm run build",
     "lint-staged": "lint-staged",
     "lint-staged:test": "lint-staged --verbose",
     "lint-staged:debug": "DEBUG=lint-staged:* lint-staged",
@@ -161,18 +167,21 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
-      "prettier --write",
-      "eslint",
-      "sh -c 'npm run typecheck'",
+      ".husky/fix-and-check.sh prettier",
+      ".husky/fix-and-check.sh eslint",
       "vitest related --run"
     ],
     "*.vue": [
-      "prettier --write",
-      "sh -c 'npm run typecheck'",
+      ".husky/fix-and-check.sh prettier",
+      ".husky/fix-and-check.sh eslint",
+      ".husky/fix-and-check.sh stylelint",
       "vitest related --run"
     ],
     "*.css": [
-      "stylelint --fix"
+      ".husky/fix-and-check.sh stylelint"
+    ],
+    "*.{ts,tsx,vue}": [
+      "bash -c 'vue-tsc --project tsconfig.app.json --skipLibCheck --noEmit'"
     ]
   },
   "peerDependencies": {

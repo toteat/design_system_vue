@@ -156,24 +156,27 @@ const handleSearchInput = (event: Event) => {
     <Transition name="tds-select-dropdown">
       <div v-if="isOpen" class="tds-select__dropdown">
         <ul class="tds-select__options">
-          <!-- eslint-disable-next-line vuejs-accessibility/interactive-supports-focus -->
           <li
             v-for="option in filteredOptions"
             :key="option.value"
             class="tds-select__option"
             :data-selected="isSelected(option)"
             :data-disabled="isOptionDisabled(option)"
-            role="option"
-            :aria-selected="isSelected(option)"
-            :aria-disabled="isOptionDisabled(option)"
-            :tabindex="isOptionDisabled(option) ? -1 : 0"
-            @click="selectOption(option)"
-            @keydown.enter.prevent="selectOption(option)"
-            @keydown.space.prevent="selectOption(option)"
           >
-            <slot name="option" :option="option" :selected="isSelected(option)">
-              {{ option.label }}
-            </slot>
+            <button
+              type="button"
+              class="tds-select__option-button"
+              :disabled="isOptionDisabled(option)"
+              @click="() => selectOption(option)"
+            >
+              <slot
+                name="option"
+                :option="option"
+                :selected="isSelected(option)"
+              >
+                {{ option.label }}
+              </slot>
+            </button>
           </li>
           <li
             v-if="filteredOptions.length === 0"
@@ -234,7 +237,7 @@ const handleSearchInput = (event: Event) => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
     background-color: var(--color-neutral);
     border: 1.5px solid var(--color-neutral-300);
     border-radius: var(--radius-base);
@@ -285,11 +288,11 @@ const handleSearchInput = (event: Event) => {
     }
 
     & .tds-select__search-input {
-      padding: 0.25rem 0 0.25rem 0.5rem;
+      padding: var(--spacing-xs) 0 0.25rem 0.5rem;
     }
 
     & .tds-select__actions {
-      padding: 0.25rem 0.5rem;
+      padding: var(--spacing-xs) 0.5rem;
     }
   }
 
@@ -301,11 +304,11 @@ const handleSearchInput = (event: Event) => {
     }
 
     & .tds-select__search-input {
-      padding: 0.375rem 0 0.375rem 0.625rem;
+      padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-md);
     }
 
     & .tds-select__actions {
-      padding: 0.375rem 0.625rem 0.375rem 0.5rem;
+      padding: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) 0.5rem;
     }
   }
 
@@ -317,11 +320,11 @@ const handleSearchInput = (event: Event) => {
     }
 
     & .tds-select__search-input {
-      padding: 0.5rem 0 0.5rem 0.75rem;
+      padding: var(--spacing-sm) 0 0.5rem 0.75rem;
     }
 
     & .tds-select__actions {
-      padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+      padding: var(--spacing-sm) 0.75rem 0.5rem 0.5rem;
     }
   }
 
@@ -333,11 +336,11 @@ const handleSearchInput = (event: Event) => {
     }
 
     & .tds-select__search-input {
-      padding: 0.75rem 0 0.75rem 1rem;
+      padding: var(--spacing-md) 0 0.75rem 1rem;
     }
 
     & .tds-select__actions {
-      padding: 0.75rem 1rem 0.75rem 0.5rem;
+      padding: var(--spacing-md) 1rem 0.75rem 0.5rem;
     }
   }
 
@@ -365,7 +368,7 @@ const handleSearchInput = (event: Event) => {
     align-self: stretch;
     flex-shrink: 0;
     border-left: 1px solid var(--color-neutral-300);
-    gap: 0.25rem;
+    gap: var(--spacing-xs);
   }
 
   .tds-select__search-icon {
@@ -388,7 +391,7 @@ const handleSearchInput = (event: Event) => {
     left: 0;
     right: 0;
     z-index: 1000;
-    background-color: var(--color-neutral);
+    background-color: var(--color-white);
     border: 1.5px solid var(--color-neutral-300);
     border-radius: var(--radius-base);
     box-shadow:
@@ -398,41 +401,52 @@ const handleSearchInput = (event: Event) => {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    margin-top: 0.25rem;
+    margin-top: var(--spacing-xs);
   }
 
   .tds-select__options {
     list-style: none;
     margin: 0;
-    padding: 0.25rem 0;
+    padding: var(--spacing-xs) 0;
     overflow-y: auto;
     max-height: 240px;
   }
 
   .tds-select__option {
     display: block;
-    padding: 0.625rem 0.75rem;
+    padding: 0;
+  }
+
+  .tds-select__option-button {
+    width: 100%;
+    display: block;
+    padding: var(--spacing-md) 0.75rem;
     font-size: var(--text-sm);
+    font-family: inherit;
+    text-align: left;
+    background: none;
+    border: none;
     cursor: pointer;
     transition: background-color 0.15s ease-in-out;
+    color: inherit;
 
-    &:hover:not([data-disabled='true']) {
+    &:hover:not(:disabled) {
       background-color: var(--color-tertiary-light);
     }
 
-    &[data-selected='true'] {
+    .tds-select__option[data-selected='true'] & {
       background-color: rgba(0, 123, 255, 0.05);
       font-weight: 500;
     }
 
-    &[data-disabled='true'] {
+    &:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
   }
 
   .tds-select__no-options {
-    padding: 1rem 0.75rem;
+    padding: var(--spacing-lg) 0.75rem;
     text-align: center;
     color: var(--color-neutral-400);
     font-size: var(--text-sm);

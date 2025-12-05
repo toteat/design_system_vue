@@ -302,7 +302,6 @@ const handleSearchInput = (event: Event) => {
 
         <!-- Options list -->
         <ul class="multiselect__options">
-          <!-- eslint-disable-next-line vuejs-accessibility/interactive-supports-focus -->
           <li
             v-for="option in filteredOptions"
             :key="option.value"
@@ -311,13 +310,6 @@ const handleSearchInput = (event: Event) => {
               'multiselect__option-selected': isSelected(option),
               'multiselect__option-disabled': isOptionDisabled(option),
             }"
-            role="option"
-            :aria-selected="isSelected(option)"
-            :aria-disabled="isOptionDisabled(option)"
-            :tabindex="isOptionDisabled(option) ? -1 : 0"
-            @click="toggleOption(option)"
-            @keydown.enter.prevent="toggleOption(option)"
-            @keydown.space.prevent="toggleOption(option)"
           >
             <Checkbox
               :checked="isSelected(option)"
@@ -327,7 +319,7 @@ const handleSearchInput = (event: Event) => {
               :checkbox-position="checkboxPosition"
               color="black"
               class="multiselect__checkbox"
-              @change="toggleOption(option)"
+              @change="() => toggleOption(option)"
             >
               {{ option.label }}
             </Checkbox>
@@ -399,9 +391,9 @@ const handleSearchInput = (event: Event) => {
   .multiselect__selected-wrapper {
     border: 1px solid var(--color-neutral-300);
     border-radius: var(--radius-base);
-    padding: 0.5rem;
-    padding-right: 3rem;
-    margin-top: 0.5rem;
+    padding: var(--spacing-sm);
+    padding-right: var(--spacing-3xl);
+    margin-top: var(--spacing-sm);
     position: relative;
   }
 
@@ -409,7 +401,7 @@ const handleSearchInput = (event: Event) => {
   .multiselect__selected-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.375rem;
+    gap: var(--spacing-sm);
     align-items: center;
     justify-content: flex-start;
   }
@@ -421,8 +413,8 @@ const handleSearchInput = (event: Event) => {
 
   .multiselect__clear-all {
     position: absolute;
-    bottom: 0.5rem;
-    right: 0.5rem;
+    bottom: var(--spacing-sm);
+    right: var(--spacing-sm);
   }
 
   /* Simple trigger (non-searchable mode) */
@@ -430,7 +422,7 @@ const handleSearchInput = (event: Event) => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
     background-color: var(--color-neutral);
     border: 1.5px solid var(--color-neutral-300);
     border-radius: var(--radius-base);
@@ -506,11 +498,11 @@ const handleSearchInput = (event: Event) => {
     }
 
     & .multiselect__search-input {
-      padding: 0.25rem 0 0.25rem 0.5rem;
+      padding: var(--spacing-xs) 0 0.25rem 0.5rem;
     }
 
     & .multiselect__actions {
-      padding: 0.25rem 0.5rem;
+      padding: var(--spacing-xs) 0.5rem;
     }
   }
 
@@ -522,11 +514,11 @@ const handleSearchInput = (event: Event) => {
     }
 
     & .multiselect__search-input {
-      padding: 0.375rem 0 0.375rem 0.625rem;
+      padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-md);
     }
 
     & .multiselect__actions {
-      padding: 0.375rem 0.625rem 0.375rem 0.5rem;
+      padding: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) 0.5rem;
     }
   }
 
@@ -538,11 +530,11 @@ const handleSearchInput = (event: Event) => {
     }
 
     & .multiselect__search-input {
-      padding: 0.5rem 0 0.5rem 0.75rem;
+      padding: var(--spacing-sm) 0 0.5rem 0.75rem;
     }
 
     & .multiselect__actions {
-      padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+      padding: var(--spacing-sm) 0.75rem 0.5rem 0.5rem;
     }
   }
 
@@ -554,11 +546,11 @@ const handleSearchInput = (event: Event) => {
     }
 
     & .multiselect__search-input {
-      padding: 0.75rem 0 0.75rem 1rem;
+      padding: var(--spacing-md) 0 0.75rem 1rem;
     }
 
     & .multiselect__actions {
-      padding: 0.75rem 1rem 0.75rem 0.5rem;
+      padding: var(--spacing-md) 1rem 0.75rem 0.5rem;
     }
   }
 
@@ -586,7 +578,7 @@ const handleSearchInput = (event: Event) => {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0.25rem;
+    padding: var(--spacing-xs);
     transition: opacity 0.2s;
 
     &:hover {
@@ -626,7 +618,7 @@ const handleSearchInput = (event: Event) => {
     left: 0;
     right: 0;
     z-index: 1000;
-    background-color: var(--color-neutral);
+    background-color: var(--color-white);
     border: 1.5px solid var(--color-neutral-300);
     border-radius: var(--radius-base);
     box-shadow:
@@ -636,11 +628,11 @@ const handleSearchInput = (event: Event) => {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    margin-top: 0.25rem;
+    margin-top: var(--spacing-xs);
   }
 
   .multiselect__limit-info {
-    padding: 0.5rem 0.75rem;
+    padding: var(--spacing-sm) 0.75rem;
     font-size: var(--text-sm);
     color: var(--color-neutral-400);
     background-color: var(--color-neutral-100);
@@ -673,7 +665,7 @@ const handleSearchInput = (event: Event) => {
   .multiselect__options {
     list-style: none;
     margin: 0;
-    padding: 0.25rem 0;
+    padding: var(--spacing-xs) 0;
     overflow-y: auto;
     max-height: 240px;
   }
@@ -689,11 +681,11 @@ const handleSearchInput = (event: Event) => {
 
   .multiselect__checkbox {
     width: 100%;
-    padding: 0.625rem 0.75rem;
+    padding: var(--spacing-md) 0.75rem;
     border-radius: var(--radius-none);
     transition: background-color 0.15s ease-in-out;
     font-size: var(--text-sm);
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
 
     &:hover:not(:disabled) {
       background-color: var(--color-tertiary-light);
@@ -709,7 +701,7 @@ const handleSearchInput = (event: Event) => {
   }
 
   .multiselect__no-options {
-    padding: 1rem 0.75rem;
+    padding: var(--spacing-lg) 0.75rem;
     text-align: center;
     color: var(--color-neutral-400);
     font-size: 0.875rem;

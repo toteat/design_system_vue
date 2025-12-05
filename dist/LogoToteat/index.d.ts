@@ -1,1 +1,0 @@
-export { LogoToteat } from '../index';

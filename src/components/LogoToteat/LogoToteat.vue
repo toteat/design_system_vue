@@ -103,6 +103,7 @@ const modifiedSvg = computed(() => {
     margin: 0;
     padding: 0;
     line-height: 0;
+    vertical-align: middle;
     transition: opacity 200ms ease-in-out;
 
     &:hover {

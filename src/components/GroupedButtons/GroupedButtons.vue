@@ -70,7 +70,7 @@ const getGroupPosition = (index: number) => {
       :disabled="disabled || option.disabled"
       :group-position="getGroupPosition(index)"
       class="grouped-buttons__button"
-      @click="handleSelect(option.value, option.disabled ?? false)"
+      @click="() => handleSelect(option.value, option.disabled ?? false)"
     />
   </fieldset>
 </template>

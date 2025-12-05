@@ -1,1 +1,0 @@
-export { Multiselect } from '../index';

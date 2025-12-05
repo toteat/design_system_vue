@@ -1,1 +1,0 @@
-export { SkeletonPreload } from '../index';

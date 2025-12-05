@@ -8,6 +8,7 @@ import type { App } from 'vue';
 import Button from './components/Button/Button.vue';
 import Icon from './components/Icon/Icon.vue';
 import Spinner from './components/Spinner/Spinner.vue';
+import Card from './components/Card';
 import DropZone from './components/DropZone';
 import SkeletonPreload from './components/SkeletonPreload';
 import ImagePreview from './components/ImagePreview';
@@ -32,6 +33,7 @@ export type {
   ButtonGroupPosition,
   ButtonProps,
   SpinnerProps,
+  CardProps,
   IconContent,
   IconProps,
   ThemeColor,
@@ -72,6 +74,7 @@ export type {
 export { default as Button } from './components/Button/Button.vue';
 export { default as Icon } from './components/Icon/Icon.vue';
 export { default as Spinner } from './components/Spinner/Spinner.vue';
+export { default as Card } from './components/Card';
 export { default as DropZone } from './components/DropZone';
 export { default as SkeletonPreload } from './components/SkeletonPreload';
 export { default as ImagePreview } from './components/ImagePreview';
@@ -93,6 +96,7 @@ export { default as OverlayMessage } from './components/OverlayMessage';
 export const install = (app: App) => {
   // Register components globally
   app.component('Button', Button);
+  app.component('Card', Card);
   app.component('Checkbox', Checkbox);
   app.component('DropZone', DropZone);
   app.component('GroupedButtons', GroupedButtons);
