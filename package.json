@@ -1,6 +1,6 @@
 {
   "name": "@toteat-eng/design-system-vue",
-  "version": "0.1.23",
+  "version": "0.1.24",
   "author": "Mauricio Antunez <mantunez@toteat.com> (https://toteat.com)",
   "description": "The Toteat Design System is a collection of components and utilities that help you build consistent and beautiful user interfaces. Build primarely to solve Toteat needs.",
   "type": "module",
@@ -136,7 +136,8 @@
     "clean": "rm -rf dist",
     "build:dts": "vue-tsc --project tsconfig.app.json",
     "build:lib": "vite build",
-    "build": "go run scripts/generate-exports.go && npm run clean && npm run build:dts && npm run build:lib",
+    "build": "npm run generate-icons && npm run generate-exports && npm run clean && npm run build:dts && npm run build:lib",
+    "generate-exports": "go run scripts/generate-exports.go",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
