@@ -48,6 +48,52 @@ export type SpinnerProps = {
   size?: number;
 };
 
+export type CardProps = {
+  /**
+   * Padding size inside the card
+   * @default 'medium'
+   */
+  padding?: 'none' | 'small' | 'medium' | 'large';
+  /**
+   * Shadow elevation level
+   * @default 'none'
+   */
+  elevation?: 'none' | 'small' | 'medium' | 'large';
+  /**
+   * Whether card shows shadow on hover
+   * @default false
+   */
+  hoverable?: boolean;
+  /**
+   * URL to navigate to when card is clicked (renders as <a>)
+   */
+  href?: string;
+  /**
+   * Link target attribute (_blank, _self, etc.)
+   */
+  target?: string;
+  /**
+   * Link rel attribute (e.g., 'noopener noreferrer')
+   */
+  rel?: string;
+  /**
+   * Two-way binding for hover state
+   */
+  hovered?: boolean;
+  /**
+   * Two-way binding for focus state
+   */
+  focused?: boolean;
+  /**
+   * Two-way binding for pressed/active state
+   */
+  pressed?: boolean;
+  /**
+   * Maximum width of the card (in pixels or CSS value)
+   */
+  maxWidth?: number | string;
+};
+
 export type IconContent = {
   path: string;
   viewBox: string;
