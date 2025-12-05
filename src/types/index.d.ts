@@ -92,6 +92,10 @@ export type CardProps = {
    * Maximum width of the card (in pixels or CSS value)
    */
   maxWidth?: number | string;
+  /**
+   * Flex direction of the card content
+   */
+  flexDirection?: 'row' | 'column';
 };
 
 export type IconContent = {
