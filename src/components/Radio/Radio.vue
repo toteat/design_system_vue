@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { RadioProps } from '@/types';
+import Icon from '../Icon/Icon.vue';
 
 const props = withDefaults(defineProps<RadioProps>(), {
   checked: false,
@@ -17,14 +18,29 @@ const emit = defineEmits<{
 
 const isChecked = computed(() => props.checked);
 
-const handleToggle = () => {
+const iconSize = computed(() => {
+  switch (props.size) {
+    case 'tiny':
+      return 1; // 16px
+    case 'small':
+      return 1.25; // 20px
+    case 'medium':
+      return 1.5; // 24px
+    case 'large':
+      return 2; // 32px
+    default:
+      return 1.5;
+  }
+});
+
+const handleToggle = (): void => {
   if (props.disabled) return;
   const newValue = !isChecked.value;
   emit('update:checked', newValue);
   emit('change', newValue);
 };
 
-const handleKeydown = (event: globalThis.KeyboardEvent) => {
+const handleKeydown = (event: globalThis.KeyboardEvent): void => {
   if (event.key === 'Enter' || event.key === ' ') {
     event.preventDefault();
     handleToggle();
@@ -39,7 +55,6 @@ const handleKeydown = (event: globalThis.KeyboardEvent) => {
     :data-checked="isChecked || undefined"
     :data-disabled="disabled || undefined"
     :data-card="card || undefined"
-    @keydown="handleKeydown"
   >
     <!-- Hidden native radio for accessibility -->
     <input
@@ -48,12 +63,20 @@ const handleKeydown = (event: globalThis.KeyboardEvent) => {
       :disabled="disabled"
       class="radio__input"
       @change="handleToggle"
+      @keydown="handleKeydown"
     />
 
-    <!-- Circle indicator -->
-    <span class="radio__indicator">
-      <span class="radio__indicator-dot" />
-    </span>
+    <!-- Icon indicator -->
+    <Icon
+      :name="
+        isChecked
+          ? 'radio-button-checked-outline'
+          : 'radio-button-unchecked-outline'
+      "
+      :size="iconSize"
+      :color="disabled ? 'neutral-400' : isChecked ? 'primary' : 'neutral-300'"
+      class="radio__icon"
+    />
 
     <!-- Content -->
     <span class="radio__content">
@@ -74,9 +97,6 @@ const handleKeydown = (event: globalThis.KeyboardEvent) => {
     --radio-gap: var(--radius-lg);
     --radio-padding-y: 0;
     --radio-padding-x: 0;
-    --radio-indicator-size: var(--text-xl);
-    --radio-indicator-dot-size: var(--text-xs);
-    --radio-indicator-border: 2px;
     --radio-content-gap: 2px;
     --radio-transition: 150ms ease-out;
 
@@ -86,6 +106,7 @@ const handleKeydown = (event: globalThis.KeyboardEvent) => {
     padding: var(--radio-padding-y) var(--radio-padding-x);
     cursor: pointer;
     user-select: none;
+    vertical-align: middle;
 
     /* Hidden native radio */
     & .radio__input {
@@ -100,32 +121,10 @@ const handleKeydown = (event: globalThis.KeyboardEvent) => {
       border: 0;
     }
 
-    /* Circle indicator */
-    & .radio__indicator {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: var(--radio-indicator-size);
-      height: var(--radio-indicator-size);
-      border: var(--radio-indicator-border) solid var(--color-neutral-300);
-      border-radius: var(--radius-circle);
+    /* Icon indicator */
+    & .radio__icon {
       flex-shrink: 0;
-      transition:
-        border-color var(--radio-transition),
-        background-color var(--radio-transition);
-    }
-
-    /* Inner dot - animated */
-    & .radio__indicator-dot {
-      width: var(--radio-indicator-dot-size);
-      height: var(--radio-indicator-dot-size);
-      background-color: var(--color-primary);
-      border-radius: var(--radius-circle);
-      transform: scale(0);
-      opacity: 0;
-      transition:
-        transform var(--radio-transition),
-        opacity var(--radio-transition);
+      transition: color var(--radio-transition);
     }
 
     /* Content container */
@@ -154,36 +153,15 @@ const handleKeydown = (event: globalThis.KeyboardEvent) => {
 
     /* Focus state */
     &:has(.radio__input:focus-visible) {
-      & .radio__indicator {
-        outline: var(--radio-indicator-border) solid var(--color-primary);
-        outline-offset: var(--radio-indicator-border);
-      }
-    }
-
-    /* Checked state */
-    &[data-checked] {
-      & .radio__indicator {
-        border-color: var(--color-primary);
-        background-color: transparent;
-      }
-
-      & .radio__indicator-dot {
-        transform: scale(1);
-        opacity: 1;
+      & .radio__icon {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
       }
     }
 
     /* Disabled state */
     &[data-disabled] {
       cursor: not-allowed;
-
-      & .radio__indicator {
-        border-color: var(--color-neutral-300);
-      }
-
-      & .radio__indicator-dot {
-        background-color: var(--color-neutral-300);
-      }
 
       & .radio__title {
         color: var(--color-neutral-400);
@@ -213,10 +191,10 @@ const handleKeydown = (event: globalThis.KeyboardEvent) => {
 
       /* Card focus state */
       &:has(.radio__input:focus-visible) {
-        outline: var(--radio-indicator-border) solid var(--color-primary);
-        outline-offset: var(--radio-indicator-border);
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
 
-        & .radio__indicator {
+        & .radio__icon {
           outline: none;
         }
       }
@@ -240,8 +218,6 @@ const handleKeydown = (event: globalThis.KeyboardEvent) => {
     /* Size variants */
     &[data-size='tiny'] {
       --radio-gap: var(--radius-sm);
-      --radio-indicator-size: var(--text-base);
-      --radio-indicator-dot-size: var(--radius-sm);
 
       & .radio__title {
         font-size: var(--text-xs);
@@ -261,8 +237,6 @@ const handleKeydown = (event: globalThis.KeyboardEvent) => {
 
     &[data-size='small'] {
       --radio-gap: var(--radius-base);
-      --radio-indicator-size: var(--text-lg);
-      --radio-indicator-dot-size: var(--radius-base);
 
       & .radio__title {
         font-size: var(--text-xs);
@@ -288,8 +262,6 @@ const handleKeydown = (event: globalThis.KeyboardEvent) => {
 
     &[data-size='large'] {
       --radio-gap: var(--radius-xl);
-      --radio-indicator-size: var(--text-2xl);
-      --radio-indicator-dot-size: var(--text-sm);
 
       & .radio__title {
         font-size: var(--text-lg);

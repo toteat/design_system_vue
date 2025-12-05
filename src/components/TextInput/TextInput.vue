@@ -323,7 +323,7 @@ onMounted(() => {
 
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
 
     &[data-full-width='true'] {
       width: 100%;
@@ -351,9 +351,9 @@ onMounted(() => {
       font-weight: 600;
       color: var(--color-neutral-500);
       display: inline-flex;
-      gap: 0.25rem;
+      gap: var(--spacing-xs);
       align-items: center;
-      margin-inline: 0.75rem;
+      margin-inline: var(--spacing-md);
     }
 
     .text-input__required {
@@ -363,10 +363,10 @@ onMounted(() => {
     .text-input__field {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: var(--spacing-sm);
       border-radius: var(--radius-base);
       border: 1px solid var(--color-neutral-200);
-      padding: 0.5rem 0.75rem;
+      padding: var(--spacing-sm) 0.75rem;
       transition:
         border-color 160ms ease,
         background-color 160ms ease,
@@ -475,7 +475,7 @@ onMounted(() => {
     .text-input__clear {
       border: none;
       background: none;
-      padding: 0.25rem;
+      padding: var(--spacing-xs);
       border-radius: var(--radius-pill);
       color: var(--color-neutral-400);
       display: inline-flex;
@@ -501,9 +501,9 @@ onMounted(() => {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 0.5rem;
+      gap: var(--spacing-sm);
       min-height: 1rem;
-      margin-inline: 0.75rem;
+      margin-inline: var(--spacing-md);
 
       &[data-helper-align='left'] {
         flex-direction: row;
@@ -536,7 +536,7 @@ onMounted(() => {
     .text-input__messages {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: var(--spacing-xs);
       flex: 1;
       min-width: 0;
     }

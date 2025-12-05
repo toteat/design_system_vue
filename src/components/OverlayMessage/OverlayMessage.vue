@@ -10,6 +10,7 @@ import type { IconNames } from '../Icon/icons';
 import Overlay from '../Overlay/Overlay.vue';
 import Icon from '../Icon/Icon.vue';
 import Button from '../Button/Button.vue';
+import Card from '../Card/Card.vue';
 
 type OverlayMessageRegistry = {
   activeId: Ref<string | null>;
@@ -164,17 +165,29 @@ onBeforeUnmount(() => {
   }
 });
 
-const handleClose = () => {
+const handleClose = (): void => {
   emit('close');
   emit('update:visible', false);
 };
 
-const handlePrimary = () => {
+const handlePrimary = (): void => {
   emit('primary-click');
 };
 
-const handleSecondary = () => {
+const handleSecondary = (): void => {
   emit('secondary-click');
+};
+
+const handleBackdropClick = (): void => {
+  emit('backdrop-click');
+};
+
+const handleEscape = (): void => {
+  emit('escape');
+};
+
+const handleUpdateVisible = (value: boolean): void => {
+  emit('update:visible', value);
 };
 </script>
 
@@ -191,12 +204,12 @@ const handleSecondary = () => {
     :placement="props.placement"
     :aria-label="props.ariaLabel"
     @close="handleClose"
-    @backdrop-click="emit('backdrop-click')"
-    @escape="emit('escape')"
-    @update:visible="emit('update:visible', $event)"
+    @backdrop-click="handleBackdropClick"
+    @escape="handleEscape"
+    @update:visible="handleUpdateVisible"
   >
-    <section
-      class="tot-ds-root overlay-message"
+    <Card
+      class="overlay-message"
       :data-status="statusTone"
       :data-standalone="props.standalone"
       :role="resolvedRole"
@@ -204,7 +217,7 @@ const handleSecondary = () => {
       :aria-label="props.ariaLabel"
       :aria-labelledby="titleId"
       :aria-describedby="describedBy"
-      :style="{ '--overlay-message-max-width': `${props.maxWidth}px` }"
+      :max-width="props.maxWidth"
     >
       <header class="overlay-message__header">
         <div class="overlay-message__icon" aria-hidden="true">
@@ -266,11 +279,11 @@ const handleSecondary = () => {
           />
         </slot>
       </footer>
-    </section>
+    </Card>
   </Overlay>
-  <section
+  <Card
     v-else-if="props.visible"
-    class="tot-ds-root overlay-message"
+    class="overlay-message"
     :data-status="statusTone"
     :data-standalone="props.standalone"
     :role="resolvedRole"
@@ -278,7 +291,8 @@ const handleSecondary = () => {
     :aria-label="props.ariaLabel"
     :aria-labelledby="titleId"
     :aria-describedby="describedBy"
-    :style="{ '--overlay-message-max-width': `${props.maxWidth}px` }"
+    :max-width="props.maxWidth"
+    padding="none"
   >
     <header class="overlay-message__header">
       <div class="overlay-message__icon" aria-hidden="true">
@@ -340,130 +354,126 @@ const handleSecondary = () => {
         />
       </slot>
     </footer>
-  </section>
+  </Card>
 </template>
 
 <style scoped>
 @import '../../style.css';
 
-.tot-ds-root {
-  &.overlay-message {
-    --overlay-message-accent: var(--color-primary);
-    width: min(100%, var(--overlay-message-max-width, 26rem));
-    background-color: var(--color-white);
-    border-radius: var(--radius-xl);
-    padding: clamp(1.5rem, 4vw, 2.75rem);
-    box-shadow: 0 35px 100px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--text-lg--line-height) / 16px * 1rem);
+.overlay-message {
+  --overlay-message-accent: var(--color-primary);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--text-lg--line-height) / 16px * 1rem);
 
-    &[data-standalone='true'] {
-      box-shadow: none;
-      border: 1px solid var(--color-neutral-200);
-      min-height: 16.625rem;
-    }
-
-    &[data-status='success'] {
-      --overlay-message-accent: var(--color-green);
-    }
-
-    &[data-status='info'] {
-      --overlay-message-accent: var(--color-blue);
-    }
-
-    &[data-status='warning'] {
-      --overlay-message-accent: var(--color-yellow);
-    }
-
-    &[data-status='error'] {
-      --overlay-message-accent: var(--color-red);
-    }
+  &[data-standalone='true'] {
+    box-shadow: none;
+    border: 1px solid var(--color-neutral-200);
+    min-height: 16.625rem;
   }
 
-  & .overlay-message__header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 0.75rem;
-    position: relative;
-    padding-inline: 0.5rem;
+  &[data-status='success'] {
+    --overlay-message-accent: var(--color-green);
   }
 
-  & .overlay-message__icon {
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: var(--radius-circle);
-    background: color-mix(
-      in srgb,
-      var(--overlay-message-accent) 15%,
-      transparent
-    );
-    display: grid;
-    place-items: center;
+  &[data-status='info'] {
+    --overlay-message-accent: var(--color-blue);
   }
 
-  & .overlay-message__headline {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    align-items: center;
+  &[data-status='warning'] {
+    --overlay-message-accent: var(--color-yellow);
   }
 
-  & .overlay-message__eyebrow {
-    font-size: var(--text-xs);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-neutral-400);
-    font-weight: 600;
+  &[data-status='error'] {
+    --overlay-message-accent: var(--color-red);
   }
+}
 
-  & .overlay-message__title {
-    font-size: clamp(var(--text-lg), 2vw, var(--text-xl));
-    line-height: 1.2;
-    font-weight: 600;
-    margin-top: 2rem;
+.overlay-message__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-md);
+  position: relative;
+  padding-inline: var(--spacing-sm);
+}
+
+.overlay-message__icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--radius-circle);
+  background: color-mix(
+    in srgb,
+    var(--overlay-message-accent) 15%,
+    transparent
+  );
+  display: grid;
+  place-items: center;
+}
+
+.overlay-message__headline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  align-items: center;
+}
+
+.overlay-message__eyebrow {
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-neutral-400);
+  font-weight: 600;
+}
+
+.overlay-message__title {
+  font-size: clamp(var(--text-lg), 2vw, var(--text-xl));
+  line-height: 1.2;
+  font-weight: 600;
+  margin-top: var(--spacing-2xl);
+  color: var(--color-secondary);
+}
+
+.overlay-message__close {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-circle);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-neutral-400);
+  display: grid;
+  place-items: center;
+  transition:
+    border-color 150ms ease,
+    color 150ms ease;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  &:hover {
     color: var(--color-secondary);
   }
 
-  & .overlay-message__close {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: var(--radius-circle);
-    border: 1px solid transparent;
-    background: transparent;
-    color: var(--color-neutral-400);
-    display: grid;
-    place-items: center;
-    transition:
-      border-color 150ms ease,
-      color 150ms ease;
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    &:hover {
-      color: var(--color-secondary);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--overlay-message-accent);
-      outline-offset: 2px;
-    }
+  &:focus-visible {
+    outline: 2px solid var(--overlay-message-accent);
+    outline-offset: 2px;
   }
+}
 
-  & .overlay-message__body {
-    font-size: var(--text-base);
-    color: var(--color-neutral-500);
-    line-height: 1.5;
-  }
+.overlay-message__body {
+  font-size: var(--text-base);
+  color: var(--color-neutral-500);
+  line-height: 1.5;
+}
 
-  & .overlay-message__actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    width: 100%;
-  }
+.overlay-message__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  width: 100%;
 }
 </style>

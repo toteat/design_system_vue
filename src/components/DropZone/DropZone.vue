@@ -286,7 +286,7 @@ onUnmounted(() => {
       <button
         v-for="(file, index) in previewFiles"
         :key="index"
-        @click.stop="removeFile(index)"
+        @click.stop="() => removeFile(index)"
       >
         <ImagePreview
           :key="index"
@@ -339,7 +339,7 @@ onUnmounted(() => {
         v-for="(file, index) in previewFiles"
         :key="index"
         class="drop-zone__file-item"
-        @click.stop="removeFile(index)"
+        @click.stop="() => removeFile(index)"
         type="outline"
         type-button="button"
         size="small"
@@ -359,14 +359,14 @@ onUnmounted(() => {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: var(--spacing-2xl);
     width: 100%;
 
     .image-preview-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
       grid-auto-rows: auto;
-      grid-gap: 1.5rem;
+      grid-gap: var(--spacing-xl);
       width: 100%;
       justify-items: center;
 
@@ -375,8 +375,8 @@ onUnmounted(() => {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
-        padding: 0.125rem 0.125rem 0.5rem;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-xs) 0.125rem 0.5rem;
         border-radius: var(--radius-base);
         transition-property: fill, transform, background-color, padding;
         transition-duration: 0.2s;
@@ -403,7 +403,7 @@ onUnmounted(() => {
     .drop-zone {
       border: 0.125rem dashed var(--color-neutral-300, #ccc);
       border-radius: var(--radius-base);
-      padding: 2rem;
+      padding: var(--spacing-2xl);
       text-align: center;
       cursor: pointer;
       transition:
@@ -432,7 +432,7 @@ onUnmounted(() => {
     .drop-zone__file-list {
       display: flex;
       flex-flow: row wrap;
-      gap: 0.5rem;
+      gap: var(--spacing-sm);
     }
 
     .drop-zone--dragging {

@@ -1,3 +1,8 @@
+#!/bin/sh
+# Pre-commit hook: lint-staged handles all validations
+# Coverage check is integrated via lint-staged's vitest related --run
+
+set -e
+
 # Use mise to run commands with correct Node.js version
 mise exec -- npm run lint-staged
-.husky/check-coverage.sh

@@ -1,1 +1,0 @@
-export { OverlayMessage } from '../index';

@@ -72,7 +72,7 @@ const currentTab = computed(() => {
   &.tab-component {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--spacing-lg);
 
     .tab-component__navigation {
       flex-shrink: 0;
@@ -83,7 +83,7 @@ const currentTab = computed(() => {
       background-color: var(--color-white);
       border: 1px solid var(--color-neutral-200);
       border-radius: var(--radius-base);
-      padding: 1.5rem;
+      padding: var(--spacing-xl);
       min-height: 200px;
     }
   }

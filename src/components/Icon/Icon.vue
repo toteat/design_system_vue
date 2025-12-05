@@ -55,6 +55,7 @@ const applyFillColor = computed(() => {
     width: var(--size, 1rem);
     height: var(--size, 1rem);
     display: inline-block;
+    vertical-align: middle;
   }
 }
 </style>
