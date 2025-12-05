@@ -1,8 +1,9 @@
 import { App } from 'vue';
-export type { Variant, ButtonSize, ButtonGroupPosition, ButtonProps, SpinnerProps, IconContent, IconProps, ThemeColor, ImageStringType, ImageMime, LoadImageTypeFunction, CheckboxProps, MultiselectProps, MultiselectOption, SelectProps, TooltipProps, TooltipPosition, LogoToteatProps, LogoToteatMode, LogoToteatVariant, GroupedButtonsProps, GroupedButtonsOption, TabProps, TabItem, BackgroundWrapperProps, TableProps, TableColumn, TableData, TableSortOrder, TableColumnType, RadioProps, TextInputProps, TextInputSize, TextInputType, TextInputValidationState, OverlayProps, OverlayPlacement, OverlayMessageProps, OverlayMessageStatus, } from './types/index.d';
+export type { Variant, ButtonSize, ButtonGroupPosition, ButtonProps, SpinnerProps, CardProps, IconContent, IconProps, ThemeColor, ImageStringType, ImageMime, LoadImageTypeFunction, CheckboxProps, MultiselectProps, MultiselectOption, SelectProps, TooltipProps, TooltipPosition, LogoToteatProps, LogoToteatMode, LogoToteatVariant, GroupedButtonsProps, GroupedButtonsOption, TabProps, TabItem, BackgroundWrapperProps, TableProps, TableColumn, TableData, TableSortOrder, TableColumnType, RadioProps, TextInputProps, TextInputSize, TextInputType, TextInputValidationState, OverlayProps, OverlayPlacement, OverlayMessageProps, OverlayMessageStatus, } from './types/index.d';
 export { default as Button } from './components/Button/Button';
 export { default as Icon } from './components/Icon/Icon';
 export { default as Spinner } from './components/Spinner/Spinner';
+export { default as Card } from './components/Card';
 export { default as DropZone } from './components/DropZone';
 export { default as SkeletonPreload } from './components/SkeletonPreload';
 export { default as ImagePreview } from './components/ImagePreview';

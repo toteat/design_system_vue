@@ -18,9 +18,9 @@ declare const __VLS_component: import('vue').DefineComponent<TooltipProps, {}, {
     onHide?: (() => any) | undefined;
 }>, {
     disabled: boolean;
+    maxWidth: number;
     position: TooltipPosition;
     delay: number;
-    maxWidth: number;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
     tooltipRef: HTMLDivElement;
 }, HTMLDivElement>;

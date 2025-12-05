@@ -8,8 +8,8 @@ declare const _default: import('vue').DefineComponent<RadioProps, {}, {}, {}, {}
 }>, {
     size: import('../../types').ButtonSize;
     disabled: boolean;
+    card: boolean;
     checked: boolean;
     description: string;
-    card: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLLabelElement>;
 export default _default;

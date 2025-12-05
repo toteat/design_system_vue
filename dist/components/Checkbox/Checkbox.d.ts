@@ -19,11 +19,11 @@ declare const __VLS_component: import('vue').DefineComponent<CheckboxProps, {}, 
     title: string;
     color: import('../../types').ThemeColor;
     disabled: boolean;
+    card: boolean;
     checked: boolean;
     checkboxPosition: "left" | "right";
     fullWidth: boolean;
     description: string;
-    card: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLLabelElement>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;

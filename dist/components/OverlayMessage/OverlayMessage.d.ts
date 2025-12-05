@@ -37,8 +37,8 @@ declare const __VLS_component: import('vue').DefineComponent<OverlayMessageProps
     "onSecondary-click"?: (() => any) | undefined;
 }>, {
     standalone: boolean;
-    iconSize: number;
     maxWidth: number;
+    iconSize: number;
     visible: boolean;
     dismissible: boolean;
     closeOnBackdrop: boolean;
