@@ -1,6 +1,6 @@
 {
   "name": "@toteat-eng/design-system-vue",
-  "version": "0.1.23",
+  "version": "0.1.24",
   "author": "Mauricio Antunez <mantunez@toteat.com> (https://toteat.com)",
   "description": "The Toteat Design System is a collection of components and utilities that help you build consistent and beautiful user interfaces. Build primarely to solve Toteat needs.",
   "type": "module",
@@ -35,6 +35,11 @@
       "./Button": {
         "types": "./dist/Button/index.d.ts",
         "import": "./dist/Button/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Card": {
+        "types": "./dist/Card/index.d.ts",
+        "import": "./dist/Card/index.js",
         "require": "./dist/design-system-vue.umd.js"
       },
       "./Checkbox": {
@@ -160,18 +165,21 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
-      "prettier --write",
-      "eslint",
-      "sh -c 'npm run typecheck'",
+      ".husky/fix-and-check.sh prettier",
+      ".husky/fix-and-check.sh eslint",
       "vitest related --run"
     ],
     "*.vue": [
-      "prettier --write",
-      "sh -c 'npm run typecheck'",
+      ".husky/fix-and-check.sh prettier",
+      ".husky/fix-and-check.sh eslint",
+      ".husky/fix-and-check.sh stylelint",
       "vitest related --run"
     ],
     "*.css": [
-      "stylelint --fix"
+      ".husky/fix-and-check.sh stylelint"
+    ],
+    "*.{ts,tsx,vue}": [
+      "bash -c 'vue-tsc --project tsconfig.app.json --skipLibCheck --noEmit'"
     ]
   },
   "peerDependencies": {
