@@ -39,7 +39,7 @@ const iconColor = computed(() => {
 });
 
 // Handle checkbox toggle
-const handleClick = () => {
+const handleClick = (): void => {
   if (props.disabled) return;
 
   const newValue = !props.checked;
@@ -105,7 +105,7 @@ const handleClick = () => {
 
 .tot-ds-root {
   &.checkbox {
-    --checkbox-gap: 0.5rem;
+    --checkbox-gap: var(--spacing-sm);
     --checkbox-padding-y: 0;
     --checkbox-padding-x: 0;
     --checkbox-content-gap: 2px;
@@ -119,6 +119,7 @@ const handleClick = () => {
     user-select: none;
     position: relative;
     font-family: inherit;
+    vertical-align: middle;
 
     /* Hide native checkbox but keep it accessible */
     .checkbox__native {
@@ -201,7 +202,6 @@ const handleClick = () => {
     .checkbox__native:focus-visible + .checkbox__visual {
       outline: 2px solid var(--color-primary);
       outline-offset: 2px;
-      border-radius: var(--radius-sm);
     }
 
     &:hover:not(.checkbox-disabled) .checkbox__visual {

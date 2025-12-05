@@ -68,6 +68,15 @@
   --radius-pill: 9999px;  /* Pill shape (fully rounded sides) */
   --radius-circle: 50%;   /* Perfect circle */
 
+  /* Spacing scale - for padding, margin, gap */
+  --spacing-xs: 0.25rem;    /* 4px - Extra small spacing */
+  --spacing-sm: 0.5rem;     /* 8px - Small spacing */
+  --spacing-md: 0.75rem;    /* 12px - Medium spacing */
+  --spacing-lg: 1rem;       /* 16px - Large spacing */
+  --spacing-xl: 1.5rem;     /* 24px - Extra large spacing */
+  --spacing-2xl: 2rem;      /* 32px - 2X large spacing */
+  --spacing-3xl: 3rem;      /* 48px - 3X large spacing */
+
   /* Base font settings for design system components */
   font-family: "Manrope", Helvetica, Arial, sans-serif;
   line-height: 1.5;

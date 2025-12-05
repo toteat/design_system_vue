@@ -166,6 +166,7 @@ onBeforeUnmount(() => {
   &.tooltip-wrapper {
     position: relative;
     display: inline-block;
+    vertical-align: middle;
   }
 
   .tooltip-trigger {
@@ -216,7 +217,7 @@ onBeforeUnmount(() => {
     display: inline-flex;
     background: var(--color-neutral-500);
     border-radius: var(--radius-base);
-    padding: 0.5rem;
+    padding: var(--spacing-sm);
     min-height: 2rem; /* 32px minimum height */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 

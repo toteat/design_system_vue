@@ -110,7 +110,7 @@ const buttonClasses = computed(() => [
     background-color: transparent;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
     border-radius: var(--radius-pill);
     font-weight: 600;
     transition:
@@ -182,8 +182,8 @@ const buttonClasses = computed(() => [
       line-height: var(--text-xs--line-height);
       min-width: 4rem;
       min-height: 2rem;
-      padding-left: 0.75rem;
-      padding-right: 0.75rem;
+      padding-left: var(--spacing-md);
+      padding-right: var(--spacing-md);
     }
 
     &.btn-size-small {
@@ -191,8 +191,8 @@ const buttonClasses = computed(() => [
       line-height: var(--text-xs--line-height);
       min-width: 4rem;
       min-height: 2.75rem;
-      padding-left: 0.75rem;
-      padding-right: 0.75rem;
+      padding-left: var(--spacing-md);
+      padding-right: var(--spacing-md);
     }
 
     &.btn-size-medium {
@@ -200,8 +200,8 @@ const buttonClasses = computed(() => [
       line-height: var(--text-base--line-height);
       min-width: 4.75rem;
       min-height: 3.75rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding-left: var(--spacing-lg);
+      padding-right: var(--spacing-lg);
     }
 
     &.btn-size-large {
@@ -209,8 +209,8 @@ const buttonClasses = computed(() => [
       line-height: var(--text-2xl--line-height);
       min-width: 5.75rem;
       min-height: 5rem;
-      padding-left: 1.25rem;
-      padding-right: 1.25rem;
+      padding-left: var(--spacing-xl);
+      padding-right: var(--spacing-xl);
     }
 
     &:hover:not(:disabled),

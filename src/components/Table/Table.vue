@@ -150,7 +150,10 @@ const sortedData = computed(() => {
                 column.sortable && !nonInteractive,
             }"
             @click="
-              column.sortable && !nonInteractive ? handleSort(column.key) : null
+              () =>
+                column.sortable && !nonInteractive
+                  ? handleSort(column.key)
+                  : null
             "
           >
             <div class="table__header-content table-component__header-content">
@@ -170,7 +173,7 @@ const sortedData = computed(() => {
                   only-icon
                   variant="secondary"
                   size="tiny"
-                  @click.stop="handleSort(column.key)"
+                  @click.stop="() => handleSort(column.key)"
                 />
                 <!-- Inactive sort: use Icon alone -->
                 <Icon
@@ -231,7 +234,7 @@ const sortedData = computed(() => {
   }
 
   & .table-component__header-cell {
-    padding: 0.75rem 1rem;
+    padding: var(--spacing-md) 1rem;
     text-align: left;
     font-weight: 600;
     font-size: var(--text-sm);
@@ -252,7 +255,7 @@ const sortedData = computed(() => {
   & .table-component__header-content {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
     justify-content: space-between;
   }
 
@@ -273,7 +276,7 @@ const sortedData = computed(() => {
   }
 
   & .table-component__cell {
-    padding: 0.75rem 1rem;
+    padding: var(--spacing-md) 1rem;
     font-size: var(--text-sm);
     color: var(--color-neutral-500);
     border-bottom: 1px solid var(--color-gray-200);
