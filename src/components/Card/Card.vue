@@ -12,6 +12,7 @@ const props = withDefaults(defineProps<CardProps>(), {
   focused: false,
   pressed: false,
   maxWidth: undefined,
+  flexDirection: 'column',
 });
 
 const emit = defineEmits<{
@@ -88,6 +89,7 @@ const handleMouseUp = (): void => {
     :data-elevation="elevation"
     :data-hoverable="hoverable || isClickable"
     :data-clickable="isClickable"
+    :data-direction="flexDirection"
     :style="maxWidthStyle"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
@@ -108,6 +110,7 @@ const handleMouseUp = (): void => {
     :data-elevation="elevation"
     :data-hoverable="hoverable || isClickable"
     :data-clickable="isClickable"
+    :data-direction="flexDirection"
     :style="maxWidthStyle"
     @click="handleClick"
     @keydown="handleKeydown"
@@ -129,6 +132,7 @@ const handleMouseUp = (): void => {
     :data-elevation="elevation"
     :data-hoverable="false"
     :data-clickable="false"
+    :data-direction="flexDirection"
     :style="maxWidthStyle"
   >
     <slot />
@@ -141,8 +145,16 @@ const handleMouseUp = (): void => {
 .tot-ds-root {
   &.card {
     display: flex;
-    flex-direction: column;
     border: 1px solid var(--color-neutral-200);
+
+    /* Flex direction variants */
+    &[data-direction='column'] {
+      flex-direction: column;
+    }
+
+    &[data-direction='row'] {
+      flex-direction: row;
+    }
     border-radius: var(--radius-base);
     background-color: var(--color-white);
     transition:
