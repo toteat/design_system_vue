@@ -26,18 +26,16 @@
   /* Feedback colors */
   --color-blue: #275ffd;
   --color-blue-light: #cef3f7;
-  --color-green: #46d281;
+  --color-dark-blue: #123599;
+  --color-green: #46D281;
   --color-green-light: #cdf3db;
-  --color-yellow: #fbcc29;
-  --color-yellow-light: #ffecce;
+  --color-green-dark: #2C7F4F;
+  --color-yellow: #FFAC2C;
+  --color-yellow-dark: #C48930;
+  --color-yellow-light: #FFE2B4;
   --color-red: #e12845;
   --color-red-light: #fbd7dd;
-
-  /* Text-specific colors */
-  --blue-text: #123599;
-  --green-text: #2c7f4f;
-  --yellow-text: #b29017;
-  --red-text: #6b0414;
+  --color-red-dark: #6B0414;
 
   /* Text size */
   --text-xs: 12px;
