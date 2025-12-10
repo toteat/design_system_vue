@@ -12,6 +12,9 @@ const props = withDefaults(defineProps<SelectProps>(), {
   disableAutofilter: false,
   size: 'medium',
   modelValue: null,
+  validationState: 'default',
+  errorMessage: '',
+  helperText: '',
 });
 
 const emit = defineEmits<{
@@ -30,6 +33,15 @@ const placeholderText = computed(() => {
   }
   return props.placeholder ?? 'Select an option...';
 });
+
+// Validation helpers
+const showErrorMessage = computed(
+  () => props.validationState === 'error' && Boolean(props.errorMessage),
+);
+const showHelperText = computed(() => Boolean(props.helperText));
+const shouldShowMeta = computed(
+  () => showHelperText.value || showErrorMessage.value,
+);
 
 // Use shared selector composable
 const {
@@ -102,6 +114,7 @@ const handleSearchInput = (event: Event) => {
         'tds-select--open': isOpen,
       },
     ]"
+    :data-status="props.validationState"
     :data-testid="`tds-select-${isOpen ? 'open' : 'closed'}`"
   >
     <!-- Searchable input trigger -->
@@ -149,6 +162,7 @@ const handleSearchInput = (event: Event) => {
           color="neutral-400"
           class="tds-select__arrow"
         />
+        />
       </div>
     </div>
 
@@ -187,6 +201,16 @@ const handleSearchInput = (event: Event) => {
         </ul>
       </div>
     </Transition>
+
+    <!-- Error and Helper Text -->
+    <div v-if="shouldShowMeta" class="tds-select__meta">
+      <p v-if="showHelperText" class="tds-select__helper">
+        {{ props.helperText }}
+      </p>
+      <p v-if="showErrorMessage" class="tds-select__error">
+        {{ props.errorMessage }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -195,6 +219,13 @@ const handleSearchInput = (event: Event) => {
 
 .tot-ds-root {
   &.tds-select {
+    --tds-select-error-border: var(--color-red);
+    --tds-select-warning-border: color-mix(
+      in srgb,
+      var(--color-yellow) 75%,
+      var(--color-red) 25%
+    );
+
     position: relative;
     width: 100%;
     font-family: inherit;
@@ -224,6 +255,24 @@ const handleSearchInput = (event: Event) => {
 
   &.tds-select--open .tds-select__input-wrapper {
     border-color: var(--color-primary);
+  }
+
+  &[data-status='error'] .tds-select__input-wrapper {
+    border-color: var(--tds-select-error-border);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--tds-select-error-border) 35%, transparent);
+  }
+
+  &[data-status='success'] .tds-select__input-wrapper {
+    border-color: var(--color-green);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--color-green) 25%, transparent);
+  }
+
+  &[data-status='warning'] .tds-select__input-wrapper {
+    border-color: var(--tds-select-warning-border);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--tds-select-warning-border) 35%, transparent);
   }
 
   &.tds-select--disabled .tds-select__input-wrapper {
@@ -271,6 +320,24 @@ const handleSearchInput = (event: Event) => {
 
   &.tds-select--open .tds-select__trigger {
     border-color: var(--color-primary);
+  }
+
+  &[data-status='error'] .tds-select__trigger {
+    border-color: var(--tds-select-error-border);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--tds-select-error-border) 35%, transparent);
+  }
+
+  &[data-status='success'] .tds-select__trigger {
+    border-color: var(--color-green);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--color-green) 25%, transparent);
+  }
+
+  &[data-status='warning'] .tds-select__trigger {
+    border-color: var(--tds-select-warning-border);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--tds-select-warning-border) 35%, transparent);
   }
 
   &.tds-select--disabled .tds-select__trigger {
@@ -382,6 +449,26 @@ const handleSearchInput = (event: Event) => {
 
   &.tds-select--open .tds-select__arrow {
     transform: rotate(180deg);
+  }
+
+  .tds-select__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
+    margin-inline: var(--spacing-md);
+  }
+
+  .tds-select__helper {
+    font-size: var(--text-sm);
+    color: var(--color-neutral-400);
+    margin: 0;
+  }
+
+  .tds-select__error {
+    font-size: var(--text-sm);
+    color: var(--color-red);
+    margin: 0;
   }
 
   /* Dropdown - ABSOLUTE POSITIONED */

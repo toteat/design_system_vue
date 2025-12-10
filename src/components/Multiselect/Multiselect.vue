@@ -18,6 +18,9 @@ const props = withDefaults(defineProps<MultiselectProps>(), {
   modelValue: () => [],
   checkboxPosition: 'left',
   showSelectedItems: true,
+  validationState: 'default',
+  errorMessage: '',
+  helperText: '',
 });
 
 const emit = defineEmits<{
@@ -42,6 +45,15 @@ const searchPlaceholderText = computed(() => {
   }
   return props.selectPlaceholder || 'Select options...';
 });
+
+// Validation helpers
+const showErrorMessage = computed(
+  () => props.validationState === 'error' && Boolean(props.errorMessage),
+);
+const showHelperText = computed(() => Boolean(props.helperText));
+const shouldShowMeta = computed(
+  () => showHelperText.value || showErrorMessage.value,
+);
 
 // Use shared selector composable
 const {
@@ -227,6 +239,7 @@ const handleSearchInput = (event: Event) => {
         'multiselect-dropdown-animating': isDropdownAnimating,
       },
     ]"
+    :data-status="props.validationState"
     :test-id="`tds-multiselect-${isOpen ? 'open' : 'closed'}`"
   >
     <!-- Search input trigger (when searchable) -->
@@ -374,6 +387,16 @@ const handleSearchInput = (event: Event) => {
         </div>
       </div>
     </Transition>
+
+    <!-- Error and Helper Text -->
+    <div v-if="shouldShowMeta" class="multiselect__meta">
+      <p v-if="showHelperText" class="multiselect__helper">
+        {{ props.helperText }}
+      </p>
+      <p v-if="showErrorMessage" class="multiselect__error">
+        {{ props.errorMessage }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -382,6 +405,13 @@ const handleSearchInput = (event: Event) => {
 
 .tot-ds-root {
   &.multiselect {
+    --multiselect-error-border: var(--color-red);
+    --multiselect-warning-border: color-mix(
+      in srgb,
+      var(--color-yellow) 75%,
+      var(--color-red) 25%
+    );
+
     position: relative;
     width: 100%;
     font-family: inherit;
@@ -444,11 +474,32 @@ const handleSearchInput = (event: Event) => {
 
   .multiselect__trigger-text {
     flex: 1;
-    color: var(--color-neutral-400);
+    color: var(--color-neutral-900);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &.multiselect-open .multiselect__trigger {
     border-color: var(--color-black);
+  }
+
+  &[data-status='error'] .multiselect__trigger {
+    border-color: var(--multiselect-error-border);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--multiselect-error-border) 35%, transparent);
+  }
+
+  &[data-status='success'] .multiselect__trigger {
+    border-color: var(--color-green);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--color-green) 25%, transparent);
+  }
+
+  &[data-status='warning'] .multiselect__trigger {
+    border-color: var(--multiselect-warning-border);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--multiselect-warning-border) 35%, transparent);
   }
 
   &.multiselect-disabled .multiselect__trigger {
@@ -481,6 +532,24 @@ const handleSearchInput = (event: Event) => {
 
   &.multiselect-open .multiselect__input-wrapper {
     border-color: var(--color-primary);
+  }
+
+  &[data-status='error'] .multiselect__input-wrapper {
+    border-color: var(--multiselect-error-border);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--multiselect-error-border) 35%, transparent);
+  }
+
+  &[data-status='success'] .multiselect__input-wrapper {
+    border-color: var(--color-green);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--color-green) 25%, transparent);
+  }
+
+  &[data-status='warning'] .multiselect__input-wrapper {
+    border-color: var(--multiselect-warning-border);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--multiselect-warning-border) 35%, transparent);
   }
 
   &.multiselect-disabled .multiselect__input-wrapper {
@@ -609,6 +678,26 @@ const handleSearchInput = (event: Event) => {
 
   &.multiselect-open .multiselect__arrow {
     transform: rotate(180deg);
+  }
+
+  .multiselect__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
+    margin-inline: var(--spacing-md);
+  }
+
+  .multiselect__helper {
+    font-size: var(--text-sm);
+    color: var(--color-neutral-400);
+    margin: 0;
+  }
+
+  .multiselect__error {
+    font-size: var(--text-sm);
+    color: var(--color-red);
+    margin: 0;
   }
 
   /* Dropdown - ABSOLUTE POSITIONED */

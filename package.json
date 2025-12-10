@@ -22,113 +22,113 @@
     "dist"
   ],
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/design-system-vue.es.js",
-      "require": "./dist/design-system-vue.umd.js"
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/design-system-vue.es.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./BackgroundWrapper": {
+        "types": "./dist/BackgroundWrapper/index.d.ts",
+        "import": "./dist/BackgroundWrapper/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Button": {
+        "types": "./dist/Button/index.d.ts",
+        "import": "./dist/Button/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Card": {
+        "types": "./dist/Card/index.d.ts",
+        "import": "./dist/Card/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Checkbox": {
+        "types": "./dist/Checkbox/index.d.ts",
+        "import": "./dist/Checkbox/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./DropZone": {
+        "types": "./dist/DropZone/index.d.ts",
+        "import": "./dist/DropZone/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./GroupedButtons": {
+        "types": "./dist/GroupedButtons/index.d.ts",
+        "import": "./dist/GroupedButtons/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Icon": {
+        "types": "./dist/Icon/index.d.ts",
+        "import": "./dist/Icon/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./ImagePreview": {
+        "types": "./dist/ImagePreview/index.d.ts",
+        "import": "./dist/ImagePreview/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./LogoToteat": {
+        "types": "./dist/LogoToteat/index.d.ts",
+        "import": "./dist/LogoToteat/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Multiselect": {
+        "types": "./dist/Multiselect/index.d.ts",
+        "import": "./dist/Multiselect/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Overlay": {
+        "types": "./dist/Overlay/index.d.ts",
+        "import": "./dist/Overlay/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./OverlayMessage": {
+        "types": "./dist/OverlayMessage/index.d.ts",
+        "import": "./dist/OverlayMessage/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Radio": {
+        "types": "./dist/Radio/index.d.ts",
+        "import": "./dist/Radio/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Select": {
+        "types": "./dist/Select/index.d.ts",
+        "import": "./dist/Select/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./SkeletonPreload": {
+        "types": "./dist/SkeletonPreload/index.d.ts",
+        "import": "./dist/SkeletonPreload/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Spinner": {
+        "types": "./dist/Spinner/index.d.ts",
+        "import": "./dist/Spinner/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Tab": {
+        "types": "./dist/Tab/index.d.ts",
+        "import": "./dist/Tab/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Table": {
+        "types": "./dist/Table/index.d.ts",
+        "import": "./dist/Table/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./TextInput": {
+        "types": "./dist/TextInput/index.d.ts",
+        "import": "./dist/TextInput/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./Tooltip": {
+        "types": "./dist/Tooltip/index.d.ts",
+        "import": "./dist/Tooltip/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./style.css": "./dist/design-system-vue.css"
     },
-    "./BackgroundWrapper": {
-      "types": "./dist/BackgroundWrapper/index.d.ts",
-      "import": "./dist/BackgroundWrapper/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Button": {
-      "types": "./dist/Button/index.d.ts",
-      "import": "./dist/Button/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Card": {
-      "types": "./dist/Card/index.d.ts",
-      "import": "./dist/Card/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Checkbox": {
-      "types": "./dist/Checkbox/index.d.ts",
-      "import": "./dist/Checkbox/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./DropZone": {
-      "types": "./dist/DropZone/index.d.ts",
-      "import": "./dist/DropZone/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./GroupedButtons": {
-      "types": "./dist/GroupedButtons/index.d.ts",
-      "import": "./dist/GroupedButtons/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Icon": {
-      "types": "./dist/Icon/index.d.ts",
-      "import": "./dist/Icon/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./ImagePreview": {
-      "types": "./dist/ImagePreview/index.d.ts",
-      "import": "./dist/ImagePreview/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./LogoToteat": {
-      "types": "./dist/LogoToteat/index.d.ts",
-      "import": "./dist/LogoToteat/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Multiselect": {
-      "types": "./dist/Multiselect/index.d.ts",
-      "import": "./dist/Multiselect/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Overlay": {
-      "types": "./dist/Overlay/index.d.ts",
-      "import": "./dist/Overlay/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./OverlayMessage": {
-      "types": "./dist/OverlayMessage/index.d.ts",
-      "import": "./dist/OverlayMessage/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Radio": {
-      "types": "./dist/Radio/index.d.ts",
-      "import": "./dist/Radio/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Select": {
-      "types": "./dist/Select/index.d.ts",
-      "import": "./dist/Select/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./SkeletonPreload": {
-      "types": "./dist/SkeletonPreload/index.d.ts",
-      "import": "./dist/SkeletonPreload/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Spinner": {
-      "types": "./dist/Spinner/index.d.ts",
-      "import": "./dist/Spinner/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Tab": {
-      "types": "./dist/Tab/index.d.ts",
-      "import": "./dist/Tab/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Table": {
-      "types": "./dist/Table/index.d.ts",
-      "import": "./dist/Table/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./TextInput": {
-      "types": "./dist/TextInput/index.d.ts",
-      "import": "./dist/TextInput/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./Tooltip": {
-      "types": "./dist/Tooltip/index.d.ts",
-      "import": "./dist/Tooltip/index.js",
-      "require": "./dist/design-system-vue.umd.js"
-    },
-    "./style.css": "./dist/design-system-vue.css"
-  },
   "sideEffects": [
     "*.css"
   ],
@@ -180,7 +180,7 @@
     "*.css": [
       ".husky/fix-and-check.sh stylelint"
     ],
-    "*.{ts,tsx,vue}": "vue-tsc --project tsconfig.app.json --skipLibCheck --noEmit"
+    "*.{ts,tsx,vue}": "bash -c 'vue-tsc --project tsconfig.app.json --skipLibCheck --noEmit'"
   },
   "peerDependencies": {
     "vue": "^3.3.0"
