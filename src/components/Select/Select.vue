@@ -162,7 +162,6 @@ const handleSearchInput = (event: Event) => {
           color="neutral-400"
           class="tds-select__arrow"
         />
-        />
       </div>
     </div>
 
