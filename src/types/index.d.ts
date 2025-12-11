@@ -277,6 +277,9 @@ export type MultiselectProps = {
   name?: string;
   checkboxPosition?: 'left' | 'right';
   showSelectedItems?: boolean;
+  validationState?: TextInputValidationState;
+  errorMessage?: string;
+  helperText?: string;
 };
 
 // Select - Single selection combobox with search
@@ -293,6 +296,9 @@ export type SelectProps = {
   size?: ButtonSize;
   id?: string;
   name?: string;
+  validationState?: TextInputValidationState;
+  errorMessage?: string;
+  helperText?: string;
 };
 
 export type CheckboxProps = {
