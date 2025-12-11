@@ -1136,3 +1136,76 @@ export const ControlledSearchQuery: Story = {
     `,
   }),
 };
+
+/**
+ * Validation States Demo
+ *
+ * Shows error, success, and warning states with messages.
+ */
+export const ValidationStates: Story = {
+  render: () => ({
+    components: { Multiselect },
+    setup() {
+      const errorValue = ref<(string | number)[]>([]);
+      const successValue = ref<(string | number)[]>(['apple', 'banana']);
+      const warningValue = ref<(string | number)[]>(['orange']);
+      const defaultValue = ref<(string | number)[]>([]);
+
+      return {
+        errorValue,
+        successValue,
+        warningValue,
+        defaultValue,
+        fruitOptions,
+      };
+    },
+    template: `
+      <div style="display: grid; gap: 2rem; max-width: 600px;">
+        <div>
+          <h3 style="margin-bottom: 0.5rem;">Error State</h3>
+          <Multiselect
+            v-model="errorValue"
+            :options="fruitOptions"
+            select-placeholder="Select fruits..."
+            validation-state="error"
+            error-message="Please select at least one fruit"
+            helper-text="Multiple selections allowed"
+          />
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 0.5rem;">Success State</h3>
+          <Multiselect
+            v-model="successValue"
+            :options="fruitOptions"
+            select-placeholder="Select fruits..."
+            validation-state="success"
+            helper-text="Great choices! Selections confirmed."
+          />
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 0.5rem;">Warning State</h3>
+          <Multiselect
+            v-model="warningValue"
+            :options="fruitOptions"
+            select-placeholder="Select fruits..."
+            validation-state="warning"
+            error-message="Some selections might have limited availability"
+            helper-text="Please verify your selections"
+          />
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 0.5rem;">Default State with Helper Text</h3>
+          <Multiselect
+            v-model="defaultValue"
+            :options="fruitOptions"
+            select-placeholder="Select fruits..."
+            helper-text="Choose your favorite fruits from the list"
+          />
+        </div>
+      </div>
+    `,
+  }),
+};

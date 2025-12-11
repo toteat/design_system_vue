@@ -970,3 +970,76 @@ export const ClientVsBackendFiltering: Story = {
     `,
   }),
 };
+
+/**
+ * Validation States Demo
+ *
+ * Shows error, success, and warning states with messages.
+ */
+export const ValidationStates: StoryObj<typeof Select> = {
+  render: () => ({
+    components: { Select },
+    setup() {
+      const errorValue = ref<string | number | null>(null);
+      const successValue = ref<string | number | null>('apple');
+      const warningValue = ref<string | number | null>(null);
+      const defaultValue = ref<string | number | null>(null);
+
+      return {
+        errorValue,
+        successValue,
+        warningValue,
+        defaultValue,
+        fruitOptions,
+      };
+    },
+    template: `
+      <div style="display: grid; gap: 2rem; max-width: 600px;">
+        <div>
+          <h3 style="margin-bottom: 0.5rem;">Error State</h3>
+          <Select
+            v-model="errorValue"
+            :options="fruitOptions"
+            placeholder="Select a fruit..."
+            validation-state="error"
+            error-message="Please select a fruit from the list"
+            helper-text="This field is required"
+          />
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 0.5rem;">Success State</h3>
+          <Select
+            v-model="successValue"
+            :options="fruitOptions"
+            placeholder="Select a fruit..."
+            validation-state="success"
+            helper-text="Great choice! Selection confirmed."
+          />
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 0.5rem;">Warning State</h3>
+          <Select
+            v-model="warningValue"
+            :options="fruitOptions"
+            placeholder="Select a fruit..."
+            validation-state="warning"
+            error-message="This option might have limited availability"
+            helper-text="Please verify your selection"
+          />
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 0.5rem;">Default State with Helper Text</h3>
+          <Select
+            v-model="defaultValue"
+            :options="fruitOptions"
+            placeholder="Select a fruit..."
+            helper-text="Choose your favorite fruit from the list"
+          />
+        </div>
+      </div>
+    `,
+  }),
+};
