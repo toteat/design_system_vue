@@ -151,9 +151,22 @@ function updateValue(newValue: string) {
   emit('input', sanitizedValue);
 }
 
+function isNegativeNumberInput(value: string) {
+  if (props.type === 'number' && (props.min === 0 || props.min === '0')) {
+    return /^-/.test(value);
+  }
+  return false;
+}
+
 function handleInput(event: globalThis.Event) {
   const target = event.target as globalThis.HTMLInputElement | null;
-  updateValue(target?.value ?? '');
+  let value = target?.value ?? '';
+  if (isNegativeNumberInput(value)) {
+    value = value.replace(/^-+/, '');
+    value = value.replace(/-/g, '');
+    if (target) target.value = value;
+  }
+  updateValue(value);
 }
 
 function handleChange(event: globalThis.Event) {
@@ -177,6 +190,15 @@ function handleKeydown(event: globalThis.KeyboardEvent) {
 
   if (event.key === 'Enter') {
     emit('enter', sanitizedModelValue.value);
+  }
+}
+function handleKeypress(event: globalThis.KeyboardEvent) {
+  if (
+    props.type === 'number' &&
+    (props.min === 0 || props.min === '0') &&
+    (event.key === '-' || event.key === '+')
+  ) {
+    event.preventDefault();
   }
 }
 
@@ -253,6 +275,7 @@ onMounted(() => {
         @focus="handleFocus"
         @blur="handleBlur"
         @keydown="handleKeydown"
+        @keypress="handleKeypress"
       />
 
       <button
