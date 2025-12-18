@@ -145,34 +145,46 @@ const computedAriaLabel = computed(() => {
   return props.placeholder || 'Text field';
 });
 
-function updateValue(newValue: string) {
+function updateValue(newValue: string): void {
   const sanitizedValue = sanitizeInputValue(newValue);
   emit('update:modelValue', sanitizedValue);
   emit('input', sanitizedValue);
 }
 
-function handleInput(event: globalThis.Event) {
-  const target = event.target as globalThis.HTMLInputElement | null;
-  updateValue(target?.value ?? '');
+function isNegativeNumberInput(value: string): boolean {
+  if (props.type === 'number' && (props.min === 0 || props.min === '0')) {
+    return /^-/.test(value);
+  }
+  return false;
 }
 
-function handleChange(event: globalThis.Event) {
+function handleInput(event: globalThis.Event): void {
+  const target = event.target as globalThis.HTMLInputElement | null;
+  let value = target?.value ?? '';
+  if (isNegativeNumberInput(value)) {
+    value = value.replaceAll('-', '');
+    if (target) target.value = value;
+  }
+  updateValue(value);
+}
+
+function handleChange(event: globalThis.Event): void {
   const target = event.target as globalThis.HTMLInputElement | null;
   const sanitizedValue = sanitizeInputValue(target?.value ?? '');
   emit('change', sanitizedValue);
 }
 
-function handleFocus(event: globalThis.FocusEvent) {
+function handleFocus(event: globalThis.FocusEvent): void {
   isFocused.value = true;
   emit('focus', event);
 }
 
-function handleBlur(event: globalThis.FocusEvent) {
+function handleBlur(event: globalThis.FocusEvent): void {
   isFocused.value = false;
   emit('blur', event);
 }
 
-function handleKeydown(event: globalThis.KeyboardEvent) {
+function handleKeydown(event: globalThis.KeyboardEvent): void {
   emit('keydown', event);
 
   if (event.key === 'Enter') {
@@ -180,7 +192,17 @@ function handleKeydown(event: globalThis.KeyboardEvent) {
   }
 }
 
-function handleClear() {
+function handleKeypress(event: globalThis.KeyboardEvent): void {
+  if (
+    props.type === 'number' &&
+    (props.min === 0 || props.min === '0') &&
+    (event.key === '-' || event.key === '+')
+  ) {
+    event.preventDefault();
+  }
+}
+
+function handleClear(): void {
   if (props.disabled || props.readonly) return;
 
   updateValue('');
@@ -253,6 +275,7 @@ onMounted(() => {
         @focus="handleFocus"
         @blur="handleBlur"
         @keydown="handleKeydown"
+        @keypress="handleKeypress"
       />
 
       <button
