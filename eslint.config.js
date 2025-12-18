@@ -27,7 +27,7 @@ export default [
         // Turn off the base rule as it can report incorrect errors
         'no-unused-vars': 'off',
         // Strict TypeScript rules
-        '@typescript-eslint/explicit-function-return-type': ['warn', {
+        '@typescript-eslint/explicit-function-return-type': ['error', {
           allowExpressions: true,
           allowTypedFunctionExpressions: true,
           allowHigherOrderFunctions: true,
