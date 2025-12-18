@@ -597,6 +597,70 @@ export const HelperTextWithErrors: Story = {
   }),
 };
 
+export const NonNegativeNumbers: Story = {
+  name: 'Non-Negative Number Input',
+  render: () => ({
+    components: { TextInput },
+    setup() {
+      const quantity = ref('');
+      const price = ref('');
+      const stock = ref('5');
+      return { quantity, price, stock };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 500px;">
+        <h3 style="font-size: 1rem; font-weight: 600; color: var(--color-neutral-500); margin: 0;">
+          Non-Negative Number Validation
+        </h3>
+        <p style="font-size: 0.875rem; color: var(--color-neutral-400); margin: 0;">
+          When <code>type="number"</code> and <code>min="0"</code>, the input automatically prevents negative values.
+          Try typing a minus sign (-) or pasting negative numbers.
+        </p>
+
+        <TextInput
+          label="Quantity"
+          placeholder="Enter quantity"
+          type="number"
+          inputmode="numeric"
+          v-model="quantity"
+          :min="0"
+          step="1"
+          helper-text="Negative values are blocked (min=0)"
+        />
+
+        <TextInput
+          label="Price"
+          placeholder="0.00"
+          type="number"
+          inputmode="decimal"
+          v-model="price"
+          min="0"
+          step="0.01"
+          helper-text="Try typing '-5' - the minus is stripped"
+          prefix-icon="currency-dollar-outline"
+        />
+
+        <TextInput
+          label="Stock (allows negative)"
+          placeholder="Enter stock"
+          type="number"
+          v-model="stock"
+          helper-text="No min=0, so negative values are allowed"
+        />
+
+        <div style="padding: 1rem; background: var(--color-neutral-100); border-radius: 8px; font-size: 0.875rem;">
+          <strong>How it works:</strong>
+          <ul style="margin: 0.5rem 0 0 1.25rem; padding: 0;">
+            <li>Pressing <code>-</code> or <code>+</code> keys is blocked</li>
+            <li>Pasting negative values strips the minus sign</li>
+            <li>Only applies when <code>min="0"</code> or <code>:min="0"</code></li>
+          </ul>
+        </div>
+      </div>
+    `,
+  }),
+};
+
 export const InlineWithButton: Story = {
   name: 'Inline Layout with Button',
   render: () => ({
