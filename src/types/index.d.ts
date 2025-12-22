@@ -232,7 +232,7 @@ export type LoadImageTypeFunction = (
   computedImageSrc: { value: string | undefined },
 ) => Promise<void>;
 
-export type AllowedFileTypes = 'images' | 'video' | 'text';
+export type AllowedFileTypes = 'images' | 'video' | 'text' | 'spreadsheet';
 
 export type DropZoneProps = {
   instanceName: string;
