@@ -408,7 +408,7 @@ const meta = {
     },
     allowedFileTypes: {
       control: 'select',
-      options: ['images', 'video', 'text'],
+      options: ['images', 'video', 'text', 'spreadsheet'],
       description: 'Types of files allowed to be uploaded',
     },
     multiple: {
@@ -599,6 +599,43 @@ export const MultipleTextWithFileList: Story = {
     displayPreview: false,
     displayFileList: true,
     label: 'Upload multiple text files (TXT, CSV)',
+  },
+};
+
+// Spreadsheet variants
+export const SingleSpreadsheetWithFileList: Story = {
+  render: (args) => ({
+    components: { DropZoneWrapper },
+    setup() {
+      return { args };
+    },
+    template: '<DropZoneWrapper v-bind="args" />',
+  }),
+  args: {
+    instanceName: 'single-spreadsheet-dropzone',
+    allowedFileTypes: 'spreadsheet',
+    multiple: false,
+    displayPreview: false,
+    displayFileList: true,
+    label: 'Upload a single spreadsheet file (XLS, XLSX)',
+  },
+};
+
+export const MultipleSpreadsheetWithFileList: Story = {
+  render: (args) => ({
+    components: { DropZoneWrapper },
+    setup() {
+      return { args };
+    },
+    template: '<DropZoneWrapper v-bind="args" />',
+  }),
+  args: {
+    instanceName: 'multiple-spreadsheet-dropzone',
+    allowedFileTypes: 'spreadsheet',
+    multiple: true,
+    displayPreview: false,
+    displayFileList: true,
+    label: 'Upload multiple spreadsheet files (XLS, XLSX)',
   },
 };
 
