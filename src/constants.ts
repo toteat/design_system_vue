@@ -28,11 +28,16 @@ export const ALLOWED_TYPES_MAP: Record<
     types: ['csv'],
     prefix: 'text',
   },
+  spreadsheet: {
+    types: ['xls', 'xlsx'],
+    prefix: 'application',
+  },
 };
 
 export const IMAGE_TYPES = ALLOWED_TYPES_MAP.images.types;
 export const VIDEO_TYPES = ALLOWED_TYPES_MAP.video.types;
 export const TEXT_TYPES = ALLOWED_TYPES_MAP.text.types;
+export const SPREADSHEET_TYPES = ALLOWED_TYPES_MAP.spreadsheet.types;
 
 export const ALLOWED_MIME_TYPES: Record<AllowedFileTypes, string> =
   Object.entries(ALLOWED_TYPES_MAP).reduce(
