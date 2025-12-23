@@ -1,6 +1,6 @@
 {
   "name": "@toteat-eng/design-system-vue",
-  "version": "0.1.33",
+  "version": "0.1.34",
   "author": "Mauricio Antunez <mantunez@toteat.com> (https://toteat.com)",
   "description": "The Toteat Design System is a collection of components and utilities that help you build consistent and beautiful user interfaces. Build primarely to solve Toteat needs.",
   "type": "module",
@@ -50,6 +50,11 @@
       "./DropZone": {
         "types": "./dist/DropZone/index.d.ts",
         "import": "./dist/DropZone/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
+      "./DropdownButton": {
+        "types": "./dist/DropdownButton/index.d.ts",
+        "import": "./dist/DropdownButton/index.js",
         "require": "./dist/design-system-vue.umd.js"
       },
       "./GroupedButtons": {

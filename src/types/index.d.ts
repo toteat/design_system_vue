@@ -448,3 +448,22 @@ export type OverlayMessageProps = {
   maxWidth?: number;
   standalone?: boolean;
 };
+
+// DropdownButton - Button with dropdown menu
+export type DropdownButtonMenuItem = {
+  value: string | number;
+  label: string;
+  icon?: IconNames;
+  disabled?: boolean;
+};
+
+export type DropdownButtonProps = {
+  /** Button text */
+  text: string;
+  /** Menu items for the dropdown */
+  menuItems: DropdownButtonMenuItem[];
+  /** Button size */
+  size?: ButtonSize;
+  /** Whether the button is disabled */
+  disabled?: boolean;
+};
