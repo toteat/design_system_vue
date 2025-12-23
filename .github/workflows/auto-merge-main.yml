@@ -1,0 +1,50 @@
+name: Auto Merge to Main
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'package.json'
+
+jobs:
+  check-version-and-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Get version from develop
+        id: dev_version
+        run: echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
+
+      - name: Get version from main
+        id: main_version
+        run: |
+          git fetch origin main
+          echo "version=$(git show origin/main:package.json | jq -r .version)" >> $GITHUB_OUTPUT
+
+      - name: Check if version changed
+        id: version_check
+        run: |
+          if [ "${{ steps.dev_version.outputs.version }}" != "${{ steps.main_version.outputs.version }}" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Version changed: ${{ steps.main_version.outputs.version }} -> ${{ steps.dev_version.outputs.version }}"
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "Version unchanged: ${{ steps.dev_version.outputs.version }}"
+          fi
+
+      - name: Merge develop to main
+        if: steps.version_check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout main
+          git merge origin/develop -X theirs -m "Release v${{ steps.dev_version.outputs.version }}"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
