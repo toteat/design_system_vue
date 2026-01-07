@@ -280,6 +280,8 @@ export type MultiselectProps = {
   validationState?: TextInputValidationState;
   errorMessage?: string;
   helperText?: string;
+  /** When true, renders dropdown in body using Teleport to escape overflow containers */
+  appendToBody?: boolean;
 };
 
 // Select - Single selection combobox with search
@@ -299,6 +301,8 @@ export type SelectProps = {
   validationState?: TextInputValidationState;
   errorMessage?: string;
   helperText?: string;
+  /** When true, renders dropdown in body using Teleport to escape overflow containers */
+  appendToBody?: boolean;
 };
 
 export type CheckboxProps = {
