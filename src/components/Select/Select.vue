@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* global MouseEvent, Node, document, HTMLElement */
 import { ref, computed, toRef, reactive, watch, onUnmounted } from 'vue';
 import type { SelectProps, MultiselectOption } from '@/types';
 import { useSelector } from '@/composables/useSelector';
@@ -69,6 +70,8 @@ const {
   },
 });
 
+const teleportedDropdownRef = ref<HTMLElement | null>(null);
+
 // Get selected option
 const selectedOption = computed(() => {
   if (props.modelValue == null) return null;
@@ -115,21 +118,39 @@ const updateDropdownPosition = (): void => {
   dropdownPosition.width = rect.width;
 };
 
+// Custom click outside handler for teleported dropdown
+const handleTeleportedClickOutside = (event: MouseEvent): void => {
+  if (!props.appendToBody || !isOpen.value) return;
+
+  const target = event.target as Node;
+  const isInsideTeleported = teleportedDropdownRef.value?.contains(target);
+
+  // If click is inside the teleported dropdown, stop propagation to prevent
+  // the useSelector's click outside handler from closing the dropdown
+  if (isInsideTeleported) {
+    event.stopPropagation();
+  }
+};
+
 // Watch isOpen to add/remove event listeners for position updates
 watch(isOpen, (open) => {
   if (open && props.appendToBody) {
     updateDropdownPosition();
     window.addEventListener('scroll', updateDropdownPosition, true);
     window.addEventListener('resize', updateDropdownPosition);
+    // Add click outside handler for teleported dropdown
+    document.addEventListener('click', handleTeleportedClickOutside, true);
   } else {
     window.removeEventListener('scroll', updateDropdownPosition, true);
     window.removeEventListener('resize', updateDropdownPosition);
+    document.removeEventListener('click', handleTeleportedClickOutside, true);
   }
 });
 
 onUnmounted(() => {
   window.removeEventListener('scroll', updateDropdownPosition, true);
   window.removeEventListener('resize', updateDropdownPosition);
+  document.removeEventListener('click', handleTeleportedClickOutside, true);
 });
 </script>
 
@@ -200,6 +221,7 @@ onUnmounted(() => {
       <Transition name="tds-select-dropdown">
         <div
           v-if="isOpen"
+          ref="teleportedDropdownRef"
           class="tds-select__dropdown"
           :class="{ 'tot-ds-root': appendToBody }"
           :data-append-to-body="appendToBody || undefined"

@@ -1221,7 +1221,13 @@ export const InsideScrollContainer: Story = {
     setup() {
       const withAppendValue = ref<(string | number)[]>([]);
       const withoutAppendValue = ref<(string | number)[]>([]);
-      return { withAppendValue, withoutAppendValue, fruitOptions };
+      const withTagsValue = ref<(string | number)[]>(['apple', 'banana']);
+      return {
+        withAppendValue,
+        withoutAppendValue,
+        withTagsValue,
+        fruitOptions,
+      };
     },
     template: `
       <div style="max-width: 800px;">
@@ -1269,6 +1275,21 @@ export const InsideScrollContainer: Story = {
               </p>
             </div>
           </div>
+        </div>
+
+        <!-- Example with selected items tags -->
+        <h4 style="margin-top: 2rem; margin-bottom: 0.5rem; color: #16a34a;">With appendToBody + Selected Items Tags</h4>
+        <div style="height: 180px; overflow: auto; border: 2px dashed #16a34a; border-radius: 0.5rem; padding: 1rem; background-color: #f0fdf4;">
+          <p style="margin: 0 0 1rem 0; font-size: 0.875rem; color: #666;">
+            Scroll container with tags visible (180px height)
+          </p>
+          <Multiselect
+            v-model="withTagsValue"
+            :options="fruitOptions"
+            select-placeholder="Select fruits..."
+            :show-selected-items="true"
+            append-to-body
+          />
         </div>
 
         <div style="margin-top: 2rem; padding: 1rem; background-color: #f8f9fa; border-radius: 0.5rem;">
