@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, toRef } from 'vue';
+import { ref, computed, toRef, reactive, watch, onUnmounted } from 'vue';
 import type { MultiselectProps, MultiselectOption } from '@/types';
 import { useSelector } from '@/composables/useSelector';
 import Icon from '../Icon/Icon.vue';
@@ -21,6 +21,7 @@ const props = withDefaults(defineProps<MultiselectProps>(), {
   validationState: 'default',
   errorMessage: '',
   helperText: '',
+  appendToBody: false,
 });
 
 const emit = defineEmits<{
@@ -99,7 +100,7 @@ const selectedLabels = computed(() => {
 });
 
 // Check if an option is selected
-const isSelected = (option: MultiselectOption) => {
+const isSelected = (option: MultiselectOption): boolean => {
   return selectedValues.value.includes(option.value);
 };
 
@@ -112,12 +113,12 @@ const isLimitReached = computed(() => {
 });
 
 // Check if an option should be disabled
-const isOptionDisabled = (option: MultiselectOption) => {
+const isOptionDisabled = (option: MultiselectOption): boolean => {
   return option.disabled || (isLimitReached.value && !isSelected(option));
 };
 
 // Toggle option selection
-const toggleOption = (option: MultiselectOption) => {
+const toggleOption = (option: MultiselectOption): void => {
   if (isOptionDisabled(option)) {
     return;
   }
@@ -144,7 +145,7 @@ const toggleOption = (option: MultiselectOption) => {
 };
 
 // Remove a selected item
-const removeItem = (value: string | number, event: Event) => {
+const removeItem = (value: string | number, event: Event): void => {
   event.stopPropagation();
   const newValue = selectedValues.value.filter((v) => v !== value);
   emit('remove-tag', value);
@@ -153,7 +154,7 @@ const removeItem = (value: string | number, event: Event) => {
 };
 
 // Clear all selections
-const clearAll = (event: Event) => {
+const clearAll = (event: Event): void => {
   event.stopPropagation();
   emit('clear');
   emit('update:modelValue', []);
@@ -161,20 +162,20 @@ const clearAll = (event: Event) => {
 };
 
 // Dropdown transition hooks
-const onDropdownAfterEnter = () => {
+const onDropdownAfterEnter = (): void => {
   isDropdownAnimating.value = false;
 };
 
-const onDropdownLeave = () => {
+const onDropdownLeave = (): void => {
   isDropdownAnimating.value = true;
 };
 
-const onDropdownAfterLeave = () => {
+const onDropdownAfterLeave = (): void => {
   isDropdownAnimating.value = false;
 };
 
 // Smooth transition hooks for selected items
-const onSelectedEnter = (el: Element, done: () => void) => {
+const onSelectedEnter = (el: Element, done: () => void): void => {
   const element = el as HTMLElement;
 
   element.style.height = '0';
@@ -189,7 +190,7 @@ const onSelectedEnter = (el: Element, done: () => void) => {
   element.style.opacity = '1';
   element.style.marginTop = '0.5rem';
 
-  const handleTransitionEnd = () => {
+  const handleTransitionEnd = (): void => {
     element.style.height = 'auto';
     element.style.overflow = 'visible';
     element.removeEventListener('transitionend', handleTransitionEnd);
@@ -199,7 +200,7 @@ const onSelectedEnter = (el: Element, done: () => void) => {
   element.addEventListener('transitionend', handleTransitionEnd);
 };
 
-const onSelectedLeave = (el: Element, done: () => void) => {
+const onSelectedLeave = (el: Element, done: () => void): void => {
   const element = el as HTMLElement;
 
   element.style.height = `${element.scrollHeight}px`;
@@ -212,7 +213,7 @@ const onSelectedLeave = (el: Element, done: () => void) => {
   element.style.opacity = '0';
   element.style.marginTop = '0';
 
-  const handleTransitionEnd = () => {
+  const handleTransitionEnd = (): void => {
     element.removeEventListener('transitionend', handleTransitionEnd);
     done();
   };
@@ -221,10 +222,39 @@ const onSelectedLeave = (el: Element, done: () => void) => {
 };
 
 // Handle search input
-const handleSearchInput = (event: Event) => {
+const handleSearchInput = (event: Event): void => {
   const target = event.target as HTMLInputElement;
   setSearchQuery(target.value);
 };
+
+// Dropdown position for appendToBody mode
+const dropdownPosition = reactive({ top: 0, left: 0, width: 0 });
+
+const updateDropdownPosition = (): void => {
+  if (!dropdownRef.value || !props.appendToBody) return;
+  const rect = dropdownRef.value.getBoundingClientRect();
+  // Add 4px offset to match the margin-top: var(--spacing-xs) from normal mode
+  dropdownPosition.top = rect.bottom + 4;
+  dropdownPosition.left = rect.left;
+  dropdownPosition.width = rect.width;
+};
+
+// Watch isOpen to add/remove event listeners for position updates
+watch(isOpen, (open) => {
+  if (open && props.appendToBody) {
+    updateDropdownPosition();
+    window.addEventListener('scroll', updateDropdownPosition, true);
+    window.addEventListener('resize', updateDropdownPosition);
+  } else {
+    window.removeEventListener('scroll', updateDropdownPosition, true);
+    window.removeEventListener('resize', updateDropdownPosition);
+  }
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', updateDropdownPosition, true);
+  window.removeEventListener('resize', updateDropdownPosition);
+});
 </script>
 
 <template>
@@ -296,56 +326,73 @@ const handleSearchInput = (event: Event) => {
       </div>
     </div>
 
-    <!-- Dropdown (ABSOLUTE POSITIONED) -->
-    <Transition
-      name="multiselect-dropdown"
-      @after-enter="onDropdownAfterEnter"
-      @leave="onDropdownLeave"
-      @after-leave="onDropdownAfterLeave"
-    >
-      <div v-if="isOpen" class="multiselect__dropdown">
-        <!-- Selection limit indicator -->
+    <!-- Dropdown (Teleport to body when appendToBody is true) -->
+    <Teleport to="body" :disabled="!appendToBody">
+      <Transition
+        name="multiselect-dropdown"
+        @after-enter="onDropdownAfterEnter"
+        @leave="onDropdownLeave"
+        @after-leave="onDropdownAfterLeave"
+      >
         <div
-          v-if="maxSelections !== undefined"
-          class="multiselect__limit-info"
-          :class="{ 'multiselect__limit-info-max': isLimitReached }"
+          v-if="isOpen"
+          class="multiselect__dropdown"
+          :class="{ 'tot-ds-root': appendToBody }"
+          :data-append-to-body="appendToBody || undefined"
+          :style="
+            appendToBody
+              ? {
+                  position: 'fixed',
+                  top: `${dropdownPosition.top}px`,
+                  left: `${dropdownPosition.left}px`,
+                  width: `${dropdownPosition.width}px`,
+                }
+              : {}
+          "
         >
-          {{ selectedValues.length }} / {{ maxSelections }} selected
-        </div>
+          <!-- Selection limit indicator -->
+          <div
+            v-if="maxSelections !== undefined"
+            class="multiselect__limit-info"
+            :class="{ 'multiselect__limit-info-max': isLimitReached }"
+          >
+            {{ selectedValues.length }} / {{ maxSelections }} selected
+          </div>
 
-        <!-- Options list -->
-        <ul class="multiselect__options">
-          <li
-            v-for="option in filteredOptions"
-            :key="option.value"
-            class="multiselect__option"
-            :class="{
-              'multiselect__option-selected': isSelected(option),
-              'multiselect__option-disabled': isOptionDisabled(option),
-            }"
-          >
-            <Checkbox
-              :checked="isSelected(option)"
-              :disabled="isOptionDisabled(option)"
-              size="small"
-              full-width
-              :checkbox-position="checkboxPosition"
-              color="black"
-              class="multiselect__checkbox"
-              @change="() => toggleOption(option)"
+          <!-- Options list -->
+          <ul class="multiselect__options">
+            <li
+              v-for="option in filteredOptions"
+              :key="option.value"
+              class="multiselect__option"
+              :class="{
+                'multiselect__option-selected': isSelected(option),
+                'multiselect__option-disabled': isOptionDisabled(option),
+              }"
             >
-              {{ option.label }}
-            </Checkbox>
-          </li>
-          <li
-            v-if="filteredOptions.length === 0"
-            class="multiselect__no-options"
-          >
-            No options found
-          </li>
-        </ul>
-      </div>
-    </Transition>
+              <Checkbox
+                :checked="isSelected(option)"
+                :disabled="isOptionDisabled(option)"
+                size="small"
+                full-width
+                :checkbox-position="checkboxPosition"
+                color="black"
+                class="multiselect__checkbox"
+                @change="() => toggleOption(option)"
+              >
+                {{ option.label }}
+              </Checkbox>
+            </li>
+            <li
+              v-if="filteredOptions.length === 0"
+              class="multiselect__no-options"
+            >
+              No options found
+            </li>
+          </ul>
+        </div>
+      </Transition>
+    </Teleport>
 
     <!-- Selected items display (below selector) -->
     <Transition @enter="onSelectedEnter" @leave="onSelectedLeave" :css="false">
@@ -718,6 +765,12 @@ const handleSearchInput = (event: Event) => {
     display: flex;
     flex-direction: column;
     margin-top: var(--spacing-xs);
+
+    /* Fixed mode for appendToBody - escapes overflow containers */
+    &[data-append-to-body] {
+      z-index: 9999;
+      margin-top: 0;
+    }
   }
 
   .multiselect__limit-info {
@@ -814,5 +867,85 @@ const handleSearchInput = (event: Event) => {
     opacity: 1;
     transform: scaleY(1) translateY(0);
   }
+}
+</style>
+
+<!-- Global styles for teleported dropdown (appendToBody mode) -->
+<style>
+@import '../../style.css';
+
+.tot-ds-root.multiselect__dropdown {
+  background-color: var(--color-white);
+  border: 1.5px solid var(--color-neutral-300);
+  border-radius: var(--radius-base);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  max-height: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: inherit;
+
+  .multiselect__limit-info {
+    padding: var(--spacing-sm) 0.75rem;
+    font-size: var(--text-sm);
+    color: var(--color-neutral-400);
+    background-color: var(--color-neutral-100);
+    border-bottom: 1px solid var(--color-neutral-200);
+    text-align: center;
+  }
+
+  .multiselect__options {
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-xs) 0;
+    overflow-y: auto;
+    max-height: 240px;
+  }
+
+  .multiselect__option {
+    display: block;
+    padding: 0;
+  }
+
+  .multiselect__checkbox {
+    width: 100%;
+    padding: var(--spacing-md) 0.75rem;
+    border-radius: var(--radius-none);
+    transition: background-color 0.15s ease-in-out;
+    font-size: var(--text-sm);
+    gap: var(--spacing-sm);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-tertiary-light);
+    }
+  }
+
+  .multiselect__no-options {
+    padding: var(--spacing-lg) 0.75rem;
+    text-align: center;
+    color: var(--color-neutral-400);
+    font-size: 0.875rem;
+  }
+}
+
+/* Transition styles for teleported dropdown */
+.multiselect-dropdown-enter-active,
+.multiselect-dropdown-leave-active {
+  transition: all 0.2s ease-in-out;
+  transform-origin: top;
+}
+
+.multiselect-dropdown-enter-from,
+.multiselect-dropdown-leave-to {
+  opacity: 0;
+  transform: scaleY(0.95) translateY(-0.5rem);
+}
+
+.multiselect-dropdown-enter-to,
+.multiselect-dropdown-leave-from {
+  opacity: 1;
+  transform: scaleY(1) translateY(0);
 }
 </style>
