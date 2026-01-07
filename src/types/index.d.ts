@@ -232,7 +232,7 @@ export type LoadImageTypeFunction = (
   computedImageSrc: { value: string | undefined },
 ) => Promise<void>;
 
-export type AllowedFileTypes = 'images' | 'video' | 'text';
+export type AllowedFileTypes = 'images' | 'video' | 'text' | 'spreadsheet';
 
 export type DropZoneProps = {
   instanceName: string;
@@ -280,6 +280,8 @@ export type MultiselectProps = {
   validationState?: TextInputValidationState;
   errorMessage?: string;
   helperText?: string;
+  /** When true, renders dropdown in body using Teleport to escape overflow containers */
+  appendToBody?: boolean;
 };
 
 // Select - Single selection combobox with search
@@ -299,6 +301,8 @@ export type SelectProps = {
   validationState?: TextInputValidationState;
   errorMessage?: string;
   helperText?: string;
+  /** When true, renders dropdown in body using Teleport to escape overflow containers */
+  appendToBody?: boolean;
 };
 
 export type CheckboxProps = {
@@ -447,4 +451,23 @@ export type OverlayMessageProps = {
   showCloseButton?: boolean;
   maxWidth?: number;
   standalone?: boolean;
+};
+
+// DropdownButton - Button with dropdown menu
+export type DropdownButtonMenuItem = {
+  value: string | number;
+  label: string;
+  icon?: IconNames;
+  disabled?: boolean;
+};
+
+export type DropdownButtonProps = {
+  /** Button text */
+  text: string;
+  /** Menu items for the dropdown */
+  menuItems: DropdownButtonMenuItem[];
+  /** Button size */
+  size?: ButtonSize;
+  /** Whether the button is disabled */
+  disabled?: boolean;
 };

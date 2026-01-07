@@ -25,6 +25,7 @@ import Radio from './components/Radio';
 import TextInput from './components/TextInput';
 import Overlay from './components/Overlay';
 import OverlayMessage from './components/OverlayMessage';
+import DropdownButton from './components/DropdownButton';
 
 // Export all component types
 export type {
@@ -68,6 +69,8 @@ export type {
   OverlayPlacement,
   OverlayMessageProps,
   OverlayMessageStatus,
+  DropdownButtonProps,
+  DropdownButtonMenuItem,
 } from './types/index.d';
 
 // Export components using export...from syntax
@@ -91,9 +94,10 @@ export { default as Radio } from './components/Radio';
 export { default as TextInput } from './components/TextInput';
 export { default as Overlay } from './components/Overlay';
 export { default as OverlayMessage } from './components/OverlayMessage';
+export { default as DropdownButton } from './components/DropdownButton';
 
 // Export Vue plugin
-export const install = (app: App) => {
+export const install = (app: App): void => {
   // Register components globally
   app.component('Button', Button);
   app.component('Card', Card);
@@ -115,6 +119,7 @@ export const install = (app: App) => {
   app.component('TextInput', TextInput);
   app.component('Overlay', Overlay);
   app.component('OverlayMessage', OverlayMessage);
+  app.component('DropdownButton', DropdownButton);
 };
 
 // Export plugin object
