@@ -1209,3 +1209,100 @@ export const ValidationStates: Story = {
     `,
   }),
 };
+
+/**
+ * Inside Scroll Container (appendToBody)
+ *
+ * Demonstrates how appendToBody allows the dropdown to escape overflow containers.
+ */
+export const InsideScrollContainer: Story = {
+  render: () => ({
+    components: { Multiselect },
+    setup() {
+      const withAppendValue = ref<(string | number)[]>([]);
+      const withoutAppendValue = ref<(string | number)[]>([]);
+      const withTagsValue = ref<(string | number)[]>(['apple', 'banana']);
+      return {
+        withAppendValue,
+        withoutAppendValue,
+        withTagsValue,
+        fruitOptions,
+      };
+    },
+    template: `
+      <div style="max-width: 800px;">
+        <h3 style="margin-bottom: 1rem;">Multiselect Inside Overflow Container</h3>
+        <p style="margin-bottom: 1.5rem; color: #666; font-size: 0.875rem;">
+          When a Multiselect is inside a container with <code>overflow: auto/scroll/hidden</code>,
+          the dropdown gets clipped. Use <code>append-to-body</code> to render the dropdown
+          in the body element, escaping the overflow container.
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+          <div>
+            <h4 style="margin-bottom: 0.5rem; color: #dc2626;">Without appendToBody (Problem)</h4>
+            <div style="height: 120px; overflow: auto; border: 2px dashed #dc2626; border-radius: 0.5rem; padding: 1rem; background-color: #fef2f2;">
+              <p style="margin: 0 0 1rem 0; font-size: 0.875rem; color: #666;">
+                Scroll container (120px height)
+              </p>
+              <Multiselect
+                v-model="withoutAppendValue"
+                :options="fruitOptions"
+                select-placeholder="Select fruits..."
+                :show-selected-items="false"
+              />
+              <p style="margin: 1rem 0 0 0; font-size: 0.75rem; color: #999;">
+                The dropdown is clipped by the container
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <h4 style="margin-bottom: 0.5rem; color: #16a34a;">With appendToBody (Solution)</h4>
+            <div style="height: 120px; overflow: auto; border: 2px dashed #16a34a; border-radius: 0.5rem; padding: 1rem; background-color: #f0fdf4;">
+              <p style="margin: 0 0 1rem 0; font-size: 0.875rem; color: #666;">
+                Scroll container (120px height)
+              </p>
+              <Multiselect
+                v-model="withAppendValue"
+                :options="fruitOptions"
+                select-placeholder="Select fruits..."
+                :show-selected-items="false"
+                append-to-body
+              />
+              <p style="margin: 1rem 0 0 0; font-size: 0.75rem; color: #999;">
+                The dropdown escapes the container
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Example with selected items tags -->
+        <h4 style="margin-top: 2rem; margin-bottom: 0.5rem; color: #16a34a;">With appendToBody + Selected Items Tags</h4>
+        <div style="height: 180px; overflow: auto; border: 2px dashed #16a34a; border-radius: 0.5rem; padding: 1rem; background-color: #f0fdf4;">
+          <p style="margin: 0 0 1rem 0; font-size: 0.875rem; color: #666;">
+            Scroll container with tags visible (180px height)
+          </p>
+          <Multiselect
+            v-model="withTagsValue"
+            :options="fruitOptions"
+            select-placeholder="Select fruits..."
+            :show-selected-items="true"
+            append-to-body
+          />
+        </div>
+
+        <div style="margin-top: 2rem; padding: 1rem; background-color: #f8f9fa; border-radius: 0.5rem;">
+          <strong>Usage:</strong>
+          <pre style="margin: 0.5rem 0 0 0; background-color: #e9ecef; padding: 0.75rem; border-radius: 0.25rem; overflow-x: auto;">&lt;Multiselect :options="options" v-model="value" append-to-body /&gt;</pre>
+        </div>
+
+        <div style="margin-top: 1rem; padding: 1rem; background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 0.5rem;">
+          <strong>Note:</strong> When using <code>append-to-body</code>, the dropdown uses
+          <code>position: fixed</code> and updates its position on scroll/resize.
+          Default is <code>false</code> to maintain backward compatibility.
+        </div>
+      </div>
+    `,
+  }),
+};

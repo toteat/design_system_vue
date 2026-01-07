@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, toRef } from 'vue';
+/* global MouseEvent, Node, document, HTMLElement */
+import { ref, computed, toRef, reactive, watch, onUnmounted } from 'vue';
 import type { SelectProps, MultiselectOption } from '@/types';
 import { useSelector } from '@/composables/useSelector';
 import Icon from '../Icon/Icon.vue';
@@ -15,6 +16,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   validationState: 'default',
   errorMessage: '',
   helperText: '',
+  appendToBody: false,
 });
 
 const emit = defineEmits<{
@@ -68,6 +70,8 @@ const {
   },
 });
 
+const teleportedDropdownRef = ref<HTMLElement | null>(null);
+
 // Get selected option
 const selectedOption = computed(() => {
   if (props.modelValue == null) return null;
@@ -82,12 +86,12 @@ const displayValue = computed(() => {
 });
 
 // Check if an option is selected
-const isSelected = (option: MultiselectOption) => {
+const isSelected = (option: MultiselectOption): boolean => {
   return props.modelValue === option.value;
 };
 
 // Select an option
-const selectOption = (option: MultiselectOption) => {
+const selectOption = (option: MultiselectOption): void => {
   if (isOptionDisabled(option)) return;
 
   emit('select', option);
@@ -97,10 +101,57 @@ const selectOption = (option: MultiselectOption) => {
 };
 
 // Handle search input
-const handleSearchInput = (event: Event) => {
+const handleSearchInput = (event: Event): void => {
   const target = event.target as HTMLInputElement;
   setSearchQuery(target.value);
 };
+
+// Dropdown position for appendToBody mode
+const dropdownPosition = reactive({ top: 0, left: 0, width: 0 });
+
+const updateDropdownPosition = (): void => {
+  if (!dropdownRef.value || !props.appendToBody) return;
+  const rect = dropdownRef.value.getBoundingClientRect();
+  // Add 4px offset to match the margin-top: var(--spacing-xs) from normal mode
+  dropdownPosition.top = rect.bottom + 4;
+  dropdownPosition.left = rect.left;
+  dropdownPosition.width = rect.width;
+};
+
+// Custom click outside handler for teleported dropdown
+const handleTeleportedClickOutside = (event: MouseEvent): void => {
+  if (!props.appendToBody || !isOpen.value) return;
+
+  const target = event.target as Node;
+  const isInsideTeleported = teleportedDropdownRef.value?.contains(target);
+
+  // If click is inside the teleported dropdown, stop propagation to prevent
+  // the useSelector's click outside handler from closing the dropdown
+  if (isInsideTeleported) {
+    event.stopPropagation();
+  }
+};
+
+// Watch isOpen to add/remove event listeners for position updates
+watch(isOpen, (open) => {
+  if (open && props.appendToBody) {
+    updateDropdownPosition();
+    window.addEventListener('scroll', updateDropdownPosition, true);
+    window.addEventListener('resize', updateDropdownPosition);
+    // Add click outside handler for teleported dropdown
+    document.addEventListener('click', handleTeleportedClickOutside, true);
+  } else {
+    window.removeEventListener('scroll', updateDropdownPosition, true);
+    window.removeEventListener('resize', updateDropdownPosition);
+    document.removeEventListener('click', handleTeleportedClickOutside, true);
+  }
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', updateDropdownPosition, true);
+  window.removeEventListener('resize', updateDropdownPosition);
+  document.removeEventListener('click', handleTeleportedClickOutside, true);
+});
 </script>
 
 <template>
@@ -165,41 +216,59 @@ const handleSearchInput = (event: Event) => {
       </div>
     </div>
 
-    <!-- Dropdown (absolute positioned) -->
-    <Transition name="tds-select-dropdown">
-      <div v-if="isOpen" class="tds-select__dropdown">
-        <ul class="tds-select__options">
-          <li
-            v-for="option in filteredOptions"
-            :key="option.value"
-            class="tds-select__option"
-            :data-selected="isSelected(option)"
-            :data-disabled="isOptionDisabled(option)"
-          >
-            <button
-              type="button"
-              class="tds-select__option-button"
-              :disabled="isOptionDisabled(option)"
-              @click="() => selectOption(option)"
+    <!-- Dropdown (Teleport to body when appendToBody is true) -->
+    <Teleport to="body" :disabled="!appendToBody">
+      <Transition name="tds-select-dropdown">
+        <div
+          v-if="isOpen"
+          ref="teleportedDropdownRef"
+          class="tds-select__dropdown"
+          :class="{ 'tot-ds-root': appendToBody }"
+          :data-append-to-body="appendToBody || undefined"
+          :style="
+            appendToBody
+              ? {
+                  position: 'fixed',
+                  top: `${dropdownPosition.top}px`,
+                  left: `${dropdownPosition.left}px`,
+                  width: `${dropdownPosition.width}px`,
+                }
+              : {}
+          "
+        >
+          <ul class="tds-select__options">
+            <li
+              v-for="option in filteredOptions"
+              :key="option.value"
+              class="tds-select__option"
+              :data-selected="isSelected(option)"
+              :data-disabled="isOptionDisabled(option)"
             >
-              <slot
-                name="option"
-                :option="option"
-                :selected="isSelected(option)"
+              <button
+                type="button"
+                class="tds-select__option-button"
+                :disabled="isOptionDisabled(option)"
+                @click="() => selectOption(option)"
               >
-                {{ option.label }}
-              </slot>
-            </button>
-          </li>
-          <li
-            v-if="filteredOptions.length === 0"
-            class="tds-select__no-options"
-          >
-            No options found
-          </li>
-        </ul>
-      </div>
-    </Transition>
+                <slot
+                  name="option"
+                  :option="option"
+                  :selected="isSelected(option)"
+                >
+                  {{ option.label }}
+                </slot>
+              </button>
+            </li>
+            <li
+              v-if="filteredOptions.length === 0"
+              class="tds-select__no-options"
+            >
+              No options found
+            </li>
+          </ul>
+        </div>
+      </Transition>
+    </Teleport>
 
     <!-- Error and Helper Text -->
     <div v-if="shouldShowMeta" class="tds-select__meta">
@@ -488,6 +557,12 @@ const handleSearchInput = (event: Event) => {
     display: flex;
     flex-direction: column;
     margin-top: var(--spacing-xs);
+
+    /* Fixed mode for appendToBody - escapes overflow containers */
+    &[data-append-to-body] {
+      z-index: 9999;
+      margin-top: 0;
+    }
   }
 
   .tds-select__options {
@@ -556,5 +631,91 @@ const handleSearchInput = (event: Event) => {
     opacity: 1;
     transform: scaleY(1) translateY(0);
   }
+}
+</style>
+
+<!-- Global styles for teleported dropdown (appendToBody mode) -->
+<style>
+@import '../../style.css';
+
+.tot-ds-root.tds-select__dropdown {
+  background-color: var(--color-white);
+  border: 1.5px solid var(--color-neutral-300);
+  border-radius: var(--radius-base);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  max-height: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: inherit;
+
+  .tds-select__options {
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-xs) 0;
+    overflow-y: auto;
+    max-height: 240px;
+  }
+
+  .tds-select__option {
+    display: block;
+    padding: 0;
+  }
+
+  .tds-select__option-button {
+    width: 100%;
+    display: block;
+    padding: var(--spacing-md) 0.75rem;
+    font-size: var(--text-sm);
+    font-family: inherit;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+    color: inherit;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-tertiary-light);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .tds-select__option[data-selected='true'] .tds-select__option-button {
+    background-color: rgba(0, 123, 255, 0.05);
+    font-weight: 500;
+  }
+
+  .tds-select__no-options {
+    padding: var(--spacing-lg) 0.75rem;
+    text-align: center;
+    color: var(--color-neutral-400);
+    font-size: var(--text-sm);
+  }
+}
+
+/* Transition styles for teleported dropdown */
+.tds-select-dropdown-enter-active,
+.tds-select-dropdown-leave-active {
+  transition: all 0.2s ease-in-out;
+  transform-origin: top;
+}
+
+.tds-select-dropdown-enter-from,
+.tds-select-dropdown-leave-to {
+  opacity: 0;
+  transform: scaleY(0.95) translateY(-0.5rem);
+}
+
+.tds-select-dropdown-enter-to,
+.tds-select-dropdown-leave-from {
+  opacity: 1;
+  transform: scaleY(1) translateY(0);
 }
 </style>
