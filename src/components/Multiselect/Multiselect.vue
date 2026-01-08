@@ -231,12 +231,30 @@ const handleSearchInput = (event: Event): void => {
 
 // Dropdown position for appendToBody mode
 const dropdownPosition = reactive({ top: 0, left: 0, width: 0 });
+const dropdownPlacement = ref<'bottom' | 'top'>('bottom');
+
+const DROPDOWN_MAX_HEIGHT = 300; // max-height of dropdown in px
+const DROPDOWN_OFFSET = 4; // gap between trigger and dropdown
 
 const updateDropdownPosition = (): void => {
   if (!dropdownRef.value || !props.appendToBody) return;
   const rect = dropdownRef.value.getBoundingClientRect();
-  // Add 4px offset to match the margin-top: var(--spacing-xs) from normal mode
-  dropdownPosition.top = rect.bottom + 4;
+  const viewportHeight = window.innerHeight;
+  const spaceBelow = viewportHeight - rect.bottom;
+  const spaceAbove = rect.top;
+
+  // Determine if we should flip to top
+  // Flip if: not enough space below AND more space above
+  if (spaceBelow < DROPDOWN_MAX_HEIGHT && spaceAbove > spaceBelow) {
+    // Position above the trigger
+    dropdownPlacement.value = 'top';
+    dropdownPosition.top = rect.top - DROPDOWN_OFFSET;
+  } else {
+    // Position below the trigger (default)
+    dropdownPlacement.value = 'bottom';
+    dropdownPosition.top = rect.bottom + DROPDOWN_OFFSET;
+  }
+
   dropdownPosition.left = rect.left;
   dropdownPosition.width = rect.width;
 };
@@ -360,6 +378,7 @@ onUnmounted(() => {
           class="multiselect__dropdown"
           :class="{ 'tot-ds-root': appendToBody }"
           :data-append-to-body="appendToBody || undefined"
+          :data-placement="appendToBody ? dropdownPlacement : undefined"
           :style="
             appendToBody
               ? {
@@ -367,6 +386,10 @@ onUnmounted(() => {
                   top: `${dropdownPosition.top}px`,
                   left: `${dropdownPosition.left}px`,
                   width: `${dropdownPosition.width}px`,
+                  transform:
+                    dropdownPlacement === 'top'
+                      ? 'translateY(-100%)'
+                      : undefined,
                 }
               : {}
           "
@@ -968,5 +991,25 @@ onUnmounted(() => {
 .multiselect-dropdown-leave-from {
   opacity: 1;
   transform: scaleY(1) translateY(0);
+}
+
+/* Top placement transition styles */
+.tot-ds-root.multiselect__dropdown[data-placement='top'] {
+  &.multiselect-dropdown-enter-active,
+  &.multiselect-dropdown-leave-active {
+    transform-origin: bottom;
+  }
+
+  &.multiselect-dropdown-enter-from,
+  &.multiselect-dropdown-leave-to {
+    opacity: 0;
+    transform: translateY(-100%) scaleY(0.95) translateY(0.5rem);
+  }
+
+  &.multiselect-dropdown-enter-to,
+  &.multiselect-dropdown-leave-from {
+    opacity: 1;
+    transform: translateY(-100%) scaleY(1) translateY(0);
+  }
 }
 </style>
