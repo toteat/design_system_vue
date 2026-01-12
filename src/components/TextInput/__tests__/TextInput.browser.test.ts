@@ -892,4 +892,349 @@ describe('TextInput', () => {
       wrapper.unmount();
     });
   });
+
+  describe('Password visibility toggle', () => {
+    it('renders password toggle button for password type', () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+        },
+      });
+
+      const toggleButton = wrapper.find('.text-input__password-toggle');
+      expect(toggleButton.exists()).toBe(true);
+    });
+
+    it('does not render password toggle for non-password types', () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'text',
+          modelValue: 'visible',
+        },
+      });
+
+      const toggleButton = wrapper.find('.text-input__password-toggle');
+      expect(toggleButton.exists()).toBe(false);
+    });
+
+    it('starts with password hidden (type="password")', () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+        },
+      });
+
+      const input = wrapper.find('input');
+      expect(input.attributes('type')).toBe('password');
+    });
+
+    it('shows eye-closed icon when password is hidden', () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+        },
+      });
+
+      const toggleButton = wrapper.find('.text-input__password-toggle');
+      const icon = toggleButton.find('[test-id="tds-icon-eye-closed-outline"]');
+      expect(icon.exists()).toBe(true);
+    });
+
+    it('toggles to visible (type="text") when clicking toggle button', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+        },
+      });
+
+      const toggleButton = wrapper.find('.text-input__password-toggle');
+      await toggleButton.trigger('click');
+
+      const input = wrapper.find('input');
+      expect(input.attributes('type')).toBe('text');
+    });
+
+    it('shows eye-open icon when password is visible', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+        },
+      });
+
+      const toggleButton = wrapper.find('.text-input__password-toggle');
+      await toggleButton.trigger('click');
+
+      const icon = toggleButton.find('[test-id="tds-icon-eye-open-outline"]');
+      expect(icon.exists()).toBe(true);
+    });
+
+    it('toggles back to hidden when clicking toggle button again', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+        },
+      });
+
+      const toggleButton = wrapper.find('.text-input__password-toggle');
+      await toggleButton.trigger('click'); // Show
+      await toggleButton.trigger('click'); // Hide
+
+      const input = wrapper.find('input');
+      expect(input.attributes('type')).toBe('password');
+    });
+
+    it('does not show clear button for password type even when clearable', () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+          clearable: true,
+        },
+      });
+
+      const clearButton = wrapper.find('.text-input__clear');
+      expect(clearButton.exists()).toBe(false);
+    });
+
+    it('shows password toggle instead of suffix icon for password type', () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+          suffixIcon: 'arrow-right-outline',
+        },
+      });
+
+      const toggleButton = wrapper.find('.text-input__password-toggle');
+      const suffixIcon = wrapper.find('.text-input__icon--suffix');
+      expect(toggleButton.exists()).toBe(true);
+      expect(suffixIcon.exists()).toBe(false);
+    });
+
+    it('has correct aria-label when password is hidden', () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+        },
+      });
+
+      const toggleButton = wrapper.find('.text-input__password-toggle');
+      expect(toggleButton.attributes('aria-label')).toBe('Show password');
+    });
+
+    it('has correct aria-label when password is visible', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+        },
+      });
+
+      const toggleButton = wrapper.find('.text-input__password-toggle');
+      await toggleButton.trigger('click');
+
+      expect(toggleButton.attributes('aria-label')).toBe('Hide password');
+    });
+
+    it('has aria-pressed attribute reflecting visibility state', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+        },
+      });
+
+      const toggleButton = wrapper.find('.text-input__password-toggle');
+      expect(toggleButton.attributes('aria-pressed')).toBe('false');
+
+      await toggleButton.trigger('click');
+      expect(toggleButton.attributes('aria-pressed')).toBe('true');
+    });
+
+    it('disables toggle button when input is disabled', () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+          disabled: true,
+        },
+      });
+
+      const toggleButton = wrapper.find('.text-input__password-toggle');
+      expect(toggleButton.attributes('disabled')).toBeDefined();
+    });
+
+    it('does not toggle visibility when disabled', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: 'secret',
+          disabled: true,
+        },
+      });
+
+      const toggleButton = wrapper.find('.text-input__password-toggle');
+      await toggleButton.trigger('click');
+
+      const input = wrapper.find('input');
+      expect(input.attributes('type')).toBe('password');
+    });
+  });
+
+  describe('MinLength real-time validation', () => {
+    it('shows error state when value is shorter than minLength', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          modelValue: '',
+          minLength: 8,
+        },
+      });
+
+      const input = wrapper.find('input');
+      await input.setValue('short');
+      await wrapper.setProps({ modelValue: 'short' });
+
+      expect(wrapper.find('.text-input').attributes('data-status')).toBe(
+        'error',
+      );
+      expect(wrapper.find('.text-input__error').exists()).toBe(true);
+      expect(wrapper.find('.text-input__error').text()).toBe(
+        'Minimum 8 characters required',
+      );
+    });
+
+    it('does not show error when value meets minLength', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          modelValue: '',
+          minLength: 8,
+        },
+      });
+
+      const input = wrapper.find('input');
+      await input.setValue('longvalue123');
+      await wrapper.setProps({ modelValue: 'longvalue123' });
+
+      expect(wrapper.find('.text-input').attributes('data-status')).toBe(
+        'default',
+      );
+      expect(wrapper.find('.text-input__error').exists()).toBe(false);
+    });
+
+    it('does not show error until user starts typing', () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          modelValue: '',
+          minLength: 8,
+        },
+      });
+
+      expect(wrapper.find('.text-input').attributes('data-status')).toBe(
+        'default',
+      );
+      expect(wrapper.find('.text-input__error').exists()).toBe(false);
+    });
+
+    it('does not show error for empty value after typing and clearing', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          modelValue: '',
+          minLength: 8,
+        },
+      });
+
+      const input = wrapper.find('input');
+      await input.setValue('hi');
+      await wrapper.setProps({ modelValue: 'hi' });
+      await input.setValue('');
+      await wrapper.setProps({ modelValue: '' });
+
+      expect(wrapper.find('.text-input').attributes('data-status')).toBe(
+        'default',
+      );
+    });
+
+    it('shows error icon when minLength validation fails', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          modelValue: '',
+          minLength: 8,
+        },
+      });
+
+      const input = wrapper.find('input');
+      await input.setValue('short');
+      await wrapper.setProps({ modelValue: 'short' });
+
+      const statusIcon = wrapper.find('.text-input__status-icon');
+      expect(statusIcon.exists()).toBe(true);
+      expect(statusIcon.attributes('test-id')).toBe(
+        'tds-icon-error-filled-red',
+      );
+    });
+
+    it('parent validation state takes precedence over minLength validation', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          modelValue: '',
+          minLength: 8,
+          validationState: 'success',
+        },
+      });
+
+      const input = wrapper.find('input');
+      await input.setValue('short');
+      await wrapper.setProps({ modelValue: 'short' });
+
+      expect(wrapper.find('.text-input').attributes('data-status')).toBe(
+        'success',
+      );
+    });
+
+    it('works with password type inputs', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'password',
+          modelValue: '',
+          minLength: 8,
+        },
+      });
+
+      const input = wrapper.find('input');
+      await input.setValue('short');
+      await wrapper.setProps({ modelValue: 'short' });
+
+      expect(wrapper.find('.text-input').attributes('data-status')).toBe(
+        'error',
+      );
+      expect(wrapper.find('.text-input__error').text()).toBe(
+        'Minimum 8 characters required',
+      );
+    });
+
+    it('works with email type inputs', async () => {
+      const wrapper = mount(TextInput, {
+        props: {
+          type: 'email',
+          modelValue: '',
+          minLength: 5,
+        },
+      });
+
+      const input = wrapper.find('input');
+      await input.setValue('ab');
+      await wrapper.setProps({ modelValue: 'ab' });
+
+      expect(wrapper.find('.text-input').attributes('data-status')).toBe(
+        'error',
+      );
+    });
+  });
 });

@@ -156,8 +156,8 @@ export const PasswordField: Story = {
     label: 'Password',
     placeholder: 'Create a secure password',
     type: 'password',
-    suffixIcon: 'eye-closed-outline',
-    helperText: 'Use at least 8 characters.',
+    helperText:
+      'Use at least 8 characters. Click the eye icon to toggle visibility.',
   },
   render: (args) => ({
     components: { TextInput },
@@ -216,8 +216,6 @@ export const PasswordConfirmation: Story = {
           placeholder="Create a secure password"
           helper-text="Use at least 8 characters."
           v-model="newPassword"
-          clearable
-          suffix-icon="eye-closed-outline"
         />
         <TextInput
           label="Confirm password"
@@ -227,7 +225,6 @@ export const PasswordConfirmation: Story = {
           :helper-text="confirmHelper"
           :error-message="confirmError"
           v-model="confirmPassword"
-          suffix-icon="eye-closed-outline"
         />
       </div>
     `,
@@ -855,6 +852,143 @@ export const InlineWithButton: Story = {
               icon-name="download-outline"
             />
           </div>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const PasswordVisibilityToggle: Story = {
+  name: 'Password Visibility Toggle',
+  render: () => ({
+    components: { TextInput },
+    setup() {
+      const password1 = ref('secret123');
+      const password2 = ref('mypassword');
+      const password3 = ref('disabled');
+      const password4 = ref('');
+      return { password1, password2, password3, password4 };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 500px;">
+        <h3 style="font-size: 1rem; font-weight: 600; color: var(--color-neutral-500); margin: 0;">
+          Password Visibility Toggle
+        </h3>
+        <p style="font-size: 0.875rem; color: var(--color-neutral-400); margin: 0;">
+          Password inputs automatically include a visibility toggle. Click the eye icon to show/hide the password.
+          The clear button is disabled for password fields.
+        </p>
+
+        <TextInput
+          label="Default password"
+          placeholder="Enter password"
+          type="password"
+          v-model="password1"
+          helper-text="Click the eye icon to toggle visibility"
+        />
+
+        <TextInput
+          label="Password with validation"
+          placeholder="Enter password"
+          type="password"
+          v-model="password2"
+          validation-state="success"
+          helper-text="Password meets all requirements"
+        />
+
+        <TextInput
+          label="Disabled password"
+          placeholder="Enter password"
+          type="password"
+          v-model="password3"
+          disabled
+          helper-text="Toggle is disabled when input is disabled"
+        />
+
+        <TextInput
+          label="Small size"
+          placeholder="Password"
+          type="password"
+          size="small"
+          v-model="password4"
+        />
+
+        <TextInput
+          label="Large size"
+          placeholder="Password"
+          type="password"
+          size="large"
+          v-model="password4"
+        />
+
+        <div style="padding: 1rem; background: var(--color-neutral-100); border-radius: 8px; font-size: 0.875rem;">
+          <strong>Behavior:</strong>
+          <ul style="margin: 0.5rem 0 0 1.25rem; padding: 0;">
+            <li>Eye closed icon: password is hidden (default)</li>
+            <li>Eye open icon: password is visible</li>
+            <li>Clear button is not shown for password inputs</li>
+            <li>Toggle respects disabled state</li>
+          </ul>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const MinLengthValidation: Story = {
+  name: 'MinLength Real-time Validation',
+  render: () => ({
+    components: { TextInput },
+    setup() {
+      const username = ref('');
+      const password = ref('');
+      const bio = ref('');
+      return { username, password, bio };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 500px;">
+        <h3 style="font-size: 1rem; font-weight: 600; color: var(--color-neutral-500); margin: 0;">
+          MinLength Real-time Validation
+        </h3>
+        <p style="font-size: 0.875rem; color: var(--color-neutral-400); margin: 0;">
+          When a <code>minLength</code> prop is set, the input shows an error state in real-time
+          if the typed value is shorter than the minimum. Try typing less than the minimum characters.
+        </p>
+
+        <TextInput
+          label="Username"
+          placeholder="Enter username"
+          v-model="username"
+          :min-length="3"
+          helper-text="Minimum 3 characters"
+        />
+
+        <TextInput
+          label="Password"
+          placeholder="Enter password"
+          type="password"
+          v-model="password"
+          :min-length="8"
+          helper-text="Minimum 8 characters"
+        />
+
+        <TextInput
+          label="Bio"
+          placeholder="Tell us about yourself"
+          v-model="bio"
+          :min-length="10"
+          show-counter
+          helper-text="Minimum 10 characters"
+        />
+
+        <div style="padding: 1rem; background: var(--color-neutral-100); border-radius: 8px; font-size: 0.875rem;">
+          <strong>Behavior:</strong>
+          <ul style="margin: 0.5rem 0 0 1.25rem; padding: 0;">
+            <li>Error appears only after you start typing</li>
+            <li>Empty field does not show error</li>
+            <li>Error clears when minimum length is met</li>
+            <li>Works with all input types</li>
+          </ul>
         </div>
       </div>
     `,
