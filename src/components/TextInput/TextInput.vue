@@ -52,6 +52,18 @@ const emit = defineEmits<{
 const inputRef = ref<globalThis.HTMLInputElement | null>(null);
 const isFocused = ref(false);
 const generatedId = useId();
+const isPasswordVisible = ref(false);
+
+const isPasswordType = computed(() => props.type === 'password');
+const resolvedType = computed(() => {
+  if (isPasswordType.value && isPasswordVisible.value) {
+    return 'text';
+  }
+  return props.type;
+});
+const passwordToggleIcon = computed(() =>
+  isPasswordVisible.value ? 'eye-open-outline' : 'eye-closed-outline',
+);
 
 const resolvedId = computed(() => {
   return props.id && props.id.trim().length > 0 ? props.id : generatedId;
@@ -79,7 +91,12 @@ const showErrorMessage = computed(
 const showHelperText = computed(() => Boolean(props.helperText));
 const hasValue = computed(() => Boolean(sanitizedModelValue.value.length));
 const showClearButton = computed(
-  () => props.clearable && hasValue.value && !props.disabled && !props.readonly,
+  () =>
+    props.clearable &&
+    hasValue.value &&
+    !props.disabled &&
+    !props.readonly &&
+    !isPasswordType.value,
 );
 const hasMaxLength = computed(() => typeof props.maxLength === 'number');
 const shouldShowCounter = computed(
@@ -213,6 +230,11 @@ function handleClear(): void {
   });
 }
 
+function togglePasswordVisibility(): void {
+  if (props.disabled) return;
+  isPasswordVisible.value = !isPasswordVisible.value;
+}
+
 onMounted(() => {
   if (props.autoFocus) {
     nextTick(() => inputRef.value?.focus());
@@ -252,7 +274,7 @@ onMounted(() => {
         class="text-input__control"
         :id="resolvedId"
         :name="props.name"
-        :type="props.type"
+        :type="resolvedType"
         :value="sanitizedModelValue"
         :placeholder="props.placeholder"
         :disabled="props.disabled"
@@ -286,6 +308,18 @@ onMounted(() => {
         @click="handleClear"
       >
         <Icon name="close-outline" :size="1" aria-hidden="true" />
+      </button>
+
+      <button
+        v-else-if="isPasswordType"
+        class="text-input__password-toggle"
+        type="button"
+        :aria-label="isPasswordVisible ? 'Hide password' : 'Show password'"
+        :aria-pressed="isPasswordVisible"
+        :disabled="props.disabled"
+        @click="togglePasswordVisibility"
+      >
+        <Icon :name="passwordToggleIcon" :size="iconSize" aria-hidden="true" />
       </button>
 
       <Icon
@@ -495,7 +529,8 @@ onMounted(() => {
       color: var(--text-input-error-border);
     }
 
-    .text-input__clear {
+    .text-input__clear,
+    .text-input__password-toggle {
       border: none;
       background: none;
       padding: var(--spacing-xs);
@@ -504,9 +539,10 @@ onMounted(() => {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
       transition: background-color 160ms ease;
 
-      &:hover {
+      &:hover:not(:disabled) {
         background-color: color-mix(
           in srgb,
           var(--color-neutral-200) 60%,
@@ -517,6 +553,11 @@ onMounted(() => {
       &:focus-visible {
         outline: 2px solid var(--color-primary);
         outline-offset: 2px;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        color: var(--color-neutral-300);
       }
     }
 
@@ -589,7 +630,8 @@ onMounted(() => {
     transition: none;
 
     .text-input__field,
-    .text-input__clear {
+    .text-input__clear,
+    .text-input__password-toggle {
       transition: none;
     }
   }
