@@ -68,17 +68,17 @@ const titleId = `${uniqueId}-title`;
 const bodyId = `${uniqueId}-body`;
 
 const statusIconMap: Record<OverlayMessageStatus, IconNames> = {
-  success: 'success-filled-green',
-  info: 'info-filled-blue',
-  warning: 'warning-filled-yellow',
-  error: 'error-filled-red',
+  success: 'success-outline',
+  info: 'info-outline',
+  warning: 'exclamation-outline',
+  error: 'error-outline',
 };
 
 const statusColorMap: Record<OverlayMessageStatus, ThemeColor> = {
   success: 'green',
   info: 'blue',
   warning: 'yellow',
-  error: 'red',
+  error: 'primary',
 };
 
 const statusTone = computed<OverlayMessageStatus>(
@@ -388,7 +388,7 @@ const handleUpdateVisible = (value: boolean): void => {
   }
 
   &[data-status='error'] {
-    --overlay-message-accent: var(--color-red);
+    --overlay-message-accent: var(--color-primary);
   }
 }
 
@@ -405,12 +405,6 @@ const handleUpdateVisible = (value: boolean): void => {
 .overlay-message__icon {
   width: 3.5rem;
   height: 3.5rem;
-  border-radius: var(--radius-circle);
-  background: color-mix(
-    in srgb,
-    var(--overlay-message-accent) 15%,
-    transparent
-  );
   display: grid;
   place-items: center;
 }
@@ -418,7 +412,7 @@ const handleUpdateVisible = (value: boolean): void => {
 .overlay-message__headline {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-md);
   align-items: center;
 }
 
@@ -434,7 +428,7 @@ const handleUpdateVisible = (value: boolean): void => {
   font-size: clamp(var(--text-lg), 2vw, var(--text-xl));
   line-height: 1.2;
   font-weight: 600;
-  margin-top: var(--spacing-2xl);
+  margin-top: var(--spacing-xl);
   color: var(--color-secondary);
 }
 
@@ -468,6 +462,7 @@ const handleUpdateVisible = (value: boolean): void => {
   font-size: var(--text-base);
   color: var(--color-neutral-500);
   line-height: 1.5;
+  text-align: center;
 }
 
 .overlay-message__actions {
