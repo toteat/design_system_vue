@@ -53,6 +53,7 @@ const inputRef = ref<globalThis.HTMLInputElement | null>(null);
 const isFocused = ref(false);
 const generatedId = useId();
 const isPasswordVisible = ref(false);
+const isDirty = ref(false);
 
 const isPasswordType = computed(() => props.type === 'password');
 const resolvedType = computed(() => {
@@ -73,7 +74,7 @@ const helperId = computed(() =>
   props.helperText ? `${resolvedId.value}-helper` : undefined,
 );
 const errorId = computed(() =>
-  props.validationState === 'error' && props.errorMessage
+  resolvedValidationState.value === 'error' && resolvedErrorMessage.value
     ? `${resolvedId.value}-error`
     : undefined,
 );
@@ -85,8 +86,39 @@ const describedBy = computed(() => {
   return [helperId.value, errorId.value].filter(Boolean).join(' ') || undefined;
 });
 
+const hasMinLength = computed(
+  () => typeof props.minLength === 'number' && props.minLength > 0,
+);
+const minLengthFailed = computed(() => {
+  if (!hasMinLength.value || !isDirty.value) return false;
+  const currentLength = sanitizedModelValue.value.length;
+  return currentLength > 0 && currentLength < (props.minLength as number);
+});
+const minLengthErrorMessage = computed(() => {
+  if (!minLengthFailed.value) return '';
+  return `Minimum ${props.minLength} characters required`;
+});
+
+const resolvedValidationState = computed(() => {
+  if (props.validationState !== 'default') return props.validationState;
+  if (minLengthFailed.value) return 'error';
+  return 'default';
+});
+
+const resolvedErrorMessage = computed(() => {
+  if (props.validationState === 'error' && props.errorMessage) {
+    return props.errorMessage;
+  }
+  if (minLengthFailed.value) {
+    return minLengthErrorMessage.value;
+  }
+  return '';
+});
+
 const showErrorMessage = computed(
-  () => props.validationState === 'error' && Boolean(props.errorMessage),
+  () =>
+    resolvedValidationState.value === 'error' &&
+    Boolean(resolvedErrorMessage.value),
 );
 const showHelperText = computed(() => Boolean(props.helperText));
 const hasValue = computed(() => Boolean(sanitizedModelValue.value.length));
@@ -117,9 +149,10 @@ const iconSize = computed(() => iconSizeMap[props.size]);
 
 const statusIconName = computed(() => {
   if (!props.showValidationIcon) return undefined;
-  if (props.validationState === 'success') return 'success-filled-green';
-  if (props.validationState === 'warning') return 'warning-outline';
-  if (props.validationState === 'error') return 'error-filled-red';
+  if (resolvedValidationState.value === 'success')
+    return 'success-filled-green';
+  if (resolvedValidationState.value === 'warning') return 'warning-outline';
+  if (resolvedValidationState.value === 'error') return 'error-filled-red';
   return undefined;
 });
 
@@ -182,6 +215,7 @@ function handleInput(event: globalThis.Event): void {
     value = value.replaceAll('-', '');
     if (target) target.value = value;
   }
+  isDirty.value = true;
   updateValue(value);
 }
 
@@ -248,7 +282,7 @@ onMounted(() => {
     :aria-disabled="props.disabled || undefined"
     :aria-readonly="props.readonly || undefined"
     :data-size="props.size"
-    :data-status="props.validationState"
+    :data-status="resolvedValidationState"
     :data-disabled="props.disabled"
     :data-focused="isFocused"
     :data-has-value="hasValue"
@@ -288,7 +322,7 @@ onMounted(() => {
         :pattern="props.pattern"
         :autocomplete="props.autocomplete"
         :inputmode="resolvedInputmode"
-        :aria-invalid="props.validationState === 'error'"
+        :aria-invalid="resolvedValidationState === 'error'"
         :aria-required="props.required || undefined"
         :aria-describedby="describedBy"
         :aria-label="computedAriaLabel"
@@ -354,7 +388,7 @@ onMounted(() => {
         </p>
 
         <p v-if="showErrorMessage" class="text-input__error" :id="errorId">
-          {{ props.errorMessage }}
+          {{ resolvedErrorMessage }}
         </p>
       </div>
 
