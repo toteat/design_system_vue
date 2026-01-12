@@ -85,6 +85,36 @@ export const Warning: Story = {
   }),
 };
 
+export const Error: Story = {
+  args: {
+    status: 'error',
+    eyebrow: 'Error',
+    title: 'No se pudo completar la operación',
+    primaryButtonLabel: 'Intentar de nuevo',
+    secondaryButtonLabel: 'Cancelar',
+  },
+  render: (args) => ({
+    components: { OverlayMessage, Button },
+    setup() {
+      const visible = ref(false);
+      const open = () => {
+        visible.value = true;
+      };
+      return { args, visible, open };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <Button text="Mostrar overlay" variant="primary" @click="open" />
+        <OverlayMessage v-bind="args" v-model:visible="visible">
+          <p>
+            Ocurrió un problema al procesar tu solicitud. Por favor, revisa los datos e intenta nuevamente.
+          </p>
+        </OverlayMessage>
+      </div>
+    `,
+  }),
+};
+
 export const CustomActions: Story = {
   render: () => ({
     components: { OverlayMessage, Button, Icon },
