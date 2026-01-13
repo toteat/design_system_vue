@@ -98,6 +98,29 @@ export type CardProps = {
   flexDirection?: 'row' | 'column';
 };
 
+// Accordion - Expandable content component
+export type AccordionProps = {
+  /**
+   * Label text for the accordion trigger
+   */
+  label?: string;
+  /**
+   * Whether the accordion is expanded
+   * @default false
+   */
+  expanded?: boolean;
+  /**
+   * Whether the accordion is disabled
+   * @default false
+   */
+  disabled?: boolean;
+  /**
+   * Show border around the accordion
+   * @default false
+   */
+  bordered?: boolean;
+};
+
 export type IconContent = {
   path: string;
   viewBox: string;
@@ -181,6 +204,7 @@ export type ThemeColor =
   | 'white'
   | 'black'
   | 'neutral'
+  | 'neutral-50'
   | 'neutral-100'
   | 'neutral-200'
   | 'neutral-300'
@@ -470,4 +494,62 @@ export type DropdownButtonProps = {
   size?: ButtonSize;
   /** Whether the button is disabled */
   disabled?: boolean;
+};
+
+// TreeItem - Individual tree node data
+export type TreeItemData = {
+  id: string | number;
+  label: string;
+  children?: TreeItemData[];
+  disabled?: boolean;
+  /** Additional metadata text displayed after the label */
+  meta?: string;
+};
+
+// TreeList - Hierarchical list component
+export type TreeListProps = {
+  /** Hierarchical tree data */
+  items?: TreeItemData[];
+  /** Enable drag reordering within same level */
+  draggable?: boolean;
+  /** IDs of expanded items (v-model:expandedIds) */
+  expandedIds?: (string | number)[];
+  /** IDs of selected items (v-model:selectedIds) */
+  selectedIds?: (string | number)[];
+  /** Show checkboxes for selection */
+  selectable?: boolean;
+  /** Pixels of indentation per level */
+  indentSize?: number;
+  /** Show border around each item */
+  bordered?: boolean;
+  /** Alternate row background colors (white and neutral-100) */
+  striped?: boolean;
+};
+
+// TreeItem - Individual tree node component
+export type TreeItemProps = {
+  /** The item data */
+  item: TreeItemData;
+  /** Nesting depth for indentation */
+  level?: number;
+  /** Whether children are visible */
+  expanded?: boolean;
+  /** Whether item is selected */
+  selected?: boolean;
+  /** Enable drag handle */
+  draggable?: boolean;
+  /** Show checkbox */
+  selectable?: boolean;
+  /** Show expand/collapse chevron */
+  hasChildren?: boolean;
+  /** Pixels per indent level */
+  indentSize?: number;
+  /** Parent ID for same-level drag constraint */
+  parentId?: string | number | null;
+  /** Show border around item */
+  bordered?: boolean;
+  /** Flat index for striped rows (0-indexed) */
+  flatIndex?: number;
+  /** Enable alternating row colors */
+  striped?: boolean;
 };

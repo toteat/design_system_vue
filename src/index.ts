@@ -26,6 +26,9 @@ import TextInput from './components/TextInput';
 import Overlay from './components/Overlay';
 import OverlayMessage from './components/OverlayMessage';
 import DropdownButton from './components/DropdownButton';
+import TreeItem from './components/TreeItem';
+import TreeList from './components/TreeList';
+import Accordion from './components/Accordion';
 
 // Export all component types
 export type {
@@ -35,6 +38,7 @@ export type {
   ButtonProps,
   SpinnerProps,
   CardProps,
+  AccordionProps,
   IconContent,
   IconProps,
   ThemeColor,
@@ -71,6 +75,9 @@ export type {
   OverlayMessageStatus,
   DropdownButtonProps,
   DropdownButtonMenuItem,
+  TreeListProps,
+  TreeItemProps,
+  TreeItemData,
 } from './types/index.d';
 
 // Export components using export...from syntax
@@ -95,6 +102,9 @@ export { default as TextInput } from './components/TextInput';
 export { default as Overlay } from './components/Overlay';
 export { default as OverlayMessage } from './components/OverlayMessage';
 export { default as DropdownButton } from './components/DropdownButton';
+export { default as TreeItem } from './components/TreeItem';
+export { default as TreeList } from './components/TreeList';
+export { default as Accordion } from './components/Accordion';
 
 // Export Vue plugin
 export const install = (app: App): void => {
@@ -120,6 +130,9 @@ export const install = (app: App): void => {
   app.component('Overlay', Overlay);
   app.component('OverlayMessage', OverlayMessage);
   app.component('DropdownButton', DropdownButton);
+  app.component('TreeItem', TreeItem);
+  app.component('TreeList', TreeList);
+  app.component('Accordion', Accordion);
 };
 
 // Export plugin object
