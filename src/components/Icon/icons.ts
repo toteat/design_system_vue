@@ -168,6 +168,10 @@ export const ICON_DOCUMENT_LIST_OUTLINE = [
   "<path d='M7.524 4.333a.417.417 0 0 0 0 .834h2.708a.417.417 0 0 0 0-.834H7.524ZM7.107 7.678c0-.23.187-.416.417-.416h2.708a.417.417 0 0 1 0 .833H7.524a.417.417 0 0 1-.417-.417ZM7.524 10.167a.417.417 0 1 0 0 .833h2.708a.417.417 0 1 0 0-.833H7.524Z'/><path d='M3 2.667C3 1.747 3.746 1 4.667 1h6.666C12.253 1 13 1.746 13 2.667v10c0 .92-.746 1.666-1.667 1.666H4.667c-.92 0-1.667-.746-1.667-1.666v-10Zm8.333-.834H4.667a.833.833 0 0 0-.834.834v10c0 .46.373.833.834.833h6.666c.46 0 .834-.373.834-.833v-10a.833.833 0 0 0-.834-.834Z'/><path d='M5.5 4.333a.417.417 0 0 0 0 .834h.292a.417.417 0 0 0 0-.834H5.5ZM5.5 7.262a.417.417 0 1 0 0 .833h.292a.417.417 0 0 0 0-.833H5.5ZM5.5 10.167a.417.417 0 1 0 0 .833h.292a.417.417 0 1 0 0-.833H5.5Z'/>",
   '0 0 16 16',
 ];
+export const ICON_DRAG_HANDLE_OUTLINE = [
+  "<circle cx='1' cy='1' r='1' fill='currentColor'/><circle cx='5' cy='1' r='1' fill='currentColor'/><circle cx='1' cy='4' r='1' fill='currentColor'/><circle cx='5' cy='4' r='1' fill='currentColor'/><circle cx='1' cy='7' r='1' fill='currentColor'/><circle cx='5' cy='7' r='1' fill='currentColor'/>",
+  '0 0 6 8',
+];
 export const ICON_ERROR_FILLED_RED = [
   "<path fill='#E12845' fill-rule='evenodd' d='M7 14A7 7 0 1 0 7 0a7 7 0 0 0 0 14ZM3.353 3.044a.571.571 0 0 0-.185.933L6.192 7l-3.024 3.023a.572.572 0 0 0 .809.81L7 7.807l3.024 3.024a.573.573 0 0 0 .808-.809L7.808 7l3.024-3.023a.571.571 0 1 0-.809-.81L7 6.193 3.977 3.168a.571.571 0 0 0-.624-.124Z' clip-rule='evenodd'/>",
   '0 0 14 14',
@@ -549,6 +553,7 @@ export const iconNames = [
   'document-history-alt-outline',
   'document-history-outline',
   'document-list-outline',
+  'drag-handle-outline',
   'error-filled-red',
   'error-outline',
   'exclamation-outline',
