@@ -3,6 +3,12 @@ import '../src/style.css'; // Import global styles
 
 const preview: Preview = {
   parameters: {
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: ['Components', '*'],
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
