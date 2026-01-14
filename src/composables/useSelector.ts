@@ -21,6 +21,8 @@ export interface UseSelectorOptions {
   closeOnSelect?: Ref<boolean>;
   /** When true, disables client-side filtering (backend handles filtering) */
   disableAutofilter?: Ref<boolean>;
+  /** Reference to teleported dropdown element (for appendToBody) */
+  teleportedDropdownRef?: Ref<HTMLElement | null>;
   /** Emit functions */
   emit: {
     open: () => void;
@@ -63,6 +65,7 @@ export function useSelector(options: UseSelectorOptions): UseSelectorReturn {
     searchable = ref(true),
     closeOnSelect: _closeOnSelect = ref(true),
     disableAutofilter = ref(false),
+    teleportedDropdownRef,
     emit,
   } = options;
 
@@ -76,7 +79,7 @@ export function useSelector(options: UseSelectorOptions): UseSelectorReturn {
     () => searchQueryProp?.value ?? internalSearchQuery.value,
   );
 
-  const setSearchQuery = (value: string) => {
+  const setSearchQuery = (value: string): void => {
     internalSearchQuery.value = value;
     emit.updateSearchQuery(value);
   };
@@ -99,7 +102,7 @@ export function useSelector(options: UseSelectorOptions): UseSelectorReturn {
   });
 
   // Open dropdown
-  const openDropdown = () => {
+  const openDropdown = (): void => {
     if (!isOpen.value) {
       isOpen.value = true;
       emit.open();
@@ -107,7 +110,7 @@ export function useSelector(options: UseSelectorOptions): UseSelectorReturn {
   };
 
   // Close dropdown
-  const closeDropdown = () => {
+  const closeDropdown = (): void => {
     if (isOpen.value) {
       isOpen.value = false;
       setSearchQuery('');
@@ -119,7 +122,7 @@ export function useSelector(options: UseSelectorOptions): UseSelectorReturn {
   };
 
   // Toggle dropdown
-  const toggleDropdown = () => {
+  const toggleDropdown = (): void => {
     if (isOpen.value) {
       closeDropdown();
     } else {
@@ -128,21 +131,22 @@ export function useSelector(options: UseSelectorOptions): UseSelectorReturn {
   };
 
   // Handle input focus
-  const handleInputFocus = () => {
+  const handleInputFocus = (): void => {
     openDropdown();
   };
 
   // Check if option is disabled
-  const isOptionDisabled = (option: MultiselectOption) => {
+  const isOptionDisabled = (option: MultiselectOption): boolean => {
     return option.disabled ?? false;
   };
 
   // Handle click outside to close dropdown
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.value &&
-      !dropdownRef.value.contains(event.target as Node)
-    ) {
+  const handleClickOutside = (event: MouseEvent): void => {
+    const target = event.target as Node;
+    const isInsideDropdown = dropdownRef.value?.contains(target);
+    const isInsideTeleported = teleportedDropdownRef?.value?.contains(target);
+
+    if (dropdownRef.value && !isInsideDropdown && !isInsideTeleported) {
       closeDropdown();
     }
   };

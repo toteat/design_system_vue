@@ -1,5 +1,4 @@
 <script setup lang="ts">
-/* global MouseEvent, Node, document */
 import { ref, computed, toRef, reactive, watch, onUnmounted } from 'vue';
 import type { MultiselectProps, MultiselectOption } from '@/types';
 import { useSelector } from '@/composables/useSelector';
@@ -57,6 +56,9 @@ const shouldShowMeta = computed(
   () => showHelperText.value || showErrorMessage.value,
 );
 
+const isDropdownAnimating = ref(false);
+const teleportedDropdownRef = ref<HTMLElement | null>(null);
+
 // Use shared selector composable
 const {
   isOpen,
@@ -73,15 +75,13 @@ const {
   searchQueryProp: toRef(props, 'searchQuery'),
   searchable: toRef(props, 'searchable'),
   closeOnSelect: toRef(props, 'closeOnSelect'),
+  teleportedDropdownRef,
   emit: {
     open: () => emit('open'),
     close: () => emit('close'),
     updateSearchQuery: (value: string) => emit('update:searchQuery', value),
   },
 });
-
-const isDropdownAnimating = ref(false);
-const teleportedDropdownRef = ref<HTMLElement | null>(null);
 
 // Computed property for selected values
 const selectedValues = computed(() => {
@@ -259,39 +259,21 @@ const updateDropdownPosition = (): void => {
   dropdownPosition.width = rect.width;
 };
 
-// Custom click outside handler for teleported dropdown
-const handleTeleportedClickOutside = (event: MouseEvent): void => {
-  if (!props.appendToBody || !isOpen.value) return;
-
-  const target = event.target as Node;
-  const isInsideTeleported = teleportedDropdownRef.value?.contains(target);
-
-  // If click is inside the teleported dropdown, stop propagation to prevent
-  // the useSelector's click outside handler from closing the dropdown
-  if (isInsideTeleported) {
-    event.stopPropagation();
-  }
-};
-
 // Watch isOpen to add/remove event listeners for position updates
 watch(isOpen, (open) => {
   if (open && props.appendToBody) {
     updateDropdownPosition();
     window.addEventListener('scroll', updateDropdownPosition, true);
     window.addEventListener('resize', updateDropdownPosition);
-    // Add click outside handler for teleported dropdown
-    document.addEventListener('click', handleTeleportedClickOutside, true);
   } else {
     window.removeEventListener('scroll', updateDropdownPosition, true);
     window.removeEventListener('resize', updateDropdownPosition);
-    document.removeEventListener('click', handleTeleportedClickOutside, true);
   }
 });
 
 onUnmounted(() => {
   window.removeEventListener('scroll', updateDropdownPosition, true);
   window.removeEventListener('resize', updateDropdownPosition);
-  document.removeEventListener('click', handleTeleportedClickOutside, true);
 });
 </script>
 
