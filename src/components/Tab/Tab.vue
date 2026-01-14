@@ -90,17 +90,19 @@ const currentTab = computed(() => {
 }
 
 @media screen and (width <= 1024px) {
-  .tot-ds-root .grouped-buttons {
-    &[data-full-width='true'] {
-      gap: 1rem;
+  :deep(.tot-ds-root) {
+    &.grouped-buttons {
+      &[data-full-width='true'] {
+        gap: 1rem;
 
-      .grouped-buttons__button {
-        min-height: 2.2rem;
-        border-radius: var(--radius-xl);
-      }
+        .grouped-buttons__button {
+          min-height: 2.2rem;
+          border-radius: var(--radius-xl);
+        }
 
-      .grouped-buttons__button.btn-outline-gray {
-        background-color: var(--color-neutral-100);
+        .grouped-buttons__button.btn-outline-gray {
+          background-color: var(--color-neutral-100);
+        }
       }
     }
   }
