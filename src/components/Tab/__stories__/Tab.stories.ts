@@ -32,9 +32,10 @@ const meta: Meta<typeof Tab> = {
   },
   args: {
     tabs: [
-      { value: 'tab1', label: 'Tab 1' },
-      { value: 'tab2', label: 'Tab 2' },
-      { value: 'tab3', label: 'Tab 3' },
+      { value: 'tab1', label: 'Titulo Tab 1' },
+      { value: 'tab2', label: 'Titulo Tab 2' },
+      { value: 'tab3', label: 'Titulo Tab 3' },
+      { value: 'tab4', label: 'Titulo Tab 4' },
     ],
     selectedTab: 'tab1',
     size: 'medium',

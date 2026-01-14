@@ -34,18 +34,23 @@ const validatedSelectedButton = computed(() => {
   return props.selectedButton;
 });
 
-const handleSelect = (value: string | number, optionDisabled: boolean) => {
+const handleSelect = (
+  value: string | number,
+  optionDisabled: boolean,
+): void => {
   if (props.disabled || optionDisabled) return;
 
   emit('update:selectedButton', value);
   emit('change', value);
 };
 
-const isSelected = (value: string | number) => {
+const isSelected = (value: string | number): boolean => {
   return validatedSelectedButton.value === value;
 };
 
-const getGroupPosition = (index: number) => {
+const getGroupPosition = (
+  index: number,
+): 'standalone' | 'left' | 'center' | 'right' => {
   const totalOptions = props.options.length;
   if (totalOptions === 1) return 'standalone';
   if (index === 0) return 'left';
@@ -90,9 +95,12 @@ const getGroupPosition = (index: number) => {
 
     &[data-full-width='true'] {
       width: 100%;
+      overflow-x: auto;
 
       & .grouped-buttons__button {
         flex: 1;
+        flex-shrink: 0;
+        min-width: max-content;
       }
     }
 
