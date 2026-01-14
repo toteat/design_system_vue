@@ -1,6 +1,6 @@
 {
   "name": "@toteat-eng/design-system-vue",
-  "version": "0.1.41",
+  "version": "0.1.42",
   "author": "Mauricio Antunez <mantunez@toteat.com> (https://toteat.com)",
   "description": "The Toteat Design System is a collection of components and utilities that help you build consistent and beautiful user interfaces. Build primarely to solve Toteat needs.",
   "type": "module",
@@ -30,11 +30,6 @@
       "./Accordion": {
         "types": "./dist/Accordion/index.d.ts",
         "import": "./dist/Accordion/index.js",
-        "require": "./dist/design-system-vue.umd.js"
-      },
-      "./AccordionGroup": {
-        "types": "./dist/AccordionGroup/index.d.ts",
-        "import": "./dist/AccordionGroup/index.js",
         "require": "./dist/design-system-vue.umd.js"
       },
       "./BackgroundWrapper": {

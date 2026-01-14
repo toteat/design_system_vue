@@ -27,6 +27,12 @@
       {
         "message": "Expected class selector to be kebab-case or BEM notation (block__element--modifier)"
       }
+    ],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["deep", "global", "slotted"]
+      }
     ]
   }
 }

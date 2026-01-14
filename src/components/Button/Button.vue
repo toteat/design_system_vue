@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ButtonProps } from '@/types';
+import type { ButtonProps, ThemeColor } from '@/types';
 import Spinner from '../Spinner/Spinner.vue';
 import Icon from '../Icon/Icon.vue';
 import { computed } from 'vue';
@@ -34,21 +34,23 @@ const BUTTON_SIZE_MAP = {
   tiny: 1,
 } as const;
 
-const ICON_COLOR_MAP = {
+const ICON_COLOR_MAP: Record<string, ThemeColor | undefined> = {
   outline: undefined, // Special case, handled in CSS
   'outline-gray': undefined, // Special case, handled in CSS
   primary: 'white',
   secondary: 'white',
   text: 'black',
   'neutral-dark': 'white',
-} as const;
+};
 
 // Helper function to get spinner dimension based on button size
-const getSizeDimension = (buttonSize: ButtonProps['size']) => {
+const getSizeDimension = (buttonSize: ButtonProps['size']): number => {
   return buttonSize ? BUTTON_SIZE_MAP[buttonSize] : BUTTON_SIZE_MAP.small;
 };
 
-const getIconColor = (buttonVariant: ButtonProps['variant']) => {
+const getIconColor = (
+  buttonVariant: ButtonProps['variant'],
+): ThemeColor | undefined => {
   return buttonVariant ? ICON_COLOR_MAP[buttonVariant] : ICON_COLOR_MAP.primary;
 };
 
@@ -148,29 +150,21 @@ const buttonClasses = computed(() => [
       border-radius: var(--radius-circle);
 
       &.btn-size-tiny {
-        width: 2rem;
-        height: 2rem;
         min-width: 2rem;
         min-height: 2rem;
       }
 
       &.btn-size-small {
-        width: 2.75rem;
-        height: 2.75rem;
         min-width: 2.75rem;
         min-height: 2.75rem;
       }
 
       &.btn-size-medium {
-        width: 3.75rem;
-        height: 3.75rem;
         min-width: 3.75rem;
         min-height: 3.75rem;
       }
 
       &.btn-size-large {
-        width: 5rem;
-        height: 5rem;
         min-width: 5rem;
         min-height: 5rem;
       }

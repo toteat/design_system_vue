@@ -1,4 +1,4 @@
 [tools]
-go = "1.24"
+go = "1.25.5"
 java = "openjdk-17"
-node = "20"
+node = "24"
