@@ -90,6 +90,19 @@ const handleArrowKey = (
 const handleKeydown = (event: globalThis.KeyboardEvent): void => {
   if (props.item.disabled) return;
 
+  // Ignore keyboard events from interactive elements (inputs, textareas, etc.)
+  const target = event.target as {
+    tagName?: string;
+    isContentEditable?: boolean;
+  };
+  const isInteractiveElement =
+    target.tagName === 'INPUT' ||
+    target.tagName === 'TEXTAREA' ||
+    target.tagName === 'SELECT' ||
+    target.isContentEditable;
+
+  if (isInteractiveElement) return;
+
   switch (event.key) {
     case 'Enter':
     case ' ':
