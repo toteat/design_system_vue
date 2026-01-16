@@ -32,11 +32,6 @@
         "import": "./dist/Accordion/index.js",
         "require": "./dist/design-system-vue.umd.js"
       },
-      "./AccordionGroup": {
-        "types": "./dist/AccordionGroup/index.d.ts",
-        "import": "./dist/AccordionGroup/index.js",
-        "require": "./dist/design-system-vue.umd.js"
-      },
       "./BackgroundWrapper": {
         "types": "./dist/BackgroundWrapper/index.d.ts",
         "import": "./dist/BackgroundWrapper/index.js",
