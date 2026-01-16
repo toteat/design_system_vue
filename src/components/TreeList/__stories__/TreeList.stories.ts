@@ -407,6 +407,7 @@ export const WithEditableInputs: Story = {
           v-model:expanded-ids="expandedIds"
           draggable
           bordered
+          striped
           :indent-size="24"
           @reorder="handleReorder"
         >
