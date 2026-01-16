@@ -283,6 +283,10 @@ const handleDrop = (event: globalThis.DragEvent): void => {
     /* Striped rows - odd rows get alternate background */
     &[data-odd-row='true'] > .tree-item__content {
       background-color: var(--color-neutral-100);
+
+      &:hover {
+        background-color: var(--color-neutral-200);
+      }
     }
 
     .tree-item__content {
@@ -316,6 +320,7 @@ const handleDrop = (event: globalThis.DragEvent): void => {
       margin-bottom: var(--spacing-xs);
       width: 100%;
       box-sizing: border-box;
+      overflow: hidden;
 
       > .tree-item__content {
         padding-left: var(--spacing-md);
