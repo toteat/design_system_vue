@@ -67,6 +67,11 @@
         "import": "./dist/GroupedButtons/index.js",
         "require": "./dist/design-system-vue.umd.js"
       },
+      "./Header": {
+        "types": "./dist/Header/index.d.ts",
+        "import": "./dist/Header/index.js",
+        "require": "./dist/design-system-vue.umd.js"
+      },
       "./Icon": {
         "types": "./dist/Icon/index.d.ts",
         "import": "./dist/Icon/index.js",

@@ -553,3 +553,10 @@ export type TreeItemProps = {
   /** Enable alternating row colors */
   striped?: boolean;
 };
+
+export type HeaderProps = {
+  headers?: Array<{
+    title: string;
+    description?: string;
+  }>;
+};
