@@ -559,4 +559,5 @@ export type HeaderProps = {
     title: string;
     description?: string;
   }>;
+  spaceBetween?: boolean;
 };

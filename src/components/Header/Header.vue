@@ -3,11 +3,15 @@ import type { HeaderProps } from '@/types';
 
 const props = withDefaults(defineProps<HeaderProps>(), {
   headers: () => [],
+  spaceBetween: false,
 });
 </script>
 
 <template>
-  <section class="tot-ds-root header">
+  <section
+    class="tot-ds-root header"
+    :class="{ 'header--space-between': props.spaceBetween }"
+  >
     <div v-for="(header, _) in props.headers" :key="_" class="header__item">
       <p class="header__title">
         {{ header.title }}
@@ -31,6 +35,10 @@ const props = withDefaults(defineProps<HeaderProps>(), {
   border: 1px solid var(--color-neutral-200);
   border-radius: var(--radius-lg);
   background-color: var(--color-neutral-100);
+}
+
+.header--space-between {
+  justify-content: space-between;
 }
 
 .header__item {

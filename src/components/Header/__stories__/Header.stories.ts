@@ -10,6 +10,11 @@ const meta: Meta<typeof Header> = {
       control: 'object',
       description: 'Array of header items with title and optional description',
     },
+    spaceBetween: {
+      control: 'boolean',
+      description:
+        'Apply justify-content: space-between to the header container',
+    },
   },
 };
 
@@ -104,6 +109,26 @@ export const ManyHeaders: Story = {
         description: 'Fifth column',
       },
     ],
+  },
+};
+
+export const SpaceBetween: Story = {
+  args: {
+    headers: [
+      {
+        title: 'Header 1',
+        description: 'Description 1',
+      },
+      {
+        title: 'Header 2',
+        description: 'Description 2',
+      },
+      {
+        title: 'Header 3',
+        description: 'Description 3',
+      },
+    ],
+    spaceBetween: true,
   },
 };
 

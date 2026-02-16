@@ -249,6 +249,57 @@ describe('Header Component', () => {
     });
   });
 
+  describe('Props - SpaceBetween', () => {
+    it('does not apply space-between class by default', () => {
+      const wrapper = mount(Header, {
+        props: {
+          headers: [{ title: 'Test' }],
+        },
+      });
+      const section = wrapper.find('section');
+      expect(section.classes()).not.toContain('header--space-between');
+    });
+
+    it('does not apply space-between class when spaceBetween is false', () => {
+      const wrapper = mount(Header, {
+        props: {
+          headers: [{ title: 'Test' }],
+          spaceBetween: false,
+        },
+      });
+      const section = wrapper.find('section');
+      expect(section.classes()).not.toContain('header--space-between');
+    });
+
+    it('applies space-between class when spaceBetween is true', () => {
+      const wrapper = mount(Header, {
+        props: {
+          headers: [{ title: 'Test' }],
+          spaceBetween: true,
+        },
+      });
+      const section = wrapper.find('section');
+      expect(section.classes()).toContain('header--space-between');
+    });
+
+    it('toggles space-between class reactively', async () => {
+      const wrapper = mount(Header, {
+        props: {
+          headers: [{ title: 'Test' }],
+          spaceBetween: false,
+        },
+      });
+      const section = wrapper.find('section');
+      expect(section.classes()).not.toContain('header--space-between');
+
+      await wrapper.setProps({ spaceBetween: true });
+      expect(section.classes()).toContain('header--space-between');
+
+      await wrapper.setProps({ spaceBetween: false });
+      expect(section.classes()).not.toContain('header--space-between');
+    });
+  });
+
   describe('Container Structure', () => {
     it('renders items inside section with proper classes', () => {
       const wrapper = mount(Header, {
