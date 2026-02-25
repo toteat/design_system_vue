@@ -388,11 +388,14 @@ export type TabItem = {
   content?: () => unknown; // Render function that returns VNode
 };
 
+export type TabSelectedColor = 'black' | 'arena' | 'gray' | 'red';
+
 export type TabProps = {
   tabs: TabItem[];
   selectedTab?: string | number;
   size?: ButtonSize;
   fullWidth?: boolean;
+  selectedColor?: TabSelectedColor;
 };
 
 // BackgroundWrapper - Fixed styling, no props
