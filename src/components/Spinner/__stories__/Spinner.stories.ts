@@ -1,7 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Spinner from '../Spinner.vue';
 
-const sizeOptions = [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8];
+const sizeOptions = [
+  'tiny',
+  'small',
+  'medium',
+  'large',
+  'very-large',
+  'very-very-large',
+  'ridiculously-large',
+] as const;
 
 const meta: Meta<typeof Spinner> = {
   title: 'Components/Spinner',
@@ -14,12 +22,12 @@ const meta: Meta<typeof Spinner> = {
   argTypes: {
     size: {
       control: { type: 'select' },
-      options: sizeOptions,
+      options: [...sizeOptions],
       description:
-        'Size is defined by the size number * 16px, so 1 = 16px, 1.5 = 24px, 2 = 32px, etc.',
+        'Predefined size (same scale as Button/Checkbox). Controls spinner dimensions.',
       table: {
-        type: { summary: 'number' },
-        defaultValue: { summary: '1' },
+        type: { summary: 'ComponentSize' },
+        defaultValue: { summary: "'medium'" },
       },
     },
     color: {
@@ -32,6 +40,10 @@ const meta: Meta<typeof Spinner> = {
       },
     },
   },
+  args: {
+    size: 'medium',
+    color: 'neutral-300',
+  },
   tags: ['autodocs'],
 };
 
@@ -41,14 +53,14 @@ type Story = StoryObj<typeof Spinner>;
 
 export const Default: Story = {
   args: {
-    size: 1,
+    size: 'medium',
     color: 'neutral-300',
   },
 };
 
 export const Primary: Story = {
   args: {
-    size: 2,
+    size: 'medium',
     color: 'primary',
   },
 };
@@ -56,17 +68,16 @@ export const Primary: Story = {
 export const AllSizes: Story = {
   render: () => ({
     components: { Spinner },
+    setup() {
+      return { sizeOptions };
+    },
     template: `
       <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
-        <div v-for="size in [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          8,
-        ]" :key="size" style="display: flex; flex-direction: column; align-items: center;">
+        <div
+          v-for="size in sizeOptions"
+          :key="size"
+          style="display: flex; flex-direction: column; align-items: center;"
+        >
           <Spinner :size="size" color="neutral-300" />
           <span style="margin-top: 0.5rem; font-size: 0.875rem;">{{ size }}</span>
         </div>
@@ -81,11 +92,11 @@ export const NeutralAndPrimary: Story = {
     template: `
       <div style="display: flex; gap: 3rem; align-items: center;">
         <div style="display: flex; flex-direction: column; align-items: center;">
-          <Spinner :size="3" color="neutral-300" />
+          <Spinner size="medium" color="neutral-300" />
           <span style="margin-top: 0.5rem; font-size: 0.875rem;">neutral-300</span>
         </div>
         <div style="display: flex; flex-direction: column; align-items: center;">
-          <Spinner :size="3" color="primary" />
+          <Spinner size="medium" color="primary" />
           <span style="margin-top: 0.5rem; font-size: 0.875rem;">primary</span>
         </div>
       </div>
