@@ -31,8 +31,9 @@ const meta: Meta<typeof Tab> = {
     },
     selectedColor: {
       control: 'select',
-      options: ['black', 'arena', 'gray', 'red'],
-      description: 'Background color of selected pill tab',
+      options: ['primary', 'secondary', 'tertiary', 'neutral-100'],
+      description:
+        'Background color of selected pill (DS tokens from style.css)',
     },
   },
   args: {
@@ -45,7 +46,7 @@ const meta: Meta<typeof Tab> = {
     selectedTab: 'tab1',
     size: 'medium',
     fullWidth: true,
-    selectedColor: 'black',
+    selectedColor: 'secondary',
   },
 };
 

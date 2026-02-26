@@ -388,7 +388,11 @@ export type TabItem = {
   content?: () => unknown; // Render function that returns VNode
 };
 
-export type TabSelectedColor = 'black' | 'arena' | 'gray' | 'red';
+export type TabSelectedColor =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'neutral-100';
 
 export type TabProps = {
   tabs: TabItem[];

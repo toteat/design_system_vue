@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import type { TabProps } from '@/types';
-import Icon from '../Icon/Icon.vue';
-import { COMPONENT_SIZE_MAP } from '@/constants';
+import type { GroupedButtonsOption } from '@/types';
+import GroupedButtons from '../GroupedButtons/GroupedButtons.vue';
 
 const props = withDefaults(defineProps<TabProps>(), {
   selectedTab: undefined,
   size: 'medium',
   fullWidth: true,
-  selectedColor: 'black',
+  selectedColor: 'secondary',
 });
 
 const emit = defineEmits<{
@@ -17,12 +17,16 @@ const emit = defineEmits<{
   'tab-click': [tab: { value: string | number; label: string }];
 }>();
 
-// Icon size from design system constant (rem) - same pattern as Checkbox
-const iconSize = computed(
-  () => COMPONENT_SIZE_MAP[props.size] ?? COMPONENT_SIZE_MAP.medium,
+// Map TabItem[] to GroupedButtonsOption[] for GroupedButtons
+const tabOptions = computed<GroupedButtonsOption[]>(() =>
+  props.tabs.map((tab) => ({
+    value: tab.value,
+    label: tab.label,
+    disabled: tab.disabled,
+    icon: tab.icon,
+  })),
 );
 
-// Initialize internal value
 const internalValue = ref<string | number | undefined>(undefined);
 
 const currentValue = computed({
@@ -50,55 +54,23 @@ const currentValue = computed({
 const currentTab = computed(() => {
   return props.tabs.find((tab) => tab.value === currentValue.value);
 });
-
-const isSelected = (value: string | number): boolean =>
-  currentValue.value === value;
-
-function selectTab(tab: (typeof props.tabs)[0]): void {
-  if (tab.disabled) return;
-  currentValue.value = tab.value;
-}
-
-function pillIconColor(
-  tab: (typeof props.tabs)[0],
-): 'white' | 'secondary' | 'neutral-500' {
-  if (!isSelected(tab.value)) return 'neutral-500';
-  if (props.selectedColor === 'black' || props.selectedColor === 'red')
-    return 'white';
-  return 'secondary';
-}
 </script>
 
 <template>
   <div class="tot-ds-root tab-component">
-    <!-- Tab Navigation - Pills style -->
+    <!-- Tab Navigation: GroupedButtons inside pills-style wrapper -->
     <div
-      class="tot-ds-root tab-component__navigation"
+      class="tab-component__navigation"
       :data-full-width="fullWidth"
       :data-size="size"
       :data-selected-color="selectedColor"
     >
-      <button
-        v-for="tab in tabs"
-        :key="tab.value"
-        type="button"
-        class="tab-component__pill"
-        :class="{
-          'tab-component__pill-selected': isSelected(tab.value),
-          'tab-component__pill-disabled': tab.disabled,
-        }"
-        :disabled="tab.disabled"
-        @click="() => selectTab(tab)"
-      >
-        <Icon
-          v-if="tab.icon"
-          :name="tab.icon"
-          :size="iconSize"
-          :color="pillIconColor(tab)"
-          class="tab-component__pill-icon"
-        />
-        {{ tab.label }}
-      </button>
+      <GroupedButtons
+        :options="tabOptions"
+        v-model:selected-button="currentValue"
+        :size="size"
+        :full-width="fullWidth"
+      />
     </div>
 
     <!-- Tab Content -->
@@ -133,68 +105,82 @@ function pillIconColor(
         width: 100%;
         overflow-x: auto;
         gap: var(--spacing-md);
+      }
 
-        & .tab-component__pill {
-          flex: 1;
-          min-width: max-content;
+      /* Pills wrapper: make GroupedButtons fieldset fit the container */
+      :deep(.grouped-buttons) {
+        display: flex;
+        gap: var(--spacing-sm);
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: transparent;
+        width: 100%;
+        min-width: 0;
+
+        &[data-full-width='true'] {
+          & .grouped-buttons__button {
+            flex: 1;
+            min-width: max-content;
+          }
         }
       }
 
-      .tab-component__pill {
+      /* Pill-style buttons: override GroupedButtons/Button default look */
+      :deep(.grouped-buttons__button) {
         flex-shrink: 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--spacing-xs);
+        min-height: 3.75rem;
         padding: var(--spacing-sm) var(--spacing-xl);
-        font-family: inherit;
-        font-weight: 500;
-        border: none;
         border-radius: var(--radius-pill);
-        cursor: pointer;
+        border: none;
+        font-weight: 500;
+        background-color: transparent;
+        color: var(--color-neutral-500);
         transition:
           background-color 0.15s ease,
           color 0.15s ease;
-        background-color: transparent;
-        color: var(--color-neutral-500);
 
-        &.tab-component__pill-selected {
-          background-color: var(--color-secondary);
-          color: var(--color-white);
+        /* Unselected: no border, transparent */
+        &.btn-outline-gray {
+          border-color: transparent;
+          background-color: transparent;
+          color: var(--color-neutral-500);
         }
 
-        &.tab-component__pill-disabled {
+        /* Disabled */
+        &:disabled {
           background-color: var(--color-neutral-100);
           color: var(--color-neutral-300);
-          cursor: not-allowed;
-        }
-
-        .tab-component__pill-icon {
-          flex-shrink: 0;
+          filter: none;
         }
       }
 
-      /* Font-size comes from global .tot-ds-root[data-size] in style.css; pills inherit. */
-      /* Min-height and padding aligned with Button sizes. */
-      &[data-size='tiny'] .tab-component__pill {
-        min-height: 2rem;
-        padding: var(--spacing-xs) var(--spacing-md);
-      }
+      /* Selected pill colors applied via rules below (data-selected-color on this wrapper) */
+    }
 
-      &[data-size='small'] .tab-component__pill {
-        min-height: 2.75rem;
-        padding: var(--spacing-sm) var(--spacing-md);
-      }
+    /* Size variants - min-height and padding aligned with Button sizes */
+    .tab-component__navigation[data-size='tiny']
+      :deep(.grouped-buttons__button) {
+      min-height: 2rem;
+      padding: var(--spacing-xs) var(--spacing-md);
+    }
 
-      &[data-size='medium'] .tab-component__pill {
-        min-height: 3.75rem;
-        padding: var(--spacing-sm) var(--spacing-lg);
-      }
+    .tab-component__navigation[data-size='small']
+      :deep(.grouped-buttons__button) {
+      min-height: 2.75rem;
+      padding: var(--spacing-sm) var(--spacing-md);
+    }
 
-      &[data-size='large'] .tab-component__pill {
-        min-height: 5rem;
-        padding: var(--spacing-sm) var(--spacing-xl);
-      }
+    .tab-component__navigation[data-size='medium']
+      :deep(.grouped-buttons__button) {
+      min-height: 3.75rem;
+      padding: var(--spacing-sm) var(--spacing-lg);
+    }
+
+    .tab-component__navigation[data-size='large']
+      :deep(.grouped-buttons__button) {
+      min-height: 5rem;
+      padding: var(--spacing-sm) var(--spacing-xl);
     }
 
     .tab-component__content {
@@ -208,42 +194,53 @@ function pillIconColor(
   }
 }
 
-/* Override selected color based on parent data attribute - outside nested block for correct specificity */
+/* Selected color overrides: data-selected-color is on .tab-component__navigation */
 .tot-ds-root.tab-component
-  .tab-component__navigation[data-selected-color='black']
-  .tab-component__pill.tab-component__pill-selected {
-  background-color: var(--color-secondary);
-  color: var(--color-white);
-}
-
-.tot-ds-root.tab-component
-  .tab-component__navigation[data-selected-color='arena']
-  .tab-component__pill.tab-component__pill-selected {
-  background-color: var(--color-tertiary);
-  color: var(--color-secondary);
-}
-
-.tot-ds-root.tab-component
-  .tab-component__navigation[data-selected-color='gray']
-  .tab-component__pill.tab-component__pill-selected {
-  background-color: var(--color-neutral-100);
-  color: var(--color-secondary);
-}
-
-.tot-ds-root.tab-component
-  .tab-component__navigation[data-selected-color='red']
-  .tab-component__pill.tab-component__pill-selected {
+  .tab-component__navigation[data-selected-color='primary']
+  :deep(.grouped-buttons__button.btn-secondary) {
   background-color: var(--color-primary);
   color: var(--color-white);
+  border-color: transparent;
+}
+
+.tot-ds-root.tab-component
+  .tab-component__navigation[data-selected-color='secondary']
+  :deep(.grouped-buttons__button.btn-secondary) {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+  border-color: transparent;
+}
+
+.tot-ds-root.tab-component
+  .tab-component__navigation[data-selected-color='tertiary']
+  :deep(.grouped-buttons__button.btn-secondary) {
+  background-color: var(--color-tertiary);
+  color: var(--color-secondary);
+  border-color: transparent;
+}
+
+.tot-ds-root.tab-component
+  .tab-component__navigation[data-selected-color='neutral-100']
+  :deep(.grouped-buttons__button.btn-secondary) {
+  background-color: var(--color-neutral-100);
+  color: var(--color-secondary);
+  border-color: transparent;
+}
+
+/* Icon color for tertiary/neutral-100 (Button uses white for secondary variant) */
+.tot-ds-root.tab-component
+  .tab-component__navigation[data-selected-color='tertiary']
+  :deep(.grouped-buttons__button.btn-secondary svg),
+.tot-ds-root.tab-component
+  .tab-component__navigation[data-selected-color='neutral-100']
+  :deep(.grouped-buttons__button.btn-secondary svg) {
+  fill: var(--color-secondary);
 }
 
 @media screen and (width <= 1024px) {
-  :deep(.tot-ds-root) {
-    &.tab-component {
-      .tab-component__navigation[data-full-width='true'] {
-        gap: var(--spacing-lg);
-      }
-    }
+  .tot-ds-root.tab-component
+    .tab-component__navigation[data-full-width='true'] {
+    gap: var(--spacing-lg);
   }
 }
 </style>
