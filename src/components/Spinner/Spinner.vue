@@ -2,17 +2,15 @@
 import type { SpinnerProps } from '@/types';
 
 const props = withDefaults(defineProps<SpinnerProps>(), {
-  size: 4,
+  size: 'medium',
   color: 'neutral-300',
 });
 </script>
 
 <template>
   <svg
-    class="tot-ds-root spinner" :class="[
-      `spinner--size-${String(props.size).replace('.', '-')}`,
-      `spinner--${props.color}`,
-    ]"
+    class="tot-ds-root spinner"
+    :class="[`spinner--size-${props.size}`, `spinner--${props.color}`]"
     viewBox="0 0 100 100"
     aria-label="Loading"
     test-id="tds-spinner"
@@ -54,49 +52,40 @@ const props = withDefaults(defineProps<SpinnerProps>(), {
     fill: var(--color-primary);
   }
 
-  &.spinner--size-1 {
+  /* Predefined sizes (same scale as Button/Checkbox) - DS tokens where possible */
+  &.spinner--size-tiny {
     width: 1rem;
     height: 1rem;
   }
 
-  &.spinner--size-1-5 {
+  &.spinner--size-small {
     width: 1.5rem;
     height: 1.5rem;
   }
 
-  &.spinner--size-2 {
+  &.spinner--size-medium {
     width: 2rem;
     height: 2rem;
   }
 
-  &.spinner--size-2-5 {
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
-  &.spinner--size-3 {
+  &.spinner--size-large {
     width: 3rem;
     height: 3rem;
   }
 
-  &.spinner--size-4 {
+  &.spinner--size-very-large {
     width: 4rem;
     height: 4rem;
   }
 
-  &.spinner--size-5 {
+  &.spinner--size-very-very-large {
     width: 5rem;
     height: 5rem;
   }
 
-  &.spinner--size-6 {
+  &.spinner--size-ridiculously-large {
     width: 6rem;
     height: 6rem;
-  }
-
-  &.spinner--size-8 {
-    width: 8rem;
-    height: 8rem;
   }
 }
 
