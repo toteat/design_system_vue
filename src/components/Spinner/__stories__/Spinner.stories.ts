@@ -22,6 +22,15 @@ const meta: Meta<typeof Spinner> = {
         defaultValue: { summary: '1' },
       },
     },
+    color: {
+      control: { type: 'select' },
+      options: ['gray', 'red'],
+      description: 'Arc color variant (gradient from color to transparent).',
+      table: {
+        type: { summary: "'gray' | 'red'" },
+        defaultValue: { summary: "'gray'" },
+      },
+    },
   },
   tags: ['autodocs'],
 };
@@ -33,6 +42,14 @@ type Story = StoryObj<typeof Spinner>;
 export const Default: Story = {
   args: {
     size: 1,
+    color: 'gray',
+  },
+};
+
+export const Red: Story = {
+  args: {
+    size: 2,
+    color: 'red',
   },
 };
 
@@ -50,8 +67,26 @@ export const AllSizes: Story = {
           6,
           8,
         ]" :key="size" style="display: flex; flex-direction: column; align-items: center;">
-          <Spinner :size="size" />
+          <Spinner :size="size" color="gray" />
           <span style="margin-top: 0.5rem; font-size: 0.875rem;">{{ size }}</span>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const GrayAndRed: Story = {
+  render: () => ({
+    components: { Spinner },
+    template: `
+      <div style="display: flex; gap: 3rem; align-items: center;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <Spinner :size="3" color="gray" />
+          <span style="margin-top: 0.5rem; font-size: 0.875rem;">Gray</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <Spinner :size="3" color="red" />
+          <span style="margin-top: 0.5rem; font-size: 0.875rem;">Red</span>
         </div>
       </div>
     `,
