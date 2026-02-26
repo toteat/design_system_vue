@@ -46,11 +46,8 @@ export type ButtonProps = {
 
 export type SpinnerProps = {
   size?: number;
-  /**
-   * Spinner arc color variant (gradient from color to transparent).
-   * @default 'gray'
-   */
-  color?: 'gray' | 'red';
+  /** DS color token for the spinner arc. @default 'neutral-300' */
+  color?: 'neutral-300' | 'primary';
 };
 
 export type CardProps = {

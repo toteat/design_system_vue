@@ -24,11 +24,11 @@ const meta: Meta<typeof Spinner> = {
     },
     color: {
       control: { type: 'select' },
-      options: ['gray', 'red'],
-      description: 'Arc color variant (gradient from color to transparent).',
+      options: ['neutral-300', 'primary'],
+      description: 'DS color token for the spinner arc.',
       table: {
-        type: { summary: "'gray' | 'red'" },
-        defaultValue: { summary: "'gray'" },
+        type: { summary: "'neutral-300' | 'primary'" },
+        defaultValue: { summary: "'neutral-300'" },
       },
     },
   },
@@ -42,14 +42,14 @@ type Story = StoryObj<typeof Spinner>;
 export const Default: Story = {
   args: {
     size: 1,
-    color: 'gray',
+    color: 'neutral-300',
   },
 };
 
-export const Red: Story = {
+export const Primary: Story = {
   args: {
     size: 2,
-    color: 'red',
+    color: 'primary',
   },
 };
 
@@ -67,7 +67,7 @@ export const AllSizes: Story = {
           6,
           8,
         ]" :key="size" style="display: flex; flex-direction: column; align-items: center;">
-          <Spinner :size="size" color="gray" />
+          <Spinner :size="size" color="neutral-300" />
           <span style="margin-top: 0.5rem; font-size: 0.875rem;">{{ size }}</span>
         </div>
       </div>
@@ -75,18 +75,18 @@ export const AllSizes: Story = {
   }),
 };
 
-export const GrayAndRed: Story = {
+export const NeutralAndPrimary: Story = {
   render: () => ({
     components: { Spinner },
     template: `
       <div style="display: flex; gap: 3rem; align-items: center;">
         <div style="display: flex; flex-direction: column; align-items: center;">
-          <Spinner :size="3" color="gray" />
-          <span style="margin-top: 0.5rem; font-size: 0.875rem;">Gray</span>
+          <Spinner :size="3" color="neutral-300" />
+          <span style="margin-top: 0.5rem; font-size: 0.875rem;">neutral-300</span>
         </div>
         <div style="display: flex; flex-direction: column; align-items: center;">
-          <Spinner :size="3" color="red" />
-          <span style="margin-top: 0.5rem; font-size: 0.875rem;">Red</span>
+          <Spinner :size="3" color="primary" />
+          <span style="margin-top: 0.5rem; font-size: 0.875rem;">primary</span>
         </div>
       </div>
     `,
