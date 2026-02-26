@@ -97,16 +97,6 @@
         "import": "./dist/OverlayMessage/index.js",
         "require": "./dist/design-system-vue.umd.js"
       },
-      "./Pills": {
-        "types": "./dist/Pills/index.d.ts",
-        "import": "./dist/Pills/index.js",
-        "require": "./dist/design-system-vue.umd.js"
-      },
-      "./Pills": {
-        "types": "./dist/Pills/index.d.ts",
-        "import": "./dist/Pills/index.js",
-        "require": "./dist/design-system-vue.umd.js"
-      },
       "./Radio": {
         "types": "./dist/Radio/index.d.ts",
         "import": "./dist/Radio/index.js",
