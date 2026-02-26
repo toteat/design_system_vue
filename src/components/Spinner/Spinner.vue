@@ -1,23 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import type { SpinnerProps } from '@/types';
 
 const props = withDefaults(defineProps<SpinnerProps>(), {
   size: 4,
   color: 'neutral-300',
 });
-
-const spinnerClasses = computed(() => [
-  'tot-ds-root',
-  'spinner',
-  `spinner--size-${String(props.size).replace('.', '-')}`,
-  `spinner--${props.color}`,
-]);
 </script>
 
 <template>
   <svg
-    :class="spinnerClasses"
+    class="tot-ds-root spinner" :class="[
+      `spinner--size-${String(props.size).replace('.', '-')}`,
+      `spinner--${props.color}`,
+    ]"
     viewBox="0 0 100 100"
     aria-label="Loading"
     test-id="tds-spinner"
