@@ -97,7 +97,7 @@ const currentTab = computed(() => {
       background-color: var(--color-white);
       border-radius: var(--radius-pill);
       box-shadow: 0 1px 2px
-        color-mix(in srgb, var(--color-neutral-300) 54% transparent);
+        color-mix(in srgb, var(--color-neutral-300) 54%, transparent);
       flex-shrink: 0;
       width: fit-content;
 
