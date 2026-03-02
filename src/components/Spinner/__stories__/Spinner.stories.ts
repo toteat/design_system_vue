@@ -1,15 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Spinner from '../Spinner.vue';
-
-const sizeOptions = [
-  'tiny',
-  'small',
-  'medium',
-  'large',
-  'very-large',
-  'very-very-large',
-  'ridiculously-large',
-] as const;
+import { COMPONENT_SIZE_OPTIONS } from '@/constants';
 
 const meta: Meta<typeof Spinner> = {
   title: 'Components/Spinner',
@@ -22,7 +13,7 @@ const meta: Meta<typeof Spinner> = {
   argTypes: {
     size: {
       control: { type: 'select' },
-      options: [...sizeOptions],
+      options: COMPONENT_SIZE_OPTIONS,
       description:
         'Predefined size (same scale as Button/Checkbox). Controls spinner dimensions.',
       table: {
@@ -69,7 +60,7 @@ export const AllSizes: Story = {
   render: () => ({
     components: { Spinner },
     setup() {
-      return { sizeOptions };
+      return { sizeOptions: COMPONENT_SIZE_OPTIONS };
     },
     template: `
       <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">

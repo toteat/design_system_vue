@@ -12,6 +12,11 @@ export const COMPONENT_SIZE_MAP: Record<ComponentSize, number> = {
   'ridiculously-large': 3, // 48px
 };
 
+/** All ComponentSize values in order - for Storybook argTypes and any UI that lists sizes (Spinner, Checkbox, etc.) */
+export const COMPONENT_SIZE_OPTIONS: ComponentSize[] = Object.keys(
+  COMPONENT_SIZE_MAP,
+) as ComponentSize[];
+
 export const ALLOWED_TYPES_MAP: Record<
   AllowedFileTypes,
   { types: string[]; prefix: string }
