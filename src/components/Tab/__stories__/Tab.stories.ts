@@ -29,6 +29,12 @@ const meta: Meta<typeof Tab> = {
       control: 'boolean',
       description: 'Make tab buttons take full width of container',
     },
+    selectedColor: {
+      control: 'select',
+      options: ['primary', 'secondary', 'tertiary', 'neutral-100'],
+      description:
+        'Background color of selected pill (DS tokens from style.css)',
+    },
   },
   args: {
     tabs: [
@@ -40,6 +46,7 @@ const meta: Meta<typeof Tab> = {
     selectedTab: 'tab1',
     size: 'medium',
     fullWidth: true,
+    selectedColor: 'secondary',
   },
 };
 
@@ -117,6 +124,7 @@ const tabs = [
         :tabs="args.tabs"
         :size="args.size"
         :full-width="args.fullWidth"
+        :selected-color="args.selectedColor"
         v-model:selected-tab="activeTab"
       >
         <template #default="{ currentTab, currentValue }">
@@ -260,6 +268,7 @@ const tabs = [
         :tabs="args.tabs"
         :size="args.size"
         :full-width="args.fullWidth"
+        :selected-color="args.selectedColor"
         v-model:selected-tab="activeTab"
       >
         <template #default="{ currentTab, currentValue }">
@@ -507,7 +516,7 @@ const tabs = [
     },
     template: `
       <div>
-        <Tab v-bind="args" v-model:selected-tab="activeTab">
+        <Tab v-bind="args" :selected-color="args.selectedColor" v-model:selected-tab="activeTab">
           <template #default="{ currentTab, currentValue }">
             <div v-if="currentValue === 'profile'" class="tab-story-content">
               <h2 class="tab-story-heading">{{ currentTab?.label }}</h2>
@@ -702,7 +711,7 @@ const tabs = [
     },
     template: `
       <div>
-        <Tab v-bind="args" v-model:selected-tab="activeTab">
+        <Tab v-bind="args" :selected-color="args.selectedColor" v-model:selected-tab="activeTab">
           <template #default="{ currentTab }">
             <div>
               <h2 class="tab-story-heading">{{ currentTab?.label }}</h2>
@@ -767,7 +776,7 @@ const tabs = [
     },
     template: `
       <div>
-        <Tab v-bind="args" v-model:selected-tab="activeTab">
+        <Tab v-bind="args" :selected-color="args.selectedColor" v-model:selected-tab="activeTab">
           <template #default="{ currentTab }">
             <div>
               <h2 class="tab-story-heading">{{ currentTab?.label }}</h2>
@@ -871,7 +880,7 @@ const tabs = [
     template: `
       <div>
         <h3 style="margin-bottom: 1rem; font-size: var(--text-lg); font-weight: 600;">Complex Content from Parent Component</h3>
-        <Tab v-bind="args" v-model:selected-tab="activeTab">
+        <Tab v-bind="args" :selected-color="args.selectedColor" v-model:selected-tab="activeTab">
           <template #default="{ currentTab, currentValue }">
             <div v-if="currentValue === 'profile'" class="tab-story-content">
               <h2 class="tab-story-heading">{{ currentTab?.label }}</h2>
