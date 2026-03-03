@@ -58,6 +58,7 @@ export type {
   GroupedButtonsOption,
   TabProps,
   TabItem,
+  TabSelectedColor,
   BackgroundWrapperProps,
   TableProps,
   TableColumn,
