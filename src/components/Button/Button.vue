@@ -80,7 +80,7 @@ const buttonClasses = computed(() => [
     :tabindex="props.disabled ? -1 : 0"
     @click="emit('click', $event)"
   >
-    <Spinner v-if="props.loading" :size="getSizeDimension(props.size)" />
+    <Spinner v-if="props.loading" :size="props.size" />
     <Icon
       v-if="!props.loading && props.iconName && props.iconPosition === 'left'"
       :name="props.iconName"

@@ -45,7 +45,10 @@ export type ButtonProps = {
 };
 
 export type SpinnerProps = {
-  size?: number;
+  /** Predefined size (same scale as Button/Checkbox). @default 'medium' */
+  size?: ComponentSize;
+  /** DS color token for the spinner arc. @default 'neutral-300' */
+  color?: 'neutral-300' | 'primary';
 };
 
 export type CardProps = {
