@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import { ref, watch } from 'vue';
 import Checkbox from '../Checkbox.vue';
 import type { ThemeColor } from '@/types';
+import { COMPONENT_SIZE_OPTIONS } from '@/constants';
 
 const meta: Meta<typeof Checkbox> = {
   title: 'Components/Checkbox',
@@ -18,15 +19,7 @@ const meta: Meta<typeof Checkbox> = {
     },
     size: {
       control: { type: 'select' },
-      options: [
-        'tiny',
-        'small',
-        'medium',
-        'large',
-        'very-large',
-        'very-very-large',
-        'ridiculously-large',
-      ],
+      options: COMPONENT_SIZE_OPTIONS,
       description: 'Size of the checkbox (affects both icon and font size)',
     },
     color: {

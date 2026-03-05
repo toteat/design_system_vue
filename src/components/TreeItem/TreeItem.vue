@@ -365,20 +365,6 @@ const handleDrop = (event: globalThis.DragEvent): void => {
       opacity: 0.5;
     }
 
-    &[data-drag-over='true'] > .tree-item__content {
-      position: relative;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: var(--tree-item-indent, 0);
-        right: 0;
-        height: 2px;
-        background: var(--color-primary);
-      }
-    }
-
     .tree-item__drag-handle {
       display: flex;
       align-items: center;

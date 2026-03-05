@@ -45,7 +45,10 @@ export type ButtonProps = {
 };
 
 export type SpinnerProps = {
-  size?: number;
+  /** Predefined size (same scale as Button/Checkbox). @default 'medium' */
+  size?: ComponentSize;
+  /** DS color token for the spinner arc. @default 'neutral-300' */
+  color?: 'neutral-300' | 'primary';
 };
 
 export type CardProps = {
@@ -388,11 +391,18 @@ export type TabItem = {
   content?: () => unknown; // Render function that returns VNode
 };
 
+export type TabSelectedColor =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'neutral-100';
+
 export type TabProps = {
   tabs: TabItem[];
   selectedTab?: string | number;
   size?: ButtonSize;
   fullWidth?: boolean;
+  selectedColor?: TabSelectedColor;
 };
 
 // BackgroundWrapper - Fixed styling, no props
@@ -552,4 +562,12 @@ export type TreeItemProps = {
   flatIndex?: number;
   /** Enable alternating row colors */
   striped?: boolean;
+};
+
+export type HeaderProps = {
+  headers?: Array<{
+    title: string;
+    description?: string;
+  }>;
+  spaceBetween?: boolean;
 };
