@@ -120,7 +120,7 @@ export function registerTools(server: McpServer): void {
           content: [
             {
               type: 'text' as const,
-              text: `No icons found matching "${query}". Use list_components to browse all icons by category.`,
+              text: `No icons found matching "${query}". Try a different keyword or read the design-system://icons resource to browse all icons by category.`,
             },
           ],
         };

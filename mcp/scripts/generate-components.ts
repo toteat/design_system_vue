@@ -257,9 +257,10 @@ function main(): void {
 }
 
 // Only run when executed directly, not when imported
-const isDirectRun =
-  import.meta.url === `file://${process.argv[1]}` ||
-  process.argv[1]?.endsWith('generate-components.ts');
+const currentFile = fileURLToPath(import.meta.url);
+const isDirectRun = process.argv[1]
+  ? resolve(process.argv[1]) === resolve(currentFile)
+  : false;
 
 if (isDirectRun) {
   main();
