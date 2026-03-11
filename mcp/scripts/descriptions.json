@@ -1,0 +1,445 @@
+{
+  "Button": {
+    "description": "Clickable button with variants, sizes, and optional icon. No default slot — use the `text` prop for the label and `iconName` for icons.",
+    "propDefaults": {
+      "variant": "'primary'",
+      "size": "'medium'",
+      "type": "'button'",
+      "disabled": "false",
+      "loading": "false",
+      "isFull": "false",
+      "selected": "false",
+      "iconPosition": "'right'",
+      "onlyIcon": "false",
+      "groupPosition": "'standalone'"
+    },
+    "props": {
+      "text": "Button label text (required for a visible label)",
+      "isFull": "Stretch to full width of parent container",
+      "iconName": "Icon from the design system icon library (use search_icons to find names)",
+      "iconPosition": "Icon placement relative to the text label",
+      "onlyIcon": "Circular icon-only button — hides text, requires iconName",
+      "groupPosition": "Used internally by GroupedButtons — do not set manually",
+      "loading": "Show spinner and disable interaction"
+    }
+  },
+  "Card": {
+    "description": "Content container with optional padding, shadow elevation, hover/focus/pressed states, and optional link behavior via `href` prop.",
+    "propDefaults": {
+      "padding": "'medium'",
+      "elevation": "'none'",
+      "hoverable": "false"
+    },
+    "props": {
+      "href": "Renders the card as an <a> tag with this URL",
+      "target": "Link target attribute (_blank, _self, etc.)",
+      "rel": "Link rel attribute (e.g. 'noopener noreferrer')",
+      "hovered": "v-model:hovered — two-way binding for hover state",
+      "focused": "v-model:focused — two-way binding for focus state",
+      "pressed": "v-model:pressed — two-way binding for pressed state",
+      "maxWidth": "Maximum width (string with unit or number in px)",
+      "flexDirection": "CSS flex-direction for the card content"
+    },
+    "slots": {
+      "default": "Card content"
+    }
+  },
+  "Checkbox": {
+    "description": "Checkbox input with two modes: simple (default slot for label) or card mode (`title`/`description` props for a bordered card layout).",
+    "props": {
+      "checked": "v-model:checked — current checked state",
+      "color": "Color of the checked icon (ThemeColor value)",
+      "checkboxPosition": "Checkbox placement relative to label content",
+      "title": "Card mode: main label text (enables card layout)",
+      "description": "Card mode: secondary description text below title",
+      "card": "Enable card-style checkbox with border",
+      "fullWidth": "Stretch to full width of parent container"
+    },
+    "slots": {
+      "default": "Label content — used in simple mode (when `title` prop is not set)"
+    }
+  },
+  "Accordion": {
+    "description": "Expandable/collapsible content section with animated height transition. Use `expanded` prop or listen to `toggle-expand` event to control state.",
+    "propDefaults": {
+      "expanded": "false",
+      "disabled": "false",
+      "bordered": "false"
+    },
+    "props": {
+      "label": "Header text (used when the `label` slot is not provided)",
+      "bordered": "Show a border around the accordion"
+    },
+    "events": {
+      "toggle-expand": "Fired when the header is clicked — toggle your `expanded` state in this handler"
+    },
+    "slots": {
+      "default": "Collapsible body content — scoped: { expanded: boolean }",
+      "label": "Custom header/trigger content — scoped: { expanded: boolean }"
+    }
+  },
+  "TextInput": {
+    "description": "Text input field with label, validation states (success/warning/error), prefix/suffix icons, clearable button, and optional character counter.",
+    "props": {
+      "modelValue": "v-model binding — the input value",
+      "label": "Visible label text above the input",
+      "placeholder": "Placeholder text inside the input",
+      "helperText": "Helper text below the input",
+      "errorMessage": "Error message — shown when validationState is 'error'",
+      "inputmode": "Virtual keyboard hint for mobile (e.g. 'numeric', 'email')",
+      "prefixIcon": "Icon shown inside the input on the left",
+      "suffixIcon": "Icon shown inside the input on the right",
+      "clearable": "Show a clear (X) button when input has a value",
+      "validationState": "Visual state: 'default', 'success', 'warning', or 'error'",
+      "showCounter": "Show character counter — requires maxLength to be set",
+      "ariaLabel": "Accessible label for screen readers (when no visible label)",
+      "ariaDescribedBy": "ID of an element that describes this input",
+      "showValidationIcon": "Show an icon indicating the validation state"
+    },
+    "events": {
+      "enter": "Fired on Enter key press with the current input value"
+    }
+  },
+  "Select": {
+    "description": "Single-selection dropdown with optional search filtering. Options must be `{ value, label }` objects. Use v-model for the selected value.",
+    "propDefaults": {
+      "size": "'medium'"
+    },
+    "props": {
+      "options": "Array of { value: string|number, label: string, disabled?: boolean }",
+      "modelValue": "v-model binding — the selected value (string | number | null)",
+      "searchQuery": "v-model:searchQuery — two-way binding for the search input",
+      "searchable": "Show a search input inside the dropdown",
+      "disableAutofilter": "Disable client-side filtering — use for server-side search with v-model:searchQuery",
+      "validationState": "Visual state: 'default', 'success', 'warning', or 'error'",
+      "errorMessage": "Error message shown below the select",
+      "helperText": "Helper text shown below the select",
+      "appendToBody": "Teleport dropdown to <body> — use when inside overflow:hidden containers"
+    },
+    "events": {
+      "select": "Fired with the full option object { value, label } when an option is selected",
+      "open": "Fired when the dropdown opens",
+      "close": "Fired when the dropdown closes"
+    }
+  },
+  "Multiselect": {
+    "description": "Multi-selection dropdown with checkboxes and optional search. Options must be `{ value, label }` objects. v-model is an array of selected values.",
+    "propDefaults": {
+      "searchable": "true",
+      "clearable": "true",
+      "closeOnSelect": "false",
+      "size": "'medium'",
+      "checkboxPosition": "'left'",
+      "showSelectedItems": "true"
+    },
+    "props": {
+      "options": "Array of { value: string|number, label: string, disabled?: boolean }",
+      "modelValue": "v-model binding — array of selected values",
+      "searchQuery": "v-model:searchQuery — two-way binding for the search input",
+      "maxSelections": "Maximum number of items that can be selected",
+      "maxSelectionsMessage": "Message shown when max selections is reached",
+      "showSelectedItems": "Show selected items as tags below the dropdown",
+      "validationState": "Visual state: 'default', 'success', 'warning', or 'error'",
+      "errorMessage": "Error message shown below the multiselect",
+      "helperText": "Helper text shown below the multiselect",
+      "appendToBody": "Teleport dropdown to <body> — use when inside overflow:hidden containers"
+    },
+    "events": {
+      "option-select": "Fired with the full option object when an item is checked",
+      "option-deselect": "Fired with the full option object when an item is unchecked",
+      "remove-tag": "Fired with the value when a selected tag is removed",
+      "clear": "Fired when all selections are cleared"
+    }
+  },
+  "Tab": {
+    "description": "Tab navigation with pill-style buttons. Use v-model:selectedTab for the active tab and the default scoped slot for tab panel content.",
+    "props": {
+      "tabs": "Array of { value: string|number, label: string, disabled?: boolean, icon?: IconNames }",
+      "selectedTab": "v-model:selectedTab — the currently active tab value"
+    },
+    "events": {
+      "tab-click": "Fired when a tab is clicked — payload: { value, label }"
+    },
+    "slots": {
+      "default": "Tab panel content — scoped: { currentTab: TabItem, currentValue: string|number }"
+    }
+  },
+  "GroupedButtons": {
+    "description": "Segmented control — horizontal group of mutually exclusive toggle buttons. Use v-model:selectedButton for the active option.",
+    "propDefaults": {
+      "size": "'medium'",
+      "fullWidth": "false",
+      "disabled": "false"
+    },
+    "props": {
+      "options": "Array of { value: string|number, label: string, disabled?: boolean, icon?: IconNames }",
+      "selectedButton": "v-model:selectedButton — the currently active button value",
+      "fullWidth": "Stretch buttons to fill the container width equally"
+    }
+  },
+  "DropdownButton": {
+    "description": "Button that opens a dropdown menu with selectable items. Use the `select` event to handle item selection.",
+    "propDefaults": {
+      "size": "'medium'",
+      "disabled": "false"
+    },
+    "props": {
+      "text": "Button label text",
+      "menuItems": "Array of { value: string|number, label: string, icon?: IconNames, disabled?: boolean }"
+    },
+    "events": {
+      "select": "Fired with the full menu item object when an item is selected",
+      "open": "Fired when the dropdown menu opens",
+      "close": "Fired when the dropdown menu closes"
+    }
+  },
+  "Table": {
+    "description": "Data table with client-side sorting. Use `cell-{key}` scoped slots for custom cell rendering. No built-in row-click — add interactions via cell slots.",
+    "propDefaults": {
+      "striped": "false",
+      "nonInteractive": "false",
+      "defaultSortOrder": "'asc'"
+    },
+    "props": {
+      "columns": "Array of { key: string, label: string, sortable?: boolean, sortType?: 'text'|'number'|'date' }",
+      "data": "Array of row objects — each row is keyed by column.key",
+      "striped": "Alternate row background colors for readability",
+      "defaultSortColumn": "Column key to sort by on initial render",
+      "defaultSortOrder": "Initial sort direction: 'asc' or 'desc'",
+      "nonInteractive": "Disable hover/click styles and sorting — for display-only tables"
+    },
+    "slots": {
+      "cell-{key}": "Custom cell renderer per column. Scoped: { row, column, value }. Example: <template #cell-name=\"{ row }\">{{ row.name }}</template>"
+    }
+  },
+  "Radio": {
+    "description": "Radio button input with label and optional description text. Use `card` prop for a bordered card-style layout.",
+    "propDefaults": {
+      "checked": "false",
+      "disabled": "false",
+      "size": "'medium'",
+      "card": "false"
+    },
+    "props": {
+      "title": "Radio label text (required)",
+      "description": "Secondary description text below the label",
+      "card": "Enable card-style radio with border",
+      "size": "Button size variant"
+    }
+  },
+  "Tooltip": {
+    "description": "Tooltip shown on hover/focus around its slotted trigger element. Supports four positions and configurable show delay.",
+    "propDefaults": {
+      "position": "'top'",
+      "disabled": "false"
+    },
+    "props": {
+      "content": "Tooltip text content",
+      "delay": "Delay in milliseconds before showing the tooltip",
+      "maxWidth": "Maximum width in pixels for the tooltip bubble"
+    },
+    "slots": {
+      "default": "The trigger element the tooltip is attached to"
+    }
+  },
+  "Icon": {
+    "description": "SVG icon from the design system icon library (127 icons). Always verify icon names exist using the search_icons tool before using.",
+    "props": {
+      "name": "Icon name in kebab-case (e.g. 'close-outline', 'check-outline'). Use search_icons tool to find valid names.",
+      "size": "Size in rem units (e.g. 1 = 16px, 1.5 = 24px, 2 = 32px)",
+      "color": "Icon color — accepts any ThemeColor value"
+    }
+  },
+  "Spinner": {
+    "description": "Animated loading spinner with gradient effect. Use inside buttons (loading prop) or as standalone loading indicators.",
+    "propDefaults": {
+      "size": "1.5"
+    },
+    "props": {
+      "size": "Spinner diameter in rem units (e.g. 1.5 = 24px)"
+    }
+  },
+  "SkeletonPreload": {
+    "description": "Skeleton loading placeholder with animated shimmer effect. Use to indicate content loading — matches the shape of the content it replaces.",
+    "props": {
+      "width": "Width in pixels",
+      "height": "Height in pixels",
+      "borderRadius": "Border radius in pixels (for rounded rectangles)",
+      "isRounded": "Perfect circle shape — for avatar or profile image placeholders"
+    }
+  },
+  "ImagePreview": {
+    "description": "Image component with built-in loading skeleton and error fallback. Shows a skeleton placeholder while loading and a fallback on error.",
+    "propDefaults": {
+      "width": "40",
+      "height": "40",
+      "alt": "'Image without alt text'",
+      "borderRadius": "8"
+    },
+    "props": {
+      "imageSrc": "Image URL (required)",
+      "width": "Image width in pixels",
+      "height": "Image height in pixels",
+      "alt": "Alt text for accessibility",
+      "borderRadius": "Border radius in pixels"
+    }
+  },
+  "DropZone": {
+    "description": "Drag-and-drop file upload area with preview. Events are prefixed with `instanceName` (e.g. instanceName='avatar' emits @avatar-drop, @avatar-drop-error, @avatar-remove).",
+    "propDefaults": {
+      "allowedFileTypes": "'images'",
+      "multiple": "true",
+      "displayPreview": "true",
+      "displayFileList": "false"
+    },
+    "props": {
+      "instanceName": "Unique ID (required) — used as event prefix: {instanceName}-drop, {instanceName}-drop-error, {instanceName}-remove",
+      "allowedFileTypes": "File type preset: 'images', 'documents', etc.",
+      "accept": "MIME type filter string (e.g. 'image/*', 'application/pdf')",
+      "label": "Custom label text for the drop area",
+      "multiple": "Allow selecting multiple files",
+      "displayPreview": "Show image preview thumbnails for uploaded files",
+      "displayFileList": "Show a file list instead of previews"
+    },
+    "manualEvents": [
+      { "name": "{instanceName}-drop", "payload": "FileList", "description": "Files dropped or selected successfully" },
+      { "name": "{instanceName}-drop-error", "payload": "string", "description": "Error message when a file is rejected (wrong type, etc.)" },
+      { "name": "{instanceName}-remove", "payload": "FileWithPreview", "description": "A file was removed from the preview" },
+      { "name": "update:modelValue", "payload": "FileWithPreview[] | null" }
+    ]
+  },
+  "Overlay": {
+    "description": "Modal backdrop overlay with scroll lock and keyboard support. Place your modal content in the default slot. Use v-model:visible to control visibility.",
+    "propDefaults": {
+      "visible": "false",
+      "dismissible": "true",
+      "closeOnBackdrop": "true",
+      "closeOnEsc": "true",
+      "lockScroll": "true",
+      "placement": "'center'"
+    },
+    "props": {
+      "visible": "v-model:visible — controls whether the overlay is shown",
+      "dismissible": "Allow closing via backdrop click or Escape key",
+      "closeOnBackdrop": "Close when clicking outside the modal content",
+      "closeOnEsc": "Close when pressing Escape key",
+      "lockScroll": "Prevent background scroll while overlay is open",
+      "blur": "Apply a blur effect to the backdrop",
+      "placement": "Vertical placement of the modal content",
+      "ariaLabel": "Accessible label for the overlay dialog"
+    },
+    "events": {
+      "escape": "Fired when the Escape key is pressed",
+      "backdrop-click": "Fired when the backdrop area is clicked (not the content)"
+    },
+    "slots": {
+      "default": "Modal content — rendered on top of the backdrop"
+    }
+  },
+  "OverlayMessage": {
+    "description": "Pre-built modal dialog for status messages (success, error, warning, info). Includes title, body content, and up to two action buttons. Wraps Overlay internally.",
+    "propDefaults": {
+      "visible": "false",
+      "dismissible": "true"
+    },
+    "props": {
+      "title": "Dialog title text (required)",
+      "status": "Status type — determines the default icon and color",
+      "eyebrow": "Small text displayed above the title",
+      "visible": "v-model:visible — controls whether the dialog is shown",
+      "primaryButtonLabel": "Label for the primary action button",
+      "secondaryButtonLabel": "Label for the secondary action button",
+      "primaryButtonVariant": "Visual variant for the primary button (e.g. 'primary', 'secondary')",
+      "secondaryButtonVariant": "Visual variant for the secondary button",
+      "loadingPrimary": "Show spinner on the primary button",
+      "loadingSecondary": "Show spinner on the secondary button",
+      "standalone": "Render without Overlay wrapper — use for embedding inside existing modals"
+    },
+    "events": {
+      "primary-click": "Fired when the primary action button is clicked",
+      "secondary-click": "Fired when the secondary action button is clicked",
+      "backdrop-click": "Fired when the backdrop area is clicked",
+      "escape": "Fired when the Escape key is pressed"
+    },
+    "slots": {
+      "default": "Message body content — rendered between the title and action buttons",
+      "icon": "Custom icon replacing the default status icon",
+      "actions": "Custom action buttons replacing the default primary/secondary buttons"
+    }
+  },
+  "LogoToteat": {
+    "description": "Toteat brand logo. Supports 'complete' (full logo with text) or 'icon-only' (isotipo) mode, with 'original' or 'white' color variants.",
+    "propDefaults": {
+      "mode": "'complete'",
+      "variant": "'original'",
+      "alt": "'Logo Toteat'"
+    },
+    "props": {
+      "mode": "Logo display mode: 'complete' (full logo) or 'icon-only' (isotipo)",
+      "variant": "Color variant: 'original' (brand colors) or 'white' (monochrome)",
+      "width": "Logo width in pixels",
+      "height": "Logo height in pixels",
+      "alt": "Alt text for accessibility"
+    }
+  },
+  "BackgroundWrapper": {
+    "description": "Full-screen background wrapper with the Toteat brand gradient. No configurable props — just wrap your content in the default slot.",
+    "slots": {
+      "default": "Content rendered on top of the gradient background"
+    }
+  },
+  "TreeItem": {
+    "description": "Individual tree node — used internally by TreeList. Prefer TreeList for most use cases. TreeItem handles a single node's expand/collapse, selection, and drag behavior.",
+    "propDefaults": {
+      "level": "0",
+      "expanded": "false",
+      "selected": "false"
+    },
+    "props": {
+      "item": "Tree node data: { id, label, children?, disabled?, meta? }",
+      "level": "Nesting depth — controls indentation (0 = root level)",
+      "selectable": "Show a checkbox for this node",
+      "hasChildren": "Show expand/collapse chevron icon",
+      "indentSize": "Indentation per level in pixels",
+      "flatIndex": "0-indexed position in the flattened tree — used for striped rows",
+      "parentId": "ID of the parent node (null for root)",
+      "bordered": "Show a border around the node",
+      "striped": "Alternate background color based on flatIndex"
+    },
+    "events": {
+      "toggle-expand": "Fired with the item ID when expanded/collapsed",
+      "toggle-select": "Fired with the item ID when checkbox is toggled"
+    },
+    "slots": {
+      "prefix": "Content before the label — scoped: { item: TreeItemData, level: number }",
+      "label": "Custom label content — scoped: { item: TreeItemData, level: number }",
+      "meta": "Custom meta text (right side) — scoped: { item: TreeItemData, level: number }",
+      "suffix": "Content after the label — scoped: { item: TreeItemData, level: number }",
+      "children": "Custom rendering for child nodes"
+    }
+  },
+  "TreeList": {
+    "description": "Hierarchical tree list with expand/collapse, checkbox selection, and optional drag-to-reorder within the same level. Use v-model:expandedIds and v-model:selectedIds to control state.",
+    "props": {
+      "items": "Hierarchical tree data — array of TreeItemData with nested children",
+      "draggable": "Enable drag-and-drop reordering within the same parent level",
+      "expandedIds": "v-model:expandedIds — array of expanded node IDs",
+      "selectedIds": "v-model:selectedIds — array of selected (checked) node IDs",
+      "selectable": "Show checkboxes on all nodes",
+      "indentSize": "Indentation per level in pixels",
+      "bordered": "Show borders around each node",
+      "striped": "Alternate row background colors"
+    },
+    "events": {
+      "reorder": "Fired after drag-and-drop — payload: { itemId, fromParentId, toParentId, fromIndex, toIndex }",
+      "item-expand": "Fired with full TreeItemData when a node is expanded/collapsed",
+      "item-select": "Fired with full TreeItemData when a node's checkbox is toggled"
+    },
+    "slots": {
+      "label": "Custom label per node — scoped: { item: TreeItemData, level: number }",
+      "meta": "Custom meta text per node — scoped: { item: TreeItemData, level: number }",
+      "prefix": "Content before each node's label — scoped: { item: TreeItemData, level: number }",
+      "suffix": "Content after each node's label — scoped: { item: TreeItemData, level: number }"
+    }
+  }
+}
