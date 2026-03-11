@@ -279,13 +279,14 @@ const handleDrop = (event: globalThis.DragEvent): void => {
   &.tree-item {
     --tree-item-indent: 0px;
     width: 100%;
+    background-color: var(--color-neutral);
 
     /* Striped rows - odd rows get alternate background */
     &[data-odd-row='true'] > .tree-item__content {
-      background-color: var(--color-neutral-100);
+      background-color: var(--color-neutral-50);
 
       &:hover {
-        background-color: var(--color-neutral-200);
+        background-color: var(--color-neutral-100);
       }
     }
 
@@ -362,7 +363,7 @@ const handleDrop = (event: globalThis.DragEvent): void => {
     }
 
     &[data-dragging='true'] > .tree-item__content {
-      opacity: 0.5;
+      opacity: 0.35;
     }
 
     .tree-item__drag-handle {
