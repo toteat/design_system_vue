@@ -95,7 +95,11 @@ export function extractAllProps(typesFile: string): Map<string, PropDef[]> {
 // ─── Code generation ──────────────────────────────────────────────────────────
 
 function esc(s: string): string {
-  return s.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  return s
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\n/g, '\\n')
+    .replace(/\r/g, '\\r');
 }
 
 export function generate(
@@ -221,32 +225,42 @@ export const COMPONENT_NAMES = [
   'TreeList',
 ];
 
-console.log('\ud83d\udcd6 Parsing types/index.d.ts...');
-const allProps = extractAllProps(TYPES_FILE);
-console.log(`   \u2192 ${allProps.size} *Props types found\n`);
+function main(): void {
+  console.log('\ud83d\udcd6 Parsing types/index.d.ts...');
+  const allProps = extractAllProps(TYPES_FILE);
+  console.log(`   \u2192 ${allProps.size} *Props types found\n`);
 
-const descriptions: Descriptions = existsSync(DESCRIPTIONS_FILE)
-  ? JSON.parse(readFileSync(DESCRIPTIONS_FILE, 'utf-8'))
-  : {};
+  const descriptions: Descriptions = existsSync(DESCRIPTIONS_FILE)
+    ? JSON.parse(readFileSync(DESCRIPTIONS_FILE, 'utf-8'))
+    : {};
 
-const componentData = new Map<string, SourceData>();
+  const componentData = new Map<string, SourceData>();
 
-for (const name of COMPONENT_NAMES) {
-  const vueFile = join(COMPONENTS_DIR, name, `${name}.vue`);
-  const props = allProps.get(name) ?? [];
-  const events = existsSync(vueFile)
-    ? extractEmits(readFileSync(vueFile, 'utf-8'))
-    : [];
-  const slots = existsSync(vueFile)
-    ? extractSlots(readFileSync(vueFile, 'utf-8'))
-    : [];
+  for (const name of COMPONENT_NAMES) {
+    const vueFile = join(COMPONENTS_DIR, name, `${name}.vue`);
+    const props = allProps.get(name) ?? [];
+    const vueContent = existsSync(vueFile)
+      ? readFileSync(vueFile, 'utf-8')
+      : null;
+    const events = vueContent ? extractEmits(vueContent) : [];
+    const slots = vueContent ? extractSlots(vueContent) : [];
 
-  console.log(
-    `  \u2713 ${name.padEnd(18)} ${props.length} props  ${events.length} events  ${slots.length} slots`,
-  );
-  componentData.set(name, { props, events, slots });
+    console.log(
+      `  \u2713 ${name.padEnd(18)} ${props.length} props  ${events.length} events  ${slots.length} slots`,
+    );
+    componentData.set(name, { props, events, slots });
+  }
+
+  const output = generate(componentData, descriptions, COMPONENT_NAMES);
+  writeFileSync(OUT_FILE, output, 'utf-8');
+  console.log(`\n\u2705 Written to ${OUT_FILE}`);
 }
 
-const output = generate(componentData, descriptions, COMPONENT_NAMES);
-writeFileSync(OUT_FILE, output, 'utf-8');
-console.log(`\n\u2705 Written to ${OUT_FILE}`);
+// Only run when executed directly, not when imported
+const isDirectRun =
+  import.meta.url === `file://${process.argv[1]}` ||
+  process.argv[1]?.endsWith('generate-components.ts');
+
+if (isDirectRun) {
+  main();
+}

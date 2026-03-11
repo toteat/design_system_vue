@@ -305,7 +305,7 @@
       { "name": "{instanceName}-drop", "payload": "FileList", "description": "Files dropped or selected successfully" },
       { "name": "{instanceName}-drop-error", "payload": "string", "description": "Error message when a file is rejected (wrong type, etc.)" },
       { "name": "{instanceName}-remove", "payload": "FileWithPreview", "description": "A file was removed from the preview" },
-      { "name": "update:modelValue", "payload": "FileWithPreview[] | null" }
+      { "name": "update:modelValue", "payload": "FileWithPreview[] | null", "description": "Model value updated with current file list" }
     ]
   },
   "Overlay": {

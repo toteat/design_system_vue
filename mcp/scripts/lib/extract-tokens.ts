@@ -102,9 +102,8 @@ export function generateTokensFile(cssSource: string): string {
         lines.push(singleLine);
       } else {
         lines.push(`    {`);
-        for (let i = 0; i < parts.length; i++) {
-          const comma = i < parts.length - 1 ? ',' : ',';
-          lines.push(`      ${parts[i]}${comma}`);
+        for (const part of parts) {
+          lines.push(`      ${part},`);
         }
         lines.push(`    },`);
       }

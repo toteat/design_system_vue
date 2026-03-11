@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { COMPONENTS, COMPONENT_MAP } from '../data/components.js';
 import { TOKENS } from '../data/tokens.js';
 import type { TokenCategory } from '../data/tokens.js';
-import { ALL_ICONS, ICONS_BY_CATEGORY } from '../data/icons.js';
+import { ALL_ICONS } from '../data/icons.js';
 
 export function registerTools(server: McpServer): void {
   // List all components
@@ -116,23 +116,11 @@ export function registerTools(server: McpServer): void {
       const matches = ALL_ICONS.filter((icon) => icon.includes(q));
 
       if (matches.length === 0) {
-        // Find icons in each category that partially match
-        const suggestions: string[] = [];
-        for (const [cat, icons] of Object.entries(ICONS_BY_CATEGORY)) {
-          const catMatches = icons.filter((icon) =>
-            icon.split('-').some((word) => word.includes(q)),
-          );
-          if (catMatches.length > 0)
-            suggestions.push(`${cat}: ${catMatches.join(', ')}`);
-        }
         return {
           content: [
             {
               type: 'text' as const,
-              text:
-                suggestions.length > 0
-                  ? `No exact matches for "${query}". Partial matches:\n${suggestions.join('\n')}`
-                  : `No icons found matching "${query}". Use list_components to browse all icons by category.`,
+              text: `No icons found matching "${query}". Use list_components to browse all icons by category.`,
             },
           ],
         };

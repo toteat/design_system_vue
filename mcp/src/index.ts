@@ -19,7 +19,8 @@ function createMcpServer(): McpServer {
 const args = process.argv.slice(2);
 const isHttp = args.includes('--http');
 const portIndex = args.indexOf('--port');
-const port = portIndex !== -1 ? parseInt(args[portIndex + 1], 10) : 3333;
+const parsedPort = portIndex !== -1 ? parseInt(args[portIndex + 1], 10) : 3333;
+const port = Number.isNaN(parsedPort) ? 3333 : parsedPort;
 
 if (isHttp) {
   const httpServer = createServer(async (req, res) => {
@@ -45,15 +46,13 @@ if (isHttp) {
       const message =
         error instanceof Error ? error.message : 'Internal server error';
       if (!res.headersSent) {
-        res
-          .writeHead(400, { 'Content-Type': 'application/json' })
-          .end(
-            JSON.stringify({
-              jsonrpc: '2.0',
-              error: { code: -32700, message },
-              id: null,
-            }),
-          );
+        res.writeHead(400, { 'Content-Type': 'application/json' }).end(
+          JSON.stringify({
+            jsonrpc: '2.0',
+            error: { code: -32700, message },
+            id: null,
+          }),
+        );
       }
     }
   });
