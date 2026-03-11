@@ -1,0 +1,118 @@
+mcp/.gitignore
+  b9ff68b585304a6e 1-2
+mcp/scripts/__tests__/extract-icons.test.ts
+  b9ff68b585304a6e 1-98,100-133
+  2ce88a0e87cfb147 99
+mcp/vitest.config.ts
+  393c0036adb68357 1-5,7-8
+  b9ff68b585304a6e 6
+mcp/src/index.ts
+  393c0036adb68357 2,5,9-14,16-19,21-27,29-31,33-38,47-53,56
+  b9ff68b585304a6e 28,32,39-46
+mcp/scripts/lib/extract-icons.ts
+  2ce88a0e87cfb147 47-52
+  63b4cf17b11376df 80-81
+  b9ff68b585304a6e 1-46,53-79,82-94
+mcp/scripts/__tests__/extract-tokens.test.ts
+  b9ff68b585304a6e 1-130
+mcp/scripts/__tests__/extract-components.test.ts
+  b9ff68b585304a6e 1-122
+mcp/scripts/__tests__/generate-integration.test.ts
+  b9ff68b585304a6e 1-82
+mcp/src/data/components.ts
+  393c0036adb68357 20,55,99,143,176,191,213,215-216,241,290-291,325-326
+mcp/src/tools/index.ts
+  393c0036adb68357 1,4-5
+  b9ff68b585304a6e 94
+mcp/scripts/descriptions.json
+  393c0036adb68357 1-2,4-17,24-26,28-33,36,42-47,49,57-58,60-62,64-69,72-73,75-81,83,90-91,98-99,101-103,108,118-119,123-125,135,137,152-154,156,159-160,162-167,174,178-180,186,189-190,194-196,203,210-215,217-218,222-223,228-230,232-236,240-241,243-245,247,251-253,258,260-262,264-266,269-271,286-287,295,303-304,308-311,313-320,331,334-335,337-339,341-345,357-358,363-364,368-370,372-373,383-385,387,389-391,393-398,408-409,412-413,419-421,423,432-433,437-438,443-445
+  b9ff68b585304a6e 3,18-23,27,34-35,37-41,48,50-56,59,63,70-71,74,82,84-89,92-97,100,104-107,109-117,120-122,126-134,136,138-151,155,157-158,161,168-173,175-177,181-185,187-188,191-193,197-202,204-209,216,219-221,224-227,231,237-239,242,246,248-250,254-257,259,263,267-268,272-285,288-294,296-302,305-307,312,321-330,332-333,336,340,346-356,359-362,365-367,371,374-382,386,388,392,399-407,410-411,414-418,422,424-431,434-436,439-442
+mcp/src/data/icons.ts
+  b9ff68b585304a6e 63
+mcp/src/__tests__/tools.test.ts
+  393c0036adb68357 1-154
+mcp/.mcp.json.example
+  b9ff68b585304a6e 1-8
+mcp/README.md
+  b9ff68b585304a6e 1-390
+mcp/src/resources/index.ts
+  393c0036adb68357 1-2
+mcp/scripts/generate-components.ts
+  393c0036adb68357 1-20,23-47,49-93,95-117,119-139,141-172,174-180,182,184-196,198-202
+  b9ff68b585304a6e 21-22,48,94,118,140,173,181,183,197,203
+mcp/src/__tests__/data.test.ts
+  393c0036adb68357 1-110
+mcp/scripts/sync-icons.ts
+  b9ff68b585304a6e 1-25
+mcp/scripts/lib/extract-tokens.ts
+  b9ff68b585304a6e 1-92,104-112
+  63b4cf17b11376df 93-103
+mcp/scripts/sync-tokens.ts
+  b9ff68b585304a6e 1-27
+mcp/scripts/lib/extract-components.ts
+  b9ff68b585304a6e 1-61
+mcp/package.json
+  393c0036adb68357 16-20,27-29
+  b9ff68b585304a6e 11-14
+mcp/tsconfig.json
+  393c0036adb68357 16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "e08338a4dce92764f642dda3af88a69be142a4bd",
+  "prompts": {
+    "2ce88a0e87cfb147": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0fbf43be-5172-4780-bc9c-eb1e89e5278a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Federico Irrazabal <federico@toteat.com>",
+      "messages": [],
+      "total_additions": 7,
+      "total_deletions": 3,
+      "accepted_lines": 7,
+      "overriden_lines": 0
+    },
+    "393c0036adb68357": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c7ae2155-992c-4392-9b25-0694664a54f6",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Federico Irrazabal <federico@toteat.com>",
+      "messages": [],
+      "total_additions": 1265,
+      "total_deletions": 327,
+      "accepted_lines": 721,
+      "overriden_lines": 36
+    },
+    "63b4cf17b11376df": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "593b4d7c-9c43-4779-8280-318c56ca7d8c",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Federico Irrazabal <federico@toteat.com>",
+      "messages": [],
+      "total_additions": 13,
+      "total_deletions": 2,
+      "accepted_lines": 13,
+      "overriden_lines": 0
+    },
+    "b9ff68b585304a6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bf1a0d55-25a4-4860-aa2b-c1af8e621134",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Federico Irrazabal <federico@toteat.com>",
+      "messages": [],
+      "total_additions": 1653,
+      "total_deletions": 404,
+      "accepted_lines": 1445,
+      "overriden_lines": 0
+    }
+  }
+}
