@@ -10,8 +10,7 @@ export function registerTools(server: McpServer): void {
   server.registerTool(
     'list_components',
     {
-      description:
-        'List all 24 components in @toteat-eng/design-system-vue with their descriptions',
+      description: `List all ${COMPONENTS.length} components in @toteat-eng/design-system-vue with their descriptions`,
       inputSchema: {},
     },
     async () => ({
@@ -201,8 +200,7 @@ export function registerTools(server: McpServer): void {
         ? Object.entries(props)
             .map(([k, v]) => {
               const propDef = component.props.find((p) => p.name === k);
-              const isBoolean =
-                propDef?.type === 'boolean' || v === 'true' || v === 'false';
+              const isBoolean = propDef?.type === 'boolean';
               const isNumber = propDef?.type === 'number';
               if (isBoolean || isNumber) return `  :${k}="${v}"`;
               return `  ${k}="${v}"`;
@@ -216,7 +214,7 @@ export function registerTools(server: McpServer): void {
       const template =
         component.slots.length > 0 || slot
           ? `${openTag}${slotContent}${closeTag}`
-          : `${openTag.replace('>', ' />')}`;
+          : `${openTag.replace(/>$/, ' />')}`;
 
       const importPath = `@toteat-eng/design-system-vue/${name}`;
       const code = [
