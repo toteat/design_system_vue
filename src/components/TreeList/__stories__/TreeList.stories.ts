@@ -39,6 +39,10 @@ const meta: Meta<typeof TreeList> = {
       control: 'boolean',
       description: 'Alternate row background colors (white and neutral-100)',
     },
+    bordered: {
+      control: 'boolean',
+      description: 'Show borders around tree items',
+    },
   },
 };
 
