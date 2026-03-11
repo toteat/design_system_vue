@@ -105,6 +105,6 @@ describe('icons data', () => {
 
   it('ICONS_BY_CATEGORY values match ALL_ICONS', () => {
     const flatFromCategories = Object.values(ICONS_BY_CATEGORY).flat();
-    expect(flatFromCategories.length).toBe(ALL_ICONS.length);
+    expect(flatFromCategories.sort()).toEqual([...ALL_ICONS].sort());
   });
 });

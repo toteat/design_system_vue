@@ -47,16 +47,25 @@ export function registerResources(server: McpServer): void {
     },
     async (uri, { name }) => {
       const componentName = Array.isArray(name) ? name[0] : name;
+      if (!componentName) {
+        return {
+          contents: [
+            {
+              uri: uri.href,
+              mimeType: 'text/plain',
+              text: 'Component name is required.',
+            },
+          ],
+        };
+      }
       const component = COMPONENT_MAP.get(componentName.toLowerCase());
       if (!component) {
         return {
           contents: [
             {
               uri: uri.href,
-              mimeType: 'application/json',
-              text: JSON.stringify({
-                error: `Component "${componentName}" not found. Available: ${COMPONENTS.map((c) => c.name).join(', ')}`,
-              }),
+              mimeType: 'text/plain',
+              text: `Component "${componentName}" not found. Available: ${COMPONENTS.map((c) => c.name).join(', ')}`,
             },
           ],
         };
