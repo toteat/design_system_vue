@@ -1,0 +1,31 @@
+mcp/src/index.ts
+  7b6b41dc4efef012 22-23
+mcp/scripts/lib/extract-tokens.ts
+  7b6b41dc4efef012 105-106
+mcp/scripts/descriptions.json
+  7b6b41dc4efef012 308
+mcp/src/tools/index.ts
+  7b6b41dc4efef012 6
+mcp/scripts/generate-components.ts
+  7b6b41dc4efef012 100-102,228,232,236,238,242,244-247,251,254-256,259-262,264-265
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "d76edcc95ffdc510e838ba042c5441500ab48a84",
+  "prompts": {
+    "7b6b41dc4efef012": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a9982af-1eb6-4d4a-a664-f66e97620c66",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Federico Irrazabal <federico@toteat.com>",
+      "messages": [],
+      "total_additions": 56,
+      "total_deletions": 54,
+      "accepted_lines": 31,
+      "overriden_lines": 0
+    }
+  }
+}
