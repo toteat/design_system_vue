@@ -294,7 +294,7 @@
     },
     "props": {
       "instanceName": "Unique ID (required) — used as event prefix: {instanceName}-drop, {instanceName}-drop-error, {instanceName}-remove",
-      "allowedFileTypes": "File type preset: 'images', 'documents', etc.",
+      "allowedFileTypes": "File type preset: 'images', 'text', 'video', or 'spreadsheet'",
       "accept": "MIME type filter string (e.g. 'image/*', 'application/pdf')",
       "label": "Custom label text for the drop area",
       "multiple": "Allow selecting multiple files",
@@ -368,15 +368,15 @@
     }
   },
   "LogoToteat": {
-    "description": "Toteat brand logo. Supports 'complete' (full logo with text) or 'icon-only' (isotipo) mode, with 'original' or 'white' color variants.",
+    "description": "Toteat brand logo. Supports 'complete' (full logo with text) or 'icon' (isotipo) mode, with 'original', 'cream-orange', or 'black-cream' color variants.",
     "propDefaults": {
       "mode": "'complete'",
       "variant": "'original'",
       "alt": "'Logo Toteat'"
     },
     "props": {
-      "mode": "Logo display mode: 'complete' (full logo) or 'icon-only' (isotipo)",
-      "variant": "Color variant: 'original' (brand colors) or 'white' (monochrome)",
+      "mode": "Logo display mode: 'complete' (full logo) or 'icon' (isotipo)",
+      "variant": "Color variant: 'original' (brand colors), 'cream-orange', or 'black-cream'",
       "width": "Logo width in pixels",
       "height": "Logo height in pixels",
       "alt": "Alt text for accessibility"
