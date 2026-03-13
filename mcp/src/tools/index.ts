@@ -57,12 +57,16 @@ const RESOLVED_TYPES: Record<string, string[]> = {
 /**
  * Returns the allowed values for a prop type, or null if not a union type.
  * Handles both RESOLVED_TYPES lookup and inline union types like '"left" | "right"'.
+ * Returns null for truncated unions (containing "... N more ...") since the
+ * allow-list would be incomplete and cause false validation errors.
  */
 function getAllowedValues(propType: string): string[] | null {
   if (RESOLVED_TYPES[propType]) return RESOLVED_TYPES[propType];
 
   const unionMatch = propType.match(/^"[^"]+"/);
   if (unionMatch) {
+    // Skip truncated unions — incomplete allow-lists cause false rejections
+    if (/\.\.\.\s*\d+\s*more\s*\.\.\./.test(propType)) return null;
     return [...propType.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
   }
   return null;
