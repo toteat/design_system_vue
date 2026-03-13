@@ -24,7 +24,11 @@ export const COMPONENTS: ComponentDef[] = [
     description:
       'Clickable button with variants, sizes, and optional icon. No default slot — use the `text` prop for the label and `iconName` for icons.',
     props: [
-      { name: 'variant', type: 'Variant', default: "'primary'" },
+      {
+        name: 'variant',
+        type: '"outline" | "outline-gray" | "primary" | "secondary" | "text" | "neutral-dark"',
+        default: "'primary'",
+      },
       { name: 'disabled', type: 'boolean', default: 'false' },
       {
         name: 'isFull',
@@ -32,7 +36,11 @@ export const COMPONENTS: ComponentDef[] = [
         default: 'false',
         description: 'Stretch to full width of parent container',
       },
-      { name: 'size', type: 'ButtonSize', default: "'medium'" },
+      {
+        name: 'size',
+        type: '"tiny" | "small" | "medium" | "large"',
+        default: "'medium'",
+      },
       { name: 'type', type: 'ButtonHTMLAttributes', default: "'button'" },
       {
         name: 'loading',
@@ -67,7 +75,7 @@ export const COMPONENTS: ComponentDef[] = [
       },
       {
         name: 'groupPosition',
-        type: 'ButtonGroupPosition',
+        type: '"left" | "right" | "center" | "standalone"',
         default: "'standalone'",
         description: 'Used internally by GroupedButtons — do not set manually',
       },
@@ -151,10 +159,13 @@ export const COMPONENTS: ComponentDef[] = [
         description: 'v-model:checked — current checked state',
       },
       { name: 'disabled', type: 'boolean' },
-      { name: 'size', type: 'ComponentSize' },
+      {
+        name: 'size',
+        type: '"tiny" | "small" | "medium" | "large" | "very-large" | "very-very-large" | "ridiculously-large"',
+      },
       {
         name: 'color',
-        type: 'ThemeColor',
+        type: '"primary" | "secondary" | "neutral-300" | "primary-light" | "secondary-light" | "tertiary" | "tertiary-light" | "white" | "black" | "neutral" | "neutral-50" | "neutral-100" | ... 16 more ... | "unset"',
         description: 'Color of the checked icon (ThemeColor value)',
       },
       {
@@ -268,13 +279,16 @@ export const COMPONENTS: ComponentDef[] = [
       { name: 'disabled', type: 'boolean' },
       { name: 'readonly', type: 'boolean' },
       { name: 'required', type: 'boolean' },
-      { name: 'type', type: 'TextInputType' },
+      {
+        name: 'type',
+        type: '"number" | "text" | "password" | "email" | "search" | "tel" | "url" | "date"',
+      },
       { name: 'name', type: 'string' },
       { name: 'id', type: 'string' },
       { name: 'autocomplete', type: 'string' },
       {
         name: 'inputmode',
-        type: 'TextInputInputMode',
+        type: '"text" | "none" | "email" | "search" | "tel" | "url" | "numeric" | "decimal"',
         description:
           "Virtual keyboard hint for mobile (e.g. 'numeric', 'email')",
       },
@@ -300,11 +314,11 @@ export const COMPONENTS: ComponentDef[] = [
         description: 'Show a clear (X) button when input has a value',
       },
       { name: 'autoFocus', type: 'boolean' },
-      { name: 'size', type: 'TextInputSize' },
+      { name: 'size', type: '"small" | "medium" | "large"' },
       { name: 'fullWidth', type: 'boolean' },
       {
         name: 'validationState',
-        type: 'TextInputValidationState',
+        type: '"default" | "success" | "warning" | "error"',
         description:
           "Visual state: 'default', 'success', 'warning', or 'error'",
       },
@@ -386,12 +400,16 @@ export const COMPONENTS: ComponentDef[] = [
         description:
           'Disable client-side filtering — use for server-side search with v-model:searchQuery',
       },
-      { name: 'size', type: 'ButtonSize', default: "'medium'" },
+      {
+        name: 'size',
+        type: '"tiny" | "small" | "medium" | "large"',
+        default: "'medium'",
+      },
       { name: 'id', type: 'string' },
       { name: 'name', type: 'string' },
       {
         name: 'validationState',
-        type: 'TextInputValidationState',
+        type: '"default" | "success" | "warning" | "error"',
         description:
           "Visual state: 'default', 'success', 'warning', or 'error'",
       },
@@ -474,7 +492,11 @@ export const COMPONENTS: ComponentDef[] = [
       { name: 'searchable', type: 'boolean', default: 'true' },
       { name: 'clearable', type: 'boolean', default: 'true' },
       { name: 'closeOnSelect', type: 'boolean', default: 'false' },
-      { name: 'size', type: 'ButtonSize', default: "'medium'" },
+      {
+        name: 'size',
+        type: '"tiny" | "small" | "medium" | "large"',
+        default: "'medium'",
+      },
       { name: 'id', type: 'string' },
       { name: 'name', type: 'string' },
       { name: 'checkboxPosition', type: '"left" | "right"', default: "'left'" },
@@ -486,7 +508,7 @@ export const COMPONENTS: ComponentDef[] = [
       },
       {
         name: 'validationState',
-        type: 'TextInputValidationState',
+        type: '"default" | "success" | "warning" | "error"',
         description:
           "Visual state: 'default', 'success', 'warning', or 'error'",
       },
@@ -555,9 +577,12 @@ export const COMPONENTS: ComponentDef[] = [
         type: 'string | number',
         description: 'v-model:selectedTab — the currently active tab value',
       },
-      { name: 'size', type: 'ButtonSize' },
+      { name: 'size', type: '"tiny" | "small" | "medium" | "large"' },
       { name: 'fullWidth', type: 'boolean' },
-      { name: 'selectedColor', type: 'TabSelectedColor' },
+      {
+        name: 'selectedColor',
+        type: '"primary" | "secondary" | "tertiary" | "neutral-100"',
+      },
     ],
     events: [
       { name: 'update:selectedTab', payload: 'string | number' },
@@ -594,7 +619,11 @@ export const COMPONENTS: ComponentDef[] = [
         description:
           'v-model:selectedButton — the currently active button value',
       },
-      { name: 'size', type: 'ButtonSize', default: "'medium'" },
+      {
+        name: 'size',
+        type: '"tiny" | "small" | "medium" | "large"',
+        default: "'medium'",
+      },
       { name: 'variant', type: 'ButtonVariant' },
       {
         name: 'fullWidth',
@@ -628,7 +657,11 @@ export const COMPONENTS: ComponentDef[] = [
         description:
           'Array of { value: string|number, label: string, icon?: IconNames, disabled?: boolean }',
       },
-      { name: 'size', type: 'ButtonSize', default: "'medium'" },
+      {
+        name: 'size',
+        type: '"tiny" | "small" | "medium" | "large"',
+        default: "'medium'",
+      },
       { name: 'disabled', type: 'boolean', default: 'false' },
     ],
     events: [
@@ -682,7 +715,7 @@ export const COMPONENTS: ComponentDef[] = [
       },
       {
         name: 'defaultSortOrder',
-        type: 'TableSortOrder',
+        type: '"asc" | "desc"',
         default: "'asc'",
         description: "Initial sort direction: 'asc' or 'desc'",
       },
@@ -723,7 +756,7 @@ export const COMPONENTS: ComponentDef[] = [
       { name: 'disabled', type: 'boolean', default: 'false' },
       {
         name: 'size',
-        type: 'ButtonSize',
+        type: '"tiny" | "small" | "medium" | "large"',
         default: "'medium'",
         description: 'Button size variant',
       },
@@ -751,7 +784,11 @@ export const COMPONENTS: ComponentDef[] = [
         required: true,
         description: 'Tooltip text content',
       },
-      { name: 'position', type: 'TooltipPosition', default: "'top'" },
+      {
+        name: 'position',
+        type: '"left" | "right" | "top" | "bottom"',
+        default: "'top'",
+      },
       { name: 'disabled', type: 'boolean', default: 'false' },
       {
         name: 'delay',
@@ -794,7 +831,7 @@ export const COMPONENTS: ComponentDef[] = [
       },
       {
         name: 'color',
-        type: 'ThemeColor',
+        type: '"primary" | "secondary" | "neutral-300" | "primary-light" | "secondary-light" | "tertiary" | "tertiary-light" | "white" | "black" | "neutral" | "neutral-50" | "neutral-100" | ... 16 more ... | "unset"',
         description: 'Icon color — accepts any ThemeColor value',
       },
     ],
@@ -808,7 +845,7 @@ export const COMPONENTS: ComponentDef[] = [
     props: [
       {
         name: 'size',
-        type: 'ComponentSize',
+        type: '"tiny" | "small" | "medium" | "large" | "very-large" | "very-very-large" | "ridiculously-large"',
         default: '1.5',
         description: 'Spinner diameter in rem units (e.g. 1.5 = 24px)',
       },
@@ -892,9 +929,10 @@ export const COMPONENTS: ComponentDef[] = [
       },
       {
         name: 'allowedFileTypes',
-        type: 'AllowedFileTypes',
+        type: '"text" | "images" | "video" | "spreadsheet"',
         default: "'images'",
-        description: "File type preset: 'images', 'documents', etc.",
+        description:
+          "File type preset: 'images', 'text', 'video', or 'spreadsheet'",
       },
       {
         name: 'multiple',
@@ -992,7 +1030,7 @@ export const COMPONENTS: ComponentDef[] = [
       },
       {
         name: 'placement',
-        type: 'OverlayPlacement',
+        type: '"center" | "top" | "bottom"',
         default: "'center'",
         description: 'Vertical placement of the modal content',
       },
@@ -1039,14 +1077,17 @@ export const COMPONENTS: ComponentDef[] = [
       },
       {
         name: 'status',
-        type: 'OverlayMessageStatus',
+        type: '"success" | "warning" | "error" | "info"',
         description: 'Status type — determines the default icon and color',
       },
       {
         name: 'iconName',
         type: '"apple-filled" | "arrow-circle-down-outline" | "arrow-circle-left-outline" | "arrow-circle-right-outline" | "arrow-circle-up-outline" | "arrow-down-outline" | "arrow-left-outline" | ... 119 more ... | "wifi-signal-outline"',
       },
-      { name: 'iconColor', type: 'ThemeColor' },
+      {
+        name: 'iconColor',
+        type: '"primary" | "secondary" | "neutral-300" | "primary-light" | "secondary-light" | "tertiary" | "tertiary-light" | "white" | "black" | "neutral" | "neutral-50" | "neutral-100" | ... 16 more ... | "unset"',
+      },
       { name: 'iconSize', type: 'number' },
       {
         name: 'title',
@@ -1066,7 +1107,7 @@ export const COMPONENTS: ComponentDef[] = [
       { name: 'lockScroll', type: 'boolean' },
       { name: 'zIndex', type: 'number' },
       { name: 'blur', type: 'boolean' },
-      { name: 'placement', type: 'OverlayPlacement' },
+      { name: 'placement', type: '"center" | "top" | "bottom"' },
       { name: 'ariaLabel', type: 'string' },
       {
         name: 'primaryButtonLabel',
@@ -1080,13 +1121,13 @@ export const COMPONENTS: ComponentDef[] = [
       },
       {
         name: 'primaryButtonVariant',
-        type: 'Variant',
+        type: '"outline" | "outline-gray" | "primary" | "secondary" | "text" | "neutral-dark"',
         description:
           "Visual variant for the primary button (e.g. 'primary', 'secondary')",
       },
       {
         name: 'secondaryButtonVariant',
-        type: 'Variant',
+        type: '"outline" | "outline-gray" | "primary" | "secondary" | "text" | "neutral-dark"',
         description: 'Visual variant for the secondary button',
       },
       {
@@ -1152,21 +1193,21 @@ export const COMPONENTS: ComponentDef[] = [
   {
     name: 'LogoToteat',
     description:
-      "Toteat brand logo. Supports 'complete' (full logo with text) or 'icon-only' (isotipo) mode, with 'original' or 'white' color variants.",
+      "Toteat brand logo. Supports 'complete' (full logo with text) or 'icon' (isotipo) mode, with 'original', 'cream-orange', or 'black-cream' color variants.",
     props: [
       {
         name: 'mode',
-        type: 'LogoToteatMode',
+        type: '"icon" | "complete"',
         default: "'complete'",
         description:
-          "Logo display mode: 'complete' (full logo) or 'icon-only' (isotipo)",
+          "Logo display mode: 'complete' (full logo) or 'icon' (isotipo)",
       },
       {
         name: 'variant',
-        type: 'LogoToteatVariant',
+        type: '"original" | "cream-orange" | "black-cream"',
         default: "'original'",
         description:
-          "Color variant: 'original' (brand colors) or 'white' (monochrome)",
+          "Color variant: 'original' (brand colors), 'cream-orange', or 'black-cream'",
       },
       { name: 'width', type: 'number', description: 'Logo width in pixels' },
       { name: 'height', type: 'number', description: 'Logo height in pixels' },
@@ -1200,7 +1241,7 @@ export const COMPONENTS: ComponentDef[] = [
     props: [
       {
         name: 'item',
-        type: 'TreeItemData',
+        type: '{ id: string | number; label: string; children?: TreeItemData[] | undefined; disabled?: boolean | undefined; meta?: string | undefined; }',
         required: true,
         description:
           'Tree node data: { id, label, children?, disabled?, meta? }',

@@ -5,6 +5,69 @@ import { TOKENS } from '../data/tokens.js';
 import type { TokenCategory } from '../data/tokens.js';
 import { ALL_ICONS } from '../data/icons.js';
 
+/**
+ * Maps custom type aliases to their allowed string values.
+ * Used by generate_usage to validate prop values at generation time.
+ */
+const RESOLVED_TYPES: Record<string, string[]> = {
+  Variant: [
+    'outline',
+    'outline-gray',
+    'primary',
+    'secondary',
+    'text',
+    'neutral-dark',
+  ],
+  ButtonSize: ['tiny', 'small', 'medium', 'large'],
+  ButtonVariant: [
+    'outline',
+    'outline-gray',
+    'primary',
+    'secondary',
+    'text',
+    'neutral-dark',
+  ],
+  ButtonGroupPosition: ['left', 'center', 'right', 'standalone'],
+  TextInputType: [
+    'text',
+    'password',
+    'email',
+    'search',
+    'tel',
+    'url',
+    'number',
+    'date',
+  ],
+  TextInputInputMode: [
+    'text',
+    'email',
+    'search',
+    'tel',
+    'url',
+    'none',
+    'numeric',
+    'decimal',
+  ],
+  TextInputSize: ['small', 'medium', 'large'],
+  TextInputValidationState: ['default', 'success', 'warning', 'error'],
+  LogoToteatMode: ['icon', 'complete'],
+  LogoToteatVariant: ['original', 'cream-orange', 'black-cream'],
+};
+
+/**
+ * Returns the allowed values for a prop type, or null if not a union type.
+ * Handles both RESOLVED_TYPES lookup and inline union types like '"left" | "right"'.
+ */
+function getAllowedValues(propType: string): string[] | null {
+  if (RESOLVED_TYPES[propType]) return RESOLVED_TYPES[propType];
+
+  const unionMatch = propType.match(/^"[^"]+"/);
+  if (unionMatch) {
+    return [...propType.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+  }
+  return null;
+}
+
 export function registerTools(server: McpServer): void {
   // List all components
   server.registerTool(
@@ -68,8 +131,12 @@ export function registerTools(server: McpServer): void {
           const required = prop.required ? ' *(required)*' : '';
           const def = prop.default ? ` — default: \`${prop.default}\`` : '';
           const desc = prop.description ? ` — ${prop.description}` : '';
+          const allowed = getAllowedValues(prop.type);
+          const valuesHint = allowed
+            ? ` — values: ${allowed.map((a) => `\`'${a}'\``).join(', ')}`
+            : '';
           lines.push(
-            `- **${prop.name}**${required}: \`${prop.type}\`${def}${desc}`,
+            `- **${prop.name}**${required}: \`${prop.type}\`${def}${valuesHint}${desc}`,
           );
         }
         lines.push('');
@@ -196,6 +263,38 @@ export function registerTools(server: McpServer): void {
       }
 
       const name = component.name;
+
+      // Validate prop values against known types
+      if (props) {
+        const errors: string[] = [];
+        for (const [k, v] of Object.entries(props)) {
+          const propDef = component.props.find((p) => p.name === k);
+          if (!propDef) {
+            errors.push(
+              `Unknown prop "${k}" on ${name}. Available props: ${component.props.map((p) => p.name).join(', ')}`,
+            );
+            continue;
+          }
+          const allowed = getAllowedValues(propDef.type);
+          if (allowed && !allowed.includes(v)) {
+            errors.push(
+              `Invalid value "${v}" for prop "${k}" (type: ${propDef.type}). Allowed values: ${allowed.map((a) => `'${a}'`).join(', ')}`,
+            );
+          }
+        }
+        if (errors.length > 0) {
+          return {
+            content: [
+              {
+                type: 'text' as const,
+                text: `Validation errors:\n${errors.map((e) => `- ${e}`).join('\n')}`,
+              },
+            ],
+            isError: true,
+          };
+        }
+      }
+
       const propAttrs = props
         ? Object.entries(props)
             .map(([k, v]) => {
