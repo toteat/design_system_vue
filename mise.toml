@@ -1,4 +1,4 @@
 [tools]
 go = "1.25.5"
 java = "openjdk-17"
-node = "24"
+node = "lts"

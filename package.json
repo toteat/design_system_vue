@@ -1,6 +1,6 @@
 {
   "name": "@toteat-eng/design-system-vue",
-  "version": "0.1.49",
+  "version": "0.1.48",
   "author": "Mauricio Antunez <mantunez@toteat.com> (https://toteat.com)",
   "description": "The Toteat Design System is a collection of components and utilities that help you build consistent and beautiful user interfaces. Build primarely to solve Toteat needs.",
   "type": "module",
@@ -217,11 +217,11 @@
     "Uses ESNext features that require transpilation in the consuming project"
   ],
   "devDependencies": {
-    "@chromatic-com/storybook": "^5.0.1",
+    "@chromatic-com/storybook": "^5.1.2",
     "@eslint/eslintrc": "^3.3.1",
     "@rushstack/eslint-patch": "^1.11.0",
-    "@storybook/addon-docs": "^10.2.15",
-    "@storybook/vue3-vite": "^10.2.15",
+    "@storybook/addon-docs": "^10.3.5",
+    "@storybook/vue3-vite": "^10.3.5",
     "@tailwindcss/vite": "^4.1.6",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^20.11.24",
@@ -233,7 +233,7 @@
     "eslint-config-prettier": "^10.1.3",
     "eslint-plugin-jsdoc": "^50.6.17",
     "eslint-plugin-prettier": "^5.4.0",
-    "eslint-plugin-storybook": "^10.2.15",
+    "eslint-plugin-storybook": "^10.3.5",
     "eslint-plugin-vue": "^10.1.0",
     "eslint-plugin-vuejs-accessibility": "^2.4.1",
     "husky": "^9.1.7",
@@ -242,7 +242,7 @@
     "npm-run-all": "^4.1.5",
     "postcss-html": "^1.8.0",
     "prettier": "^3.5.3",
-    "storybook": "^10.2.15",
+    "storybook": "^10.3.5",
     "stylelint": "^16.19.1",
     "stylelint-config-standard": "^38.0.0",
     "tailwindcss": "^4.1.6",
@@ -257,8 +257,8 @@
     "vue-tsc": "^2.2.8"
   },
   "dependencies": {
-    "@vueuse/core": "^13.2.0",
-    "axios": "^1.9.0"
+    "@toteat-eng/toteat-fetch": "^0.2.0",
+    "@vueuse/core": "^13.2.0"
   },
   "keywords": [
     "vue3",
