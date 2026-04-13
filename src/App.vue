@@ -1,26 +1,23 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import ImagePreview from '@/components/ImagePreview/ImagePreview.vue';
-import axios from 'axios';
+import { createHttpClient } from '@toteat-eng/toteat-fetch';
 
-const images = ref<Array<{ id: string; author: string; download_url: string }>>(
-  [],
-);
+type PicsumImage = { id: string; author: string; download_url: string };
+
+const httpClient = createHttpClient({});
+const images = ref<Array<PicsumImage>>([]);
 const isLoading = ref(true);
 const error = ref('');
 
 onMounted(async () => {
   try {
-    const response = await axios.get(
+    const response = await httpClient.get<Array<PicsumImage>>(
       'https://picsum.photos/v2/list?page=2&limit=100',
     );
-    images.value = response.data;
+    images.value = response.data ?? [];
   } catch (err: unknown) {
-    if (err instanceof Error) {
-      error.value = err.message;
-    } else {
-      error.value = 'Unknown error';
-    }
+    error.value = err instanceof Error ? err.message : 'Unknown error';
   } finally {
     isLoading.value = false;
   }

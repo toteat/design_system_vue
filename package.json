@@ -1,6 +1,6 @@
 {
   "name": "@toteat-eng/design-system-vue",
-  "version": "0.1.49",
+  "version": "0.1.48",
   "author": "Mauricio Antunez <mantunez@toteat.com> (https://toteat.com)",
   "description": "The Toteat Design System is a collection of components and utilities that help you build consistent and beautiful user interfaces. Build primarely to solve Toteat needs.",
   "type": "module",
@@ -257,8 +257,8 @@
     "vue-tsc": "^2.2.8"
   },
   "dependencies": {
-    "@vueuse/core": "^13.2.0",
-    "axios": "^1.9.0"
+    "@toteat-eng/toteat-fetch": "^0.2.0",
+    "@vueuse/core": "^13.2.0"
   },
   "keywords": [
     "vue3",
