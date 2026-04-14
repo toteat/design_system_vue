@@ -1,0 +1,24 @@
+mcp/src/tools/index.ts
+  225bc3637e0e61e0 8-38
+  400866048a46f2f0 60-61,68-69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "a0020f84bdf2036f2d0b49b2d5b9aee02bd5c2fc",
+  "prompts": {
+    "400866048a46f2f0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07fb0519-ff3f-4b19-b327-66d94af47808",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Federico Irrazabal <federico@toteat.com>",
+      "messages": [],
+      "total_additions": 6,
+      "total_deletions": 2,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    }
+  }
+}

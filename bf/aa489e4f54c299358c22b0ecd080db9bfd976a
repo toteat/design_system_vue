@@ -1,0 +1,29 @@
+mcp/src/data/components.ts
+  225bc3637e0e61e0 1033
+mcp/scripts/generate-components.ts
+  225bc3637e0e61e0 77-79
+mcp/scripts/descriptions.json
+  225bc3637e0e61e0 297,371,378-379
+mcp/src/tools/index.ts
+  225bc3637e0e61e0 8-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "bfaa489e4f54c299358c22b0ecd080db9bfd976a",
+  "prompts": {
+    "225bc3637e0e61e0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8bb31170-d273-4aa2-8afe-1f941cd9fdd1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Federico Irrazabal <federico@toteat.com>",
+      "messages": [],
+      "total_additions": 78,
+      "total_deletions": 11,
+      "accepted_lines": 39,
+      "overriden_lines": 0
+    }
+  }
+}
