@@ -73,7 +73,11 @@ export function extractAllProps(typesFile: string): Map<string, PropDef[]> {
       const typeNode = member.type;
 
       let typeStr = typeNode
-        ? checker.typeToString(checker.getTypeFromTypeNode(typeNode))
+        ? checker.typeToString(
+            checker.getTypeFromTypeNode(typeNode),
+            undefined,
+            ts.TypeFormatFlags.InTypeAlias,
+          )
         : 'unknown';
 
       typeStr = typeStr
